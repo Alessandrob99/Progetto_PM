@@ -8,13 +8,48 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="401dp"
+        android:layout_height="60dp"
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
+        android:backgroundTint="@color/green"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/nuovaPrenBtn"
+        android:layout_width="202dp"
+        android:layout_height="90dp"
+        android:text="NUOVA PRENOTAZIONE"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/unisciPrenBtn2"
+        android:layout_width="202dp"
+        android:layout_height="90dp"
+        android:text="UNISCITA A PRENOTAZIONE"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/nuovaPrenBtn"
+        app:layout_constraintHorizontal_bias="0.625"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <fragment
+        android:id="@+id/fragment3"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="377dp"
+        android:layout_height="551dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:defaultNavHost="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.47"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintVertical_bias="0.088"
+        app:navGraph="@navigation/home_page_navigation" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
