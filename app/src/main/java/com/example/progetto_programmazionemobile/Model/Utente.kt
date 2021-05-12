@@ -1,6 +1,11 @@
 package com.example.progetto_programmazionemobile.Model
 
-class Utente {
-    val stringa : String = "Ciao"
-    fun ciao() : String { return stringa+"dio bello non va un cazzo, porcodioooo"}
+import com.google.firebase.database.IgnoreExtraProperties
+
+class Utente(name: String, surname: String, age: Int) {
+    var nome : String = name
+    var cognome : String = surname
+    var eta = age
+
+
 }
