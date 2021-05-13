@@ -11,6 +11,7 @@ import com.example.progetto_programmazionemobile.View.MainActivity
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.gms.tasks.Task
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 
 import com.google.firebase.ktx.Firebase
@@ -35,6 +36,24 @@ class DB_Handler {
 
     }
 
+    fun readUser(id : String) : Utente {
+
+        //val utente = myRef.collection("users").document("1")
+
+
+        val docRef = myRef.collection("users").document(id)
+        val docSnap = docRef.get()
+        val docSnapRes = docSnap.result
+
+
+        val name = docSnapRes?.get("nome").toString()
+        val surname = docSnapRes?.get("cognome").toString()
+        val age = docSnapRes?.get("eta") as Long
+
+
+        val returnedUser = Utente(name,surname,age,id)
+        return returnedUser
+    }
 }
 
 

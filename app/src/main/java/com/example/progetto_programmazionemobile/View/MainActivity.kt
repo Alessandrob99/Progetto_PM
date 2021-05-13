@@ -14,6 +14,7 @@ class MainActivity : AppCompatActivity() {
         val db_conn = DB_Handler()
 
         //LETTURA
+        val userRef = db_conn.readUser("1")
 
         //SCRITTURA
         //db_conn.writeUser("andre","belleggia",22,"2")
