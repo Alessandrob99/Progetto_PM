@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.MenuItem
+import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -12,7 +13,10 @@ import android.widget.Toast
 import android.widget.Toolbar
 import androidx.appcompat.widget.ButtonBarLayout
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import com.example.progetto_programmazionemobile.R
 
 // TODO: Rename parameter arguments, choose names that match
@@ -26,6 +30,9 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class infoFragment : Fragment() {
+
+    var navc: NavController ?= null
+
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -39,16 +46,34 @@ class infoFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+                              savedInstanceState: Bundle?): View?
+    {
         // Inflate the layout for this fragment
-        val v : View = inflater.inflate(R.layout.fragment_info, container, false)
+
         //Porcoiddio non funziona
-        /*val iconProfile : View = v.findViewById(R.id.action_profile)
-        iconProfile.setOnClickListener(object : View.OnClickListener{
+
+        val v : View = inflater.inflate(R.layout.fragment_info, container, false)
+
+        /*val iconaProfilo : Toolbar = v.findViewById(R.id.action_profile)
+        iconaProfilo.setOnClickListener(object : View.OnClickListener{
             override fun onClick(v: View?) {
                 v!!.findNavController().navigate(R.id.profileFragment)
             }
-        })*/
+        }) */
+
+       /* fun onOptionsItemSelected(item: MenuItem): Boolean
+        {
+
+            when (item?.itemId) {
+                R.id.action_profile -> {
+
+                    v!!.findNavController().navigate(R.id.profileFragment)
+
+                    return true
+                }
+                else -> return super.onOptionsItemSelected(item)
+            }
+        } */
         return v
     }
 
