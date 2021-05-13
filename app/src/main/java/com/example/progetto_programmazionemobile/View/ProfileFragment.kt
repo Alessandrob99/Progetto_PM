@@ -1,18 +1,11 @@
 package com.example.progetto_programmazionemobile.View
 
-import android.graphics.Color
+import android.content.Intent
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
-import android.widget.Toast
 import android.widget.Toolbar
-import androidx.appcompat.widget.ButtonBarLayout
-import androidx.core.graphics.drawable.DrawableCompat
-import androidx.navigation.findNavController
 import com.example.progetto_programmazionemobile.R
 
 // TODO: Rename parameter arguments, choose names that match
@@ -22,10 +15,10 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [infoFragment.newInstance] factory method to
+ * Use the [ProfileFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class infoFragment : Fragment() {
+class ProfileFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -38,18 +31,15 @@ class infoFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        val v : View = inflater.inflate(R.layout.fragment_info, container, false)
-        //Porcoiddio non funziona
-        /*val iconProfile : View = v.findViewById(R.id.action_profile)
-        iconProfile.setOnClickListener(object : View.OnClickListener{
-            override fun onClick(v: View?) {
-                v!!.findNavController().navigate(R.id.profileFragment)
-            }
-        })*/
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val v : View =  inflater.inflate(R.layout.fragment_home_profile_fragment, container, false)
+       // val iconaProfile: Toolbar= v.findViewById(R.id.action_profile)
         return v
+
+
     }
 
     companion object {
@@ -59,16 +49,16 @@ class infoFragment : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment infoFragment.
+         * @return A new instance of fragment ProfileFragment.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-                infoFragment().apply {
-                    arguments = Bundle().apply {
-                        putString(ARG_PARAM1, param1)
-                        putString(ARG_PARAM2, param2)
-                    }
+            ProfileFragment().apply {
+                arguments = Bundle().apply {
+                    putString(ARG_PARAM1, param1)
+                    putString(ARG_PARAM2, param2)
                 }
+            }
     }
 }

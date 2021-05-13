@@ -9,5 +9,14 @@
         android:id="@+id/infoFragment"
         android:name="com.example.progetto_programmazionemobile.View.infoFragment"
         android:label="fragment_info"
-        tools:layout="@layout/fragment_info" />
+        tools:layout="@layout/fragment_info" >
+        <action
+            android:id="@+id/action_infoFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.progetto_programmazionemobile.View.ProfileFragment"
+        android:label="fragment_home_profile_fragment"
+        tools:layout="@layout/fragment_home_profile_fragment" />
 </navigation>
