@@ -20,23 +20,21 @@ import com.google.firebase.firestore.FirebaseFirestore
         val db_conn = DB_Handler()
 
 
-
         //LETTURA
-        val userReturn =  db_conn.readUser("2",object : DB_Handler.MyCallback{
+   /*     val userReturn =  db_conn.readUser("2",object : DB_Handler.MyCallback{
             override fun onCallback(returnValue: Utente) {
                 Toast.makeText(this@MainActivity,returnValue.nome.toString(),Toast.LENGTH_LONG).show()
             }
-
         })
 
-
+*/
 
 
 
 
 
         //SCRITTURA
-        //db_conn.writeUser("andre","belleggia",22,"2")
+     //   db_conn.writeUser("Leonardo","Ciuccio",30,"3")
 
     }
 

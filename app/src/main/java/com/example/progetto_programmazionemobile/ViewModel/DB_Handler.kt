@@ -33,6 +33,7 @@ class DB_Handler {
 
     fun writeUser(name: String, surname: String, age: Long, id: String) {
         val user = Utente(name, surname, age, id)
+        myRef.collection("users").document(id).set(user)
     }
 
 
