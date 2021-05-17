@@ -1,13 +1,10 @@
  package com.example.progetto_programmazionemobile.View
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.example.progetto_programmazionemobile.Model.Utente
 import com.example.progetto_programmazionemobile.R
 import com.example.progetto_programmazionemobile.ViewModel.DB_Handler
-import com.google.firebase.firestore.FirebaseFirestore
 
  class MainActivity : AppCompatActivity() {
      lateinit var user : Utente

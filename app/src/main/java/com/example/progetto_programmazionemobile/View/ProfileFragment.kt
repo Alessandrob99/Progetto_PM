@@ -1,11 +1,8 @@
 package com.example.progetto_programmazionemobile.View
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
-import android.widget.Button
-import android.widget.Toolbar
 import com.example.progetto_programmazionemobile.R
 
 // TODO: Rename parameter arguments, choose names that match
@@ -36,7 +33,6 @@ class ProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val v : View =  inflater.inflate(R.layout.fragment_home_profile_fragment, container, false)
-       // val iconaProfile: Toolbar= v.findViewById(R.id.action_profile)
         return v
 
 
@@ -53,7 +49,7 @@ class ProfileFragment : Fragment() {
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance() =
             ProfileFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
