@@ -21,27 +21,27 @@
         app:navGraph="@navigation/home_page_navigation">
 
 
-        <Button
-            android:id="@+id/unisciPrenBtn2"
-            android:layout_width="202dp"
-            android:layout_height="90dp"
-            android:layout_marginBottom="16dp"
-            android:text="UNISCITA A PRENOTAZIONE"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/nuovaPrenBtn"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <Button
-            android:id="@+id/nuovaPrenBtn"
-            android:layout_width="202dp"
-            android:layout_height="90dp"
-            android:layout_marginBottom="16dp"
-            android:text="NUOVA PRENOTAZIONE"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
     </fragment>
+
+    <Button
+        android:id="@+id/unisciPrenBtn2"
+        android:layout_width="202dp"
+        android:layout_height="90dp"
+        android:layout_marginBottom="16dp"
+        android:text="UNISCITA A PRENOTAZIONE"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/nuovaPrenBtn"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/nuovaPrenBtn"
+        android:layout_width="202dp"
+        android:layout_height="90dp"
+        android:layout_marginBottom="16dp"
+        android:text="NUOVA PRENOTAZIONE"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"

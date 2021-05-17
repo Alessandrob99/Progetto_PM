@@ -23,7 +23,11 @@ class HomePage_Activity : AppCompatActivity(){
                 changeFragment(fra)
                 true
             }
-
+            R.id.action_profile -> {
+                val fra = infoFragment.newInstance()
+                changeFragment(fra)
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
