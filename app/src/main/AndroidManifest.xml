@@ -10,21 +10,22 @@
         android:supportsRtl="true">
 
         <activity
-            android:name=".View.HomePage_Activity"
-            android:screenOrientation="portrait"
+            android:name=".View.SearchResult"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
         </activity>
-        <meta-data
-            android:name="android.app.default_searchable"
-            android:value=".SearchActivity" />
+
+        <activity
+            android:name=".View.HomePage_Activity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
         <activity
             android:name=".View.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

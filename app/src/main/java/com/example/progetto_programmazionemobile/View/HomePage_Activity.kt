@@ -1,11 +1,10 @@
 package com.example.progetto_programmazionemobile.View
 
+import android.content.Intent
 import android.os.Bundle
-
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.SearchView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuItemCompat
 import com.example.progetto_programmazionemobile.Model.Utente
@@ -14,12 +13,22 @@ import com.example.progetto_programmazionemobile.ViewModel.DB_Handler
 
 
 class HomePage_Activity : AppCompatActivity(){
+
     val db_conn = DB_Handler()
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_page_)
         setSupportActionBar(findViewById(R.id.toolbar))
+
+
+
+
+
     }
+
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.home_page_toolbar_menu, menu)
         //SEARCH ITEM------------
@@ -37,9 +46,10 @@ class HomePage_Activity : AppCompatActivity(){
                 if (query != null) {
                     db_conn.SearchUsers(query,object :DB_Handler.MyCallbackFoundUsers{
                         override fun onCallback(returnValue: ArrayList<Utente>) {
-                            //PRESENTAZIONE DEI RISULTATI (returnValue) SU UN ELEMENTO LISTA NEL FRAGMENT DELLA HOME
-                            Toast.makeText(this@HomePage_Activity,"ciao",Toast.LENGTH_LONG).show()
-                            //
+                                //INTENT TO ACTIVITY FOR RESULTS
+                            val intent = Intent(this@HomePage_Activity,SearchResult::class.java)
+                            intent.putExtra("usersList",returnValue)
+                            startActivity(intent)
                         }
                     })
                 }
@@ -51,8 +61,5 @@ class HomePage_Activity : AppCompatActivity(){
         //-----------------------
         return true
     }
-
-
-
 
 }
