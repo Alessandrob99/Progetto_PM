@@ -7,6 +7,7 @@ import android.view.MenuItem
 import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuItemCompat
+import com.example.progetto_programmazionemobile.Model.Circolo
 import com.example.progetto_programmazionemobile.Model.Utente
 import com.example.progetto_programmazionemobile.R
 import com.example.progetto_programmazionemobile.ViewModel.DB_Handler
@@ -45,10 +46,10 @@ class HomePage_Activity : AppCompatActivity(){
 
                 if (query != null) {
                     db_conn.SearchUsers(query,object :DB_Handler.MyCallbackFoundUsers{
-                        override fun onCallback(returnValue: ArrayList<Utente>) {
+                        override fun onCallback(returnUser: ArrayList<Utente>) {
                                 //INTENT TO ACTIVITY FOR RESULTS
                             val intent = Intent(this@HomePage_Activity,SearchResult::class.java)
-                            intent.putExtra("usersList",returnValue)
+                            intent.putExtra("usersList",returnUser)
                             startActivity(intent)
                         }
                     })

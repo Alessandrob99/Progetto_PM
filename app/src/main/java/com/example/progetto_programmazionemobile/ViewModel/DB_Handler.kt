@@ -6,6 +6,7 @@ import android.nfc.Tag
 import android.os.AsyncTask
 import android.util.Log
 import android.widget.Toast
+import com.example.progetto_programmazionemobile.Model.Circolo
 
 import com.example.progetto_programmazionemobile.Model.Utente
 import com.example.progetto_programmazionemobile.View.MainActivity
@@ -64,6 +65,8 @@ class DB_Handler {
     fun SearchUsers(query : String, myCallBack: MyCallbackFoundUsers) {
         var users : ArrayList<Utente> = ArrayList<Utente>()
         var user : Utente
+
+
         myRef.collection("users").whereEqualTo("nome",query).get().addOnSuccessListener { document->
             val data = document.documents
             for(d in data){
@@ -72,9 +75,12 @@ class DB_Handler {
             }
             myCallBack.onCallback(users)
         }
+
     }
+
+
     interface MyCallbackFoundUsers{
-        fun onCallback(returnValue: ArrayList<Utente>)
+        fun onCallback(returnUsers: ArrayList<Utente>)
     }
 
 //-----------------------------------------------------------------------------------------------------------------------

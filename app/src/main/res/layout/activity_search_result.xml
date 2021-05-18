@@ -10,6 +10,8 @@
         android:id="@+id/rv1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#7E7E7E"
+        android:clickable="true"
         tools:layout_editor_absoluteX="131dp"
         tools:layout_editor_absoluteY="116dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
