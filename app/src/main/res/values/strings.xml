@@ -1,4 +1,5 @@
 <resources>
-    <string name="app_name">Progetto_ProgrammazioneMobile</string>
+    <string name="app_name">QuickPlay</string>
     <string name="lorem">" Madonna troia"</string>
+    <string name="search_hint">Circolo o Atleta</string>
 </resources>

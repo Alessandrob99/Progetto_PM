@@ -24,6 +24,7 @@ import kotlinx.coroutines.runBlocking
 import java.util.*
 import java.util.concurrent.Flow
 import javax.security.auth.callback.Callback
+import kotlin.collections.ArrayList
 import kotlin.concurrent.thread
 
 class DB_Handler {
@@ -37,8 +38,9 @@ class DB_Handler {
     }
 
 
+//---RICERCA UTENTE PER ID -----------------------------------
 
-    fun readUser(id : String, myCallBack : MyCallback) {
+    fun readUser(id : String, myCallBack : MyCallbackUser) {
            myRef.collection("users").document(id).get().addOnSuccessListener { document ->
                //Utente trovato
                val data = document.data
@@ -46,38 +48,36 @@ class DB_Handler {
                val surname = data?.get("cognome").toString()
                val age = data?.get("eta") as Long
                val user = Utente(name,surname,age,id)
-                myCallBack.onCallback(user)
+               myCallBack.onCallback(user)
            }
     }
-    interface MyCallback {
+    interface MyCallbackUser {
         fun onCallback(returnValue: Utente)
     }
 
 
 
 
+//---RICERCA UTENTI / CIRCOLI -----------------------------------
 
 
-
-
-    /*val docRef : DocumentReference? = myRef.collection("users").document(id)
-    if (docRef==null){
-        return null
+    fun SearchUsers(query : String, myCallBack: MyCallbackFoundUsers) {
+        var users : ArrayList<Utente> = ArrayList<Utente>()
+        var user : Utente
+        myRef.collection("users").whereEqualTo("nome",query).get().addOnSuccessListener { document->
+            val data = document.documents
+            for(d in data){
+                user = Utente(d.data?.get("nome").toString(), d.data?.get("cognome").toString(), d.data?.get("eta") as Long ,d.data?.get("id_user").toString())
+                users.add(user)
+            }
+            myCallBack.onCallback(users)
+        }
     }
-    val docSnap = docRef.get()
-    val docSnapRes = docSnap.result
-    Thread.sleep(2000)
+    interface MyCallbackFoundUsers{
+        fun onCallback(returnValue: ArrayList<Utente>)
+    }
 
-    val name = docSnapRes?.get("nome").toString()
-    val surname = docSnapRes?.get("cognome").toString()
-    val age = docSnapRes?.get("eta") as Long
-
-
-    val returnedUser = Utente(name,surname,age,id)
-    return returnedUser
-}
-
-     */
+//-----------------------------------------------------------------------------------------------------------------------
 }
 
 

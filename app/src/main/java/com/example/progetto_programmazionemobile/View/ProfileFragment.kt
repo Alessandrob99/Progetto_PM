@@ -33,6 +33,7 @@ class ProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val v : View =  inflater.inflate(R.layout.fragment_home_profile_fragment, container, false)
+
         return v
 
 
