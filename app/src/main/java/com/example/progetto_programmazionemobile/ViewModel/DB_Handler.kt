@@ -37,7 +37,7 @@ class DB_Handler {
 //---RICERCA UTENTI / CIRCOLI -----------------------------------
 
 
-    fun SearchUsers(query : String, myCallBack: MyCallbackFoundUsers) {
+    fun SearchUsersByName(query : String, myCallBack: MyCallbackFoundUsers) {
         var users : ArrayList<Utente> = ArrayList<Utente>()
         var user : Utente
 

@@ -38,7 +38,7 @@ class RicercaGiocatori : Fragment() {
                             Toast.makeText(this@RicercaGiocatori.context, "Inserire qualcosa", Toast.LENGTH_SHORT).show()
 
                         } else {
-                            db_conn.SearchUsers(query, object : DB_Handler.MyCallbackFoundUsers {
+                            db_conn.SearchUsersByName(query, object : DB_Handler.MyCallbackFoundUsers {
                                 override fun onCallback(returnUser: ArrayList<Utente>) {
                                     //INTENT TO ACTIVITY FOR RESULTS
                                     val intent = Intent(this@RicercaGiocatori.context, SearchResult::class.java)
