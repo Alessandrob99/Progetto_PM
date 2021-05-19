@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.annotation.Nullable
 import com.example.progetto_programmazionemobile.R
 
-class RicercaUtente : Fragment() {
+class RicercaGiocatori : Fragment() {
 
     @Nullable
     override fun onCreateView(
@@ -16,7 +16,7 @@ class RicercaUtente : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_ricerca_utente, container, false)
+        return inflater.inflate(R.layout.fragment_ricerca_giocatori, container, false)
     }
 
 }

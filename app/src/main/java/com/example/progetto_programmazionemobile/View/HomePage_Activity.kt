@@ -48,7 +48,7 @@ class HomePage_Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         if(savedInstanceState == null)
         {
             val fragment = supportFragmentManager.beginTransaction()
-            fragment.replace(R.id.fragment_container, RicercaUtente()).commit()
+            fragment.replace(R.id.fragment_container, infoFragment()).commit()
             navigationView.setCheckedItem(R.id.nav_home)
         }
 
@@ -67,12 +67,22 @@ class HomePage_Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         {
             R.id.nav_home ->{
                 val fragment = supportFragmentManager.beginTransaction()
-                fragment.replace(R.id.fragment_container, RicercaUtente()).commit()
+                fragment.replace(R.id.fragment_container, infoFragment()).commit()
                 drawer.closeDrawer(GravityCompat.START)
             }
             R.id.nav_profilo ->{
                 val fragment = supportFragmentManager.beginTransaction()
                 fragment.replace(R.id.fragment_container, ProfileFragment()).commit()
+                drawer.closeDrawer(GravityCompat.START)
+            }
+            R.id.nav_ricerca_giocatori ->{
+                val fragment = supportFragmentManager.beginTransaction()
+                fragment.replace(R.id.fragment_container, RicercaGiocatori()).commit()
+                drawer.closeDrawer(GravityCompat.START)
+            }
+            R.id.nav_ricerca_circoli -> {
+                val fragment = supportFragmentManager.beginTransaction()
+                fragment.replace(R.id.fragment_container, RicercaCircoli()).commit()
                 drawer.closeDrawer(GravityCompat.START)
             }
         }

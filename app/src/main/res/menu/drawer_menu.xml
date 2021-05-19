@@ -10,15 +10,21 @@
         <item
             android:id="@+id/nav_profilo"
             android:title="Profilo" />
+        <item
+            android:id="@+id/nav_ricerca_giocatori"
+            android:title="Giocatori" />
+        <item
+            android:id="@+id/nav_ricerca_circoli"
+            android:title="Circoli" />
 
     </group>
 
 
-    <item android:title="PageProva">
+    <item android:title="Info">
         <menu>
             <item
-                android:id="@+id/nav_share"
-                android:title="Share" />
+                android:id="@+id/nav_contattaci"
+                android:title="Contattaci" />
         </menu>
     </item>
 
