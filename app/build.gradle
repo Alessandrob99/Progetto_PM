@@ -6,13 +6,13 @@ plugins {
 }
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.3"
+    compileSdkVersion 28
+    buildToolsVersion "28.0.0"
 
     defaultConfig {
         applicationId "com.example.progetto_programmazionemobile"
         minSdkVersion 16
-        targetSdkVersion 30
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
@@ -33,6 +33,7 @@ android {
         jvmTarget = '1.8'
     }
 }
+
 
 dependencies {
     implementation platform('com.google.firebase:firebase-bom:27.1.0')
@@ -58,6 +59,8 @@ dependencies {
     // When using the BoM, you don't specify versions in Firebase library dependencies
     implementation 'com.google.firebase:firebase-firestore-ktx'
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.2.1"
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.support:design:28.0.0'
 
 
 }

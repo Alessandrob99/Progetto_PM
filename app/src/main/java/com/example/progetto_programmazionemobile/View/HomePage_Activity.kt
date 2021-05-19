@@ -1,66 +1,83 @@
 package com.example.progetto_programmazionemobile.View
 
-import android.content.Intent
-import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
-import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.MenuItemCompat
-import com.example.progetto_programmazionemobile.Model.Circolo
-import com.example.progetto_programmazionemobile.Model.Utente
+import android.os.Bundle
+import android.view.MenuItem
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.widget.Toolbar
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import com.example.progetto_programmazionemobile.R
-import com.example.progetto_programmazionemobile.ViewModel.DB_Handler
+import com.google.android.material.navigation.NavigationView
 
 
-class HomePage_Activity : AppCompatActivity(){
-
-    val db_conn = DB_Handler()
-
+class HomePage_Activity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener
+{
+    private lateinit var drawer: DrawerLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_page_)
-        setSupportActionBar(findViewById(R.id.toolbar))
 
+        var toolbar: Toolbar
+        //var toolbarRicerca: Toolbar
 
+        //toolbarRicerca = findViewById(R.id.toolbarRicerca)
+        toolbar = findViewById(R.id.toolbar)
 
+        setSupportActionBar(toolbar)
+        //setSupportActionBar(toolbarRicerca)
 
+        drawer = findViewById(R.id.drawer_layout)
+
+        var navigationView : NavigationView
+        navigationView = findViewById(R.id.nav_view)
+        navigationView.setNavigationItemSelectedListener(this)
+
+        var toggle: ActionBarDrawerToggle
+        toggle = ActionBarDrawerToggle(
+            this,
+            drawer,
+            toolbar,
+            R.string.navigation_drawer_open,
+            R.string.navigation_drawer_close
+        )
+
+        drawer.addDrawerListener(toggle)
+        toggle.syncState()
+        if(savedInstanceState == null)
+        {
+            val fragment = supportFragmentManager.beginTransaction()
+            fragment.replace(R.id.fragment_container, RicercaUtente()).commit()
+            navigationView.setCheckedItem(R.id.nav_home)
+        }
 
     }
 
+    override fun onBackPressed() {
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START)
+        } else {
+            super.onBackPressed()
+        }
+    }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.home_page_toolbar_menu, menu)
-        //SEARCH ITEM------------
-        val menuItem : MenuItem = menu.findItem(R.id.app_bar_search)
-        val searchView : SearchView = MenuItemCompat.getActionView(menuItem) as SearchView
-
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
-            override fun onQueryTextChange(newText: String?): Boolean {
-                return false
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        when(item.itemId)
+        {
+            R.id.nav_home ->{
+                val fragment = supportFragmentManager.beginTransaction()
+                fragment.replace(R.id.fragment_container, RicercaUtente()).commit()
+                drawer.closeDrawer(GravityCompat.START)
             }
-
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                //Toast.makeText(applicationContext,"Ricerca in corso",Toast.LENGTH_LONG).show()
-
-                if (query != null) {
-                    db_conn.SearchUsers(query,object :DB_Handler.MyCallbackFoundUsers{
-                        override fun onCallback(returnUser: ArrayList<Utente>) {
-                                //INTENT TO ACTIVITY FOR RESULTS
-                            val intent = Intent(this@HomePage_Activity,SearchResult::class.java)
-                            intent.putExtra("usersList",returnUser)
-                            startActivity(intent)
-                        }
-                    })
-                }
-
-
-                return false
+            R.id.nav_profilo ->{
+                val fragment = supportFragmentManager.beginTransaction()
+                fragment.replace(R.id.fragment_container, ProfileFragment()).commit()
+                drawer.closeDrawer(GravityCompat.START)
             }
-        })
-        //-----------------------
+        }
         return true
     }
+
 
 }

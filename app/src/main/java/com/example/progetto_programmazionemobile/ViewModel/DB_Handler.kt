@@ -1,32 +1,7 @@
 package com.example.progetto_programmazionemobile.ViewModel
 
-import android.content.ContentValues.TAG
-import android.content.Context
-import android.nfc.Tag
-import android.os.AsyncTask
-import android.util.Log
-import android.widget.Toast
-import com.example.progetto_programmazionemobile.Model.Circolo
-
 import com.example.progetto_programmazionemobile.Model.Utente
-import com.example.progetto_programmazionemobile.View.MainActivity
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.OnFailureListener
-import com.google.android.gms.tasks.OnSuccessListener
-import com.google.android.gms.tasks.Task
-import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
-
-import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.CompletableDeferred
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import java.util.*
-import java.util.concurrent.Flow
-import javax.security.auth.callback.Callback
-import kotlin.collections.ArrayList
-import kotlin.concurrent.thread
 
 class DB_Handler {
 

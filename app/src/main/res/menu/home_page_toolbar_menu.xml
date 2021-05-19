@@ -8,12 +8,6 @@
         android:title="Search"
         app:actionViewClass="android.widget.SearchView"
         app:showAsAction="always" />
-    <item
-        android:id="@+id/action_profile"
-        android:icon="@drawable/ic_baseline_person_24"
-        android:orderInCategory="103"
-        android:title="Profilo"
-        app:showAsAction="ifRoom" />
 
     <!-- <LinearLayout
         android:layout_width="wrap_content"
