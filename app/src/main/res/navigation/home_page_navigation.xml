@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/infoFragment"
-        android:name="com.example.progetto_programmazionemobile.View.infoFragment"
+        android:name="com.example.progetto_programmazionemobile.View.InfoFragment"
         android:label="fragment_info"
         tools:layout="@layout/fragment_info" >
         <action
