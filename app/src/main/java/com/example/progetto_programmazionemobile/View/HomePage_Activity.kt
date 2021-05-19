@@ -7,6 +7,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.Fragment
 import com.example.progetto_programmazionemobile.R
 import com.google.android.material.navigation.NavigationView
 
@@ -47,9 +48,7 @@ class HomePage_Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         toggle.syncState()
         if(savedInstanceState == null)
         {
-            val fragment = supportFragmentManager.beginTransaction()
-            fragment.replace(R.id.fragment_container, infoFragment()).commit()
-            navigationView.setCheckedItem(R.id.nav_home)
+            ChangeFragment(infoFragment())
         }
 
     }
@@ -66,28 +65,30 @@ class HomePage_Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         when(item.itemId)
         {
             R.id.nav_home ->{
-                val fragment = supportFragmentManager.beginTransaction()
-                fragment.replace(R.id.fragment_container, infoFragment()).commit()
-                drawer.closeDrawer(GravityCompat.START)
+                ChangeFragment(infoFragment())
             }
             R.id.nav_profilo ->{
-                val fragment = supportFragmentManager.beginTransaction()
-                fragment.replace(R.id.fragment_container, ProfileFragment()).commit()
-                drawer.closeDrawer(GravityCompat.START)
+                ChangeFragment(ProfileFragment())
             }
             R.id.nav_ricerca_giocatori ->{
-                val fragment = supportFragmentManager.beginTransaction()
-                fragment.replace(R.id.fragment_container, RicercaGiocatori()).commit()
-                drawer.closeDrawer(GravityCompat.START)
+                ChangeFragment(RicercaGiocatori())
             }
             R.id.nav_ricerca_circoli -> {
-                val fragment = supportFragmentManager.beginTransaction()
-                fragment.replace(R.id.fragment_container, RicercaCircoli()).commit()
-                drawer.closeDrawer(GravityCompat.START)
+                ChangeFragment(RicercaCircoli())
             }
         }
         return true
     }
 
 
+    fun ChangeFragment(frag: Fragment)
+    {
+        val fragment = supportFragmentManager.beginTransaction()
+        fragment.replace(R.id.fragment_container, frag).commit()
+        drawer.closeDrawer(GravityCompat.START)
+    }
+
+
 }
+
+
