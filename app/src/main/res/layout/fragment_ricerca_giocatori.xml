@@ -18,7 +18,7 @@
         android:layout_marginEnd="163dp"
         android:layout_marginRight="163dp"
         android:layout_marginBottom="64dp"
-        android:text="HOME"
+        android:text="Ricerca Giocatori"
         android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@+id/Ricerca"
         app:layout_constraintEnd_toEndOf="parent"
@@ -44,12 +44,12 @@
         app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
     <Button
-        android:id="@+id/btnRicerca"
+        android:id="@+id/btnRicercaUtente"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="200dp"
         android:layout_marginBottom="483dp"
-        android:text="Button"
+        android:text="Cerca"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/Ricerca"

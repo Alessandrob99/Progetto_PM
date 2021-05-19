@@ -48,7 +48,7 @@ class HomePage_Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         if(savedInstanceState == null)
         {
             val fragment = supportFragmentManager.beginTransaction()
-            fragment.replace(R.id.fragment_container, RicercaUtente()).commit()
+            fragment.replace(R.id.fragment_container, RicercaGiocatori()).commit()
             navigationView.setCheckedItem(R.id.nav_home)
         }
 
@@ -67,7 +67,7 @@ class HomePage_Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         {
             R.id.nav_home ->{
                 val fragment = supportFragmentManager.beginTransaction()
-                fragment.replace(R.id.fragment_container, RicercaUtente()).commit()
+                fragment.replace(R.id.fragment_container, RicercaGiocatori()).commit()
                 drawer.closeDrawer(GravityCompat.START)
             }
             R.id.nav_profilo ->{
