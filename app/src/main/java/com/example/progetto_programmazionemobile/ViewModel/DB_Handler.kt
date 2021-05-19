@@ -34,7 +34,7 @@ class DB_Handler {
 
 
 
-//---RICERCA UTENTI / CIRCOLI -----------------------------------
+//---RICERCA UTENTI per nome -----------------------------------
 
 
     fun SearchUsersByName(query : String, myCallBack: MyCallbackFoundUsers) {
@@ -54,11 +54,55 @@ class DB_Handler {
     }
 
 
+//-----------------------------------------------------------------------------------------------------------------------
+
+
+//---RICERCA UTENTI per nome -----------------------------------
+
+
+    fun SearchUsersBySurname(query : String, myCallBack: MyCallbackFoundUsers) {
+        var users : ArrayList<Utente> = ArrayList<Utente>()
+        var user : Utente
+
+
+        myRef.collection("users").whereEqualTo("cognome",query).get().addOnSuccessListener { document->
+            val data = document.documents
+            for(d in data){
+                user = Utente(d.data?.get("nome").toString(), d.data?.get("cognome").toString(), d.data?.get("eta") as Long ,d.data?.get("id_user").toString())
+                users.add(user)
+            }
+            myCallBack.onCallback(users)
+        }
+
+    }
+
+
+//-----------------------------------------------------------------------
+
+    fun SearchUsersByNameANDSurname(queryName : String, querySurname : String, myCallBack: MyCallbackFoundUsers) {
+        var users : ArrayList<Utente> = ArrayList<Utente>()
+        var user : Utente
+
+
+        myRef.collection("users").whereEqualTo("nome",queryName).whereEqualTo("cognome",querySurname).get().addOnSuccessListener { document->
+            val data = document.documents
+            for(d in data){
+                user = Utente(d.data?.get("nome").toString(), d.data?.get("cognome").toString(), d.data?.get("eta") as Long ,d.data?.get("id_user").toString())
+                users.add(user)
+            }
+            myCallBack.onCallback(users)
+        }
+
+    }
+
+
+//CALLBACK FUNCTION PER IL RETURN DEGLI UTENTI RICERCATI
+
     interface MyCallbackFoundUsers{
         fun onCallback(returnUsers: ArrayList<Utente>)
     }
 
-//-----------------------------------------------------------------------------------------------------------------------
+
 }
 
 
