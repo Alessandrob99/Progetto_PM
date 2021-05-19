@@ -26,6 +26,10 @@
         android:layout_marginTop="48dp"
         android:layout_marginEnd="56dp"
         android:layout_marginRight="56dp"
+        android:clickable="false"
+        android:duplicateParentState="false"
+        android:editable="false"
+        android:enabled="false"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtUsername" />
@@ -37,6 +41,7 @@
         android:layout_marginTop="28dp"
         android:layout_marginEnd="56dp"
         android:layout_marginRight="56dp"
+        android:enabled="false"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editNome" />
@@ -48,6 +53,7 @@
         android:layout_marginTop="28dp"
         android:layout_marginEnd="56dp"
         android:layout_marginRight="56dp"
+        android:enabled="false"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editCognome" />
@@ -59,6 +65,7 @@
         android:layout_marginTop="28dp"
         android:layout_marginEnd="56dp"
         android:layout_marginRight="56dp"
+        android:enabled="false"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editCellulare" />
@@ -70,6 +77,7 @@
         android:layout_marginTop="28dp"
         android:layout_marginEnd="56dp"
         android:layout_marginRight="56dp"
+        android:enabled="false"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editEmail" />
@@ -81,6 +89,7 @@
         android:layout_marginTop="28dp"
         android:layout_marginEnd="56dp"
         android:layout_marginRight="56dp"
+        android:enabled="false"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editIndirizzo" />
