@@ -11,7 +11,7 @@
 
         <activity
             android:name=".View.SearchResult"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            android:theme="@style/Theme.AppCompat.NoActionBar">
 
         </activity>
 
@@ -23,7 +23,7 @@
         <activity
             android:name=".View.MainActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

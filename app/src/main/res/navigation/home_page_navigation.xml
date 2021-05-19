@@ -18,5 +18,14 @@
         android:id="@+id/profileFragment"
         android:name="com.example.progetto_programmazionemobile.View.ProfileFragment"
         android:label="fragment_home_profile_fragment"
-        tools:layout="@layout/fragment_home_profile_fragment" />
+        tools:layout="@layout/fragment_home_profile_fragment" >
+        <action
+            android:id="@+id/action_profileFragment_to_editProfileFragment"
+            app:destination="@id/editProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.example.progetto_programmazionemobile.View.EditProfileFragment"
+        android:label="fragment_home_editprofile"
+        tools:layout="@layout/fragment_home_editprofile" />
 </navigation>
