@@ -6,40 +6,25 @@
     android:layout_height="match_parent"
     tools:context=".View.LoginFragment">
 
-    <EditText
-        android:id="@+id/nomeutenteInputReg"
-        android:layout_width="377dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="112dp"
-        android:background="@color/white"
-        android:text="Nome Utente"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.529"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/telefonoInputReg"
-        android:layout_width="377dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="12dp"
-        android:background="@color/white"
-        android:inputType="phone"
-        android:text="N° Telefono"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cognomeInputReg" />
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginBottom="24dp"
+        android:text="Inserisci le tue credenziali :"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/nomeutenteInputReg"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/nomeInputReg"
         android:layout_width="377dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="12dp"
-        android:background="@color/white"
-        android:text="Nome"
+        android:layout_height="44dp"
+        android:layout_marginTop="24dp"
+        android:hint="Nome"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.47"
@@ -49,11 +34,10 @@
     <EditText
         android:id="@+id/emailInputReg"
         android:layout_width="377dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="12dp"
-        android:background="@color/white"
+        android:layout_height="44dp"
+        android:layout_marginTop="24dp"
         android:inputType="textEmailAddress"
-        android:text="E-Mail"
+        android:hint="e-mail"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.529"
@@ -63,10 +47,9 @@
     <EditText
         android:id="@+id/cognomeInputReg"
         android:layout_width="377dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="12dp"
-        android:background="@color/white"
-        android:text="Cognome"
+        android:layout_height="44dp"
+        android:layout_marginTop="24dp"
+        android:hint="Cognome"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.47"
@@ -76,10 +59,9 @@
     <EditText
         android:id="@+id/confermaPassInputReg"
         android:layout_width="377dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="12dp"
-        android:background="@color/white"
-        android:text="Conferma PassWord"
+        android:layout_height="44dp"
+        android:layout_marginTop="24dp"
+        android:hint="Conferma password"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.47"
@@ -89,10 +71,9 @@
     <EditText
         android:id="@+id/passwordInputReg"
         android:layout_width="377dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="12dp"
-        android:background="@color/white"
-        android:text="PassWord"
+        android:layout_height="44dp"
+        android:layout_marginTop="24dp"
+        android:hint="Password"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.529"
@@ -106,22 +87,33 @@
         android:text="Conferma"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailInputReg" />
+        app:layout_constraintTop_toBottomOf="@+id/emailInputReg"
+        app:layout_constraintVertical_bias="0.358" />
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginBottom="16dp"
-        android:text="Inserisci le tue credenziali :"
-        android:textColor="#000000"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/nomeutenteInputReg"
-        app:layout_constraintStart_toStartOf="parent" />
+    <EditText
+        android:id="@+id/nomeutenteInputReg"
+        android:layout_width="377dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="56dp"
+        android:hint="Username"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.529"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/telefonoInputReg"
+        android:layout_width="377dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="24dp"
+        android:inputType="phone"
+        android:hint="Cellulare"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cognomeInputReg" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

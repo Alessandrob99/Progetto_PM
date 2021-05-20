@@ -23,9 +23,9 @@
         android:id="@+id/editNome"
         android:layout_width="201dp"
         android:layout_height="44dp"
-        android:layout_marginTop="48dp"
-        android:layout_marginEnd="56dp"
-        android:layout_marginRight="56dp"
+        android:layout_marginTop="120dp"
+        android:layout_marginEnd="44dp"
+        android:layout_marginRight="44dp"
         android:clickable="false"
         android:duplicateParentState="false"
         android:editable="false"
@@ -34,73 +34,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtUsername" />
 
-    <EditText
-        android:id="@+id/Username"
-        android:layout_width="201dp"
-        android:layout_height="44dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="56dp"
-        android:layout_marginRight="56dp"
-        android:enabled="false"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editNome" />
-
-    <EditText
-        android:id="@+id/password"
-        android:layout_width="201dp"
-        android:layout_height="44dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="56dp"
-        android:layout_marginRight="56dp"
-        android:enabled="false"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Username" />
-
-    <EditText
-        android:id="@+id/editEmail"
-        android:layout_width="201dp"
-        android:layout_height="44dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="56dp"
-        android:layout_marginRight="56dp"
-        android:enabled="false"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password" />
-
-    <EditText
-        android:id="@+id/editIndirizzo"
-        android:layout_width="201dp"
-        android:layout_height="44dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="56dp"
-        android:layout_marginRight="56dp"
-        android:enabled="false"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editEmail" />
-
-    <EditText
-        android:id="@+id/editRegione"
-        android:layout_width="201dp"
-        android:layout_height="44dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="56dp"
-        android:layout_marginRight="56dp"
-        android:enabled="false"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editIndirizzo" />
-
     <TextView
         android:id="@+id/txtNome"
         android:layout_width="81dp"
         android:layout_height="30dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="160dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="232dp"
         android:text="Nome"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -110,61 +50,114 @@
         android:id="@+id/txtusername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="48dp"
         android:text="Cognome"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtNome" />
 
     <TextView
-        android:id="@+id/Password"
+        android:id="@+id/txtCellulare"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginLeft="40dp"
         android:layout_marginTop="48dp"
         android:text="Cellulare"
         android:textSize="22sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtusername" />
 
+    <EditText
+        android:id="@+id/editCellulare"
+        android:layout_width="201dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="44dp"
+        android:layout_marginRight="44dp"
+        android:enabled="false"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editCognome" />
+
     <TextView
         android:id="@+id/txtemail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="48dp"
         android:text="e-mail"
         android:textSize="22sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Password" />
+        app:layout_constraintTop_toBottomOf="@+id/txtCellulare" />
 
     <TextView
-        android:id="@+id/txtIndirizzo"
+        android:id="@+id/txtPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="40dp"
-        android:text="Indirizzo"
+        android:layout_marginStart="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="48dp"
+        android:text="Password"
         android:textSize="22sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtemail" />
 
-    <TextView
-        android:id="@+id/txtRegione"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="40dp"
-        android:text="Regione"
-        android:textSize="22sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtIndirizzo" />
+    <EditText
+        android:id="@+id/editEmail"
+        android:layout_width="201dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="44dp"
+        android:layout_marginRight="44dp"
+        android:enabled="false"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editCellulare" />
+
+    <EditText
+        android:id="@+id/Password"
+        android:layout_width="201dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="44dp"
+        android:layout_marginRight="44dp"
+        android:enabled="false"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editEmail"
+        app:passwordToggleEnabled="true" />
+
+    <ImageView
+        android:id="@+id/show_pass_btn"
+        android:layout_width="35dp"
+        android:layout_height="38dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="6dp"
+        android:layout_marginRight="6dp"
+        android:alpha=".5"
+        android:onClick="ShowHidePass"
+        android:padding="5dp"
+        android:src="@drawable/show_pass"
+        app:layout_constraintBottom_toBottomOf="@+id/Password"
+        app:layout_constraintEnd_toEndOf="@+id/Password"
+        app:layout_constraintTop_toTopOf="@+id/Password" />
+
+    <EditText
+        android:id="@+id/editCognome"
+        android:layout_width="201dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="44dp"
+        android:layout_marginRight="44dp"
+        android:enabled="false"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editNome" />
 
     <Button
         android:id="@+id/btnPrenotazioni"
