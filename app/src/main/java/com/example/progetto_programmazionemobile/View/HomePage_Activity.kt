@@ -4,11 +4,13 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.example.progetto_programmazionemobile.R
 import com.google.android.material.navigation.NavigationView
 
@@ -51,7 +53,7 @@ class HomePage_Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         toggle.syncState()
         if(savedInstanceState == null)
         {
-            ChangeFragment(infoFragment())
+            ChangeFragment(infoFragment(),"INFO")
         }
 
     }
@@ -60,8 +62,33 @@ class HomePage_Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START)
         } else {
-            val intent = Intent(this, LogoutPopUp::class.java)
-            startActivity(intent)
+
+            if(supportFragmentManager.findFragmentByTag("INFO")!=null){
+                if(supportFragmentManager.findFragmentByTag("INFO")!!.isVisible) {
+                    val intent = Intent(this, LogoutPopUp::class.java)
+                    startActivity(intent)
+                }
+            }
+            if(supportFragmentManager.findFragmentByTag("PROFILO")!=null){
+                if(supportFragmentManager.findFragmentByTag("PROFILO")!!.isVisible) {
+                    ChangeFragment(infoFragment(),"INFO")
+                }
+            }
+            if(supportFragmentManager.findFragmentByTag("RICERCA_GIOCATORI")!=null){
+                if(supportFragmentManager.findFragmentByTag("RICERCA_GIOCATORI")!!.isVisible) {
+                    ChangeFragment(infoFragment(),"INFO")
+                }
+            }
+            if(supportFragmentManager.findFragmentByTag("RICERCA_CIRCOLI")!=null){
+                if(supportFragmentManager.findFragmentByTag("RICERCA_CIRCOLI")!!.isVisible) {
+                    ChangeFragment(infoFragment(),"INFO")
+                }
+            }
+            if(supportFragmentManager.findFragmentByTag("MODIFICA_PROFILO")!=null){
+                if(supportFragmentManager.findFragmentByTag("MODIFICA_PROFILO")!!.isVisible) {
+                    ChangeFragment(ProfileFragment(),"PROFILO")
+                }
+            }
         }
     }
 
@@ -69,26 +96,26 @@ class HomePage_Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         when(item.itemId)
         {
             R.id.nav_home ->{
-                ChangeFragment(infoFragment())
+                ChangeFragment(infoFragment(),"INFO")
             }
             R.id.nav_profilo ->{
-                ChangeFragment(ProfileFragment())
+                ChangeFragment(ProfileFragment(),"PROFILO")
             }
             R.id.nav_ricerca_giocatori ->{
-                ChangeFragment(RicercaGiocatori())
+                ChangeFragment(RicercaGiocatori(),"RICERCA_GIOCATORI")
             }
             R.id.nav_ricerca_circoli -> {
-                ChangeFragment(RicercaCircoli())
+                ChangeFragment(RicercaCircoli(),"RICERCA_CIRCOLI")
             }
         }
         return true
     }
 
 
-    fun ChangeFragment(frag: Fragment)
+    fun ChangeFragment(frag: Fragment, ID : String)
     {
         val fragment = supportFragmentManager.beginTransaction()
-        fragment.replace(R.id.fragment_container, frag).commit()
+        fragment.replace(R.id.fragment_container, frag,ID).commit()
         drawer.closeDrawer(GravityCompat.START)
     }
 

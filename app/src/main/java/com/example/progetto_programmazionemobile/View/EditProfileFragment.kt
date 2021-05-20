@@ -25,6 +25,8 @@ class EditProfileFragment: Fragment()
                 fr?.commit()
             }
         })
+
         return v
     }
+
 }
