@@ -6,16 +6,20 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
-            android:title="Home" />
+            android:title="Home"
+            android:icon="@drawable/ic_home"/>
         <item
             android:id="@+id/nav_profilo"
-            android:title="Profilo" />
+            android:title="Profilo"
+            android:icon="@drawable/user"/>
         <item
             android:id="@+id/nav_ricerca_giocatori"
-            android:title="Giocatori" />
+            android:title="Giocatori"
+            android:icon="@drawable/giocatori"/>
         <item
             android:id="@+id/nav_ricerca_circoli"
-            android:title="Circoli" />
+            android:title="Circoli"
+            android:icon="@drawable/circoli"/>
 
     </group>
 
@@ -24,7 +28,8 @@
         <menu>
             <item
                 android:id="@+id/nav_contattaci"
-                android:title="Contattaci" />
+                android:title="Contattaci"
+                android:icon="@drawable/ic_info"/>
         </menu>
     </item>
 
