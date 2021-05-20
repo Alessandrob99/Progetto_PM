@@ -3,6 +3,7 @@ package com.example.progetto_programmazionemobile.ViewModel
 import com.example.progetto_programmazionemobile.Model.Utente
 import com.google.firebase.firestore.FirebaseFirestore
 
+
 class DB_Handler {
 
     val myRef = FirebaseFirestore.getInstance()
@@ -41,8 +42,7 @@ class DB_Handler {
         var users : ArrayList<Utente> = ArrayList<Utente>()
         var user : Utente
 
-
-        myRef.collection("users").whereEqualTo("nome",query).get().addOnSuccessListener { document->
+        myRef.collection("users").whereEqualTo("nome",query.toLowerCase()).get().addOnSuccessListener { document->
             val data = document.documents
             for(d in data){
                 user = Utente(d.data?.get("nome").toString(), d.data?.get("cognome").toString(), d.data?.get("eta") as Long ,d.data?.get("id_user").toString())
@@ -57,15 +57,14 @@ class DB_Handler {
 //-----------------------------------------------------------------------------------------------------------------------
 
 
-//---RICERCA UTENTI per nome -----------------------------------
+//---RICERCA UTENTI per cognome -----------------------------------
 
 
     fun SearchUsersBySurname(query : String, myCallBack: MyCallbackFoundUsers) {
         var users : ArrayList<Utente> = ArrayList<Utente>()
         var user : Utente
 
-
-        myRef.collection("users").whereEqualTo("cognome",query).get().addOnSuccessListener { document->
+        myRef.collection("users").whereEqualTo("cognome",query.toLowerCase()).get().addOnSuccessListener { document->
             val data = document.documents
             for(d in data){
                 user = Utente(d.data?.get("nome").toString(), d.data?.get("cognome").toString(), d.data?.get("eta") as Long ,d.data?.get("id_user").toString())
@@ -78,13 +77,14 @@ class DB_Handler {
 
 
 //-----------------------------------------------------------------------
+    //-----------Ricerca per nome e cognome---------------------------------------------------
 
     fun SearchUsersByNameANDSurname(queryName : String, querySurname : String, myCallBack: MyCallbackFoundUsers) {
         var users : ArrayList<Utente> = ArrayList<Utente>()
         var user : Utente
 
 
-        myRef.collection("users").whereEqualTo("nome",queryName).whereEqualTo("cognome",querySurname).get().addOnSuccessListener { document->
+        myRef.collection("users").whereEqualTo("nome",queryName.toLowerCase()).whereEqualTo("cognome",querySurname.toLowerCase()).get().addOnSuccessListener { document->
             val data = document.documents
             for(d in data){
                 user = Utente(d.data?.get("nome").toString(), d.data?.get("cognome").toString(), d.data?.get("eta") as Long ,d.data?.get("id_user").toString())
