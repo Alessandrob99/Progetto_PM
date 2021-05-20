@@ -8,24 +8,24 @@
         android:label="QuickPlay"
         android:roundIcon="@drawable/ic_baseline_sports_tennis_24"
         android:supportsRtl="true">
-
+        <activity
+            android:name=".View.LogoutPopUp"
+            android:theme="@style/Theme.AppCompat.Translucent">
+        </activity>
         <activity
             android:name=".View.SearchResult"
-            android:theme="@style/Theme.AppCompat.NoActionBar">
-
-        </activity>
-
+            android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
         <activity
             android:name=".View.HomePage_Activity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
-
         <activity
             android:name=".View.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

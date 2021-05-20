@@ -22,10 +22,17 @@
         <action
             android:id="@+id/action_profileFragment_to_editProfileFragment"
             app:destination="@id/editProfileFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_infoFragment"
+            app:destination="@id/infoFragment" />
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"
         android:name="com.example.progetto_programmazionemobile.View.EditProfileFragment"
         android:label="fragment_home_editprofile"
-        tools:layout="@layout/fragment_home_editprofile" />
+        tools:layout="@layout/fragment_home_editprofile" >
+        <action
+            android:id="@+id/action_editProfileFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
 </navigation>

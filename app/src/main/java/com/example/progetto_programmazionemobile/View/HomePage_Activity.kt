@@ -1,5 +1,6 @@
 package com.example.progetto_programmazionemobile.View
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
@@ -19,6 +20,8 @@ class HomePage_Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_page_)
+
+
 
         var toolbar: Toolbar
         //var toolbarRicerca: Toolbar
@@ -57,7 +60,8 @@ class HomePage_Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START)
         } else {
-            super.onBackPressed()
+            val intent = Intent(this, LogoutPopUp::class.java)
+            startActivity(intent)
         }
     }
 
@@ -87,6 +91,7 @@ class HomePage_Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         fragment.replace(R.id.fragment_container, frag).commit()
         drawer.closeDrawer(GravityCompat.START)
     }
+
 
 
 }
