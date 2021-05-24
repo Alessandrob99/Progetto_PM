@@ -24,8 +24,11 @@ class DB_Handler {
         var user : Utente
            myRef.collection("users").document(id).get().addOnSuccessListener { document ->
                val data = document
+               val timestamp = data?.get("data_nascita") as com.google.firebase.Timestamp
+               val milliseconds = timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000
+               val data_nascita = Date(milliseconds)
                user = Utente(data?.get("nome").toString(), data?.get("cognome").toString()
-                       , data?.get("data_nascita") as Timestamp ,data?.get("user_name").toString()
+                       , data_nascita ,data?.get("user_name").toString()
                        ,data?.get("email").toString() ,data?.get("telefono").toString(),data?.get("password").toString())
                myCallBack.onCallback(user)
            }

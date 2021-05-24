@@ -2,12 +2,18 @@ package com.example.progetto_programmazionemobile.View
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.TextUtils
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
+import com.example.progetto_programmazionemobile.Model.Utente
 import com.example.progetto_programmazionemobile.R
+import com.example.progetto_programmazionemobile.ViewModel.Auth_Handler
+import com.example.progetto_programmazionemobile.ViewModel.DB_Handler
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -39,11 +45,34 @@ class LoginFragment : Fragment() {
         // Inflate the layout for this fragment
         val v : View = inflater.inflate(R.layout.fragment_login, container, false)
         val goToHomePage = Intent(v.context,HomePage_Activity::class.java)
+
         val confermabtn : Button = v.findViewById(R.id.confermaLog)
+
+        val userNameEditText = v.findViewById<EditText>(R.id.txtUsername)
+        val passWordEditText = v.findViewById<EditText>(R.id.txtPassword)
+
         confermabtn.setOnClickListener(object : View.OnClickListener{
             override fun onClick(v: View?) {
                 //Metodo che controlla la validita delle credenziali
-                startActivity(goToHomePage)
+                val userName = userNameEditText.text.toString()
+                val password = passWordEditText.text.toString()
+
+                if(((TextUtils.equals(userName,""))||((TextUtils.equals(password,""))))){
+                    Toast.makeText(this@LoginFragment.context, "Fornire sia username che password", Toast.LENGTH_SHORT).show()
+                }else{
+                    Auth_Handler.checkCredentials(userName,password,object : Auth_Handler.Companion.MyCallback{
+                        override fun onCallback() {
+                            if(Auth_Handler.isLOGGED_IN()==true){
+                                val goToHomePage = Intent(v?.context,HomePage_Activity::class.java)
+                                startActivity(goToHomePage)
+                            }else{
+                                Toast.makeText(this@LoginFragment.context, "Credenziali non valide", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    })
+                }
+
+                //----------
             }
         })
 
