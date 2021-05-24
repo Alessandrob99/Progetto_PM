@@ -5,6 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
@@ -25,14 +28,12 @@ class HomePage_Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
 
 
 
-        var toolbar: Toolbar
-        //var toolbarRicerca: Toolbar
 
-        //toolbarRicerca = findViewById(R.id.toolbarRicerca)
+
+        var toolbar: Toolbar
         toolbar = findViewById(R.id.toolbar)
 
         setSupportActionBar(toolbar)
-        //setSupportActionBar(toolbarRicerca)
 
         drawer = findViewById(R.id.drawer_layout)
 

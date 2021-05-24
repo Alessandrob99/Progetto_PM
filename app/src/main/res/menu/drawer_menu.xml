@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
@@ -11,15 +12,15 @@
         <item
             android:id="@+id/nav_profilo"
             android:title="Profilo"
-            android:icon="@drawable/user"/>
+            android:icon="@drawable/ic_profile"/>
         <item
             android:id="@+id/nav_ricerca_giocatori"
             android:title="Giocatori"
-            android:icon="@drawable/giocatori"/>
+            android:icon="@drawable/ic_giocatori"/>
         <item
             android:id="@+id/nav_ricerca_circoli"
             android:title="Circoli"
-            android:icon="@drawable/circoli"/>
+            android:icon="@drawable/ic_circoli"/>
 
     </group>
 
