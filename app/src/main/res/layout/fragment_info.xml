@@ -15,13 +15,27 @@
         android:fontFamily="@font/open_sans_condensed_bold"
         android:text="Guida all'App"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textColor="#610000"
+        android:textSize="34sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.174" />
+
+    <TextView
+        android:id="@+id/welcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/open_sans_condensed_bold"
+        android:text="Benvenuto"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textSize="40sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.058" />
+        app:layout_constraintVertical_bias="0.047" />
 
     <Button
         android:id="@+id/btnUniscitiPrenotazione"
@@ -54,12 +68,13 @@
         android:id="@+id/textView13"
         android:layout_width="326dp"
         android:layout_height="368dp"
-        android:layout_marginTop="136dp"
+        android:layout_marginTop="188dp"
         android:fontFamily="@font/open_sans_condensed_bold"
         android:text="@string/infoApp"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="@string/infoApp" />
