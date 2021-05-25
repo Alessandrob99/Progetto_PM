@@ -21,9 +21,17 @@
         android:id="@+id/loginFragment"
         android:name="com.example.progetto_programmazionemobile.View.LoginFragment"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_login" />
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_startFragment"
+            app:destination="@id/startFragment" />
+    </fragment>
     <fragment
         android:id="@+id/registerFragment"
         android:name="com.example.progetto_programmazionemobile.View.RegisterFragment"
-        android:label="RegisterFragment" />
+        android:label="RegisterFragment" >
+        <action
+            android:id="@+id/action_registerFragment_to_startFragment"
+            app:destination="@id/startFragment" />
+    </fragment>
 </navigation>

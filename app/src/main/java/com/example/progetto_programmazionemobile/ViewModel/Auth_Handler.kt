@@ -25,6 +25,7 @@ class Auth_Handler  {
 
         fun setLOGGET_OUT(){
             LOGGED_IN = false
+            CURRENT_USER = null
         }
 
         fun isLOGGED_IN () : Boolean{return LOGGED_IN}

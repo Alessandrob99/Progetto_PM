@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.example.progetto_programmazionemobile.R
+import com.example.progetto_programmazionemobile.ViewModel.Auth_Handler
 
 class LogoutPopUp : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,6 +18,7 @@ class LogoutPopUp : AppCompatActivity() {
         btnYes.setOnClickListener(object : View.OnClickListener{
             override fun onClick(v: View?) {
                 //LogOut
+                Auth_Handler.setLOGGET_OUT()
                 val intent = Intent(this@LogoutPopUp, MainActivity::class.java)
                 startActivity(intent)
             }

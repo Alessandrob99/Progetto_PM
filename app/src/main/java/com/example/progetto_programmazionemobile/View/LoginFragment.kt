@@ -64,7 +64,7 @@ class LoginFragment : Fragment() {
                         override fun onCallback() {
                             if(Auth_Handler.isLOGGED_IN()==true){
                                 val goToHomePage = Intent(v?.context,HomePage_Activity::class.java)
-                                startActivity(goToHomePage)
+                                startActivityForResult(goToHomePage, 1)
                             }else{
                                 Toast.makeText(this@LoginFragment.context, "Credenziali non valide", Toast.LENGTH_SHORT).show()
                             }
@@ -75,6 +75,9 @@ class LoginFragment : Fragment() {
                 //----------
             }
         })
+
+
+
 
         return v
 
