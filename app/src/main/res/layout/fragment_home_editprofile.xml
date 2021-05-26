@@ -81,6 +81,7 @@
             android:layout_height="wrap_content"
             android:clickable="true"
             android:enabled="true"
+            android:background="#FFF"
             android:hint="Password"
             android:inputType="textPassword"
             android:focusable="true" />
@@ -105,36 +106,11 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#FFF"
             android:inputType="textPassword" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
-
-    <!-- EditText
-        android:id="@+id/editPassword"
-        android:layout_width="310dp"
-        android:layout_height="44dp"
-        android:layout_marginTop="44dp"
-        android:layout_marginEnd="56dp"
-        android:layout_marginRight="56dp"
-        android:enabled="true"
-        android:hint="Password"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editEmail" />
-
-    <EditText
-        android:id="@+id/confermaPassword"
-        android:layout_width="310dp"
-        android:layout_height="44dp"
-        android:layout_marginTop="25dp"
-        android:layout_marginEnd="56dp"
-        android:layout_marginRight="56dp"
-        android:enabled="true"
-        android:hint="Conferma password"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editPassword"/ -->
 
     <TextView
         android:id="@+id/txtNome"
@@ -204,6 +180,9 @@
         android:layout_marginRight="156dp"
         android:layout_marginBottom="40dp"
         android:text="Conferma"
+        android:background="@drawable/btn_custom"
+        android:textColor="#000"
+        app:backgroundTint="@null"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
