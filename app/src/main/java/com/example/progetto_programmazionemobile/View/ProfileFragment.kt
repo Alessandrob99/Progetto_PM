@@ -26,6 +26,22 @@ class ProfileFragment : Fragment()
         val userText = v.findViewById<TextView>(R.id.txtUsername)
         userText.setText(Auth_Handler.CURRENT_USER?.username)
 
+        val userName = v.findViewById<EditText>(R.id.editNome)
+        userName.setText(Auth_Handler.CURRENT_USER?.nome)
+
+        val userCognome = v.findViewById<EditText>(R.id.editCognome)
+        userCognome.setText(Auth_Handler.CURRENT_USER?.cognome)
+
+        val userCellulare = v.findViewById<EditText>(R.id.editCellulare)
+        userCellulare.setText(Auth_Handler.CURRENT_USER?.nome)
+
+        val userEmail = v.findViewById<EditText>(R.id.editEmail)
+        userEmail.setText(Auth_Handler.CURRENT_USER?.email)
+
+
+
+
+
         val btnEdit: Button = v.findViewById(R.id.btnConferma)
         btnEdit.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {

@@ -18,7 +18,7 @@ class infoFragment : Fragment() {
         val v = inflater.inflate(R.layout.fragment_info, container, false)
 
         val welcomeText = v.findViewById<TextView>(R.id.welcome)
-        welcomeText.setText("Benvenuto "+ (Auth_Handler.CURRENT_USER!!.nome!!.capitalize())+"!")
+        //welcomeText.setText("Benvenuto "+ (Auth_Handler.CURRENT_USER!!.nome!!.capitalize())+"!")
 
         val btnUnisciti : Button = v.findViewById(R.id.btnUniscitiPrenotazione)
 
