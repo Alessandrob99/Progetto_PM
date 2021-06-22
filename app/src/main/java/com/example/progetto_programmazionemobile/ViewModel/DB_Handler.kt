@@ -1,6 +1,11 @@
 package com.example.progetto_programmazionemobile.ViewModel
 
+import android.content.ContentValues.TAG
+import android.content.Context
+import android.util.Log
+import android.widget.Toast
 import com.example.progetto_programmazionemobile.Model.Utente
+import com.example.progetto_programmazionemobile.ViewModel.Auth_Handler.Companion.myRef
 import com.google.firebase.firestore.FirebaseFirestore
 import java.sql.Timestamp
 import java.util.*
@@ -8,8 +13,14 @@ import kotlin.collections.ArrayList
 
 
 class DB_Handler {
-
     val myRef = FirebaseFirestore.getInstance()
+
+
+    //CALLBACK FUNCTION PER IL RETURN DEGLI UTENTI RICERCATI
+
+    interface MyCallbackFoundUsers{
+        fun onCallback(returnUsers: ArrayList<Utente>)
+    }
 
 
     fun writeUser(name: String, surname: String, nascita : Timestamp?, username : String,email : String?,telefono : String?, password : String) {
@@ -22,16 +33,16 @@ class DB_Handler {
 
     fun readUser(id : String, myCallBack : MyCallbackUser) {
         var user : Utente
-           myRef.collection("users").document(id).get().addOnSuccessListener { document ->
-               val data = document
-               val timestamp = data?.get("data_nascita") as com.google.firebase.Timestamp
-               val milliseconds = timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000
-               val data_nascita = Date(milliseconds)
-               user = Utente(data?.get("nome").toString(), data?.get("cognome").toString()
-                       , data_nascita ,data?.get("user_name").toString()
-                       ,data?.get("email").toString() ,data?.get("telefono").toString(),data?.get("password").toString())
-               myCallBack.onCallback(user)
-           }
+        myRef.collection("users").document(id).get().addOnSuccessListener { document ->
+            val data = document
+            val timestamp = data?.get("data_nascita") as com.google.firebase.Timestamp
+            val milliseconds = timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000
+            val data_nascita = Date(milliseconds)
+            user = Utente(data?.get("nome").toString(), data?.get("cognome").toString()
+                , data_nascita ,data?.get("user_name").toString()
+                ,data?.get("email").toString() ,data?.get("telefono").toString(),data?.get("password").toString())
+            myCallBack.onCallback(user)
+        }
     }
     interface MyCallbackUser {
         fun onCallback(returnValue: Utente)
@@ -56,8 +67,8 @@ class DB_Handler {
                 val data_nascita = Date(milliseconds)
 
                 user = Utente(d.data?.get("nome").toString(), d.data?.get("cognome").toString()
-                        , data_nascita ,d.data?.get("user_name").toString()
-                        ,d.data?.get("email").toString() ,d.data?.get("telefono").toString(),d.data?.get("password").toString())
+                    , data_nascita ,d.data?.get("user_name").toString()
+                    ,d.data?.get("email").toString() ,d.data?.get("telefono").toString(),d.data?.get("password").toString())
                 users.add(user)
             }
             myCallBack.onCallback(users)
@@ -84,8 +95,8 @@ class DB_Handler {
                 val data_nascita = Date(milliseconds)
 
                 user = Utente(d.data?.get("nome").toString(), d.data?.get("cognome").toString()
-                        , data_nascita ,d.data?.get("user_name").toString()
-                        ,d.data?.get("email").toString() ,d.data?.get("telefono").toString(),d.data?.get("password").toString())
+                    , data_nascita ,d.data?.get("user_name").toString()
+                    ,d.data?.get("email").toString() ,d.data?.get("telefono").toString(),d.data?.get("password").toString())
                 users.add(user)
             }
             myCallBack.onCallback(users)
@@ -111,8 +122,8 @@ class DB_Handler {
                 val data_nascita = Date(milliseconds)
 
                 user = Utente(d.data?.get("nome").toString(), d.data?.get("cognome").toString()
-                        , data_nascita ,d.data?.get("user_name").toString()
-                        ,d.data?.get("email").toString() ,d.data?.get("telefono").toString(),d.data?.get("password").toString())
+                    , data_nascita ,d.data?.get("user_name").toString()
+                    ,d.data?.get("email").toString() ,d.data?.get("telefono").toString(),d.data?.get("password").toString())
                 users.add(user)
             }
             myCallBack.onCallback(users)
@@ -121,13 +132,43 @@ class DB_Handler {
     }
 
 
-//CALLBACK FUNCTION PER IL RETURN DEGLI UTENTI RICERCATI
+    companion object{
 
-    interface MyCallbackFoundUsers{
-        fun onCallback(returnUsers: ArrayList<Utente>)
+//------AGGIORNAMENTO UTENTE DATO USERNAME ---------------//
+
+
+        fun updateUserByUsername(username : String?,name : String, surname : String, email: String, number : String, password : String){
+            var user = myRef.collection("users").document(username!!)
+            user.update(
+                "nome",name,
+                "cognome",surname,
+                "email" , email,
+                "telefono",number,
+                "password",password
+            ).addOnSuccessListener {
+                //Aggiorno i campi nell'Auth Handler
+                Auth_Handler.CURRENT_USER =Utente(name, surname,
+                    Auth_Handler.CURRENT_USER!!.nascita,Auth_Handler.CURRENT_USER!!.username
+                    ,email ,number,password)
+
+            }
+                .addOnFailureListener {
+                        e -> Log.w(TAG, "Error updating document", e)
+                }
+
+        }
+
+
+
+
+
+
+
+
     }
 
-
 }
+
+
 
 
