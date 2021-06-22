@@ -1,5 +1,7 @@
 package com.example.progetto_programmazionemobile.ViewModel
 
+import android.content.Context
+import android.content.SharedPreferences
 import com.example.progetto_programmazionemobile.Model.Utente
 import com.google.firebase.firestore.FirebaseFirestore
 import java.sql.Timestamp
@@ -26,6 +28,18 @@ class Auth_Handler  {
         fun setLOGGET_OUT(){
             LOGGED_IN = false
             CURRENT_USER = null
+        }
+        fun setLOGGET_OUT(context : Context){
+            LOGGED_IN = false
+            CURRENT_USER = null
+            var sharedPreferences : SharedPreferences? = context?.getSharedPreferences("remember", Context.MODE_PRIVATE)
+            var editor : SharedPreferences.Editor? = sharedPreferences?.edit()
+            if (editor != null) {
+                editor.putString("username","")
+                editor.putString("password","")
+                editor.putBoolean("remember",false)
+                editor.apply()
+            }
         }
 
         fun isLOGGED_IN () : Boolean{return LOGGED_IN}
@@ -55,6 +69,8 @@ class Auth_Handler  {
                 myCallBack.onCallback()
             }
         }
+
+
         interface MyCallback{
             fun onCallback()
         }

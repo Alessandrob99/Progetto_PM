@@ -1,19 +1,19 @@
 package com.example.progetto_programmazionemobile.View
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.TextUtils
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Toast
-import com.example.progetto_programmazionemobile.Model.Utente
+import android.widget.*
+import androidx.fragment.app.Fragment
 import com.example.progetto_programmazionemobile.R
 import com.example.progetto_programmazionemobile.ViewModel.Auth_Handler
-import com.example.progetto_programmazionemobile.ViewModel.DB_Handler
+import org.json.JSONException
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -47,9 +47,45 @@ class LoginFragment : Fragment() {
         val goToHomePage = Intent(v.context,HomePage_Activity::class.java)
 
         val confermabtn : Button = v.findViewById(R.id.confermaLog)
-
+        val flagRicordami = v.findViewById<CheckBox>(R.id.ricordami)
         val userNameEditText = v.findViewById<EditText>(R.id.txtUsername)
         val passWordEditText = v.findViewById<EditText>(R.id.txtPassword)
+
+        //Controllo se ci sono valori user e pass salvati nella 'session'
+        var sharedPreferences : SharedPreferences? = activity?.getSharedPreferences("remember", Context.MODE_PRIVATE)
+        if (sharedPreferences != null) {
+            if(sharedPreferences.getBoolean("remember",false)){
+                var savedUser = sharedPreferences?.getString("username","")
+                var savedPass = sharedPreferences?.getString("password","")
+
+                //Preimposto i campi username e password
+                flagRicordami.isChecked = true
+                userNameEditText.setText(savedUser)
+                passWordEditText.setText(savedPass)
+
+            }
+
+        }
+
+
+        flagRicordami.setOnCheckedChangeListener { buttonView, isChecked ->
+
+            if(flagRicordami.isChecked==false){
+                var sharedPreferences : SharedPreferences? = activity?.getSharedPreferences("remember", Context.MODE_PRIVATE)
+                var editor : SharedPreferences.Editor? = sharedPreferences?.edit()
+                if (editor != null) {
+                    editor.putString("username","")
+                    editor.putString("password","")
+                    editor.putBoolean("remember",false)
+                    editor.apply()
+                }
+
+            }
+
+        }
+
+
+
 
         confermabtn.setOnClickListener(object : View.OnClickListener{
             override fun onClick(v: View?) {
@@ -64,6 +100,20 @@ class LoginFragment : Fragment() {
                         override fun onCallback() {
                             if(Auth_Handler.isLOGGED_IN()==true){
                                 val goToHomePage = Intent(v?.context,HomePage_Activity::class.java)
+
+                                //Se Ricordami == true  allora scrivi su file
+                                if(flagRicordami.isChecked) {
+                                    var sharedPreferences : SharedPreferences? = activity?.getSharedPreferences("remember", Context.MODE_PRIVATE)
+                                    var editor : SharedPreferences.Editor? = sharedPreferences?.edit()
+                                    if (editor != null) {
+                                        editor.putString("username",userName)
+                                        editor.putString("password",password)
+                                        editor.putBoolean("remember",true)
+                                        editor.apply()
+                                    }
+                                }
+
+                                //GO HOME INTENT
                                 startActivityForResult(goToHomePage, 1)
                             }else{
                                 Toast.makeText(this@LoginFragment.context, "Credenziali non valide", Toast.LENGTH_SHORT).show()
