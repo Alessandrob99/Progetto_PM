@@ -75,8 +75,11 @@ class RegisterFragment : Fragment() {
                     Toast.makeText(context,"Inserire tutti i campi",Toast.LENGTH_SHORT).show()
                 }else{
                         if(android.util.Patterns.EMAIL_ADDRESS.matcher(emailText.text.toString()).matches()) {
-                            Toast.makeText(context, "Tutto ok", Toast.LENGTH_SHORT).show()
+
+
                             //-----------------------Conferma mail da implementare-------------------------//
+
+
 
                             //Parsing data di nascita
                             val cal = Calendar.getInstance()
@@ -95,6 +98,12 @@ class RegisterFragment : Fragment() {
                                 telefonoText.text.toString(),
                                 dataNascita)
 
+
+                            val intent = Intent(context, registrationCompletedPopUp::class.java)
+                            startActivity(intent)
+
+                        }else{
+                            Toast.makeText(context,"Inserire una mail valida",Toast.LENGTH_SHORT).show()
                         }
                 }
             }

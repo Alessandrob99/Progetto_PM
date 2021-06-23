@@ -9,12 +9,15 @@
         android:roundIcon="@drawable/ic_baseline_sports_tennis_24"
         android:supportsRtl="true">
         <activity
-            android:name=".View.LogoutPopUp"
-            android:theme="@style/Theme.AppCompat.Translucent">
+            android:name=".View.registrationCompletedPopUp"
+                android:theme="@style/Theme.AppCompat.Translucent">
         </activity>
         <activity
+            android:name=".View.LogoutPopUp"
+            android:theme="@style/Theme.AppCompat.Translucent"></activity>
+        <activity
             android:name=".View.SearchResult"
-            android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".View.HomePage_Activity"
             android:screenOrientation="portrait"

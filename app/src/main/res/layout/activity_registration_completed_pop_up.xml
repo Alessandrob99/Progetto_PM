@@ -51,34 +51,16 @@
                     style="?android:attr/borderlessButtonStyle"
                     android:layout_width="90dp"
                     android:layout_height="55dp"
-                    android:background="#FF0000"
-                    android:text="SI"
+                    android:background="#FFC800"
+                    android:text="OK"
                     android:textAllCaps="false"
                     android:textColor="#FFFFFF"
                     android:textSize="20sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.2"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.879" />
-
-                <Button
-                    android:id="@+id/popup_window_no"
-                    style="?android:attr/borderlessButtonStyle"
-                    android:layout_width="90dp"
-                    android:layout_height="55dp"
-                    android:background="#27DA00"
-                    android:text="NO"
-                    android:textAllCaps="false"
-                    android:textColor="#FFFFFF"
-                    android:textSize="20sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.8"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.879" />
+                    app:layout_constraintVertical_bias="0.878" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/popup_window_text"
@@ -86,7 +68,7 @@
                     android:layout_height="83dp"
                     android:background="#7C7272"
                     android:gravity="center"
-                    android:text="EFFETTUARE IL LOGOUT?"
+                    android:text="REGISTRAZIONE COMPLETATA"
                     android:textAlignment="center"
                     android:textColor="#FFFFFF"
                     android:textSize="18sp"

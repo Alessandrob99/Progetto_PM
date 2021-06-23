@@ -171,10 +171,7 @@ class DB_Handler {
 
             myRef.collection("users").document(username)
                 .set(docData)
-                .addOnSuccessListener {
-
-
-                }
+                .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully written!") }
                 .addOnFailureListener { e -> Log.w(TAG, "Error writing document", e) }
         }
 
