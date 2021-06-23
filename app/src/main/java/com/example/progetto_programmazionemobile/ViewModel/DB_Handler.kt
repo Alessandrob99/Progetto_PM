@@ -158,7 +158,25 @@ class DB_Handler {
 
         }
 
+        fun newUser(username: String,password: String,name: String,surname: String,email: String,telefono: String,dataNascita : Date){
+            val docData = hashMapOf(
+                "user_name" to username,
+                "password" to password,
+                "nome" to name,
+                "cognome" to surname,
+                "data_nascita" to dataNascita,
+                "email" to email,
+                "telefono" to telefono
+            )
 
+            myRef.collection("users").document(username)
+                .set(docData)
+                .addOnSuccessListener {
+
+
+                }
+                .addOnFailureListener { e -> Log.w(TAG, "Error writing document", e) }
+        }
 
 
 

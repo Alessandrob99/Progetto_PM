@@ -2,12 +2,17 @@ package com.example.progetto_programmazionemobile.View
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.DatePicker
+import android.widget.EditText
+import android.widget.Toast
+import androidx.fragment.app.Fragment
 import com.example.progetto_programmazionemobile.R
+import com.example.progetto_programmazionemobile.ViewModel.DB_Handler
+import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -36,14 +41,62 @@ class RegisterFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         val v : View =  inflater.inflate(R.layout.fragment_register, container, false)
+
+
+        val datePicker = v.findViewById<DatePicker>(R.id.datePicker)
+        val today = Calendar.getInstance()
+        datePicker.init(today.get(Calendar.YEAR), today.get(Calendar.MONTH),
+            today.get(Calendar.DAY_OF_MONTH)
+
+        ) { view, year, month, day ->
+
+
+        }
+
+        // Inflate the layout for this fragment
         val goToHomePage = Intent(v.context,HomePage_Activity::class.java)
+
+        val userText = v.findViewById<EditText>(R.id.nomeutenteInputReg)
+        val nomeText = v.findViewById<EditText>(R.id.nomeInputReg)
+        val cognomeText = v.findViewById<EditText>(R.id.cognomeInputReg)
+        val passwordText = v.findViewById<EditText>(R.id.passwordInputReg)
+        val emailText = v.findViewById<EditText>(R.id.emailInputReg)
+        val telefonoText = v.findViewById<EditText>(R.id.telefonoInputReg)
+
         val confermabtn : Button = v.findViewById(R.id.confermaReg)
+
         confermabtn.setOnClickListener(object : View.OnClickListener{
             override fun onClick(v: View?) {
                 //Metodo che controlla la validita delle credenziali
-                startActivity(goToHomePage)
+
+
+                if((nomeText.text.toString()=="")||(userText.text.toString()=="")||(cognomeText.text.toString()=="")||(passwordText.text.toString()=="")||(emailText.text.toString()=="")||(telefonoText.text.toString()=="")){
+                    Toast.makeText(context,"Inserire tutti i campi",Toast.LENGTH_SHORT).show()
+                }else{
+                        if(android.util.Patterns.EMAIL_ADDRESS.matcher(emailText.text.toString()).matches()) {
+                            Toast.makeText(context, "Tutto ok", Toast.LENGTH_SHORT).show()
+                            //-----------------------Conferma mail da implementare-------------------------//
+
+                            //Parsing data di nascita
+                            val cal = Calendar.getInstance()
+                            cal[Calendar.YEAR] = datePicker.year
+                            cal[Calendar.MONTH] = datePicker.month
+                            cal[Calendar.DAY_OF_MONTH] = datePicker.dayOfMonth
+                            val dataNascita = cal.time
+
+                            //Metodo per la memeorizzaione dei dati
+
+                            DB_Handler.newUser(userText.text.toString(),
+                                passwordText.text.toString(),
+                                nomeText.text.toString(),
+                                cognomeText.text.toString(),
+                                emailText.text.toString(),
+                                telefonoText.text.toString(),
+                                dataNascita)
+
+                        }
+                }
             }
         })
         return v
@@ -68,4 +121,6 @@ class RegisterFragment : Fragment() {
                 }
             }
     }
+
+
 }
