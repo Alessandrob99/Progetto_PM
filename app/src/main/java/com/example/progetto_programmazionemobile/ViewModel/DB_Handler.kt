@@ -22,6 +22,9 @@ class DB_Handler {
         fun onCallback(returnUsers: ArrayList<Utente>)
     }
 
+    interface MyCallbackMessage{
+        fun onCallback(message : String)
+    }
 
     fun writeUser(name: String, surname: String, nascita : Timestamp?, username : String,email : String?,telefono : String?, password : String) {
         val user = Utente(name, surname, nascita,username,email,telefono,password)
@@ -140,8 +143,8 @@ class DB_Handler {
         fun updateUserByUsername(username : String?,name : String, surname : String, email: String, number : String, password : String){
             var user = myRef.collection("users").document(username!!)
             user.update(
-                "nome",name,
-                "cognome",surname,
+                "nome",name.toLowerCase(),
+                "cognome",surname.toLowerCase(),
                 "email" , email,
                 "telefono",number,
                 "password",password
@@ -160,10 +163,10 @@ class DB_Handler {
 
         fun newUser(username: String,password: String,name: String,surname: String,email: String,telefono: String,dataNascita : Date){
             val docData = hashMapOf(
-                "user_name" to username,
+                "user_name" to username.toLowerCase(),
                 "password" to password,
-                "nome" to name,
-                "cognome" to surname,
+                "nome" to name.toLowerCase(),
+                "cognome" to surname.toLowerCase(),
                 "data_nascita" to dataNascita,
                 "email" to email,
                 "telefono" to telefono
@@ -176,7 +179,33 @@ class DB_Handler {
         }
 
 
+        fun checkCreds(username: String,email: String,telefono: String,myCallBack: MyCallbackMessage){
+            myRef.collection("users").whereEqualTo("user_name",username).get().addOnSuccessListener {
+                if(it.isEmpty){
+                    myRef.collection("users").whereEqualTo("email",email).get().addOnSuccessListener {
+                        if(it.isEmpty){
+                            myRef.collection("users").whereEqualTo("telefono",telefono).get().addOnSuccessListener {
+                                if(it.isEmpty){
+                                    myCallBack.onCallback("OK")
+                                }else{
+                                    myCallBack.onCallback("Telefono già registrato")
+                                }
+                            }
+                        }else{
+                            myCallBack.onCallback("Email già in uso")
+                        }
+                    }
+                }else{
+                    myCallBack.onCallback("Username già in uso")
+                }
 
+            }
+
+        }
+
+        fun check_email(){
+
+        }
 
 
 

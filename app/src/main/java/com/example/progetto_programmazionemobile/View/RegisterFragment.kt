@@ -73,38 +73,55 @@ class RegisterFragment : Fragment() {
 
                 if((nomeText.text.toString()=="")||(userText.text.toString()=="")||(cognomeText.text.toString()=="")||(passwordText.text.toString()=="")||(emailText.text.toString()=="")||(telefonoText.text.toString()=="")){
                     Toast.makeText(context,"Inserire tutti i campi",Toast.LENGTH_SHORT).show()
-                }else{
-                        if(android.util.Patterns.EMAIL_ADDRESS.matcher(emailText.text.toString()).matches()) {
+                }else {
+                    if(telefonoText.text.length!=10) {
+                        Toast.makeText(context,"Numero di telefono non valido",Toast.LENGTH_SHORT).show()
+                    }else{
+
+                        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(emailText.text.toString())
+                                .matches()) {
+
+                            Toast.makeText(context, "Inserire una mail valida", Toast.LENGTH_SHORT).show()
 
 
+
+                        } else {
                             //-----------------------Conferma mail da implementare-------------------------//
 
-
-
-                            //Parsing data di nascita
-                            val cal = Calendar.getInstance()
-                            cal[Calendar.YEAR] = datePicker.year
-                            cal[Calendar.MONTH] = datePicker.month
-                            cal[Calendar.DAY_OF_MONTH] = datePicker.dayOfMonth
-                            val dataNascita = cal.time
-
-                            //Metodo per la memeorizzaione dei dati
-
-                            DB_Handler.newUser(userText.text.toString(),
-                                passwordText.text.toString(),
-                                nomeText.text.toString(),
-                                cognomeText.text.toString(),
+                            //Controlli per credenziali già esistenti
+                            DB_Handler.checkCreds(userText.text.toString(),
                                 emailText.text.toString(),
-                                telefonoText.text.toString(),
-                                dataNascita)
+                                telefonoText.text.toString(),object : DB_Handler.MyCallbackMessage{
+                                    override fun onCallback(message: String) {
+                                        if(message=="OK") {
+                                            val cal = Calendar.getInstance()
+                                            cal[Calendar.YEAR] = datePicker.year
+                                            cal[Calendar.MONTH] = datePicker.month
+                                            cal[Calendar.DAY_OF_MONTH] = datePicker.dayOfMonth
+                                            val dataNascita = cal.time
 
+                                            //Metodo per la memeorizzaione dei dati
 
-                            val intent = Intent(context, registrationCompletedPopUp::class.java)
-                            startActivity(intent)
+                                            DB_Handler.newUser(
+                                                userText.text.toString(),
+                                                passwordText.text.toString(),
+                                                nomeText.text.toString(),
+                                                cognomeText.text.toString(),
+                                                emailText.text.toString(),
+                                                telefonoText.text.toString(),
+                                                dataNascita
+                                            )
 
-                        }else{
-                            Toast.makeText(context,"Inserire una mail valida",Toast.LENGTH_SHORT).show()
+                                            val intent = Intent(context, registrationCompletedPopUp::class.java)
+                                            startActivity(intent)
+
+                                        }else {
+                                            Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+                                        }
+                                    }
+                                })
                         }
+                    }
                 }
             }
         })
