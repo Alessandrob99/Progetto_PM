@@ -72,8 +72,6 @@
         android:id="@+id/confermaReg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:shadowColor="#89EF13"
-        android:shadowRadius="20"
         android:text="Conferma"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

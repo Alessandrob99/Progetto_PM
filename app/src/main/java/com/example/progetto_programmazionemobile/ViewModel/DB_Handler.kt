@@ -160,7 +160,7 @@ class DB_Handler {
                 }
 
         }
-
+        //FUNZIONE PER L'AGGIUNTA DI UN NUOVO UTENTE
         fun newUser(username: String,password: String,name: String,surname: String,email: String,telefono: String,dataNascita : Date){
             val docData = hashMapOf(
                 "user_name" to username.toLowerCase(),
@@ -178,7 +178,7 @@ class DB_Handler {
                 .addOnFailureListener { e -> Log.w(TAG, "Error writing document", e) }
         }
 
-
+        //FUNZIONE PER IL CONTROLLO DELLE CREDENZIALI GIA ESISTENTI
         fun checkCreds(username: String,email: String,telefono: String,myCallBack: MyCallbackMessage){
             myRef.collection("users").whereEqualTo("user_name",username).get().addOnSuccessListener {
                 if(it.isEmpty){
@@ -202,12 +202,6 @@ class DB_Handler {
             }
 
         }
-
-        fun check_email(){
-
-        }
-
-
 
     }
 

@@ -29,8 +29,8 @@ class ProfileFragment : Fragment()
         val cognomeText = v.findViewById<TextView>(R.id.editCognome)
         val cellulareText = v.findViewById<TextView>(R.id.editCellulare)
         userText.setText(Auth_Handler.CURRENT_USER?.username)
-        nameText.setText(Auth_Handler.CURRENT_USER?.nome)
-        cognomeText.setText(Auth_Handler.CURRENT_USER?.cognome)
+        nameText.setText(Auth_Handler.CURRENT_USER?.nome?.capitalize())
+        cognomeText.setText(Auth_Handler.CURRENT_USER?.cognome?.capitalize())
         emailText.setText(Auth_Handler.CURRENT_USER?.email)
         cellulareText.setText(Auth_Handler.CURRENT_USER?.telefono)
 
@@ -43,7 +43,6 @@ class ProfileFragment : Fragment()
                 var fr = getFragmentManager()?.beginTransaction()
                 fr?.replace(R.id.fragment_container, EditProfileFragment(),"MODIFICA_PROFILO")
                 fr?.commit()
-
             }
         })
         return v

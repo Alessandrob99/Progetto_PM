@@ -8,10 +8,28 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="414dp"
+        android:layout_height="658dp"
         android:background="#7E7E7E"
         android:clickable="true"
-        tools:layout_editor_absoluteX="131dp"
-        tools:layout_editor_absoluteY="116dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.666"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.958" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="234dp"
+        android:layout_height="43dp"
+        android:text="RISULTATI RICERCA"
+        android:textSize="24sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintBottom_toTopOf="@+id/rv1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.146"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.432" />
 </androidx.constraintlayout.widget.ConstraintLayout>
