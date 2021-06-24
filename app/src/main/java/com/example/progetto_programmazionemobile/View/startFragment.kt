@@ -40,6 +40,10 @@ class startFragment : Fragment() {
         // Inflate the layout for this fragment
         val v : View = inflater.inflate(R.layout.fragment_start, container, false)
 
+
+
+
+
         val accedibtn : Button = v.findViewById(R.id.accedi)
         accedibtn.setOnClickListener(object : View.OnClickListener{
             override fun onClick(v: View?) {

@@ -24,7 +24,17 @@ class ProfileFragment : Fragment()
         val v: View = inflater.inflate(R.layout.fragment_home_profile_fragment, container, false)
 
         val userText = v.findViewById<TextView>(R.id.txtUsername)
+        val nameText = v.findViewById<TextView>(R.id.editNome)
+        val emailText = v.findViewById<TextView>(R.id.editEmail)
+        val cognomeText = v.findViewById<TextView>(R.id.editCognome)
+        val cellulareText = v.findViewById<TextView>(R.id.editCellulare)
         userText.setText(Auth_Handler.CURRENT_USER?.username)
+        nameText.setText(Auth_Handler.CURRENT_USER?.nome)
+        cognomeText.setText(Auth_Handler.CURRENT_USER?.cognome)
+        emailText.setText(Auth_Handler.CURRENT_USER?.email)
+        cellulareText.setText(Auth_Handler.CURRENT_USER?.telefono)
+
+
 
         val userName = v.findViewById<EditText>(R.id.editNome)
         userName.setText(Auth_Handler.CURRENT_USER?.nome)

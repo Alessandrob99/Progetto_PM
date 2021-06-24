@@ -14,11 +14,11 @@ class LogoutPopUp : AppCompatActivity() {
         overridePendingTransition(0, 0)
         setContentView(R.layout.activity_logout_pop_up)
 
-        val btnYes = findViewById<Button>(R.id.popup_window_yes)
+        val btnYes = findViewById<Button>(R.id.popup_window_ok)
         btnYes.setOnClickListener(object : View.OnClickListener{
             override fun onClick(v: View?) {
                 //LogOut
-                Auth_Handler.setLOGGET_OUT()
+                Auth_Handler.setLOGGET_OUT(context = applicationContext)
                 val intent = Intent(this@LogoutPopUp, MainActivity::class.java)
                 startActivity(intent)
             }
