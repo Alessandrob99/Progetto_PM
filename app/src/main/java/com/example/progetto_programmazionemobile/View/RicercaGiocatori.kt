@@ -13,7 +13,7 @@ import android.widget.Toast
 import androidx.annotation.Nullable
 import com.example.progetto_programmazionemobile.Model.Utente
 import com.example.progetto_programmazionemobile.R
-import com.example.progetto_programmazionemobile.ViewModel.DB_Handler
+import com.example.progetto_programmazionemobile.ViewModel.DB_Handler_Users
 
 class RicercaGiocatori : Fragment() {
 
@@ -25,7 +25,7 @@ class RicercaGiocatori : Fragment() {
         val v = inflater.inflate(R.layout.fragment_ricerca_giocatori, container, false)
 
 
-        val db_conn = DB_Handler()
+        val db_conn = DB_Handler_Users()
         val ricercaBtn = v.findViewById<Button>(R.id.btnRicerca)
         var queryUserNome = v.findViewById<EditText>(R.id.RicercaNome)
         var queryUserCognome = v.findViewById<EditText>(R.id.RicercaCognome)
@@ -45,7 +45,7 @@ class RicercaGiocatori : Fragment() {
                         }
                         //NOME INSERITO - COGNOME NO
                         if(((!TextUtils.equals(queryNome,""))&&((TextUtils.equals(queryCognome,""))))){
-                            db_conn.SearchUsersByName(queryNome, object : DB_Handler.MyCallbackFoundUsers {
+                            db_conn.SearchUsersByName(queryNome, object : DB_Handler_Users.MyCallbackFoundUsers {
                                 override fun onCallback(returnUser: ArrayList<Utente>) {
                                     //INTENT TO ACTIVITY FOR RESULTS
                                     val intent = Intent(this@RicercaGiocatori.context, SearchResult::class.java)
@@ -56,7 +56,7 @@ class RicercaGiocatori : Fragment() {
                         }
                         //NOME NO - COGNOME INSERITO
                         if(((TextUtils.equals(queryNome,""))&&((!TextUtils.equals(queryCognome,""))))){
-                            db_conn.SearchUsersBySurname(queryCognome, object : DB_Handler.MyCallbackFoundUsers {
+                            db_conn.SearchUsersBySurname(queryCognome, object : DB_Handler_Users.MyCallbackFoundUsers {
                                 override fun onCallback(returnUser: ArrayList<Utente>) {
                                     //INTENT TO ACTIVITY FOR RESULTS
                                     val intent = Intent(this@RicercaGiocatori.context, SearchResult::class.java)
@@ -67,7 +67,7 @@ class RicercaGiocatori : Fragment() {
                         }
                         //NOME INSERITO - COGNOME INSERITO
                         if(((!TextUtils.equals(queryNome,""))&&((!TextUtils.equals(queryCognome,""))))){
-                            db_conn.SearchUsersByNameANDSurname(queryNome,queryCognome, object : DB_Handler.MyCallbackFoundUsers {
+                            db_conn.SearchUsersByNameANDSurname(queryNome,queryCognome, object : DB_Handler_Users.MyCallbackFoundUsers {
                                 override fun onCallback(returnUser: ArrayList<Utente>) {
                                     //INTENT TO ACTIVITY FOR RESULTS
                                     val intent = Intent(this@RicercaGiocatori.context, SearchResult::class.java)

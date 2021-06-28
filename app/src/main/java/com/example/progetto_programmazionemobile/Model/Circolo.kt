@@ -1,14 +1,11 @@
 package com.example.progetto_programmazionemobile.Model
 
-class Circolo(name: String, id_club : String, town: String, id_campi : ArrayList<String>,address : String, email : String,tel : String,region : String)
+class Circolo(id : Int,name: String, email : String,tel : String, docce : Boolean,lat : Double,lng:Double)
 {
     val nome = name
-    val id = id_club
-    val regione = region
-    val citta = town
-    val campi = id_campi
-    val indirizzo = address
+    val id = id
     val email = email
     val telefono = tel
-
+    val docce = docce
+    val posizione = arrayListOf<Double>(lat,lng)
 }

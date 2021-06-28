@@ -12,7 +12,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class DB_Handler {
+class DB_Handler_Users {
     val myRef = FirebaseFirestore.getInstance()
 
 

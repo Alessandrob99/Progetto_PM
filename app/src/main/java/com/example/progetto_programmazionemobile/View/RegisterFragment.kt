@@ -11,7 +11,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.progetto_programmazionemobile.R
-import com.example.progetto_programmazionemobile.ViewModel.DB_Handler
+import com.example.progetto_programmazionemobile.ViewModel.DB_Handler_Users
 import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -89,9 +89,9 @@ class RegisterFragment : Fragment() {
                             //-----------------------Conferma mail da implementare-------------------------//
 
                             //Controlli per credenziali già esistenti
-                            DB_Handler.checkCreds(userText.text.toString(),
+                            DB_Handler_Users.checkCreds(userText.text.toString(),
                                 emailText.text.toString(),
-                                telefonoText.text.toString(),object : DB_Handler.MyCallbackMessage{
+                                telefonoText.text.toString(),object : DB_Handler_Users.MyCallbackMessage{
                                     override fun onCallback(message: String) {
                                         if(message=="OK") {
                                             val cal = Calendar.getInstance()
@@ -102,7 +102,7 @@ class RegisterFragment : Fragment() {
 
                                             //Metodo per la memeorizzaione dei dati
 
-                                            DB_Handler.newUser(
+                                            DB_Handler_Users.newUser(
                                                 userText.text.toString(),
                                                 passwordText.text.toString(),
                                                 nomeText.text.toString(),

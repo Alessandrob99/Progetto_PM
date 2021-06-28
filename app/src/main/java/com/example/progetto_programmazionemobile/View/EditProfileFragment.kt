@@ -10,7 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.progetto_programmazionemobile.R
 import com.example.progetto_programmazionemobile.ViewModel.Auth_Handler
-import com.example.progetto_programmazionemobile.ViewModel.DB_Handler
+import com.example.progetto_programmazionemobile.ViewModel.DB_Handler_Users
 
 class EditProfileFragment: Fragment()
 {
@@ -44,7 +44,7 @@ class EditProfileFragment: Fragment()
                 if((nameText.text.toString()!="")||(cognomeText.text.toString()!="")||(emailText.text.toString()!="")||(cellulareText.text.toString()!="")){
                     if(passwordText.text.toString().equals(confermaPasswordText.text.toString())){
                         //SALVA MODIFICHE FATTE
-                        DB_Handler.updateUserByUsername(Auth_Handler.CURRENT_USER?.username,nameText.text.toString(),cognomeText.text.toString(),emailText.text.toString(),cellulareText.text.toString(),passwordText.text.toString())
+                        DB_Handler_Users.updateUserByUsername(Auth_Handler.CURRENT_USER?.username,nameText.text.toString(),cognomeText.text.toString(),emailText.text.toString(),cellulareText.text.toString(),passwordText.text.toString())
                         var fr = getFragmentManager()?.beginTransaction()
                         fr?.replace(R.id.fragment_container, infoFragment())
                         fr?.commit()

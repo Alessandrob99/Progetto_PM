@@ -29,7 +29,6 @@ class Selezione_2 : AppCompatActivity(), OnMapReadyCallback {
         // Get the SupportMapFragment and request notification when the map is ready to be used.
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment
 
-
         if (ContextCompat.checkSelfPermission(
                 this.applicationContext,
                 android.Manifest.permission.ACCESS_FINE_LOCATION
@@ -51,6 +50,11 @@ class Selezione_2 : AppCompatActivity(), OnMapReadyCallback {
         }
 
     }
+
+
+
+
+
     @SuppressLint("MissingPermission")
     override fun onMapReady(googleMap: GoogleMap) {
         val locMan : LocationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
