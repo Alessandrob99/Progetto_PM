@@ -1,5 +1,6 @@
 package com.example.progetto_programmazionemobile.View
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,8 +10,10 @@ import android.widget.Button
 import android.widget.DatePicker
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.example.progetto_programmazionemobile.R
+import com.example.progetto_programmazionemobile.ViewModel.Auth_Handler
 import com.example.progetto_programmazionemobile.ViewModel.DB_Handler_Users
 import java.util.*
 
@@ -111,10 +114,19 @@ class RegisterFragment : Fragment() {
                                                 telefonoText.text.toString(),
                                                 dataNascita
                                             )
+                                            val intent = Intent(context, MainActivity::class.java)
 
-                                            val intent = Intent(context, registrationCompletedPopUp::class.java)
-                                            startActivity(intent)
-
+                                            //POPUP Registrazione compleatta + redirect alla mainactivity
+                                            val builder : AlertDialog.Builder = AlertDialog.Builder(context!!)
+                                            builder.setMessage("Registrazione Completata")
+                                            builder.setPositiveButton("OK",object : DialogInterface.OnClickListener{
+                                                override fun onClick(dialog: DialogInterface?, which: Int) {
+                                                    val intent = Intent(context, MainActivity::class.java)
+                                                    startActivity(intent)
+                                                }
+                                            })
+                                            val alertDialog = builder.create()
+                                            alertDialog.show()
                                         }else {
                                             Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
                                         }

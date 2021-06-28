@@ -1,6 +1,6 @@
 package com.example.progetto_programmazionemobile.Model
 
-class Circolo(id : Int,name: String, email : String,tel : String, docce : Boolean,lat : Double,lng:Double)
+class Circolo(id : Long,name: String, email : String,tel : Long, docce : Boolean,lat : Double,lng:Double)
 {
     val nome = name
     val id = id

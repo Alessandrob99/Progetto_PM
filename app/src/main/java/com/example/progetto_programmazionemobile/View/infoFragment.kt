@@ -1,6 +1,8 @@
 package com.example.progetto_programmazionemobile.View
 
+import android.content.DialogInterface
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,6 +11,8 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import com.example.progetto_programmazionemobile.R
 import com.example.progetto_programmazionemobile.ViewModel.Auth_Handler
@@ -29,8 +33,31 @@ class infoFragment : Fragment() {
 
         btnPrenota.setOnClickListener(object : View.OnClickListener{
             override fun onClick(v: View?) {
-                val goToSelection = Intent(v?.context,Selezione_1::class.java)
-                startActivity(goToSelection)
+
+                if (ContextCompat.checkSelfPermission(context!!, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                    //PERMESSO GARANTITO
+                    val goToSelection = Intent(v?.context,Selezione_1::class.java)
+                    startActivity(goToSelection)
+                } else {
+                    if(ContextCompat.checkSelfPermission(context!!, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED){
+                        //RICHIESTA PERMESSO DI ACCESO ALLA POSIZIONE
+                        //Informiamo l'utente che l'app ha bisogno della posizione
+                        //POPUP Registrazione compleatta + redirect alla mainactivity
+                        val builder : AlertDialog.Builder = AlertDialog.Builder(context!!)
+                        builder.setTitle("NOTA BENE")
+                        builder.setMessage("Non è possibile accedere a questa funzionalità senza il permesso di geolocalizzare il dispositivo." +System.lineSeparator()+
+                                System.lineSeparator()+"E' possibile fornire l'autorizzazione dalle impostazioni.")
+                        builder.setPositiveButton("OK",object : DialogInterface.OnClickListener{
+                            override fun onClick(dialog: DialogInterface?, which: Int) {
+
+                            }
+                        })
+                        val alertDialog = builder.create()
+                        alertDialog.show()
+                    }
+
+                }
+
             }
         })
 

@@ -1,6 +1,7 @@
 package com.example.progetto_programmazionemobile.View
 
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
@@ -12,12 +13,14 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.example.progetto_programmazionemobile.R
+import com.example.progetto_programmazionemobile.ViewModel.Auth_Handler
 import com.google.android.material.navigation.NavigationView
 
 
@@ -64,8 +67,25 @@ class HomePage_Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
 
             if(supportFragmentManager.findFragmentByTag("INFO")!=null){
                 if(supportFragmentManager.findFragmentByTag("INFO")!!.isVisible) {
-                    val intent = Intent(this, LogoutPopUp::class.java)
-                    startActivity(intent)
+                    val builder : AlertDialog.Builder = AlertDialog.Builder(this)
+                    builder.setTitle("Selezionare si o no")
+                    builder.setMessage("Effettuare il logout?")
+
+                    builder.setNegativeButton("NO",object : DialogInterface.OnClickListener{
+                        override fun onClick(dialog: DialogInterface?, which: Int) {
+
+                        }
+                    })
+                    builder.setPositiveButton("SI",object : DialogInterface.OnClickListener{
+                        override fun onClick(dialog: DialogInterface?, which: Int) {
+                            Auth_Handler.setLOGGET_OUT(context = applicationContext)
+                            val intent = Intent(this@HomePage_Activity, MainActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        }
+                    })
+                    val alertDialog = builder.create()
+                    alertDialog.show()
                 }
             }
             if(supportFragmentManager.findFragmentByTag("PROFILO")!=null){
