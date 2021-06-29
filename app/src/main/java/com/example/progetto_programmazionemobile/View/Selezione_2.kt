@@ -22,10 +22,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.CameraPosition
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.*
 
 @SuppressLint("MissingPermission")
 class Selezione_2 : AppCompatActivity(), OnMapReadyCallback {
@@ -67,7 +64,7 @@ class Selezione_2 : AppCompatActivity(), OnMapReadyCallback {
 
 
             }
-        },myLocation,25)
+        },myLocation,60)
 
     }
 
@@ -82,10 +79,10 @@ class Selezione_2 : AppCompatActivity(), OnMapReadyCallback {
         val myLocation : Location = locMan.getLastKnownLocation(LocationManager.GPS_PROVIDER)
         val myLng = myLocation.longitude
         val myLat = myLocation.latitude
-        //Possibile usarlo in un for loop ^^^
-        /*var positions = mutableListOf<LatLng>()
-        positions.add(LatLng(myLat,myLng))
-        Toast.makeText(applicationContext,positions.size.toString(),Toast.LENGTH_SHORT).show()*/
+
+        //DEFINISCO UNA MAPPA DI TUTTI I MARKER TROVATI IN QUANTO POI DEVO DEFINIRE
+        //UN COMPORTAMENTO DIVERSO PER OGNI CLICK SUL MARKER
+        var markers : MutableMap<String,Marker> = mutableMapOf()
 
         googleMap.addMarker(
             MarkerOptions().position(LatLng(myLat, myLng)).title("Tu sei qui!").icon(
@@ -93,9 +90,10 @@ class Selezione_2 : AppCompatActivity(), OnMapReadyCallback {
             )
         )
         if(!found_clubs.isEmpty()){
+            var marker : Marker
             for(club in found_clubs){
                 //Aggiungo marker del club sulla mappa
-                googleMap.addMarker(
+                marker = googleMap.addMarker(
                     MarkerOptions().position(
                         LatLng(
                             club.posizione[0],
@@ -103,6 +101,7 @@ class Selezione_2 : AppCompatActivity(), OnMapReadyCallback {
                         )
                     ).title(club.nome)
                 )
+                markers.put(marker.position.toString(),marker)
             }
         }else{
             val builder : AlertDialog.Builder = AlertDialog.Builder(this)
@@ -116,7 +115,17 @@ class Selezione_2 : AppCompatActivity(), OnMapReadyCallback {
             alertDialog.show()
         }
 
+        googleMap.setOnMarkerClickListener(object : GoogleMap.OnMarkerClickListener{
+            override fun onMarkerClick(p0: Marker): Boolean {
+                //COMPORTAMENTO DI OGNI MARKER
 
+                val clickedMarker = markers.get(p0.position.toString())
+                Toast.makeText(this@Selezione_2,clickedMarker?.title,Toast.LENGTH_SHORT).show()
+                return true
+
+
+            }
+        })
 
         val cameraPosition = CameraPosition.Builder().target(LatLng(myLat, myLng)).zoom(10.0f).build()
         val cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition)
