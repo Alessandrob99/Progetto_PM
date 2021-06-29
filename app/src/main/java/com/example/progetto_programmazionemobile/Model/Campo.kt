@@ -1,6 +1,12 @@
 package com.example.progetto_programmazionemobile.Model
 
-class Campo(num : Int,id_club : Int,sup : String,sport : ArrayList<String>, prezzo : Float,riscaldamento : Boolean,coperto : Boolean)
+class Campo(
+    num: Int,
+    id_club: Long,
+    sup: String,
+    sport: ArrayList<String>, prezzo: Float,
+    riscaldamento: Boolean,
+    coperto: Boolean)
 {
     val n_c = num
     val id_club = id_club
@@ -8,6 +14,6 @@ class Campo(num : Int,id_club : Int,sup : String,sport : ArrayList<String>, prez
     val sport = sport
     val prezzo_ora = prezzo
     val riscaldamento = riscaldamento
-    val coperto = coperto
+    var coperto = coperto
 
 }

@@ -20,13 +20,14 @@
 
     <TextView
         android:id="@+id/textView15"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_width="106dp"
+        android:layout_height="37dp"
+        android:layout_marginTop="4dp"
         android:text="CAMPI DISPONIBILI "
         android:textColor="#000000"
+        android:textSize="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.045"
+        app:layout_constraintHorizontal_bias="0.033"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -35,10 +36,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:singleLine="?android:attr/windowOverscan"
         android:text="FILTRI DI RICERCA : "
         android:textColor="#000000"
+        android:textSize="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.036"
+        app:layout_constraintHorizontal_bias="0.037"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/map" />
 
@@ -53,7 +56,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView16" />
 
     <EditText
-        android:id="@+id/editTextNumber"
+        android:id="@+id/radiusMax"
         android:layout_width="72dp"
         android:layout_height="45dp"
         android:layout_marginTop="12dp"
@@ -73,7 +76,7 @@
         android:text="Km"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.084"
-        app:layout_constraintStart_toEndOf="@+id/editTextNumber"
+        app:layout_constraintStart_toEndOf="@+id/radiusMax"
         app:layout_constraintTop_toBottomOf="@+id/textView16" />
 
     <TextView
@@ -87,7 +90,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView17" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/superficie"
         android:layout_width="161dp"
         android:layout_height="43dp"
         android:layout_marginStart="16dp"
@@ -101,7 +104,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView17" />
 
     <CheckBox
-        android:id="@+id/checkBox"
+        android:id="@+id/riscaldamentoCheckbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -111,7 +114,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView19" />
 
     <CheckBox
-        android:id="@+id/checkBox2"
+        android:id="@+id/docceCheckbox"
         android:layout_width="88dp"
         android:layout_height="52dp"
         android:layout_marginStart="20dp"
@@ -119,8 +122,8 @@
         android:text="Docce"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.035"
-        app:layout_constraintStart_toEndOf="@+id/checkBox"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+        app:layout_constraintStart_toEndOf="@+id/riscaldamentoCheckbox"
+        app:layout_constraintTop_toBottomOf="@+id/superficie" />
 
     <TextView
         android:id="@+id/textView22"
@@ -129,9 +132,9 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="20dp"
         android:text="Prezzo massimo all'ora :"
-        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintBottom_toTopOf="@+id/aggiornFiltriButton"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox"
+        app:layout_constraintTop_toBottomOf="@+id/riscaldamentoCheckbox"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
@@ -140,15 +143,15 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="euro/ora"
-        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintBottom_toTopOf="@+id/aggiornFiltriButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.169"
-        app:layout_constraintStart_toEndOf="@+id/editTextNumber2"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox2"
+        app:layout_constraintStart_toEndOf="@+id/prezzoMax"
+        app:layout_constraintTop_toBottomOf="@+id/docceCheckbox"
         app:layout_constraintVertical_bias="0.055" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/aggiornFiltriButton"
         android:layout_width="184dp"
         android:layout_height="40dp"
         android:layout_marginBottom="16dp"
@@ -157,11 +160,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextNumber2"
+        app:layout_constraintTop_toBottomOf="@+id/prezzoMax"
         app:layout_constraintVertical_bias="0.571" />
 
     <EditText
-        android:id="@+id/editTextNumber2"
+        android:id="@+id/prezzoMax"
         android:layout_width="119dp"
         android:layout_height="41dp"
         android:layout_marginStart="8dp"
@@ -169,17 +172,28 @@
         android:ems="10"
         android:inputType="number"
         app:layout_constraintStart_toEndOf="@+id/textView22"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox2" />
+        app:layout_constraintTop_toBottomOf="@+id/docceCheckbox" />
 
     <CheckBox
-        android:id="@+id/checkBox3"
+        android:id="@+id/copertoCheckbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="Coperto"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.333"
-        app:layout_constraintStart_toEndOf="@+id/checkBox2"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+        app:layout_constraintStart_toEndOf="@+id/docceCheckbox"
+        app:layout_constraintTop_toBottomOf="@+id/superficie" />
+
+    <TextView
+        android:id="@+id/textView20"
+        android:layout_width="282dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="4dp"
+        android:text="Clicca sulla posizione e poi sul nome per selezionare un circolo"
+        app:layout_constraintBottom_toTopOf="@+id/map"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView15"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
