@@ -2,11 +2,14 @@ package com.example.progetto_programmazionemobile.View
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.DialogInterface
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
+import android.view.Gravity
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -24,19 +27,29 @@ import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 
-
+@SuppressLint("MissingPermission")
 class Selezione_2 : AppCompatActivity(), OnMapReadyCallback {
+
 
     val db_clubs = DB_Handler_Clubs()
     lateinit var found_clubs : ArrayList<Circolo>
     lateinit var bounds : GeoQueryBounds
 
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_selezione_2)
 
+        //leggo la mia posizione qui....metterla prima dell'on create causa il crash dell'applicazione
+        val locMan : LocationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val myLocation : Location = locMan.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+        val myLng = myLocation.longitude
+        val myLat = myLocation.latitude
+
         //Leggo tutti i circoli
-        db_clubs.getAllClubs(object : DB_Handler_Clubs.MyCallbackClubs {
+        db_clubs.getAllClubsInRange(object : DB_Handler_Clubs.MyCallbackClubs {
             override fun onCallback(returnedClubs: ArrayList<Circolo>?) {
                 //Assegno alla mia variabile locale i circoli trovati
                 if (returnedClubs != null) {
@@ -54,29 +67,25 @@ class Selezione_2 : AppCompatActivity(), OnMapReadyCallback {
 
 
             }
-        })
-
-
+        },myLocation,25)
 
     }
 
 
 
 
-
-    @SuppressLint("MissingPermission")
+    //DISEGNA LA MAPPA DI GOOGLE
     override fun onMapReady(googleMap: GoogleMap) {
+
+        //leggo la mia posizione qui....metterla prima dell'on create causa il crash dell'applicazione
         val locMan : LocationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
         val myLocation : Location = locMan.getLastKnownLocation(LocationManager.GPS_PROVIDER)
         val myLng = myLocation.longitude
         val myLat = myLocation.latitude
-
         //Possibile usarlo in un for loop ^^^
         /*var positions = mutableListOf<LatLng>()
         positions.add(LatLng(myLat,myLng))
         Toast.makeText(applicationContext,positions.size.toString(),Toast.LENGTH_SHORT).show()*/
-
-
 
         googleMap.addMarker(
             MarkerOptions().position(LatLng(myLat, myLng)).title("Tu sei qui!").icon(
@@ -96,7 +105,15 @@ class Selezione_2 : AppCompatActivity(), OnMapReadyCallback {
                 )
             }
         }else{
-            Toast.makeText(this, "Nessun Campo Trovato", Toast.LENGTH_LONG).show()
+            val builder : AlertDialog.Builder = AlertDialog.Builder(this)
+            builder.setMessage("Nessun campo trovato")
+            builder.setPositiveButton("OK",object : DialogInterface.OnClickListener{
+                override fun onClick(dialog: DialogInterface?, which: Int) {
+
+                }
+            })
+            val alertDialog = builder.create()
+            alertDialog.show()
         }
 
 
