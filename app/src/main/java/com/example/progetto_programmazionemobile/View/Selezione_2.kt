@@ -99,6 +99,9 @@ class Selezione_2 : AppCompatActivity(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         var found_clubs : ArrayList<Circolo>? = null
 
+        //Pulisco la mappa dai vecchi marker prima di ricaricarla
+        googleMap.clear()
+
         //leggo la mia posizione qui....metterla prima dell'on create causa il crash dell'applicazione
         val locMan : LocationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
         val myLocation : Location = locMan.getLastKnownLocation(LocationManager.GPS_PROVIDER)
