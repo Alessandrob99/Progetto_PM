@@ -27,6 +27,7 @@ class Selezione_1 : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_selezione_1)
 
+
         val myTimePicker : TimePicker = findViewById(R.id.timePicker)
         val myTimePicker2 : TimePicker = findViewById(R.id.timePicker2)
         val datePicker : DatePicker = findViewById(R.id.datePicker)
@@ -40,11 +41,20 @@ class Selezione_1 : AppCompatActivity() {
 
                 val intent = Intent(applicationContext, Selezione_2::class.java)
                 intent.putExtra("sport","Calcio")
-                intent.putExtra("giorno",datePicker.dayOfMonth.toString()+datePicker.month.toString())
+                intent.putExtra("giorno",datePicker.dayOfMonth.toString()+datePicker.month.toString()+datePicker.year.toString())
                 intent.putExtra("orainizio",myTimePicker.hour.toString()+myTimePicker.minute.toString())
                 intent.putExtra("orafine",myTimePicker2.hour.toString()+myTimePicker2.minute.toString())
-                startActivity(intent)
 
+                //Query di filtraggi in base a :
+                //SPORT
+                //ORA INIZIO - ORA FINE - GIONRO
+
+
+
+
+
+                startActivity(intent)
+                finish()
                 }
 
             })

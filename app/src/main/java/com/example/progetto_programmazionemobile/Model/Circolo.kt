@@ -38,7 +38,7 @@ class Circolo(id : Long,name: String, email : String,tel : Long, docce : Boolean
                         }
                     })
             }
-           /* inizio commento
+            /*inizio commento
             if(filteredClubs != null){
                 //Controllo sulla presenza di docce/spogliatoi
                 for(i in filteredClubs!!.indices){

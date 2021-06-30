@@ -12,10 +12,6 @@ class DB_Handler_Clubs {
     interface MyCallbackClubs{
         fun onCallback(returnedClubs: ArrayList<Circolo>?)
     }
-    //Callback function per i circoli
-    interface MyCallbackCourts{
-        fun onCallback(returnedCourts: ArrayList<Campo>?)
-    }
     companion object{
         val myRef = FirebaseFirestore.getInstance()
 
@@ -66,28 +62,12 @@ class DB_Handler_Clubs {
             }
         }
 
-        fun getCourtsOfSpecificClub(club_id: Long, myCallBack: MyCallbackCourts){
-            var courts : ArrayList<Campo> = ArrayList()
-            myRef.collection("campo").whereEqualTo("id_circolo",club_id).get().addOnSuccessListener{ document->
-                val data = document.documents
-                for(record in data){
-                    courts?.add(
-                        Campo(
-                            record.data?.get("n_campo") as Int,
-                            club_id,
-                            record.data?.get("superficie").toString(),
-                            record.data?.get("sport") as ArrayList<String>,
-                            record.data?.get("prezzo") as Float,
-                            record.data?.get("riscaldamento") as Boolean,
-                            record.data?.get("coperto") as Boolean
-                        )
-                    )
-                }
-            }
-            myCallBack.onCallback(courts)
-        }
+
 
     }
+
+
+
 
 
 }

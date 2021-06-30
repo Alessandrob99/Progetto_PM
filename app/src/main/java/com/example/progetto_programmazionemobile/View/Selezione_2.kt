@@ -35,11 +35,12 @@ class Selezione_2 : AppCompatActivity(), OnMapReadyCallback {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_selezione_2)
 
+        /*
+        VAL CAMPI_PER_ORA = INTETN.GETEXTRA("CAMPI_FILTRATI")
+        */
 
         //RIFERIMETI AL TASTO DI AGGIORNAMENTO
         val aggiornaFiltriButton : Button = findViewById(R.id.aggiornFiltriButton)
-
-
 
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment
         mapFragment?.getMapAsync(this@Selezione_2)
@@ -48,8 +49,7 @@ class Selezione_2 : AppCompatActivity(), OnMapReadyCallback {
         aggiornaFiltriButton.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
 
-                val mapFragment =
-                    supportFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment
+                val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment
                 mapFragment?.getMapAsync(this@Selezione_2)
 
             }
@@ -177,7 +177,9 @@ class Selezione_2 : AppCompatActivity(), OnMapReadyCallback {
                             "OK",
                             object : DialogInterface.OnClickListener {
                                 override fun onClick(dialog: DialogInterface?, which: Int) {
-
+                                    val goToSelection = Intent(applicationContext, Selezione_1::class.java)
+                                    startActivity(goToSelection)
+                                    finish()
                                 }
                             })
                         val alertDialog = builder.create()
@@ -194,6 +196,7 @@ class Selezione_2 : AppCompatActivity(), OnMapReadyCallback {
                 override fun onClick(dialog: DialogInterface?, which: Int) {
                     val goToSelection = Intent(applicationContext, Selezione_1::class.java)
                     startActivity(goToSelection)
+                    finish()
                 }
             })
             val alertDialog = builder.create()
