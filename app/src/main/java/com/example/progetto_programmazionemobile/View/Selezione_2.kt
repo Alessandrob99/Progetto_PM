@@ -27,12 +27,8 @@ import com.google.android.gms.maps.model.*
 
 
 @SuppressLint("MissingPermission")
+
 class Selezione_2 : AppCompatActivity(), OnMapReadyCallback {
-
-
-    lateinit var bounds : GeoQueryBounds
-
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,6 +38,7 @@ class Selezione_2 : AppCompatActivity(), OnMapReadyCallback {
 
         //RIFERIMETI AL TASTO DI AGGIORNAMENTO
         val aggiornaFiltriButton : Button = findViewById(R.id.aggiornFiltriButton)
+
 
 
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment
@@ -65,7 +62,10 @@ class Selezione_2 : AppCompatActivity(), OnMapReadyCallback {
 
     //DISEGNA LA MAPPA DI GOOGLE
     override fun onMapReady(googleMap: GoogleMap) {
+
+        //Location Manager
         val locMan : LocationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+
         if (isLocationEnabled(locMan)) {
             var found_clubs : ArrayList<Circolo>? = null
 
@@ -74,9 +74,11 @@ class Selezione_2 : AppCompatActivity(), OnMapReadyCallback {
 
             //Lettura della posizione
             getLocation(object : MyCallbackPosition{
-                override fun onCallback(myLocation: Location?) {
+                override fun onCallback(position: Location?) {
                     //Posizione Pronta
                     //CONTROLLO SE LA POSIZIONE LETTA è NULL
+                    var myLocation = position
+
                     if(myLocation != null){
                         var myLat : Double = myLocation.latitude
                         var myLng : Double = myLocation.longitude
@@ -111,7 +113,7 @@ class Selezione_2 : AppCompatActivity(), OnMapReadyCallback {
                                 override fun onCallback(returnedCourts: ArrayList<Circolo>?) {
                                     found_clubs = returnedCourts
 
-                                    if (found_clubs != null) {
+                                    if (found_clubs!!.size > 0) {
                                         for (club in found_clubs!!) {
                                             //Aggiungo marker del club sulla mappa
                                             marker = googleMap.addMarker(
@@ -131,15 +133,13 @@ class Selezione_2 : AppCompatActivity(), OnMapReadyCallback {
                                             override fun onInfoWindowClick(p0: Marker) {
                                                 //Oggetto che rappresenta il marker cliccato
                                                 val clickedMarker = markers.get(p0.position.toString())
-
+                                                //Cosa fare quando si clicca sul marker
                                                 Toast.makeText(
                                                     this@Selezione_2,
                                                     "Hai cliccato " + clickedMarker?.title,
                                                     Toast.LENGTH_SHORT
                                                 ).show()
                                             }
-
-
                                         })
                                     } else {
                                         //Nessun campo trovato dopo il filtraggio
@@ -156,7 +156,6 @@ class Selezione_2 : AppCompatActivity(), OnMapReadyCallback {
                                         val alertDialog = builder.create()
                                         alertDialog.show()
                                     }
-
 
                                     //ZOOM sulla posizione attuale
                                     val cameraPosition =
@@ -178,23 +177,14 @@ class Selezione_2 : AppCompatActivity(), OnMapReadyCallback {
                             "OK",
                             object : DialogInterface.OnClickListener {
                                 override fun onClick(dialog: DialogInterface?, which: Int) {
-                                    //Click sull'avviso di nessun circolo trovato
+
                                 }
                             })
                         val alertDialog = builder.create()
                         alertDialog.show()
                     }
-
-
-
                 }
             })
-
-
-
-
-
-
 
         }else {
             val builder : AlertDialog.Builder = AlertDialog.Builder(this)
@@ -226,7 +216,7 @@ class Selezione_2 : AppCompatActivity(), OnMapReadyCallback {
 
         if(gpsOn || netOn){
             if(gpsOn){
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,60000,0F,object : LocationListener{
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,100000,0F,object : LocationListener{
                     override fun onLocationChanged(location: Location?) {
                         if(location!=null){
                             gpsLocation = location
