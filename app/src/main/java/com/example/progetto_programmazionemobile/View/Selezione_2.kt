@@ -16,9 +16,10 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.location.LocationManagerCompat.isLocationEnabled
+import com.example.progetto_programmazionemobile.Model.Campo
 import com.example.progetto_programmazionemobile.Model.Circolo
+import com.example.progetto_programmazionemobile.Model.Utente
 import com.example.progetto_programmazionemobile.R
-import com.firebase.geofire.GeoQueryBounds
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -35,9 +36,8 @@ class Selezione_2 : AppCompatActivity(), OnMapReadyCallback {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_selezione_2)
 
-        /*
-        VAL CAMPI_PER_ORA = INTETN.GETEXTRA("CAMPI_FILTRATI")
-        */
+        //Campi filtrati per sport da SELEZIONE 1
+        val campiPerSport : ArrayList<Campo> = getIntent().getSerializableExtra("campiPerSport") as ArrayList<Campo>
 
         //RIFERIMETI AL TASTO DI AGGIORNAMENTO
         val aggiornaFiltriButton : Button = findViewById(R.id.aggiornFiltriButton)
@@ -49,7 +49,8 @@ class Selezione_2 : AppCompatActivity(), OnMapReadyCallback {
         aggiornaFiltriButton.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
 
-                val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment
+                val mapFragment =
+                    supportFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment
                 mapFragment?.getMapAsync(this@Selezione_2)
 
             }
@@ -73,32 +74,39 @@ class Selezione_2 : AppCompatActivity(), OnMapReadyCallback {
             googleMap.clear()
 
             //Lettura della posizione
-            getLocation(object : MyCallbackPosition{
+            getLocation(object : MyCallbackPosition {
                 override fun onCallback(position: Location?) {
                     //Posizione Pronta
                     //CONTROLLO SE LA POSIZIONE LETTA è NULL
                     var myLocation = position
 
-                    if(myLocation != null){
-                        var myLat : Double = myLocation.latitude
-                        var myLng : Double = myLocation.longitude
+                    if (myLocation != null) {
+                        var myLat: Double = myLocation.latitude
+                        var myLng: Double = myLocation.longitude
                         //DEFINISCO UNA MAPPA DI TUTTI I MARKER TROVATI IN QUANTO POI DEVO DEFINIRE
                         //UN COMPORTAMENTO DIVERSO PER OGNI CLICK SUL MARKER
-                        var markers : MutableMap<String, Marker> = mutableMapOf()
+                        var markers: MutableMap<String, Marker> = mutableMapOf()
 
                         googleMap.addMarker(
-                            MarkerOptions().position(LatLng(myLat, myLng)).title("Tu sei qui!").icon(
-                                BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)
-                            )
+                            MarkerOptions().position(LatLng(myLat, myLng)).title("Tu sei qui!")
+                                .icon(
+                                    BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)
+                                )
                         )
-                        var marker : Marker
+                        var marker: Marker
                         //LEGGE I VALORI E APPLICA FILTRI
-                        val riscaldamentoCheck : Boolean = findViewById<CheckBox>(R.id.riscaldamentoCheckbox).isChecked
-                        val docceCheck : Boolean = findViewById<CheckBox>(R.id.docceCheckbox).isChecked
-                        val copertoCheck : Boolean = findViewById<CheckBox>(R.id.copertoCheckbox).isChecked
-                        val raggioInKm : Float? = findViewById<EditText>(R.id.radiusMax).text.toString().toFloatOrNull()
-                        val superficie : String = findViewById<EditText>(R.id.superficie).text.toString()
-                        val prezzoMax : Float?  = findViewById<EditText>(R.id.prezzoMax).text.toString().toFloatOrNull()
+                        val riscaldamentoCheck: Boolean =
+                            findViewById<CheckBox>(R.id.riscaldamentoCheckbox).isChecked
+                        val docceCheck: Boolean =
+                            findViewById<CheckBox>(R.id.docceCheckbox).isChecked
+                        val copertoCheck: Boolean =
+                            findViewById<CheckBox>(R.id.copertoCheckbox).isChecked
+                        val raggioInKm: Float? =
+                            findViewById<EditText>(R.id.radiusMax).text.toString().toFloatOrNull()
+                        val superficie: String =
+                            findViewById<EditText>(R.id.superficie).text.toString()
+                        val prezzoMax: Float? =
+                            findViewById<EditText>(R.id.prezzoMax).text.toString().toFloatOrNull()
 
                         //FUNZIONE CHE PRENDE L'ELENCO DEI CIRCOLI E APPLICA I FILTRI
                         Circolo.filterClubs(
@@ -132,7 +140,8 @@ class Selezione_2 : AppCompatActivity(), OnMapReadyCallback {
 
                                             override fun onInfoWindowClick(p0: Marker) {
                                                 //Oggetto che rappresenta il marker cliccato
-                                                val clickedMarker = markers.get(p0.position.toString())
+                                                val clickedMarker =
+                                                    markers.get(p0.position.toString())
                                                 //Cosa fare quando si clicca sul marker
                                                 Toast.makeText(
                                                     this@Selezione_2,
@@ -143,13 +152,17 @@ class Selezione_2 : AppCompatActivity(), OnMapReadyCallback {
                                         })
                                     } else {
                                         //Nessun campo trovato dopo il filtraggio
-                                        val builder: AlertDialog.Builder = AlertDialog.Builder(this@Selezione_2)
+                                        val builder: AlertDialog.Builder =
+                                            AlertDialog.Builder(this@Selezione_2)
                                         builder.setTitle("Attenzione!")
                                         builder.setMessage("Nessun campo soddisfa le caratteristiche desiderate")
                                         builder.setPositiveButton(
                                             "OK",
                                             object : DialogInterface.OnClickListener {
-                                                override fun onClick(dialog: DialogInterface?, which: Int) {
+                                                override fun onClick(
+                                                    dialog: DialogInterface?,
+                                                    which: Int
+                                                ) {
                                                     //Click sull'avviso di nessun circolo trovato
                                                 }
                                             })
@@ -162,13 +175,15 @@ class Selezione_2 : AppCompatActivity(), OnMapReadyCallback {
                                         CameraPosition.Builder().target(LatLng(myLat, myLng)).zoom(
                                             10.0f
                                         ).build()
-                                    val cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition)
+                                    val cameraUpdate = CameraUpdateFactory.newCameraPosition(
+                                        cameraPosition
+                                    )
                                     googleMap.moveCamera(cameraUpdate)
 
 
                                 }
                             })
-                    }else{
+                    } else {
                         //Errore in lettura della posizione
                         val builder: AlertDialog.Builder = AlertDialog.Builder(this@Selezione_2)
                         builder.setTitle("Errore!")
@@ -177,7 +192,10 @@ class Selezione_2 : AppCompatActivity(), OnMapReadyCallback {
                             "OK",
                             object : DialogInterface.OnClickListener {
                                 override fun onClick(dialog: DialogInterface?, which: Int) {
-                                    val goToSelection = Intent(applicationContext, Selezione_1::class.java)
+                                    val goToSelection = Intent(
+                                        applicationContext,
+                                        Selezione_1::class.java
+                                    )
                                     startActivity(goToSelection)
                                     finish()
                                 }
@@ -219,46 +237,62 @@ class Selezione_2 : AppCompatActivity(), OnMapReadyCallback {
 
         if(gpsOn || netOn){
             if(gpsOn){
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,100000,0F,object : LocationListener{
-                    override fun onLocationChanged(location: Location?) {
-                        if(location!=null){
-                            gpsLocation = location
+                locationManager.requestLocationUpdates(
+                    LocationManager.GPS_PROVIDER,
+                    100000,
+                    0F,
+                    object : LocationListener {
+                        override fun onLocationChanged(location: Location?) {
+                            if (location != null) {
+                                gpsLocation = location
+                            }
                         }
-                    }
 
-                    override fun onProviderDisabled(provider: String?) {
-                    }
+                        override fun onProviderDisabled(provider: String?) {
+                        }
 
-                    override fun onProviderEnabled(provider: String?) {
-                    }
+                        override fun onProviderEnabled(provider: String?) {
+                        }
 
-                    override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
+                        override fun onStatusChanged(
+                            provider: String?,
+                            status: Int,
+                            extras: Bundle?
+                        ) {
 
-                    }
-                })
+                        }
+                    })
                 var localLocationVar = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
                 if(localLocationVar!=null){
                     netLocation = localLocationVar
                 }
             }
             if(netOn){
-                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,100000,0F,object : LocationListener{
-                    override fun onLocationChanged(location: Location?) {
-                        if(location!=null){
-                            netLocation = location
+                locationManager.requestLocationUpdates(
+                    LocationManager.NETWORK_PROVIDER,
+                    100000,
+                    0F,
+                    object : LocationListener {
+                        override fun onLocationChanged(location: Location?) {
+                            if (location != null) {
+                                netLocation = location
+                            }
                         }
-                    }
 
-                    override fun onProviderDisabled(provider: String?) {
-                    }
+                        override fun onProviderDisabled(provider: String?) {
+                        }
 
-                    override fun onProviderEnabled(provider: String?) {
-                    }
+                        override fun onProviderEnabled(provider: String?) {
+                        }
 
-                    override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
+                        override fun onStatusChanged(
+                            provider: String?,
+                            status: Int,
+                            extras: Bundle?
+                        ) {
 
-                    }
-                })
+                        }
+                    })
                 var localLocationVar = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
                 if(localLocationVar!=null){
                     gpsLocation = localLocationVar

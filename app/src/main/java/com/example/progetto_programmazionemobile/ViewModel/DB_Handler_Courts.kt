@@ -86,7 +86,7 @@ class DB_Handler_Courts {
                 for(record in data){
                     var sportArrayString = record.data!!.get("sport").toString()
                     val sportArray = sportArrayString.split("-")
-                    if(sportArray.contains(sport)){
+                    if(sportArray.contains(sport.toLowerCase())){
                         var circolo : DocumentReference = record.data?.get("id_circolo") as DocumentReference // ritorna questo->    com.google.firebase.firestore.DocumentReference@c44a6e47
                         var id_circolo = circolo.id.toLong()
                         campi.add(

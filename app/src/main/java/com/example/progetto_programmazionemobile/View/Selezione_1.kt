@@ -1,7 +1,6 @@
 package com.example.progetto_programmazionemobile.View
 
 import android.app.DatePickerDialog
-import android.app.TimePickerDialog
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -9,12 +8,9 @@ import android.view.View
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import com.example.progetto_programmazionemobile.Model.Campo
 import com.example.progetto_programmazionemobile.R
-import com.google.android.material.datepicker.MaterialDatePicker
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import java.text.SimpleDateFormat
-import java.time.Month
-import java.time.Year
+import com.example.progetto_programmazionemobile.ViewModel.DB_Handler_Courts
 import java.util.*
 
 class Selezione_1 : AppCompatActivity(), DatePickerDialog.OnDateSetListener
@@ -75,7 +71,15 @@ class Selezione_1 : AppCompatActivity(), DatePickerDialog.OnDateSetListener
         //val datePicker : DatePicker = findViewById(R.id.datePicker)
         val confermaBtn : Button = findViewById(R.id.confermabtn)
         val sportText : EditText = findViewById(R.id.sport)
-        val arraySport = arrayOf("", "Calcetto", "Pallavolo", "Calcio", "Tennis", "Basket")
+        val arraySport = arrayOf(
+            "",
+            "Calcetto",
+            "Pallavolo",
+            "Calcio",
+            "Tennis",
+            "Basket",
+            "Paddle"
+        )
 
         autocompleteSport = findViewById(R.id.sport) as AutoCompleteTextView
         val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, arraySport)
@@ -104,11 +108,24 @@ class Selezione_1 : AppCompatActivity(), DatePickerDialog.OnDateSetListener
         confermaBtn.setOnClickListener(object : View.OnClickListener {
             @RequiresApi(Build.VERSION_CODES.M)
             override fun onClick(v: View?) {
-                //Si passano i parametri inseriti alla seconda activty di selezione
+                //Facciamo partire la funzione per la ricerca di campi per SPORT
+                DB_Handler_Courts.getCourtsBySport(sportText.text.toString(),
+                    object : DB_Handler_Courts.MyCallbackCourts {
+                        override fun onCallback(returnedCourts: ArrayList<Campo>?) {
 
-                val intent = Intent(applicationContext, Selezione_2::class.java)
-                intent.putExtra("sport", "Calcio")
-             /*   intent.putExtra(
+                            val intent = Intent(this@Selezione_1, Selezione_2::class.java)
+
+                            intent.putExtra("campiPerSport", returnedCourts)
+
+                            startActivity(intent)
+
+                            finish()
+
+                        }
+                    })
+
+
+                /*   intent.putExtra(
                     "giorno",
                     datePicker.dayOfMonth.toString() + datePicker.month.toString() + datePicker.year.toString()
                 )
@@ -123,8 +140,6 @@ class Selezione_1 : AppCompatActivity(), DatePickerDialog.OnDateSetListener
                 //ORA INIZIO - ORA FINE - GIONRO
 
 
-                startActivity(intent)
-                finish()
             }
 
         })
@@ -146,7 +161,7 @@ class Selezione_1 : AppCompatActivity(), DatePickerDialog.OnDateSetListener
         }
     }
 
-    override fun onDateSet(view: DatePicker?, year:Int, month: Int, dayOfMonth: Int) {
+    override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
         savedDay = dayOfMonth
         savedMonth = month
         savedYear = year
