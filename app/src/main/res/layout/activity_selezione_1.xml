@@ -6,126 +6,121 @@
     android:layout_height="match_parent">
 
 
-    <DatePicker
-        android:id="@+id/datePicker"
-        android:layout_width="400dp"
-        android:layout_height="137dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:calendarViewShown="false"
-        android:datePickerMode="spinner"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.909"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView8" />
-
-    <TimePicker
-        android:id="@+id/timePicker"
-        android:layout_width="166dp"
-        android:layout_height="141dp"
-        android:layout_marginTop="48dp"
-        android:timePickerMode="spinner"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.065"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView9" />
-
-    <TimePicker
-        android:id="@+id/timePicker2"
-        android:layout_width="166dp"
-        android:layout_height="141dp"
-        android:layout_marginTop="48dp"
-        android:timePickerMode="spinner"
-        app:layout_constraintBottom_toTopOf="@+id/confermabtn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.934"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView9"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:text="A cosa vuoi giocare?"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="160dp"
-        android:text="Giorno?"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.521"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
-
-    <TextView
-        android:id="@+id/textView9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="A che ora?"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/datePicker" />
-
-    <TextView
-        android:id="@+id/textView12"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
-        android:text="Inizio : "
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.05"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/datePicker" />
-
-    <TextView
-        android:id="@+id/textView14"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
-        android:text="Fine : "
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.892"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/datePicker" />
-
     <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="343dp"
-        android:layout_height="47dp"
-        app:layout_constraintBottom_toTopOf="@+id/textView8"
+        android:id="@+id/textInputLayout2"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="48dp"
+        android:hint="Sport"
+        app:layout_constraintBottom_toTopOf="@+id/confermaRicerca"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6">
+        app:layout_constraintTop_toBottomOf="@+id/selezSport">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <AutoCompleteTextView
             android:id="@+id/sport"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="Sport" />
+            android:layout_height="wrap_content"
+            android:background="@android:color/darker_gray"
+            android:enabled="false"
+            android:inputType="none"
+            android:textColor="#000" />
     </com.google.android.material.textfield.TextInputLayout>
+
 
     <Button
         android:id="@+id/confermabtn"
+        android:layout_width="144dp"
+        android:layout_height="45dp"
+        android:layout_marginEnd="132dp"
+        android:layout_marginBottom="44dp"
+        android:background="@drawable/btn_custom"
+        android:text="Conferma"
+        android:textColor="#000"
+        app:backgroundTint="@null"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/selezSport"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Conferma"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="136dp"
+        android:fontFamily="@font/open_sans_condensed_bold"
+        android:text="Seleziona lo Sport"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/selezData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="132dp"
+        android:fontFamily="@font/open_sans_condensed_bold"
+        android:text="Inserisci una data"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
+
+    <DatePicker
+        android:id="@+id/datePicker"
+        android:layout_width="245dp"
+        android:layout_height="155dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="80dp"
+        android:calendarViewShown="false"
+        android:datePickerMode="spinner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/selezData" />
+
+    <TextView
+        android:id="@+id/selezOraInizio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="56dp"
+        android:fontFamily="@font/open_sans_condensed_bold"
+        android:text="Ora Inizio"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/timePicker" />
+        app:layout_constraintTop_toBottomOf="@+id/datePicker" />
+
+
+    <TextView
+        android:id="@+id/oraInizio"
+        android:layout_width="161dp"
+        android:layout_height="71dp"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="31dp"
+        android:clickable="true"
+        android:fontFamily="@font/open_sans_condensed_bold"
+        android:text=""
+        android:textSize="50sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/selezOraInizio" />
+
+    <TextView
+        android:id="@+id/selezOraFine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="56dp"
+        android:layout_marginEnd="60dp"
+        android:fontFamily="@font/open_sans_condensed_bold"
+        android:text="Ora Fine"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/datePicker" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

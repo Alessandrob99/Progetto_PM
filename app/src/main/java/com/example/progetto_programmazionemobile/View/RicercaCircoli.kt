@@ -40,9 +40,6 @@ class RicercaCircoli : Fragment()
         autocompleteCircoli.setAdapter((adapter2))
         autocomplete.setAdapter(adapter)
 
-        //spinnerRegione.adapter = ArrayAdapter<String>(activity, R.layout.style_spinner, array)
-        //spinnerCircoli.adapter = ArrayAdapter<String>(activity, R.layout.style_spinner, array2)
-
 
         autocomplete.onItemSelectedListener = object  : AdapterView.OnItemClickListener, AdapterView.OnItemSelectedListener{
             override fun onItemClick(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
@@ -75,28 +72,7 @@ class RicercaCircoli : Fragment()
 
         }
 
-        /*
-        val spinnerRegione:Spinner = v.findViewById(R.id.spinnerRegione)
-        val provaSpinnerRegione = arrayOf("Giovanni", "dio", "lezzo")
-        val arrayAdapter = ArrayAdapter(activity, android.R.layout.simple_spinner_dropdown_item, provaSpinnerRegione)
-        spinnerRegione.adapter = arrayAdapter
 
-
-        spinnerRegione.onItemSelectedListener = object : AdapterView.OnItemClickListener, AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                Toast.makeText(context, "Prova", Toast.LENGTH_SHORT).show()
-            }
-
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-                TODO("Not yet implemented")
-            }
-
-            override fun onItemClick(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                Toast.makeText(context, "Hai cliccato, ok", Toast.LENGTH_SHORT).show()
-            }
-
-
-        } */
         return v
     }
 
