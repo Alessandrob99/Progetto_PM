@@ -31,13 +31,14 @@ import com.google.android.gms.maps.model.*
 
 class Selezione_2 : AppCompatActivity(), OnMapReadyCallback {
 
+    lateinit var campiPerSport : ArrayList<Campo>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_selezione_2)
 
         //Campi filtrati per sport da SELEZIONE 1
-        val campiPerSport : ArrayList<Campo> = getIntent().getSerializableExtra("campiPerSport") as ArrayList<Campo>
+        campiPerSport = getIntent().getSerializableExtra("campiPerSport") as ArrayList<Campo>
 
         //RIFERIMETI AL TASTO DI AGGIORNAMENTO
         val aggiornaFiltriButton : Button = findViewById(R.id.aggiornFiltriButton)
@@ -110,6 +111,7 @@ class Selezione_2 : AppCompatActivity(), OnMapReadyCallback {
 
                         //FUNZIONE CHE PRENDE L'ELENCO DEI CIRCOLI E APPLICA I FILTRI
                         Circolo.filterClubs(
+                            campiPerSport,
                             myLocation!!,
                             raggioInKm,
                             riscaldamentoCheck,

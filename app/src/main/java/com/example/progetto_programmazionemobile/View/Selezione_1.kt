@@ -114,7 +114,7 @@ class Selezione_1 : AppCompatActivity(), DatePickerDialog.OnDateSetListener
                         override fun onCallback(returnedCourts: ArrayList<Campo>?) {
 
                             val intent = Intent(this@Selezione_1, Selezione_2::class.java)
-
+                            //intent.putExtra("giorno",giorno)
                             intent.putExtra("campiPerSport", returnedCourts)
 
                             startActivity(intent)

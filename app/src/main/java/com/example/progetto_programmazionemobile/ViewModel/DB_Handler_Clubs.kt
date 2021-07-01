@@ -63,11 +63,30 @@ class DB_Handler_Clubs {
         }
 
 
+        fun getClubsByGivenIDS(ids : ArrayList<String>,myCallBack: MyCallbackClubs){
+            var clubs = ArrayList<Circolo>()
+            myRef.collection("clubs").get().addOnSuccessListener{ document->
+                val data = document.documents
+                for(record in data){
+                    if(ids.contains(record.data?.get("id_circolo"))){
+                        clubs.add(Circolo(
+                            record.data?.get("id_circolo") as Long,
+                            record.data?.get("nome").toString(),
+                            record.data?.get("email").toString(),
+                            record.data?.get("telefono") as Long,
+                            record.data?.get("docce") as Boolean,
+                            record.getGeoPoint("posizione")!!.latitude,
+                            record.getGeoPoint("posizione")!!.longitude)
+
+                        )
+                    }
+
+                }
+            }
+            myCallBack.onCallback(clubs)
+        }
+
 
     }
-
-
-
-
 
 }
