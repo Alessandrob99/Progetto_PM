@@ -56,6 +56,7 @@ class RegisterFragment : Fragment() {
         val nomeText = v.findViewById<EditText>(R.id.nomeInputReg)
         val cognomeText = v.findViewById<EditText>(R.id.cognomeInputReg)
         val passwordText = v.findViewById<EditText>(R.id.passwordInputReg)
+        val confermaPassword = v.findViewById<EditText>(R.id.confermaPassword)
         val emailText = v.findViewById<EditText>(R.id.emailInputReg)
         val telefonoText = v.findViewById<EditText>(R.id.telefonoInputReg)
 
@@ -63,8 +64,11 @@ class RegisterFragment : Fragment() {
 
         confermabtn.setOnClickListener(object : View.OnClickListener{
             override fun onClick(v: View?) {
-                //Metodo che controlla la validita delle credenziali
+                //Metodo che controlla la validita delle credenziali e la password
 
+                if(confermaPassword.text.toString()!= passwordText.text.toString()){
+                    Toast.makeText(context,"Le password non coincidono",Toast.LENGTH_SHORT).show()
+                }
 
                 if((nomeText.text.toString()=="")||(userText.text.toString()=="")||(cognomeText.text.toString()=="")||(passwordText.text.toString()=="")||(emailText.text.toString()=="")||(telefonoText.text.toString()=="")){
                     Toast.makeText(context,"Inserire tutti i campi",Toast.LENGTH_SHORT).show()
