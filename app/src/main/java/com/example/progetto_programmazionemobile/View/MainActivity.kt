@@ -15,6 +15,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import com.example.progetto_programmazionemobile.BuildConfig
+import com.example.progetto_programmazionemobile.Model.Campo
 import com.example.progetto_programmazionemobile.Model.Utente
 import com.example.progetto_programmazionemobile.R
 import com.example.progetto_programmazionemobile.ViewModel.DB_Handler_Courts
@@ -22,12 +23,10 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
  class MainActivity : AppCompatActivity() {
      lateinit var user : Utente
-     @RequiresApi(Build.VERSION_CODES.M)
+     @RequiresApi(Build.VERSION_CODES.O)
      override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-
 
          if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
              //PERMESSO GARANTITO

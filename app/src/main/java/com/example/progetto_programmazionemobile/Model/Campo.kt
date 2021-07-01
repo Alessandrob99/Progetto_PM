@@ -1,10 +1,11 @@
 package com.example.progetto_programmazionemobile.Model
 
 class Campo(
-    num: Int,
+    num: Long,
     id_club: Long,
     sup: String,
-    sport: ArrayList<String>, prezzo: Float,
+    sport: String,
+    prezzo: Float,
     riscaldamento: Boolean,
     coperto: Boolean)
 {
