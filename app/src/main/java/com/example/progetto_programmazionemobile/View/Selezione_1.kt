@@ -25,7 +25,7 @@ class Selezione_1 : AppCompatActivity()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_selezione_1)
         val builder = MaterialDatePicker.Builder.datePicker()
-        builder.setTitleText("ok")
+        builder.setTitleText("Seleziona una data per prenotarti")
         val picker = builder.build()
 
 
@@ -47,18 +47,20 @@ class Selezione_1 : AppCompatActivity()
             val month = split[1]
             val year = split[2]
 
-            if(month == "gen") { data.setText(day+"-01"+"-"+year) }
-            if(month == "feb") { data.setText(day+"-02"+"-"+year) }
-            if(month == "mar") { data.setText(day+"-03"+"-"+year) }
-            if(month == "apr") { data.setText(day+"-04"+"-"+year) }
-            if(month == "mag") { data.setText(day+"-05"+"-"+year) }
-            if(month == "giu") { data.setText(day+"-06"+"-"+year) }
-            if(month == "lug") { data.setText(day+"-07"+"-"+year) }
-            if(month == "ago") { data.setText(day+"-08"+"-"+year) }
-            if(month == "set") { data.setText(day+"-09"+"-"+year) }
-            if(month == "ott") { data.setText(day+"-10"+"-"+year) }
-            if(month == "nov") { data.setText(day+"-11"+"-"+year) }
-            if(month == "dic") { data.setText(day+"-12"+"-"+year) }
+
+
+            if(month == "gen") { if(day < 10.toString()) { data.setText("0"+day+"-01"+"-"+year)} else data.setText(day+"-01"+"-"+year) }
+            if(month == "feb") { if(day < 10.toString()) { data.setText("0"+day+"-02"+"-"+year)} else data.setText(day+"-02"+"-"+year) }
+            if(month == "mar") { if(day < 10.toString()) { data.setText("0"+day+"-03"+"-"+year)} else data.setText(day+"-03"+"-"+year) }
+            if(month == "apr") { if(day < 10.toString()) { data.setText("0"+day+"-04"+"-"+year)} else data.setText(day+"-04"+"-"+year) }
+            if(month == "mag") { if(day < 10.toString()) { data.setText("0"+day+"-05"+"-"+year)} else data.setText(day+"-05"+"-"+year) }
+            if(month == "giu") { if(day < 10.toString()) { data.setText("0"+day+"-06"+"-"+year)} else data.setText(day+"-06"+"-"+year) }
+            if(month == "lug") { if(day < 10.toString()) { data.setText("0"+day+"-07"+"-"+year)} else data.setText(day+"-07"+"-"+year) }
+            if(month == "ago") { if(day < 10.toString()) { data.setText("0"+day+"-08"+"-"+year)} else data.setText(day+"-08"+"-"+year) }
+            if(month == "set") { if(day < 10.toString()) { data.setText("0"+day+"-09"+"-"+year)} else data.setText(day+"-09"+"-"+year) }
+            if(month == "ott") { if(day < 10.toString()) { data.setText("0"+day+"-10"+"-"+year)} else data.setText(day+"-10"+"-"+year) }
+            if(month == "nov") { if(day < 10.toString()) { data.setText("0"+day+"-11"+"-"+year)} else data.setText(day+"-11"+"-"+year) }
+            if(month == "dic") { if(day < 10.toString()) { data.setText("0"+day+"-12"+"-"+year)} else data.setText(day+"-12"+"-"+year) }
 
 
         }
@@ -66,53 +68,6 @@ class Selezione_1 : AppCompatActivity()
         data.setOnClickListener{
             picker.show(supportFragmentManager, picker.toString())
         }
-
-
-        /* Possible params
-            dialog.setMaxDate(System.currentTimeMillis())
-            dialog.setMinDate(System.currentTimeMillis())
-            dialog.setYearRange(2000, 2010)
-            dialog.setCancelColor(Color.MAGENTA)
-            dialog.setOkColor(Color.MAGENTA)
-            dialog.setAccentColor(Color.MAGENTA)
-            dialog.setCancelText("Out")
-            dialog.setOkText("Fine")
-        */
-
-        /*
-
-        val currentDate: String = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(Date())
-        val builder : MaterialDatePicker.Builder<Long> = MaterialDatePicker.Builder.datePicker()
-        val data : TextView = findViewById(R.id.data)
-        data.text = currentDate.toString()
-
-        builder.setTitleText("Seleziona data per prenotarti")
-        val picker : MaterialDatePicker<*> = builder.build()
-
-
-
-        data.setOnClickListener{
-            picker.show(supportFragmentManager, picker.toString())
-        }
-
-
-        picker.addOnPositiveButtonClickListener {
-            data.setText(picker.headerText.toString())
-        }
-
-         */
-
-
-
-        //val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, arraySport)
-        //autocompleteSport.setText(adapter.getItem(0).toString(), false)
-        //autocompleteSport.setAdapter(adapter)
-
-
-
-
-
-
 
 
 /*
@@ -146,10 +101,6 @@ class Selezione_1 : AppCompatActivity()
         }
 */
 
-
-        //val myTimePickerInizio : TimePicker = findViewById(R.id.OraInizio)
-        //val myTimePickerFine : TimePicker = findViewById(R.id.OraFine)
-        //val datePicker : DatePicker = findViewById(R.id.datePicker)
         val confermaBtn : Button = findViewById(R.id.confermabtn)
         val sportText : EditText = findViewById(R.id.sport)
         val arraySport = arrayOf(

@@ -8,19 +8,28 @@
     tools:context=".View.LoginFragment">
 
 
-    <EditText
-        android:id="@+id/txtUsername"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/usernameText"
         android:layout_width="310dp"
         android:layout_height="55dp"
-        android:layout_marginTop="130dp"
+        android:layout_marginTop="100dp"
         android:layout_marginEnd="48dp"
-        android:layout_marginRight="48dp"
         android:clickable="true"
         android:enabled="true"
-        android:hint="Username"
+        android:hint="@string/hint_Username"
         android:textSize="18sp"
+        android:background="@drawable/editext"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/txtUsername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
 
 
     <Button
@@ -30,6 +39,8 @@
         android:layout_marginTop="132dp"
         android:layout_marginEnd="164dp"
         android:layout_marginRight="164dp"
+        android:background="@drawable/btn_custom"
+        android:textColor="@color/black"
         android:text="Conferma"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordText" />
@@ -38,30 +49,35 @@
         android:id="@+id/passwordText"
         android:layout_width="310dp"
         android:layout_height="55dp"
+        android:layout_marginTop="200dp"
         android:layout_marginEnd="48dp"
-        android:layout_marginRight="48dp"
-        android:layout_marginTop="55dp"
         android:clickable="true"
         android:enabled="true"
-        android:hint="Password"
+        android:background="@drawable/editext"
+        android:hint="@string/hint_Password"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtUsername"
+        app:layout_constraintTop_toTopOf="parent"
         app:passwordToggleEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/txtPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
             android:inputType="textPassword" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <CheckBox
         android:id="@+id/ricordami"
+        style="@style/Widget.AppCompat.CompoundButton.CheckBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:buttonTint="#000000"
         android:text="Ricordami"
+        android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/confermaLog"
         app:layout_constraintEnd_toEndOf="parent"

@@ -3,4 +3,6 @@
     <string name="infoApp">"Attraverso quest'app puoi effettuare una prenotazione di un campo (da calcio o da tennis) di un circolo presente nei nostri database."\n"Inoltre, se un tuo amico ha già effettuato una prenotazione per un campo, puoi unirti attraverso un codice univoco che ha solo lui!"\n""\n"Buon divertimento :)"</string>
     <string name="navigation_drawer_open">Open Navigation Drawer</string>
     <string name="navigation_drawer_close">Close Navigation Drawer</string>
+    <string name="hint_Username"><font size="40" color="black">Username</font></string>
+    <string name="hint_Password"><font size="40" color="black" gravity="center">Password</font></string>
 </resources>

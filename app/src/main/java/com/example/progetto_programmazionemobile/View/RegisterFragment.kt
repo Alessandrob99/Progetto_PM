@@ -47,15 +47,7 @@ class RegisterFragment : Fragment() {
         val v : View =  inflater.inflate(R.layout.fragment_register, container, false)
 
 
-        val datePicker = v.findViewById<DatePicker>(R.id.datePicker)
-        val today = Calendar.getInstance()
-        datePicker.init(today.get(Calendar.YEAR), today.get(Calendar.MONTH),
-            today.get(Calendar.DAY_OF_MONTH)
 
-        ) { view, year, month, day ->
-
-
-        }
 
         // Inflate the layout for this fragment
         val goToHomePage = Intent(v.context,HomePage_Activity::class.java)
@@ -98,9 +90,6 @@ class RegisterFragment : Fragment() {
                                     override fun onCallback(message: String) {
                                         if(message=="OK") {
                                             val cal = Calendar.getInstance()
-                                            cal[Calendar.YEAR] = datePicker.year
-                                            cal[Calendar.MONTH] = datePicker.month
-                                            cal[Calendar.DAY_OF_MONTH] = datePicker.dayOfMonth
                                             val dataNascita = cal.time
 
                                             //Metodo per la memeorizzaione dei dati

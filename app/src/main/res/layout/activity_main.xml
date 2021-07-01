@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#fff"
     tools:context=".View.MainActivity">
 
     <fragment
@@ -29,6 +30,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.238"
-        app:srcCompat="@drawable/logo" />
+        app:srcCompat="@drawable/quickplaylogo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
