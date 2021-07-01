@@ -241,7 +241,7 @@ class Selezione_2 : AppCompatActivity(), OnMapReadyCallback {
             if(gpsOn){
                 locationManager.requestLocationUpdates(
                     LocationManager.GPS_PROVIDER,
-                    100000,
+                    0,
                     0F,
                     object : LocationListener {
                         override fun onLocationChanged(location: Location?) {
@@ -272,7 +272,7 @@ class Selezione_2 : AppCompatActivity(), OnMapReadyCallback {
             if(netOn){
                 locationManager.requestLocationUpdates(
                     LocationManager.NETWORK_PROVIDER,
-                    100000,
+                    0,
                     0F,
                     object : LocationListener {
                         override fun onLocationChanged(location: Location?) {

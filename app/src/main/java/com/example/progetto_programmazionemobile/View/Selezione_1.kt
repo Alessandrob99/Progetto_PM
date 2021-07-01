@@ -1,6 +1,6 @@
 package com.example.progetto_programmazionemobile.View
 
-import android.app.DatePickerDialog
+
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -11,26 +11,107 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.progetto_programmazionemobile.Model.Campo
 import com.example.progetto_programmazionemobile.R
 import com.example.progetto_programmazionemobile.ViewModel.DB_Handler_Courts
+import com.google.android.material.datepicker.MaterialDatePicker
+import com.shagi.materialdatepicker.date.DatePickerFragmentDialog
+import java.text.SimpleDateFormat
 import java.util.*
 
-class Selezione_1 : AppCompatActivity(), DatePickerDialog.OnDateSetListener
+
+class Selezione_1 : AppCompatActivity()
 {
     lateinit var autocompleteSport : AutoCompleteTextView
-    private val TIME_PICKER_INTERVAL = 15
-    var savedDay = 0
-    var savedMonth = 0
-    var savedYear = 0
-
-    var day = 0
-    var month = 0
-    var year = 0
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_selezione_1)
+        val builder = MaterialDatePicker.Builder.datePicker()
+        builder.setTitleText("ok")
+        val picker = builder.build()
 
-        pickDate()
+
+
+        val data : TextView = findViewById(R.id.data)
+        val imageData : ImageView = findViewById(R.id.imageViewData)
+        val currentDate: String = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(Date())
+        data.text = currentDate
+
+        imageData.setOnClickListener{
+            picker.show(supportFragmentManager, picker.toString())
+        }
+
+        picker.addOnPositiveButtonClickListener {
+
+
+            val split: List<String> = picker.headerText.split(" ")
+            val day = split[0]
+            val month = split[1]
+            val year = split[2]
+
+            if(month == "gen") { data.setText(day+"-01"+"-"+year) }
+            if(month == "feb") { data.setText(day+"-02"+"-"+year) }
+            if(month == "mar") { data.setText(day+"-03"+"-"+year) }
+            if(month == "apr") { data.setText(day+"-04"+"-"+year) }
+            if(month == "mag") { data.setText(day+"-05"+"-"+year) }
+            if(month == "giu") { data.setText(day+"-06"+"-"+year) }
+            if(month == "lug") { data.setText(day+"-07"+"-"+year) }
+            if(month == "ago") { data.setText(day+"-08"+"-"+year) }
+            if(month == "set") { data.setText(day+"-09"+"-"+year) }
+            if(month == "ott") { data.setText(day+"-10"+"-"+year) }
+            if(month == "nov") { data.setText(day+"-11"+"-"+year) }
+            if(month == "dic") { data.setText(day+"-12"+"-"+year) }
+
+
+        }
+
+        data.setOnClickListener{
+            picker.show(supportFragmentManager, picker.toString())
+        }
+
+
+        /* Possible params
+            dialog.setMaxDate(System.currentTimeMillis())
+            dialog.setMinDate(System.currentTimeMillis())
+            dialog.setYearRange(2000, 2010)
+            dialog.setCancelColor(Color.MAGENTA)
+            dialog.setOkColor(Color.MAGENTA)
+            dialog.setAccentColor(Color.MAGENTA)
+            dialog.setCancelText("Out")
+            dialog.setOkText("Fine")
+        */
+
+        /*
+
+        val currentDate: String = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(Date())
+        val builder : MaterialDatePicker.Builder<Long> = MaterialDatePicker.Builder.datePicker()
+        val data : TextView = findViewById(R.id.data)
+        data.text = currentDate.toString()
+
+        builder.setTitleText("Seleziona data per prenotarti")
+        val picker : MaterialDatePicker<*> = builder.build()
+
+
+
+        data.setOnClickListener{
+            picker.show(supportFragmentManager, picker.toString())
+        }
+
+
+        picker.addOnPositiveButtonClickListener {
+            data.setText(picker.headerText.toString())
+        }
+
+         */
+
+
+
+        //val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, arraySport)
+        //autocompleteSport.setText(adapter.getItem(0).toString(), false)
+        //autocompleteSport.setAdapter(adapter)
+
+
+
+
+
 
 
 
@@ -145,30 +226,5 @@ class Selezione_1 : AppCompatActivity(), DatePickerDialog.OnDateSetListener
         })
         }
 
-    private fun getDataCalendar(){
-        val cal : Calendar = Calendar.getInstance()
-        day = cal.get(Calendar.DAY_OF_MONTH)
-        month = cal.get(Calendar.MONTH)
-        year = cal.get(Calendar.YEAR)
-    }
 
-    private fun pickDate() {
-        val oggi : TextView = findViewById(R.id.data)
-        oggi.setOnClickListener{
-            getDataCalendar()
-
-            DatePickerDialog(this, this, year, month, day).show()
-        }
-    }
-
-    override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
-        savedDay = dayOfMonth
-        savedMonth = month
-        savedYear = year
-
-        getDataCalendar()
-        val oggi : TextView = findViewById(R.id.data)
-        oggi.text = "$savedDay-$savedMonth-$savedYear"
-
-    }
 }

@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="48dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="40dp"
         android:layout_marginEnd="48dp"
         android:hint="Sport"
         app:layout_constraintBottom_toTopOf="@+id/confermaRicerca"
@@ -45,44 +45,62 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+
     <TextView
         android:id="@+id/selezSport"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="91dp"
         android:layout_marginTop="80dp"
-        android:layout_marginEnd="136dp"
+        android:layout_marginEnd="88dp"
         android:fontFamily="@font/open_sans_condensed_bold"
-        android:text="Seleziona lo Sport"
+        android:text="Seleziona uno Sport"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:textSize="20sp"
+        android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/selezData"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:layout_marginEnd="132dp"
+        android:layout_marginStart="102dp"
+        android:layout_marginTop="116dp"
+        android:layout_marginEnd="100dp"
         android:fontFamily="@font/open_sans_condensed_bold"
         android:text="Inserisci una data"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:textSize="20sp"
+        android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
 
     <TextView
         android:id="@+id/data"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="172dp"
-        android:layout_marginEnd="180dp"
-        android:fontFamily="sans-serif-thin"
-        android:text="23 giu 2021"
+        android:layout_width="230dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="41dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="140dp"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:text="prova"
         android:textColor="#808080"
-        android:textSize="20sp"
+        android:textSize="40sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/selezData" />
+
+    <ImageView
+        android:id="@+id/imageViewData"
+        android:layout_width="84dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="52dp"
+        android:src="@drawable/ic_baseline_edit_calendar_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/selezData" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
