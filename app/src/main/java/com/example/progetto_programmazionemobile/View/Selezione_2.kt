@@ -31,7 +31,7 @@ import com.google.android.gms.maps.model.*
 
 class Selezione_2 : AppCompatActivity(), OnMapReadyCallback {
 
-    lateinit var campiPerSport : ArrayList<Campo>
+    lateinit var campiPerSport: ArrayList<Campo>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +41,7 @@ class Selezione_2 : AppCompatActivity(), OnMapReadyCallback {
         campiPerSport = getIntent().getSerializableExtra("campiPerSport") as ArrayList<Campo>
 
         //RIFERIMETI AL TASTO DI AGGIORNAMENTO
-        val aggiornaFiltriButton : Button = findViewById(R.id.aggiornFiltriButton)
+        val aggiornaFiltriButton: Button = findViewById(R.id.aggiornFiltriButton)
 
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment
         mapFragment?.getMapAsync(this@Selezione_2)
@@ -60,22 +60,20 @@ class Selezione_2 : AppCompatActivity(), OnMapReadyCallback {
     }
 
 
-
-
     //DISEGNA LA MAPPA DI GOOGLE
     override fun onMapReady(googleMap: GoogleMap) {
 
         //Location Manager
-        val locMan : LocationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val locMan: LocationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
         if (isLocationEnabled(locMan)) {
-            var found_clubs : ArrayList<Circolo>? = null
+            var found_clubs: ArrayList<Circolo>? = null
 
             //Pulisco la mappa dai vecchi marker prima di ricaricarla
             googleMap.clear()
 
             //Lettura della posizione
-            getLocation(object : MyCallbackPosition {
+            Utente.getLocation(applicationContext, object : Utente.MyCallbackPosition {
                 override fun onCallback(position: Location?) {
                     //Posizione Pronta
                     //CONTROLLO SE LA POSIZIONE LETTA è NULL
@@ -202,14 +200,16 @@ class Selezione_2 : AppCompatActivity(), OnMapReadyCallback {
                                     finish()
                                 }
                             })
+
                         val alertDialog = builder.create()
                         alertDialog.show()
+
                     }
                 }
             })
 
-        }else {
-            val builder : AlertDialog.Builder = AlertDialog.Builder(this)
+        } else {
+            val builder: AlertDialog.Builder = AlertDialog.Builder(this)
             builder.setTitle("ATTENZIONE")
             builder.setMessage("E' necessario abilitare la geolocalizzazione per accedere a questa funzionalità")
             builder.setPositiveButton("OK", object : DialogInterface.OnClickListener {
@@ -224,103 +224,5 @@ class Selezione_2 : AppCompatActivity(), OnMapReadyCallback {
         }
 
     }
-
-    //Call Back per la lettura della posizione che necessita di tempo
-    interface MyCallbackPosition{
-        fun onCallback(position: Location?)
-    }
-
-    fun getLocation(myCallbackPosition: MyCallbackPosition) {
-        val locationManager : LocationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        val gpsOn = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
-        val netOn = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
-        var netLocation : Location? = null
-        var gpsLocation : Location? = null
-
-        if(gpsOn || netOn){
-            if(gpsOn){
-                locationManager.requestLocationUpdates(
-                    LocationManager.GPS_PROVIDER,
-                    0,
-                    0F,
-                    object : LocationListener {
-                        override fun onLocationChanged(location: Location?) {
-                            if (location != null) {
-                                gpsLocation = location
-                            }
-                        }
-
-                        override fun onProviderDisabled(provider: String?) {
-                        }
-
-                        override fun onProviderEnabled(provider: String?) {
-                        }
-
-                        override fun onStatusChanged(
-                            provider: String?,
-                            status: Int,
-                            extras: Bundle?
-                        ) {
-
-                        }
-                    })
-                var localLocationVar = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-                if(localLocationVar!=null){
-                    netLocation = localLocationVar
-                }
-            }
-            if(netOn){
-                locationManager.requestLocationUpdates(
-                    LocationManager.NETWORK_PROVIDER,
-                    0,
-                    0F,
-                    object : LocationListener {
-                        override fun onLocationChanged(location: Location?) {
-                            if (location != null) {
-                                netLocation = location
-                            }
-                        }
-
-                        override fun onProviderDisabled(provider: String?) {
-                        }
-
-                        override fun onProviderEnabled(provider: String?) {
-                        }
-
-                        override fun onStatusChanged(
-                            provider: String?,
-                            status: Int,
-                            extras: Bundle?
-                        ) {
-
-                        }
-                    })
-                var localLocationVar = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
-                if(localLocationVar!=null){
-                    gpsLocation = localLocationVar
-                }
-            }
-        }
-
-        if(gpsLocation!=null && netLocation!=null){
-            if(gpsLocation!!.accuracy>netLocation!!.accuracy){
-                myCallbackPosition.onCallback(gpsLocation!!)
-            }else{
-                myCallbackPosition.onCallback(netLocation!!)
-            }
-        }else{
-            if(gpsLocation==null && netLocation==null){
-                myCallbackPosition.onCallback(null)
-
-            }else{
-                if(netLocation!=null){
-                    myCallbackPosition.onCallback(netLocation!!)
-                }else{
-                    myCallbackPosition.onCallback(gpsLocation!!)
-                }
-            }
-
-        }
-
-    }
 }
+
