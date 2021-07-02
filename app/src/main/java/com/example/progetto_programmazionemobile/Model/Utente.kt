@@ -40,13 +40,11 @@ class Utente(name: String, surname: String, nascita : Date?, user : String,email
                 if(gpsOn){
                     locationManager.requestLocationUpdates(
                         LocationManager.GPS_PROVIDER,
-                        0,
+                        10000,
                         0F,
                         object : LocationListener {
                             override fun onLocationChanged(location: Location?) {
-                                if (location != null) {
-                                    gpsLocation = location
-                                }
+                                myCallbackPosition.onCallback(location)
                             }
 
                             override fun onProviderDisabled(provider: String?) {
@@ -63,21 +61,16 @@ class Utente(name: String, surname: String, nascita : Date?, user : String,email
 
                             }
                         })
-                    var localLocationVar = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-                    if(localLocationVar!=null){
-                        gpsLocation = localLocationVar
-                    }
+
                 }
                 if(netOn){
                     locationManager.requestLocationUpdates(
                         LocationManager.NETWORK_PROVIDER,
-                        0,
+                        10000,
                         0F,
                         object : LocationListener {
                             override fun onLocationChanged(location: Location?) {
-                                if (location != null) {
-                                    netLocation = location
-                                }
+                                myCallbackPosition.onCallback(location)
                             }
 
                             override fun onProviderDisabled(provider: String?) {
@@ -94,31 +87,8 @@ class Utente(name: String, surname: String, nascita : Date?, user : String,email
 
                             }
                         })
-                    var localLocationVar = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
-                    if(localLocationVar!=null){
-                        netLocation = localLocationVar
-                    }
-                }
-            }
 
-            if(gpsLocation!=null && netLocation!=null){
-                if(gpsLocation!!.accuracy>netLocation!!.accuracy){
-                    myCallbackPosition.onCallback(gpsLocation!!)
-                }else{
-                    myCallbackPosition.onCallback(netLocation!!)
                 }
-            }else{
-                if(gpsLocation==null && netLocation==null){
-                    myCallbackPosition.onCallback(null)
-
-                }else{
-                    if(netLocation!=null){
-                        myCallbackPosition.onCallback(netLocation!!)
-                    }else{
-                        myCallbackPosition.onCallback(gpsLocation!!)
-                    }
-                }
-
             }
 
         }
