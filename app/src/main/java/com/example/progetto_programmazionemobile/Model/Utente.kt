@@ -11,87 +11,101 @@ import java.io.Serializable
 import java.util.*
 
 
-class Utente(name: String, surname: String, nascita : Date?, user : String,email : String?,telefono : String?, password : String) : Serializable{
+class Utente(
+    name: String,
+    surname: String,
+    nascita: Date?,
+    user: String,
+    email: String?,
+    telefono: String?,
+    password: String
+) : Serializable {
 
-    var username : String = user
-    var nome : String = name
-    var cognome : String = surname
-    var nascita : Date? = nascita
-    var email : String? = email
-    var telefono : String? = telefono
-    var password : String = password
+    var username: String = user
+    var nome: String = name
+    var cognome: String = surname
+    var nascita: Date? = nascita
+    var email: String? = email
+    var telefono: String? = telefono
+    var password: String = password
 
 
-
-    interface MyCallbackPosition{
+    interface MyCallbackPosition {
         fun onCallback(position: Location?)
     }
-    companion object{
+
+    companion object {
 
         @SuppressLint("MissingPermission")
-        fun getLocation(context: Context,myCallbackPosition: MyCallbackPosition) {
-            val locationManager : LocationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-            val gpsOn = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
-            val netOn = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
-            var netLocation : Location? = null
-            var gpsLocation : Location? = null
+        fun getLocation(context: Context, myCallbackPosition: MyCallbackPosition) {
+            var locationManager: LocationManager? =
+                context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+            if (locationManager != null) {
+                val gpsOn = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+                val netOn = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+                var netLocation: Location? = null
+                var gpsLocation: Location? = null
 
-            if(gpsOn || netOn){
-                if(gpsOn){
-                    locationManager.requestLocationUpdates(
-                        LocationManager.GPS_PROVIDER,
-                        10000,
-                        0F,
-                        object : LocationListener {
-                            override fun onLocationChanged(location: Location?) {
-                                myCallbackPosition.onCallback(location)
-                            }
+                if (gpsOn || netOn) {
+                    if (gpsOn) {
+                        locationManager.requestLocationUpdates(
+                            LocationManager.GPS_PROVIDER,
+                            10000,
+                            0F,
+                            object : LocationListener {
+                                override fun onLocationChanged(location: Location?) {
+                                    locationManager!!.removeUpdates(this)
+                                    myCallbackPosition.onCallback(location)
+                                }
 
-                            override fun onProviderDisabled(provider: String?) {
-                            }
+                                override fun onProviderDisabled(provider: String?) {
+                                }
 
-                            override fun onProviderEnabled(provider: String?) {
-                            }
+                                override fun onProviderEnabled(provider: String?) {
+                                }
 
-                            override fun onStatusChanged(
-                                provider: String?,
-                                status: Int,
-                                extras: Bundle?
-                            ) {
+                                override fun onStatusChanged(
+                                    provider: String?,
+                                    status: Int,
+                                    extras: Bundle?
+                                ) {
 
-                            }
-                        })
+                                }
+                            })
 
-                }
-                if(netOn){
-                    locationManager.requestLocationUpdates(
-                        LocationManager.NETWORK_PROVIDER,
-                        10000,
-                        0F,
-                        object : LocationListener {
-                            override fun onLocationChanged(location: Location?) {
-                                myCallbackPosition.onCallback(location)
-                            }
+                    } else {
 
-                            override fun onProviderDisabled(provider: String?) {
-                            }
+                        locationManager!!.requestLocationUpdates(
+                            LocationManager.NETWORK_PROVIDER,
+                            10000,
+                            0F,
+                            object : LocationListener {
+                                override fun onLocationChanged(location: Location?) {
 
-                            override fun onProviderEnabled(provider: String?) {
-                            }
+                                    locationManager.removeUpdates(this)
+                                    myCallbackPosition.onCallback(location)
 
-                            override fun onStatusChanged(
-                                provider: String?,
-                                status: Int,
-                                extras: Bundle?
-                            ) {
+                                }
 
-                            }
-                        })
+                                override fun onProviderDisabled(provider: String?) {
+                                }
 
+                                override fun onProviderEnabled(provider: String?) {
+                                }
+
+                                override fun onStatusChanged(
+                                    provider: String?,
+                                    status: Int,
+                                    extras: Bundle?
+                                ) {
+
+                                }
+                            })
+                    }
                 }
             }
-
         }
-    }
 
+    }
 }
+

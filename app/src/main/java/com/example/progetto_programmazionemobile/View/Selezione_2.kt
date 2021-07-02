@@ -64,163 +64,167 @@ class Selezione_2 : AppCompatActivity(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
 
         //Location Manager
-        val locMan: LocationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        var locMan: LocationManager? = getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
-        if (isLocationEnabled(locMan)) {
-            var found_clubs: ArrayList<Circolo>? = null
+        if(locMan!=null){
+            if (isLocationEnabled(locMan)) {
+                var found_clubs: ArrayList<Circolo>? = null
 
-            //Pulisco la mappa dai vecchi marker prima di ricaricarla
-            googleMap.clear()
+                //Pulisco la mappa dai vecchi marker prima di ricaricarla
+                googleMap.clear()
 
-            //Lettura della posizione
-            Utente.getLocation(applicationContext, object : Utente.MyCallbackPosition {
-                override fun onCallback(position: Location?) {
-                    //Posizione Pronta
-                    //CONTROLLO SE LA POSIZIONE LETTA è NULL
-                    var myLocation = position
+                //Lettura della posizione
+                Utente.getLocation(applicationContext, object : Utente.MyCallbackPosition {
+                    override fun onCallback(position: Location?) {
+                        //Posizione Pronta
 
-                    if (myLocation != null) {
-                        var myLat: Double = myLocation.latitude
-                        var myLng: Double = myLocation.longitude
-                        //DEFINISCO UNA MAPPA DI TUTTI I MARKER TROVATI IN QUANTO POI DEVO DEFINIRE
-                        //UN COMPORTAMENTO DIVERSO PER OGNI CLICK SUL MARKER
-                        var markers: MutableMap<String, Marker> = mutableMapOf()
+                        //CONTROLLO SE LA POSIZIONE LETTA è NULL
+                        var myLocation = position
 
-                        googleMap.addMarker(
-                            MarkerOptions().position(LatLng(myLat, myLng)).title("Tu sei qui!")
-                                .icon(
-                                    BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)
-                                )
-                        )
-                        var marker: Marker
-                        //LEGGE I VALORI E APPLICA FILTRI
-                        val riscaldamentoCheck: Boolean =
-                            findViewById<CheckBox>(R.id.riscaldamentoCheckbox).isChecked
-                        val docceCheck: Boolean =
-                            findViewById<CheckBox>(R.id.docceCheckbox).isChecked
-                        val copertoCheck: Boolean =
-                            findViewById<CheckBox>(R.id.copertoCheckbox).isChecked
-                        val raggioInKm: Float? =
-                            findViewById<EditText>(R.id.radiusMax).text.toString().toFloatOrNull()
-                        val superficie: String =
-                            findViewById<EditText>(R.id.superficie).text.toString()
-                        val prezzoMax: Float? =
-                            findViewById<EditText>(R.id.prezzoMax).text.toString().toFloatOrNull()
+                        if (myLocation != null) {
+                            var myLat: Double = myLocation.latitude
+                            var myLng: Double = myLocation.longitude
+                            //DEFINISCO UNA MAPPA DI TUTTI I MARKER TROVATI IN QUANTO POI DEVO DEFINIRE
+                            //UN COMPORTAMENTO DIVERSO PER OGNI CLICK SUL MARKER
+                            var markers: MutableMap<String, Marker> = mutableMapOf()
 
-                        //FUNZIONE CHE PRENDE L'ELENCO DEI CIRCOLI E APPLICA I FILTRI
-                        Circolo.filterClubs(
-                            campiPerSport,
-                            myLocation!!,
-                            raggioInKm,
-                            riscaldamentoCheck,
-                            docceCheck,
-                            copertoCheck,
-                            superficie,
-                            prezzoMax,
-                            object : Circolo.MyCallbackClubs {
-                                override fun onCallback(returnedCourts: ArrayList<Circolo>?) {
-                                    found_clubs = returnedCourts
+                            googleMap.addMarker(
+                                MarkerOptions().position(LatLng(myLat, myLng)).title("Tu sei qui!")
+                                    .icon(
+                                        BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)
+                                    )
+                            )
+                            var marker: Marker
+                            //LEGGE I VALORI E APPLICA FILTRI
+                            val riscaldamentoCheck: Boolean =
+                                findViewById<CheckBox>(R.id.riscaldamentoCheckbox).isChecked
+                            val docceCheck: Boolean =
+                                findViewById<CheckBox>(R.id.docceCheckbox).isChecked
+                            val copertoCheck: Boolean =
+                                findViewById<CheckBox>(R.id.copertoCheckbox).isChecked
+                            val raggioInKm: Float? =
+                                findViewById<EditText>(R.id.radiusMax).text.toString().toFloatOrNull()
+                            val superficie: String =
+                                findViewById<EditText>(R.id.superficie).text.toString()
+                            val prezzoMax: Float? =
+                                findViewById<EditText>(R.id.prezzoMax).text.toString().toFloatOrNull()
 
-                                    if (found_clubs!!.size > 0) {
-                                        for (club in found_clubs!!) {
-                                            //Aggiungo marker del club sulla mappa
-                                            marker = googleMap.addMarker(
-                                                MarkerOptions().position(
-                                                    LatLng(
-                                                        club.posizione[0],
-                                                        club.posizione[1]
-                                                    )
-                                                ).title(club.nome)
-                                            )
-                                            markers.put(marker.position.toString(), marker)
-                                        }
+                            //FUNZIONE CHE PRENDE L'ELENCO DEI CIRCOLI E APPLICA I FILTRI
+                            Circolo.filterClubs(
+                                campiPerSport,
+                                myLocation!!,
+                                raggioInKm,
+                                riscaldamentoCheck,
+                                docceCheck,
+                                copertoCheck,
+                                superficie,
+                                prezzoMax,
+                                object : Circolo.MyCallbackClubs {
+                                    override fun onCallback(returnedCourts: ArrayList<Circolo>?) {
+                                        found_clubs = returnedCourts
 
-                                        googleMap.setOnInfoWindowClickListener(object :
-                                            GoogleMap.OnInfoWindowClickListener {
-
-                                            override fun onInfoWindowClick(p0: Marker) {
-                                                //Oggetto che rappresenta il marker cliccato
-                                                val clickedMarker =
-                                                    markers.get(p0.position.toString())
-                                                //Cosa fare quando si clicca sul marker
-                                                Toast.makeText(
-                                                    this@Selezione_2,
-                                                    "Hai cliccato " + clickedMarker?.title,
-                                                    Toast.LENGTH_SHORT
-                                                ).show()
+                                        if (found_clubs!!.size > 0) {
+                                            for (club in found_clubs!!) {
+                                                //Aggiungo marker del club sulla mappa
+                                                marker = googleMap.addMarker(
+                                                    MarkerOptions().position(
+                                                        LatLng(
+                                                            club.posizione[0],
+                                                            club.posizione[1]
+                                                        )
+                                                    ).title(club.nome)
+                                                )
+                                                markers.put(marker.position.toString(), marker)
                                             }
-                                        })
-                                    } else {
-                                        //Nessun campo trovato dopo il filtraggio
-                                        val builder: AlertDialog.Builder =
-                                            AlertDialog.Builder(this@Selezione_2)
-                                        builder.setTitle("Attenzione!")
-                                        builder.setMessage("Nessun campo soddisfa le caratteristiche desiderate")
-                                        builder.setPositiveButton(
-                                            "OK",
-                                            object : DialogInterface.OnClickListener {
-                                                override fun onClick(
-                                                    dialog: DialogInterface?,
-                                                    which: Int
-                                                ) {
-                                                    //Click sull'avviso di nessun circolo trovato
+
+                                            googleMap.setOnInfoWindowClickListener(object :
+                                                GoogleMap.OnInfoWindowClickListener {
+
+                                                override fun onInfoWindowClick(p0: Marker) {
+                                                    //Oggetto che rappresenta il marker cliccato
+                                                    val clickedMarker =
+                                                        markers.get(p0.position.toString())
+                                                    //Cosa fare quando si clicca sul marker
+                                                    Toast.makeText(
+                                                        this@Selezione_2,
+                                                        "Hai cliccato " + clickedMarker?.title,
+                                                        Toast.LENGTH_SHORT
+                                                    ).show()
                                                 }
                                             })
-                                        val alertDialog = builder.create()
-                                        alertDialog.show()
+                                        } else {
+                                            //Nessun campo trovato dopo il filtraggio
+                                            val builder: AlertDialog.Builder =
+                                                AlertDialog.Builder(this@Selezione_2)
+                                            builder.setTitle("Attenzione!")
+                                            builder.setMessage("Nessun campo soddisfa le caratteristiche desiderate")
+                                            builder.setPositiveButton(
+                                                "OK",
+                                                object : DialogInterface.OnClickListener {
+                                                    override fun onClick(
+                                                        dialog: DialogInterface?,
+                                                        which: Int
+                                                    ) {
+                                                        //Click sull'avviso di nessun circolo trovato
+                                                    }
+                                                })
+                                            val alertDialog = builder.create()
+                                            alertDialog.show()
+                                        }
+
+                                        //ZOOM sulla posizione attuale
+                                        val cameraPosition =
+                                            CameraPosition.Builder().target(LatLng(myLat, myLng)).zoom(
+                                                10.0f
+                                            ).build()
+                                        val cameraUpdate = CameraUpdateFactory.newCameraPosition(
+                                            cameraPosition
+                                        )
+                                        googleMap.moveCamera(cameraUpdate)
+
+
                                     }
+                                })
+                        } else {
+                            //Errore in lettura della posizione
+                            val builder: AlertDialog.Builder = AlertDialog.Builder(this@Selezione_2)
+                            builder.setTitle("Errore!")
+                            builder.setMessage("Errore durante la lettura della posizione")
+                            builder.setPositiveButton(
+                                "OK",
+                                object : DialogInterface.OnClickListener {
+                                    override fun onClick(dialog: DialogInterface?, which: Int) {
+                                        val goToSelection = Intent(
+                                            applicationContext,
+                                            Selezione_1::class.java
+                                        )
+                                        startActivity(goToSelection)
+                                        finish()
+                                    }
+                                })
 
-                                    //ZOOM sulla posizione attuale
-                                    val cameraPosition =
-                                        CameraPosition.Builder().target(LatLng(myLat, myLng)).zoom(
-                                            10.0f
-                                        ).build()
-                                    val cameraUpdate = CameraUpdateFactory.newCameraPosition(
-                                        cameraPosition
-                                    )
-                                    googleMap.moveCamera(cameraUpdate)
+                            val alertDialog = builder.create()
+                            alertDialog.show()
 
-
-                                }
-                            })
-                    } else {
-                        //Errore in lettura della posizione
-                        val builder: AlertDialog.Builder = AlertDialog.Builder(this@Selezione_2)
-                        builder.setTitle("Errore!")
-                        builder.setMessage("Errore durante la lettura della posizione")
-                        builder.setPositiveButton(
-                            "OK",
-                            object : DialogInterface.OnClickListener {
-                                override fun onClick(dialog: DialogInterface?, which: Int) {
-                                    val goToSelection = Intent(
-                                        applicationContext,
-                                        Selezione_1::class.java
-                                    )
-                                    startActivity(goToSelection)
-                                    finish()
-                                }
-                            })
-
-                        val alertDialog = builder.create()
-                        alertDialog.show()
-
+                        }
                     }
-                }
-            })
+                })
 
-        } else {
-            val builder: AlertDialog.Builder = AlertDialog.Builder(this)
-            builder.setTitle("ATTENZIONE")
-            builder.setMessage("E' necessario abilitare la geolocalizzazione per accedere a questa funzionalità")
-            builder.setPositiveButton("OK", object : DialogInterface.OnClickListener {
-                override fun onClick(dialog: DialogInterface?, which: Int) {
-                    val goToSelection = Intent(applicationContext, Selezione_1::class.java)
-                    startActivity(goToSelection)
-                    finish()
-                }
-            })
-            val alertDialog = builder.create()
-            alertDialog.show()
+            } else {
+                val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+                builder.setTitle("ATTENZIONE")
+                builder.setMessage("E' necessario abilitare la geolocalizzazione per accedere a questa funzionalità")
+                builder.setPositiveButton("OK", object : DialogInterface.OnClickListener {
+                    override fun onClick(dialog: DialogInterface?, which: Int) {
+                        val goToSelection = Intent(applicationContext, Selezione_1::class.java)
+                        startActivity(goToSelection)
+                        finish()
+                    }
+                })
+                val alertDialog = builder.create()
+                alertDialog.show()
+            }
+
         }
 
     }
