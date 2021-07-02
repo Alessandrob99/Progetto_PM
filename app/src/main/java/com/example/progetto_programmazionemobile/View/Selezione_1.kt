@@ -1,12 +1,14 @@
 package com.example.progetto_programmazionemobile.View
 
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.*
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.progetto_programmazionemobile.Model.Campo
 import com.example.progetto_programmazionemobile.R
@@ -139,21 +141,41 @@ class Selezione_1 : AppCompatActivity()
         confermaBtn.setOnClickListener(object : View.OnClickListener {
             @RequiresApi(Build.VERSION_CODES.M)
             override fun onClick(v: View?) {
-                //Facciamo partire la funzione per la ricerca di campi per SPORT
-                DB_Handler_Courts.getCourtsBySport(sportText.text.toString(),
-                    object : DB_Handler_Courts.MyCallbackCourts {
-                        override fun onCallback(returnedCourts: ArrayList<Campo>?) {
+                //Facciamo partire la funzione per la ricerca di campi per SPORT ( se lo sport è != null )
+                if(sportText.text.toString() != ""){
+                    DB_Handler_Courts.getCourtsBySport(sportText.text.toString(),
+                        object : DB_Handler_Courts.MyCallbackCourts {
+                            override fun onCallback(returnedCourts: ArrayList<Campo>?) {
 
-                            val intent = Intent(this@Selezione_1, Selezione_2::class.java)
-                            //intent.putExtra("giorno",giorno)
-                            intent.putExtra("campiPerSport", returnedCourts)
+                                val intent = Intent(this@Selezione_1, Selezione_2::class.java)
+                                //intent.putExtra("giorno",giorno)
+                                intent.putExtra("campiPerSport", returnedCourts)
 
-                            startActivity(intent)
+                                startActivity(intent)
 
-                            finish()
+                                finish()
 
-                        }
-                    })
+                            }
+                        })
+                }else {
+                    val builder: AlertDialog.Builder =
+                        AlertDialog.Builder(this@Selezione_1)
+                    builder.setTitle("Errore")
+                    builder.setMessage("Inserisci uno sport")
+                    builder.setPositiveButton(
+                        "OK",
+                        object : DialogInterface.OnClickListener {
+                            override fun onClick(
+                                dialog: DialogInterface?,
+                                which: Int
+                            ) {
+                                //Click sull'avviso di sport non inserito
+                            }
+                        })
+                    val alertDialog = builder.create()
+                    alertDialog.show()
+                }
+
 
 
                 /*   intent.putExtra(

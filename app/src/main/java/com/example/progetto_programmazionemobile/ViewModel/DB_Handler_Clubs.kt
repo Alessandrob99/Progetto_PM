@@ -54,14 +54,12 @@ class DB_Handler_Clubs {
                             record.data?.get("docce") as Boolean,
                             record.getGeoPoint("posizione")!!.latitude,
                             record.getGeoPoint("posizione")!!.longitude)
-
                         )
                     }
                 }
                 myCallBack.onCallback(clubs)
             }
         }
-
 
         fun getClubsByGivenIDS(ids : ArrayList<String>,myCallBack: MyCallbackClubs){
             var clubs = ArrayList<Circolo>()
