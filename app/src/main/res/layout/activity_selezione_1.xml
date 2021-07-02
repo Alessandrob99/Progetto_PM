@@ -102,5 +102,25 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/selezData" />
 
+    <Button
+        android:id="@+id/btn_get_location"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginStart="59dp"
+        android:layout_marginBottom="47dp"
+        android:text="Button"
+        app:layout_constraintBottom_toTopOf="@+id/confermabtn"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="126dp"
+        android:layout_marginBottom="59dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/confermabtn"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
