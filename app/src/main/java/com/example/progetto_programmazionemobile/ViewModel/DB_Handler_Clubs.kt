@@ -25,7 +25,7 @@ class DB_Handler_Clubs {
                         record.data?.get("id_circolo") as Long,
                         record.data?.get("nome").toString(),
                         record.data?.get("email").toString(),
-                        record.data?.get("telefono") as Long,
+                        record.data?.get("telefono").toString(),
                         record.data?.get("docce") as Boolean,
                         record.getGeoPoint("posizione")!!.latitude,
                         record.getGeoPoint("posizione")!!.longitude)
@@ -50,7 +50,7 @@ class DB_Handler_Clubs {
                             record.data?.get("id_circolo") as Long,
                             record.data?.get("nome").toString(),
                             record.data?.get("email").toString(),
-                            record.data?.get("telefono") as Long,
+                            record.data?.get("telefono").toString(),
                             record.data?.get("docce") as Boolean,
                             record.getGeoPoint("posizione")!!.latitude,
                             record.getGeoPoint("posizione")!!.longitude)
@@ -73,7 +73,7 @@ class DB_Handler_Clubs {
                             record.data?.get("id_circolo") as Long,
                             record.data?.get("nome").toString(),
                             record.data?.get("email").toString(),
-                            record.data?.get("telefono") as Long,
+                            record.data?.get("telefono").toString(),
                             record.data?.get("docce") as Boolean,
                             record.getGeoPoint("posizione")!!.latitude,
                             record.getGeoPoint("posizione")!!.longitude)

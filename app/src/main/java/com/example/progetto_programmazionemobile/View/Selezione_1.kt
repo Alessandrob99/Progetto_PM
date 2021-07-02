@@ -12,7 +12,6 @@ import com.example.progetto_programmazionemobile.Model.Campo
 import com.example.progetto_programmazionemobile.R
 import com.example.progetto_programmazionemobile.ViewModel.DB_Handler_Courts
 import com.google.android.material.datepicker.MaterialDatePicker
-import com.shagi.materialdatepicker.date.DatePickerFragmentDialog
 import java.text.SimpleDateFormat
 import java.util.*
 

@@ -4,7 +4,7 @@ import android.location.Location
 import com.example.progetto_programmazionemobile.ViewModel.DB_Handler_Clubs
 import com.example.progetto_programmazionemobile.ViewModel.DB_Handler_Courts
 
-class Circolo(id : Long,name: String, email : String,tel : Long, docce : Boolean,lat : Double,lng:Double)
+class Circolo(id : Long,name: String, email : String,tel : String, docce : Boolean,lat : Double,lng:Double)
 {
     //Parametri circolo
     val nome = name
