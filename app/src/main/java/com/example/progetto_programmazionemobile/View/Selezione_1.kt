@@ -17,6 +17,8 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.location.LocationManagerCompat
+import androidx.core.location.LocationManagerCompat.isLocationEnabled
 import com.example.progetto_programmazionemobile.Model.Campo
 import com.example.progetto_programmazionemobile.R
 import com.example.progetto_programmazionemobile.ViewModel.DB_Handler_Courts
@@ -165,44 +167,71 @@ class Selezione_1 : AppCompatActivity() {
 
 
         confermaBtn.setOnClickListener(object : View.OnClickListener {
-            @RequiresApi(Build.VERSION_CODES.M)
             override fun onClick(v: View?) {
-                getLocation(object : MyCallbackPosition {
-                    override fun onCallback(latitude: Double, longitude: Double)
+                var locMan: LocationManager? = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+                /** Controllo se ha attiva la geocalizzazione  **/
+                if (locMan != null)
+                {
+                    if (isLocationEnabled(locMan))
                     {
-                        //Facciamo partire la funzione per la ricerca di campi per SPORT ( se lo sport è != null )
-                        if (sportText.text.toString() != "") {
-                            DB_Handler_Courts.getCourtsBySport(sportText.text.toString(),
-                                object : DB_Handler_Courts.MyCallbackCourts {
-                                    override fun onCallback(returnedCourts: ArrayList<Campo>?) {
-                                        val intent = Intent(this@Selezione_1, Selezione_2::class.java)
-                                        intent.putExtra("latitude", latitude)
-                                        intent.putExtra("longitude", longitude)
-                                        //intent.putExtra("giorno",giorno)
-                                        intent.putExtra("campiPerSport", returnedCourts)
-                                        startActivity(intent)
-                                        finish()
-                                    }
-                                })
-                        } else {
-                            val builder: AlertDialog.Builder = AlertDialog.Builder(this@Selezione_1)
-                            builder.setTitle("Errore")
-                            builder.setMessage("Inserisci uno sport")
-                            builder.setPositiveButton(
-                                "OK",
-                                object : DialogInterface.OnClickListener {
-                                    override fun onClick(
-                                        dialog: DialogInterface?,
-                                        which: Int
-                                    ) {
-                                        //Click sull'avviso di sport non inserito
-                                    }
-                                })
-                            val alertDialog = builder.create()
-                            alertDialog.show()
-                        }
+                        /** Se la geocalizzazione è attiva, prende la longitudine e latitudine del client  **/
+                        getLocation(object : MyCallbackPosition {
+                            /** Trovo prima la posizione (attraverso la callBack) e poi passo all'intent successivo  **/
+                            override fun onCallback(latitude: Double, longitude: Double) {
+                                /** Facciamo partire la funzione per la ricerca di campi per SPORT ( se lo sport è != null ) **/
+                                if (sportText.text.toString() != "") {
+                                    DB_Handler_Courts.getCourtsBySport(sportText.text.toString(),
+                                        object : DB_Handler_Courts.MyCallbackCourts {
+                                            override fun onCallback(returnedCourts: ArrayList<Campo>?) {
+                                                val intent =
+                                                    Intent(
+                                                        this@Selezione_1,
+                                                        Selezione_2::class.java
+                                                    )
+                                                intent.putExtra("latitude", latitude)
+                                                intent.putExtra("longitude", longitude)
+                                                //intent.putExtra("giorno",giorno)
+                                                intent.putExtra("campiPerSport", returnedCourts)
+                                                startActivity(intent)
+                                                finish()
+                                            }
+                                        })
+                                } else {
+                                    val builder: AlertDialog.Builder =
+                                        AlertDialog.Builder(this@Selezione_1)
+                                    builder.setTitle("Errore")
+                                    builder.setMessage("Inserisci uno sport")
+                                    builder.setPositiveButton(
+                                        "OK",
+                                        object : DialogInterface.OnClickListener {
+                                            override fun onClick(
+                                                dialog: DialogInterface?,
+                                                which: Int
+                                            ) {
+                                                //Click sull'avviso di sport non inserito
+                                            }
+                                        })
+                                    val alertDialog = builder.create()
+                                    alertDialog.show()
+                                }
+                            }
+                        })
                     }
-                })
+                } else {
+                    val builder: AlertDialog.Builder = AlertDialog.Builder(this@Selezione_1)
+                    builder.setTitle("ATTENZIONE")
+                    builder.setMessage("E' necessario abilitare la geolocalizzazione per accedere a questa funzionalità")
+                    builder.setPositiveButton("OK", object : DialogInterface.OnClickListener {
+                        override fun onClick(dialog: DialogInterface?, which: Int) {
+                            val goToSelection = Intent(applicationContext, Selezione_1::class.java)
+                            startActivity(goToSelection)
+                            finish()
+                        }
+                    })
+                    val alertDialog = builder.create()
+                    alertDialog.show()
+                }
+
             }
         })
     }
@@ -218,8 +247,7 @@ class Selezione_1 : AppCompatActivity() {
         hasNetwork = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
         if (hasGps || hasNetwork) {
 
-            if (hasGps)
-            {
+            if (hasGps) {
                 Log.d("CodeAndroidLocation", "hasGps")
                 locationManager.requestLocationUpdates(
                     LocationManager.GPS_PROVIDER,

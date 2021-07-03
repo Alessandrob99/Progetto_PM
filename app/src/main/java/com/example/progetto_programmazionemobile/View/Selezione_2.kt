@@ -69,14 +69,17 @@ class Selezione_2 : AppCompatActivity(), OnMapReadyCallback {
         //Location Manager
         var locMan: LocationManager? = getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
-        if (locMan != null) {
-            if (isLocationEnabled(locMan)) {
+        if (locMan != null)
+        {
+            if (isLocationEnabled(locMan))
+            {
                 var found_clubs: ArrayList<Circolo>? = null
 
                 //Pulisco la mappa dai vecchi marker prima di ricaricarla
                 googleMap.clear()
 
-                if (myLat != 0.0 && myLng != 0.0) {
+                if (myLat != 0.0 && myLng != 0.0)
+                {
                     val myLocation = Location(LocationManager.GPS_PROVIDER)
                     myLocation!!.latitude = myLat
                     myLocation!!.longitude = myLng
@@ -206,7 +209,8 @@ class Selezione_2 : AppCompatActivity(), OnMapReadyCallback {
 
                 }
             }
-        } else {
+        }
+        else {
             val builder: AlertDialog.Builder = AlertDialog.Builder(this)
             builder.setTitle("ATTENZIONE")
             builder.setMessage("E' necessario abilitare la geolocalizzazione per accedere a questa funzionalità")
