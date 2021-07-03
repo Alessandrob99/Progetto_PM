@@ -36,9 +36,9 @@ class DB_Handler_Courts {
             val timestampOraInizio = Timestamp.valueOf(day+" "+oraInizio)
             val timestampOraFine = Timestamp.valueOf(day+" "+oraFine)
 
-             myRef.collection("campo").whereEqualTo("sport",sport).get().addOnSuccessListener{ document->
-                 val data = document.documents  // Tutti i campi per quel dato SPORT
-                 for(record in data){
+            myRef.collection("campo").whereEqualTo("sport",sport).get().addOnSuccessListener{ document->
+                val data = document.documents  // Tutti i campi per quel dato SPORT
+                for(record in data){
                     var circolo : DocumentReference = record.data?.get("id_circolo") as DocumentReference // ritorna questo->    com.google.firebase.firestore.DocumentReference@c44a6e47
                     var n_campo : Long = record.data?.get("n_campo") as Long
                     var id_circolo = circolo.id
@@ -72,13 +72,13 @@ class DB_Handler_Courts {
                             )
                         )
                     }
-                 }
-             }
+                }
+            }
 
         }
 
-        
-        
+
+
         fun getCourtsBySport(sport : String, myCallBack: MyCallbackCourts){
             var campi = ArrayList<Campo>()
             myRef.collection("campo").get().addOnSuccessListener{   document->

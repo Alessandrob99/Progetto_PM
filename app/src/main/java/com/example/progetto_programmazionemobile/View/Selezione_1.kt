@@ -8,16 +8,12 @@ import android.content.Intent
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
-import android.os.Build
 import android.os.Bundle
-import android.provider.Settings
 import android.util.Log
 import android.view.View
 import android.widget.*
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.location.LocationManagerCompat
 import androidx.core.location.LocationManagerCompat.isLocationEnabled
 import com.example.progetto_programmazionemobile.Model.Campo
 import com.example.progetto_programmazionemobile.R
@@ -47,6 +43,13 @@ class Selezione_1 : AppCompatActivity() {
         val data: TextView = findViewById(R.id.data)
         val imageData: ImageView = findViewById(R.id.imageViewData)
         val currentDate: String = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(Date())
+
+        val button : Button = findViewById(R.id.prova)
+        button.setOnClickListener{
+            val intent = Intent(this, LoaderLocation::class.java)
+            startActivity(intent)
+            finish()
+        }
 
         data.text = currentDate
 
@@ -174,166 +177,55 @@ class Selezione_1 : AppCompatActivity() {
                 {
                     if (isLocationEnabled(locMan))
                     {
-                        /** Se la geocalizzazione è attiva, prende la longitudine e latitudine del client  **/
-                        getLocation(object : MyCallbackPosition {
-                            /** Trovo prima la posizione (attraverso la callBack) e poi passo all'intent successivo  **/
-                            override fun onCallback(latitude: Double, longitude: Double) {
-                                /** Facciamo partire la funzione per la ricerca di campi per SPORT ( se lo sport è != null ) **/
-                                if (sportText.text.toString() != "") {
-                                    DB_Handler_Courts.getCourtsBySport(sportText.text.toString(),
-                                        object : DB_Handler_Courts.MyCallbackCourts {
-                                            override fun onCallback(returnedCourts: ArrayList<Campo>?) {
-                                                val intent =
-                                                    Intent(
-                                                        this@Selezione_1,
-                                                        Selezione_2::class.java
-                                                    )
-                                                intent.putExtra("latitude", latitude)
-                                                intent.putExtra("longitude", longitude)
-                                                //intent.putExtra("giorno",giorno)
-                                                intent.putExtra("campiPerSport", returnedCourts)
-                                                startActivity(intent)
-                                                finish()
-                                            }
-                                        })
-                                } else {
-                                    val builder: AlertDialog.Builder =
-                                        AlertDialog.Builder(this@Selezione_1)
-                                    builder.setTitle("Errore")
-                                    builder.setMessage("Inserisci uno sport")
-                                    builder.setPositiveButton(
-                                        "OK",
-                                        object : DialogInterface.OnClickListener {
-                                            override fun onClick(
-                                                dialog: DialogInterface?,
-                                                which: Int
-                                            ) {
-                                                //Click sull'avviso di sport non inserito
-                                            }
-                                        })
-                                    val alertDialog = builder.create()
-                                    alertDialog.show()
-                                }
-                            }
-                        })
-                    }
-                } else {
-                    val builder: AlertDialog.Builder = AlertDialog.Builder(this@Selezione_1)
-                    builder.setTitle("ATTENZIONE")
-                    builder.setMessage("E' necessario abilitare la geolocalizzazione per accedere a questa funzionalità")
-                    builder.setPositiveButton("OK", object : DialogInterface.OnClickListener {
-                        override fun onClick(dialog: DialogInterface?, which: Int) {
-                            val goToSelection = Intent(applicationContext, Selezione_1::class.java)
-                            startActivity(goToSelection)
+                        if (sportText.text.toString() != "")
+                        {
+                            val intent = Intent(this@Selezione_1, LoaderLocation::class.java)
+                            intent.putExtra("campiPerSport", sportText.text.toString())
+                            startActivity(intent)
                             finish()
                         }
-                    })
-                    val alertDialog = builder.create()
-                    alertDialog.show()
+                        else{
+                            val builder: AlertDialog.Builder =
+                                AlertDialog.Builder(this@Selezione_1)
+                            builder.setTitle("Errore")
+                            builder.setMessage("Inserisci uno sport")
+                            builder.setPositiveButton(
+                                "OK",
+                                object : DialogInterface.OnClickListener {
+                                    override fun onClick(
+                                        dialog: DialogInterface?,
+                                        which: Int
+                                    ) {
+                                        //Click sull'avviso di sport non inserito
+                                    }
+                                })
+                            val alertDialog = builder.create()
+                            alertDialog.show()
+                        }
+
+                    }
+                    else {
+                        val builder: AlertDialog.Builder =
+                            AlertDialog.Builder(this@Selezione_1)
+                        builder.setTitle("Errore")
+                        builder.setMessage("E' necessario abilitare la geocalizzazione per questa funzione")
+                        builder.setPositiveButton(
+                            "OK",
+                            object : DialogInterface.OnClickListener {
+                                override fun onClick(
+                                    dialog: DialogInterface?,
+                                    which: Int
+                                ) {
+                                    //Click sull'avviso di sport non inserito
+                                }
+                            })
+                        val alertDialog = builder.create()
+                        alertDialog.show()
+                    }
                 }
 
             }
         })
-    }
-
-    interface MyCallbackPosition {
-        fun onCallback(latitude: Double, longitude: Double)
-    }
-
-    @SuppressLint("MissingPermission")
-    private fun getLocation(MyCallback: MyCallbackPosition) {
-        locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        hasGps = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
-        hasNetwork = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
-        if (hasGps || hasNetwork) {
-
-            if (hasGps) {
-                Log.d("CodeAndroidLocation", "hasGps")
-                locationManager.requestLocationUpdates(
-                    LocationManager.GPS_PROVIDER,
-                    5000,
-                    0F,
-                    object : LocationListener {
-                        override fun onLocationChanged(location: Location?) {
-                            if (location != null) {
-                                locationManager.removeUpdates(this)
-                                MyCallback.onCallback(
-                                    location!!.latitude,
-                                    location!!.longitude
-                                )
-
-
-                            }
-                        }
-
-                        override fun onStatusChanged(
-                            provider: String?,
-                            status: Int,
-                            extras: Bundle?
-                        ) {
-
-                        }
-
-                        override fun onProviderEnabled(provider: String?) {
-
-                        }
-
-                        override fun onProviderDisabled(provider: String?) {
-
-                        }
-
-                    })
-
-                val localGpsLocation =
-                    locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-                if (localGpsLocation != null)
-                    locationGps = localGpsLocation
-            }
-            if (hasNetwork) {
-                Log.d("CodeAndroidLocation", "hasGps")
-                locationManager.requestLocationUpdates(
-                    LocationManager.NETWORK_PROVIDER,
-                    5000,
-                    0F,
-                    object :
-                        LocationListener {
-                        override fun onLocationChanged(location: Location?) {
-                            if (location != null) {
-                                locationManager.removeUpdates(this)
-                                MyCallback.onCallback(
-                                    location!!.latitude,
-                                    location!!.longitude
-                                )
-
-
-                            }
-                        }
-
-                        override fun onStatusChanged(
-                            provider: String?,
-                            status: Int,
-                            extras: Bundle?
-                        ) {
-
-                        }
-
-                        override fun onProviderEnabled(provider: String?) {
-
-                        }
-
-                        override fun onProviderDisabled(provider: String?) {
-
-                        }
-
-                    })
-
-                val localNetworkLocation =
-                    locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
-                if (localNetworkLocation != null)
-                    locationNetwork = localNetworkLocation
-            }
-        }
-
     }
 }
 

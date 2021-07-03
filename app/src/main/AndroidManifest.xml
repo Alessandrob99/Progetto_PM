@@ -11,6 +11,9 @@
         <activity android:name=".View.Selezione_2"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"></activity>
+        <activity android:name=".View.LoaderLocation"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"></activity>
         <activity
             android:name=".View.Selezione_1"
             android:screenOrientation="portrait"
