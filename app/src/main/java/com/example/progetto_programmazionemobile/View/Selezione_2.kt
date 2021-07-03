@@ -62,6 +62,9 @@ class Selezione_2 : AppCompatActivity(), OnMapReadyCallback {
 
     //DISEGNA LA MAPPA DI GOOGLE
     override fun onMapReady(googleMap: GoogleMap) {
+        //Pulisco la mappa dai vecchi marker prima di ricaricarla
+        googleMap.clear()
+
         //La mia posizione
         var myLat: Double = intent.getDoubleExtra("latitude", 0.0)
         var myLng: Double = intent.getDoubleExtra("longitude", 0.0)
@@ -74,9 +77,6 @@ class Selezione_2 : AppCompatActivity(), OnMapReadyCallback {
             if (isLocationEnabled(locMan))
             {
                 var found_clubs: ArrayList<Circolo>? = null
-
-                //Pulisco la mappa dai vecchi marker prima di ricaricarla
-                googleMap.clear()
 
                 if (myLat != 0.0 && myLng != 0.0)
                 {
@@ -124,7 +124,8 @@ class Selezione_2 : AppCompatActivity(), OnMapReadyCallback {
                             override fun onCallback(returnedCourts: ArrayList<Circolo>?) {
                                 found_clubs = returnedCourts
 
-                                if (found_clubs!!.size > 0) {
+                                if (found_clubs!!.size > 0)
+                                {
                                     for (club in found_clubs!!) {
                                         //Aggiungo marker del club sulla mappa
                                         marker = googleMap.addMarker(
@@ -210,21 +211,6 @@ class Selezione_2 : AppCompatActivity(), OnMapReadyCallback {
                 }
             }
         }
-        else {
-            val builder: AlertDialog.Builder = AlertDialog.Builder(this)
-            builder.setTitle("ATTENZIONE")
-            builder.setMessage("E' necessario abilitare la geolocalizzazione per accedere a questa funzionalità")
-            builder.setPositiveButton("OK", object : DialogInterface.OnClickListener {
-                override fun onClick(dialog: DialogInterface?, which: Int) {
-                    val goToSelection = Intent(applicationContext, Selezione_1::class.java)
-                    startActivity(goToSelection)
-                    finish()
-                }
-            })
-            val alertDialog = builder.create()
-            alertDialog.show()
-        }
-
     }
 
 }
