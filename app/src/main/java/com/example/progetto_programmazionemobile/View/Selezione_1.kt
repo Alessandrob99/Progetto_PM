@@ -35,22 +35,14 @@ class Selezione_1 : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_selezione_1)
+
+
         val builder = MaterialDatePicker.Builder.datePicker()
         builder.setTitleText("Seleziona una data per prenotarti")
         val picker = builder.build()
-
-
         val data: TextView = findViewById(R.id.data)
         val imageData: ImageView = findViewById(R.id.imageViewData)
         val currentDate: String = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(Date())
-
-        val button : Button = findViewById(R.id.prova)
-        button.setOnClickListener{
-            val intent = Intent(this, LoaderLocation::class.java)
-            startActivity(intent)
-            finish()
-        }
-
         data.text = currentDate
 
         imageData.setOnClickListener {

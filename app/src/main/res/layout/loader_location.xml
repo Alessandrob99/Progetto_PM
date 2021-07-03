@@ -21,12 +21,13 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Stiamo cercando i migliori circoli per te!"
-        android:textColor="#212121"
         android:layout_marginStart="40dp"
         android:layout_marginEnd="40dp"
+        android:fontFamily="sans-serif-thin"
         android:gravity="center"
-        android:textStyle="bold"/>
+        android:text="Stiamo cercando i migliori circoli per te!\nAttendi qualche istante."
+        android:textColor="#212121"
+        android:textStyle="bold" />
 
 
 </LinearLayout>
