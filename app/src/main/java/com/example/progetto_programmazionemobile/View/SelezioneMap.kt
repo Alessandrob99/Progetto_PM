@@ -1,71 +1,95 @@
 package com.example.progetto_programmazionemobile.View
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.location.Location
-import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.Button
-import android.widget.CheckBox
-import android.widget.EditText
-import android.widget.Toast
+import android.view.View.inflate
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.location.LocationManagerCompat.isLocationEnabled
+import androidx.core.content.res.ColorStateListInflaterCompat.inflate
+import androidx.core.location.LocationManagerCompat
 import com.example.progetto_programmazionemobile.Model.Campo
 import com.example.progetto_programmazionemobile.Model.Circolo
-import com.example.progetto_programmazionemobile.Model.Utente
 import com.example.progetto_programmazionemobile.R
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import kotlinx.android.synthetic.main.activity_selezionemap.*
+import kotlinx.android.synthetic.main.bottom_sheet_layout.*
 
-
-@SuppressLint("MissingPermission")
-
-class Selezione_2 : AppCompatActivity(), OnMapReadyCallback {
-
+class SelezioneMap : AppCompatActivity(), OnMapReadyCallback
+{
+    private lateinit var bottomSheetBehavior: BottomSheetBehavior<LinearLayout>
+    lateinit var autocompleteSuperficie: AutoCompleteTextView
     lateinit var campiPerSport: ArrayList<Campo>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_selezione_2)
+        setContentView(R.layout.activity_selezionemap)
 
-        //Campi filtrati per sport da SELEZIONE 1
-        campiPerSport = getIntent().getSerializableExtra("campiPerSport") as ArrayList<Campo>
+        bottomSheetBehavior = BottomSheetBehavior.from<LinearLayout>(persistent_bottom_sheet)
 
-        //RIFERIMETI AL TASTO DI AGGIORNAMENTO
         val aggiornaFiltriButton: Button = findViewById(R.id.aggiornFiltriButton)
-
-        val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment
-        mapFragment?.getMapAsync(this@Selezione_2)
-
-
-
-
         aggiornaFiltriButton.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
 
                 val mapFragment =
                     supportFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment
-                mapFragment?.getMapAsync(this@Selezione_2)
+                mapFragment?.getMapAsync(this@SelezioneMap)
 
             }
         })
 
+        //Campi filtrati per sport da SELEZIONE 1
+        campiPerSport = getIntent().getSerializableExtra("campiPerSport") as ArrayList<Campo>
+        val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment
+        mapFragment?.getMapAsync(this@SelezioneMap)
+
+        val arraySuperficie = arrayOf(
+            "",
+            "Cemento",
+            "Erba",
+            "Parque",
+        )
+
+        autocompleteSuperficie = findViewById(R.id.superficie) as AutoCompleteTextView
+        val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, arraySuperficie)
+        autocompleteSuperficie.setText(adapter.getItem(0).toString(), false)
+        autocompleteSuperficie.setAdapter(adapter)
+
+        autocompleteSuperficie.onItemSelectedListener =
+            object : AdapterView.OnItemClickListener, AdapterView.OnItemSelectedListener {
+                override fun onItemClick(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                    Toast.makeText(applicationContext, "Prova", Toast.LENGTH_SHORT).show()
+                }
+
+                override fun onNothingSelected(p0: AdapterView<*>?) {
+                    TODO("Not yet implemented")
+                }
+
+            }
+
+
+
+
+
     }
 
-
-    //DISEGNA LA MAPPA DI GOOGLE
     override fun onMapReady(googleMap: GoogleMap) {
-        //Pulisco la mappa dai vecchi marker prima di ricaricarla
-        googleMap.clear()
 
         //La mia posizione
         var myLat: Double = intent.getDoubleExtra("latitude", 0.0)
@@ -76,7 +100,7 @@ class Selezione_2 : AppCompatActivity(), OnMapReadyCallback {
 
         if (locMan != null)
         {
-            if (isLocationEnabled(locMan))
+            if (LocationManagerCompat.isLocationEnabled(locMan))
             {
                 var found_clubs: ArrayList<Circolo>? = null
 
@@ -108,9 +132,11 @@ class Selezione_2 : AppCompatActivity(), OnMapReadyCallback {
                     val raggioInKm: Float? =
                         findViewById<EditText>(R.id.radiusMax).text.toString().toFloatOrNull()
                     val superficie: String =
-                        findViewById<EditText>(R.id.superficie).text.toString()
+                        findViewById<AutoCompleteTextView>(R.id.superficie).text.toString()
                     val prezzoMax: Float? =
                         findViewById<EditText>(R.id.prezzoMax).text.toString().toFloatOrNull()
+
+
 
                     //FUNZIONE CHE PRENDE L'ELENCO DEI CIRCOLI E APPLICA I FILTRI
                     Circolo.filterClubs(
@@ -150,7 +176,7 @@ class Selezione_2 : AppCompatActivity(), OnMapReadyCallback {
                                                 markers.get(p0.position.toString())
                                             //Cosa fare quando si clicca sul marker
                                             Toast.makeText(
-                                                this@Selezione_2,
+                                                this@SelezioneMap,
                                                 "Hai cliccato " + clickedMarker?.title,
                                                 Toast.LENGTH_SHORT
                                             ).show()
@@ -159,7 +185,7 @@ class Selezione_2 : AppCompatActivity(), OnMapReadyCallback {
                                 } else {
                                     //Nessun campo trovato dopo il filtraggio
                                     val builder: AlertDialog.Builder =
-                                        AlertDialog.Builder(this@Selezione_2)
+                                        AlertDialog.Builder(this@SelezioneMap)
                                     builder.setTitle("Attenzione!")
                                     builder.setMessage("Nessun campo soddisfa le caratteristiche desiderate")
                                     builder.setPositiveButton(
@@ -189,32 +215,9 @@ class Selezione_2 : AppCompatActivity(), OnMapReadyCallback {
 
                             }
                         })
-                } else {
-                    //Errore in lettura della posizione
-                    val builder: AlertDialog.Builder = AlertDialog.Builder(this@Selezione_2)
-                    builder.setTitle("Errore!")
-                    builder.setMessage("Errore durante la lettura della posizione")
-                    builder.setPositiveButton(
-                        "OK",
-                        object : DialogInterface.OnClickListener {
-                            override fun onClick(dialog: DialogInterface?, which: Int) {
-                                val goToSelection = Intent(
-                                    applicationContext,
-                                    Selezione_1::class.java
-                                )
-                                startActivity(goToSelection)
-                                finish()
-                            }
-                        })
-
-                    val alertDialog = builder.create()
-                    alertDialog.show()
-
                 }
             }
         }
     }
 
 }
-
-

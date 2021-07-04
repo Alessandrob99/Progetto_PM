@@ -55,7 +55,7 @@ class LoaderLocation : AppCompatActivity()
                                         val intent =
                                             Intent(
                                                 this@LoaderLocation,
-                                                Selezione_2::class.java
+                                                SelezioneMap::class.java
                                             )
                                         intent.putExtra("latitude", latitude)
                                         intent.putExtra("longitude", longitude)

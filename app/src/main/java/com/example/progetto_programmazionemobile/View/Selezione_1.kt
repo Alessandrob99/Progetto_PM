@@ -45,6 +45,11 @@ class Selezione_1 : AppCompatActivity() {
         val currentDate: String = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(Date())
         data.text = currentDate
 
+
+
+
+
+
         imageData.setOnClickListener {
             picker.show(supportFragmentManager, picker.toString())
         }
