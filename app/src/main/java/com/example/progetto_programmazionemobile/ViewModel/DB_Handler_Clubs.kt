@@ -36,7 +36,7 @@ class DB_Handler_Clubs {
             }
         }
 
-        //Query per tutti i campi in un dato ranger
+        //Query per tutti i campi in un dato range
         fun getAllClubsInRange(myCallBack : MyCallbackClubs,centre : Location,radius : Float){
             var clubs : ArrayList<Circolo>? = ArrayList<Circolo>()
             var clubLocation = Location("")

@@ -37,7 +37,7 @@ class LoaderLocation : AppCompatActivity()
 
 
 
-        val sport = intent.getStringExtra("campiPerSport")
+        val sport = intent.getStringExtra("sport")
         var locMan: LocationManager? = getSystemService(Context.LOCATION_SERVICE) as LocationManager
         /** Controllo se ha attiva la geocalizzazione  **/
         if (locMan != null)
@@ -78,54 +78,14 @@ class LoaderLocation : AppCompatActivity()
         hasNetwork = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
         if (hasGps || hasNetwork) {
 
-            if (hasGps) {
-                Log.d("CodeAndroidLocation", "hasGps")
-                locationManager.requestLocationUpdates(
-                    LocationManager.GPS_PROVIDER,
-                    5000,
-                    0F,
-                    object : LocationListener {
-                        override fun onLocationChanged(location: Location?) {
-                            if (location != null) {
-                                locationManager.removeUpdates(this)
-                                MyCallback.onCallback(
-                                    location!!.latitude,
-                                    location!!.longitude
-                                )
-
-
-                            }
-                        }
-
-                        override fun onStatusChanged(
-                            provider: String?,
-                            status: Int,
-                            extras: Bundle?
-                        ) {
-
-                        }
-
-                        override fun onProviderEnabled(provider: String?) {
-
-                        }
-
-                        override fun onProviderDisabled(provider: String?) {
-
-                        }
-
-                    })
-
-                val localGpsLocation =
-                    locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-                if (localGpsLocation != null)
-                    locationGps = localGpsLocation
-            }
             if (hasNetwork) {
+
+                //-------------
                 Log.d("CodeAndroidLocation", "hasGps")
                 locationManager.requestLocationUpdates(
                     LocationManager.NETWORK_PROVIDER,
                     5000,
-                    0F,
+                    100F,
                     object :
                         LocationListener {
                         override fun onLocationChanged(location: Location?) {
@@ -158,11 +118,46 @@ class LoaderLocation : AppCompatActivity()
 
                     })
 
-                val localNetworkLocation =
-                    locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
-                if (localNetworkLocation != null)
-                    locationNetwork = localNetworkLocation
+
+            }else{
+                Log.d("CodeAndroidLocation", "hasGps")
+                locationManager.requestLocationUpdates(
+                    LocationManager.GPS_PROVIDER,
+                    5000,
+                    100F,
+                    object : LocationListener {
+                        override fun onLocationChanged(location: Location?) {
+                            if (location != null) {
+                                locationManager.removeUpdates(this)
+                                MyCallback.onCallback(
+                                    location!!.latitude,
+                                    location!!.longitude
+                                )
+
+
+                            }
+                        }
+
+                        override fun onStatusChanged(
+                            provider: String?,
+                            status: Int,
+                            extras: Bundle?
+                        ) {
+
+                        }
+
+                        override fun onProviderEnabled(provider: String?) {
+
+                        }
+
+                        override fun onProviderDisabled(provider: String?) {
+
+                        }
+
+                    })
             }
+
+
         }
 
     }

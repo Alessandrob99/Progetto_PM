@@ -30,6 +30,82 @@ class Utente(
     var password: String = password
 
 
+    interface MyCallbackPosition {
+        fun onCallback(position: Location?)
+    }
 
+    companion object {
+
+        @SuppressLint("MissingPermission")
+        fun getLocation(context: Context, myCallbackPosition: MyCallbackPosition) {
+            var locationManager: LocationManager? =
+                context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+            if (locationManager != null) {
+                val gpsOn = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+                val netOn = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+                var netLocation: Location? = null
+                var gpsLocation: Location? = null
+
+                if (gpsOn || netOn) {
+                    if (gpsOn) {
+                        locationManager.requestLocationUpdates(
+                            LocationManager.GPS_PROVIDER,
+                            10000,
+                            0F,
+                            object : LocationListener {
+                                override fun onLocationChanged(location: Location?) {
+                                    locationManager!!.removeUpdates(this)
+                                    myCallbackPosition.onCallback(location)
+                                }
+
+                                override fun onProviderDisabled(provider: String?) {
+                                }
+
+                                override fun onProviderEnabled(provider: String?) {
+                                }
+
+                                override fun onStatusChanged(
+                                    provider: String?,
+                                    status: Int,
+                                    extras: Bundle?
+                                ) {
+
+                                }
+                            })
+
+                    } else {
+
+                        locationManager!!.requestLocationUpdates(
+                            LocationManager.NETWORK_PROVIDER,
+                            10000,
+                            0F,
+                            object : LocationListener {
+                                override fun onLocationChanged(location: Location?) {
+
+                                    locationManager.removeUpdates(this)
+                                    myCallbackPosition.onCallback(location)
+
+                                }
+
+                                override fun onProviderDisabled(provider: String?) {
+                                }
+
+                                override fun onProviderEnabled(provider: String?) {
+                                }
+
+                                override fun onStatusChanged(
+                                    provider: String?,
+                                    status: Int,
+                                    extras: Bundle?
+                                ) {
+
+                                }
+                            })
+                    }
+                }
+            }
+        }
+
+    }
 }
 

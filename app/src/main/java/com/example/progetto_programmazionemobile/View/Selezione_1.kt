@@ -177,7 +177,7 @@ class Selezione_1 : AppCompatActivity() {
                         if (sportText.text.toString() != "")
                         {
                             val intent = Intent(this@Selezione_1, LoaderLocation::class.java)
-                            intent.putExtra("campiPerSport", sportText.text.toString())
+                            intent.putExtra("sport", sportText.text.toString())
                             startActivity(intent)
                             finish()
                         }
