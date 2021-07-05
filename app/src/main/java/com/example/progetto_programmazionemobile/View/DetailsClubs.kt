@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.progetto_programmazionemobile.Model.Campo
+import com.example.progetto_programmazionemobile.Model.Circolo
 import com.example.progetto_programmazionemobile.Model.Utente
 import com.example.progetto_programmazionemobile.R
 import com.example.progetto_programmazionemobile.ViewModel.DB_Handler_Courts
@@ -26,23 +27,74 @@ class DetailsClubs:AppCompatActivity() {
         setContentView(R.layout.activity_details_club)
 
         val courts = intent.getSerializableExtra("courts") as ArrayList<Campo>
-
+        val club = intent.getSerializableExtra("club") as Circolo
 
 
         val rv: RecyclerView = findViewById(R.id.recyclearCampi)
+
+
         rv.layoutManager = LinearLayoutManager(this)
-        //rv.adapter = MyAdapter(courts)
+        rv.adapter = MyAdapterCourts(courts)
 
-
-        var myLat: Double = intent.getDoubleExtra("latitudine", 0.0)
-        var myLng: Double = intent.getDoubleExtra("longitudine", 0.0)
         val nomeClub: TextView = findViewById(R.id.nomeClub)
-
-
-
         nomeClub.text = intent.getStringExtra("titleClub")
+
+
+
+
     }
 }
+
+
+class MyAdapterCourts(val courts: ArrayList<Campo>) : RecyclerView.Adapter<MyAdapterCourts.MyViewHolderCourts>() {
+
+
+    class MyViewHolderCourts(val row: View) : RecyclerView.ViewHolder(row) {
+        val riscaldamentoCheck = row.findViewById<CheckBox>(R.id.riscaldamentoCheck)
+        val copertoCheck = row.findViewById<CheckBox>(R.id.copertoCheck)
+        val prezzoText = row.findViewById<TextView>(R.id.prezzo)
+        val n_campoText = row.findViewById<TextView>(R.id.numeroCampo)
+        val superficieText = row.findViewById<TextView>(R.id.superficie)
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolderCourts {
+
+        val layout = LayoutInflater.from(parent.context).inflate(
+            R.layout.rv_campi,
+            parent, false)
+
+        return MyViewHolderCourts(layout)
+
+    }
+
+
+    override fun onBindViewHolder(holder: MyAdapterCourts.MyViewHolderCourts, position: Int) {
+
+        holder.superficieText.text = courts.get(position).superficie
+        holder.prezzoText.text = courts.get(position).prezzo_ora.toString()
+        holder.n_campoText.text = courts.get(position).n_c.toString()
+        holder.copertoCheck.isChecked = courts.get(position).coperto
+        holder.riscaldamentoCheck.isChecked = courts.get(position).riscaldamento
+
+    }
+
+    override fun getItemCount(): Int = courts.size
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*
 class MyAdapter(val courts: DB_Handler_Courts) : RecyclerView.Adapter<MyAdapter.MyViewHolderUser>() {
 
