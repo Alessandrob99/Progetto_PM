@@ -22,62 +22,6 @@ class DB_Handler_Courts {
     companion object{
         val myRef = FirebaseFirestore.getInstance()
 
-        //Funzione di filtraggio per ora giorno e sport
-        @RequiresApi(Build.VERSION_CODES.O)
-        fun filterCourtsBySelezione1(sport : String, oraInizio : String, oraFine : String, day : String, myCallBack : MyCallbackCourts){
-
-            val campiFiltrati = ArrayList<Campo>()
-
-            //SU FIREBASE LE GIORNATE SONO INDICIZZATE TRAMITE ID_CIRCOLO-CAMPO-GG-MM-AAAA
-
-            //day deve essere formattato gg-mm-aaaa
-
-            val formatter : DateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")
-            val timestampOraInizio = Timestamp.valueOf(day+" "+oraInizio)
-            val timestampOraFine = Timestamp.valueOf(day+" "+oraFine)
-
-            myRef.collection("campo").whereEqualTo("sport",sport).get().addOnSuccessListener{ document->
-                val data = document.documents  // Tutti i campi per quel dato SPORT
-                for(record in data){
-                    var circolo : DocumentReference = record.data?.get("id_circolo") as DocumentReference // ritorna questo->    com.google.firebase.firestore.DocumentReference@c44a6e47
-                    var n_campo : Long = record.data?.get("n_campo") as Long
-                    var id_circolo = circolo.id
-                    var key = id_circolo+n_campo.toString()+day //      day = gg-mm-AAAA
-                    myRef.collection("prenotazione").document(key).collection("prenotazioni").whereLessThan("oraINizio",timestampOraFine).whereGreaterThan("oraFine",timestampOraInizio).get().addOnSuccessListener{
-                        if(it.isEmpty){ // SE NON CI SONO PRENOTAZIONI CHE SI SOVRAPPONGONO A QUELL'ORARIO PRENDO IL CAMPO
-                            campiFiltrati.add(
-                                Campo(
-                                    record.data!!.get("n_campo") as Long,
-                                    id_circolo as Long,
-                                    record.data!!.get("superficie").toString(),
-                                    record.data!!.get("sport").toString(),
-                                    record.data!!.get("prezzo") as Float,
-                                    record.data!!.get("riscaldamento") as Boolean,
-                                    record.data!!.get("coperto") as Boolean
-                                )
-                            )
-                        }
-                    }.addOnFailureListener{
-
-                        //Nessuna prenotazione ancora registrata per quella giornata
-                        campiFiltrati.add(
-                            Campo(
-                                record.data!!.get("n_campo") as Long,
-                                id_circolo.toLong(),
-                                record.data!!.get("superficie").toString(),
-                                record.data!!.get("sport").toString(),
-                                record.data!!.get("prezzo") as Float,
-                                record.data!!.get("riscaldamento") as Boolean,
-                                record.data!!.get("coperto") as Boolean
-                            )
-                        )
-                    }
-                }
-            }
-
-        }
-
-
 
         fun getCourtsBySport(sport : String, myCallBack: MyCallbackCourts){
             var campi = ArrayList<Campo>()

@@ -37,6 +37,11 @@ class SelezioneMap : AppCompatActivity(), OnMapReadyCallback
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_selezionemap)
 
+        //Campi filtrati per sport da SELEZIONE 1
+        campiPerSport = getIntent().getSerializableExtra("campiPerSport") as ArrayList<Campo>
+        val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment
+        mapFragment?.getMapAsync(this@SelezioneMap)
+
         bottomSheetBehavior = BottomSheetBehavior.from<LinearLayout>(persistent_bottom_sheet)
 
         val aggiornaFiltriButton: Button = findViewById(R.id.aggiornFiltriButton)
@@ -51,16 +56,15 @@ class SelezioneMap : AppCompatActivity(), OnMapReadyCallback
             }
         })
 
-        //Campi filtrati per sport da SELEZIONE 1
-        campiPerSport = getIntent().getSerializableExtra("campiPerSport") as ArrayList<Campo>
-        val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment
-        mapFragment?.getMapAsync(this@SelezioneMap)
+
 
         val arraySuperficie = arrayOf(
-            "",
+            "Tutte",
             "Cemento",
             "Erba",
-            "Parque",
+            "Legno",
+            "Erba sintetica",
+            "Terra rossa",
         )
 
         autocompleteSuperficie = findViewById(R.id.superficie) as AutoCompleteTextView
