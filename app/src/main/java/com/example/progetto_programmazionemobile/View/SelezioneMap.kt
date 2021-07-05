@@ -255,4 +255,30 @@ class SelezioneMap : AppCompatActivity(), OnMapReadyCallback
         }
     }
 
+
+    override fun onBackPressed() {
+
+        val builder: AlertDialog.Builder =
+            AlertDialog.Builder(this@SelezioneMap)
+        builder.setTitle("Avviso")
+        builder.setMessage("Si desidera tornare alla Home?")
+        builder.setPositiveButton(
+            "SI",
+            object : DialogInterface.OnClickListener {
+                override fun onClick(
+                    dialog: DialogInterface?,
+                    which: Int
+                ) {
+                    val intent = Intent(this@SelezioneMap,HomePage_Activity::class.java)
+                    startActivity(intent)
+                }
+            })
+        val alertDialog = builder.create()
+        alertDialog.show()
+
+
+
+    }
 }
+
+
