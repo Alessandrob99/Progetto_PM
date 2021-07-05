@@ -175,11 +175,16 @@ class SelezioneMap : AppCompatActivity(), OnMapReadyCallback
                                             val clickedMarker =
                                                 markers.get(p0.position.toString())
                                             //Cosa fare quando si clicca sul marker
-                                            Toast.makeText(
-                                                this@SelezioneMap,
-                                                "Hai cliccato " + clickedMarker?.title,
-                                                Toast.LENGTH_SHORT
-                                            ).show()
+
+                                            val intent =
+                                                Intent(
+                                                    this@SelezioneMap,
+                                                    DetailsClubs::class.java
+                                                )
+                                            intent.putExtra("titleClub", clickedMarker?.title)
+                                            startActivity(intent)
+                                            finish()
+
                                         }
                                     })
                                 } else {
