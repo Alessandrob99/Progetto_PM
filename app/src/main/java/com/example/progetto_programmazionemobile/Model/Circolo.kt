@@ -2,6 +2,7 @@ package com.example.progetto_programmazionemobile.Model
 
 import android.location.Location
 import com.example.progetto_programmazionemobile.ViewModel.DB_Handler_Clubs
+import java.io.Serializable
 
 class Circolo(
     id: Long,
@@ -11,7 +12,7 @@ class Circolo(
     docce: Boolean,
     lat: Double,
     lng: Double
-) {
+) : Serializable {
     //Parametri circolo
     val nome = name
     val id = id

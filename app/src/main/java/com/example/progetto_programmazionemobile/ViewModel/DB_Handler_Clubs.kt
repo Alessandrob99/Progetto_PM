@@ -12,6 +12,10 @@ class DB_Handler_Clubs {
     interface MyCallbackClubs{
         fun onCallback(returnedClubs: ArrayList<Circolo>?)
     }
+
+    interface MyCallbackClub{
+        fun onCallback(returnedClub : Circolo)
+    }
     companion object{
         val myRef = FirebaseFirestore.getInstance()
 
@@ -82,6 +86,27 @@ class DB_Handler_Clubs {
                 }
             }
             myCallBack.onCallback(clubs)
+        }
+
+        fun getClubByPosition(latitude : Double, longitude : Double, myCallBack: MyCallbackClub){
+
+            myRef.collection("clubs").get().addOnSuccessListener{   document->
+                val data = document.documents
+                for(record in data){
+                    if(record.getGeoPoint("posizione")!!.latitude == latitude && record.getGeoPoint("posizione")!!.longitude == longitude){
+                        myCallBack.onCallback(Circolo(
+                            record.data?.get("id_circolo") as Long,
+                            record.data?.get("nome").toString(),
+                            record.data?.get("email").toString(),
+                            record.data?.get("telefono").toString(),
+                            record.data?.get("docce") as Boolean,
+                            record.getGeoPoint("posizione")!!.latitude,
+                            record.getGeoPoint("posizione")!!.longitude)
+
+                        )
+                    }
+                }
+            }
         }
 
 

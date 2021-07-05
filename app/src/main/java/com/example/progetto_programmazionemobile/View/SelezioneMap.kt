@@ -17,6 +17,7 @@ import androidx.core.location.LocationManagerCompat
 import com.example.progetto_programmazionemobile.Model.Campo
 import com.example.progetto_programmazionemobile.Model.Circolo
 import com.example.progetto_programmazionemobile.R
+import com.example.progetto_programmazionemobile.ViewModel.DB_Handler_Clubs
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -158,8 +159,9 @@ class SelezioneMap : AppCompatActivity(), OnMapReadyCallback
                         object : Circolo.MyCallbackClubs {
                             override fun onCallback(returnedClubs: ArrayList<Circolo>?,returnedCourts: ArrayList<Campo>?) {
                                 found_clubs = returnedClubs
+                                var found_courts = returnedCourts
 
-                                if (found_clubs!!.size > 0)
+                                if (found_clubs!!.size > 0 && returnedCourts!!.size>0)
                                 {
                                     for (club in found_clubs!!) {
                                         //Aggiungo marker del club sulla mappa
@@ -188,10 +190,29 @@ class SelezioneMap : AppCompatActivity(), OnMapReadyCallback
                                                     this@SelezioneMap,
                                                     DetailsClubs::class.java
                                                 )
-                                            intent.putExtra("titleClub", clickedMarker?.title)
-                                            intent.putExtra("longitudine", p0.position.longitude)
-                                            intent.putExtra("latitudine", p0.position.latitude)
-                                            startActivity(intent)
+                                            //Ricaviamo i parametri da passare
+
+                                            //Ricavo l'oggetto del circolo trovato
+                                            DB_Handler_Clubs.getClubByPosition(p0.position.latitude,p0.position.longitude,object : DB_Handler_Clubs.MyCallbackClub{
+                                                override fun onCallback(returnedClub: Circolo) {
+
+                                                    //Filtro i campi in base al circolo cliccato
+                                                    for(court in returnedCourts){
+                                                        if(court.id_club!=returnedClub.id){
+                                                            found_courts!!.remove(court)
+                                                        }
+                                                    }
+                                                    intent.putExtra("courts",found_courts)
+                                                    intent.putExtra("club",returnedClub)
+                                                    startActivity(intent)
+
+
+                                                }
+                                            })
+
+
+
+
 
                                         }
                                     })
