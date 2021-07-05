@@ -26,6 +26,8 @@ class DetailsClubs:AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_details_club)
 
+        val nomeClub: TextView = findViewById(R.id.nomeClub)
+        nomeClub.text = intent.getStringExtra("titleClub")
         val courts = intent.getSerializableExtra("courts") as ArrayList<Campo>
         val club = intent.getSerializableExtra("club") as Circolo
 
@@ -36,8 +38,7 @@ class DetailsClubs:AppCompatActivity() {
         rv.layoutManager = LinearLayoutManager(this)
         rv.adapter = MyAdapterCourts(courts)
 
-        val nomeClub: TextView = findViewById(R.id.nomeClub)
-        nomeClub.text = intent.getStringExtra("titleClub")
+
 
 
 
@@ -70,7 +71,7 @@ class MyAdapterCourts(val courts: ArrayList<Campo>) : RecyclerView.Adapter<MyAda
 
     override fun onBindViewHolder(holder: MyAdapterCourts.MyViewHolderCourts, position: Int) {
 
-        holder.superficieText.text = courts.get(position).superficie
+        holder.superficieText.text = courts.get(position).superficie.capitalize()
         holder.prezzoText.text = courts.get(position).prezzo_ora.toString()
         holder.n_campoText.text = courts.get(position).n_c.toString()
         holder.copertoCheck.isChecked = courts.get(position).coperto

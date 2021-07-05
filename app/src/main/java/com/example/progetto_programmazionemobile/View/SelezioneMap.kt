@@ -202,6 +202,7 @@ class SelezioneMap : AppCompatActivity(), OnMapReadyCallback
                                                             found_courts!!.remove(court)
                                                         }
                                                     }
+                                                    intent.putExtra("titleClub", clickedMarker?.title)
                                                     intent.putExtra("courts",found_courts)
                                                     intent.putExtra("club",returnedClub)
                                                     startActivity(intent)

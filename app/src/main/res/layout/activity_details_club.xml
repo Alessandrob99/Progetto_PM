@@ -10,7 +10,6 @@
         android:id="@+id/nomeClub"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
         android:gravity="center"
         android:text="TextView"
         android:textColor="@color/black"
@@ -19,14 +18,13 @@
         app:layout_constraintBottom_toTopOf="@+id/recyclearCampi"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclearCampi"
         android:layout_width="409dp"
         android:layout_height="633dp"
-        android:background="#7E7E7E"
+        android:background="#ffff"
         android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
