@@ -43,6 +43,7 @@ class SelezioneMap : AppCompatActivity(), OnMapReadyCallback
         aggiornaFiltriButton.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
 
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
                 val mapFragment =
                     supportFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment
                 mapFragment?.getMapAsync(this@SelezioneMap)
