@@ -98,6 +98,8 @@ class SelezioneMap : AppCompatActivity(), OnMapReadyCallback
         //Location Manager
         var locMan: LocationManager? = getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
+        googleMap.clear()
+
         if (locMan != null)
         {
             if (LocationManagerCompat.isLocationEnabled(locMan))
