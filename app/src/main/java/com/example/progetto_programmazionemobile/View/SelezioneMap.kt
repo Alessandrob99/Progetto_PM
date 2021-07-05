@@ -189,8 +189,9 @@ class SelezioneMap : AppCompatActivity(), OnMapReadyCallback
                                                     DetailsClubs::class.java
                                                 )
                                             intent.putExtra("titleClub", clickedMarker?.title)
+                                            intent.putExtra("longitudine", p0.position.longitude)
+                                            intent.putExtra("latitudine", p0.position.latitude)
                                             startActivity(intent)
-                                            finish()
 
                                         }
                                     })
