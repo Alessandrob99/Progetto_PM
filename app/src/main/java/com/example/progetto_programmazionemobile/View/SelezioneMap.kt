@@ -156,8 +156,8 @@ class SelezioneMap : AppCompatActivity(), OnMapReadyCallback
                         superficie,
                         prezzoMax,
                         object : Circolo.MyCallbackClubs {
-                            override fun onCallback(returnedCourts: ArrayList<Circolo>?) {
-                                found_clubs = returnedCourts
+                            override fun onCallback(returnedClubs: ArrayList<Circolo>?,returnedCourts: ArrayList<Campo>?) {
+                                found_clubs = returnedClubs
 
                                 if (found_clubs!!.size > 0)
                                 {

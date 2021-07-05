@@ -23,7 +23,7 @@ class Circolo(
 
     //CallBack che rimanda i risultati filtrati all'activity Selezione_2
     interface MyCallbackClubs {
-        fun onCallback(returnedCourts: ArrayList<Circolo>?)
+        fun onCallback(returnedClubs: ArrayList<Circolo>?, returnedCourts : ArrayList<Campo>?)
     }
 
     companion object {
@@ -59,6 +59,7 @@ class Circolo(
                             for (club in returnedClubs) {
                                 clubs.add(club)
                             }
+
 
                             //For di filtraggio per gli altri paramentri
                             for (campo in campiPerSportDaFiltrare) {
@@ -101,13 +102,26 @@ class Circolo(
                             for (court in campiPerSportFiltrati) {
                                 clubsIDs.add(court.id_club.toString())
                             }
+
                             for (record in returnedClubs) {
                                 if (!clubsIDs.contains(record.id.toString())) {
                                     clubs.remove(record)
+
                                 }
                             }
 
-                            myCallbackClubs.onCallback(clubs)
+                            //Per ritornare i singoli campi dobbiamo togliere quelli che fanno riferimento a club fuori range
+                            val filteredClubsIDs = ArrayList<Long>()
+                            for(club in clubs){
+                                filteredClubsIDs.add(club.id)
+                            }
+                            for(court in campiPerSportDaFiltrare){
+                                if(!filteredClubsIDs.contains(court.id_club)){
+                                    campiPerSportFiltrati.remove(court)
+                                }
+                            }
+
+                            myCallbackClubs.onCallback(clubs,campiPerSportFiltrati)
                         }
                     }
                 }, myLoc, range)
@@ -168,7 +182,7 @@ class Circolo(
                                 }
                             }
 
-                            myCallbackClubs.onCallback(clubs)
+                            myCallbackClubs.onCallback(clubs,campiPerSportFiltrati)
                         }
                     }
 
