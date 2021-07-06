@@ -37,21 +37,42 @@ class DB_Handler_Reservation {
         //--------DA TESTARE---------//
         @RequiresApi(Build.VERSION_CODES.O)
         fun checkAvailability(giorno : String, oraInizio : String, oraFine : String, campo : Long, circolo : Long, myCallbackAvailable: MyCallbackAvailable ){
-            val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy hh:mm",Locale.ITALY)
+
+            var returnValue : Boolean = false
+
+            //Formatter diversi
+            var split = oraInizio.split(":")
+            var formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm",Locale.ITALY)
+
+            if(split[0].length==1){
+                formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy H:mm",Locale.ITALY)
+            }else{
+                formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm",Locale.ITALY)
+            }
             val dtInizio = LocalDateTime.parse(giorno+" "+oraInizio, formatter)
+            split = oraFine.split(":")
+            if(split[0].length==1){
+                formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy H:mm",Locale.ITALY)
+            }else{
+                formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm",Locale.ITALY)
+            }
             val dtFine = LocalDateTime.parse(giorno+" "+oraFine, formatter)
-            val timestampInizio = dtInizio.atOffset(ZoneOffset.UTC).toInstant().toEpochMilli()
-            val timestampFine = dtFine.atOffset(ZoneOffset.UTC).toInstant().toEpochMilli()
+
+            //Impostiamo un offset per calcolare il timestamp di 2 ore rispetto Londra
+            val timestampInizio = dtInizio.atOffset(ZoneOffset.ofHours(2)).toInstant().toEpochMilli()
+            val timestampFine = dtFine.atOffset(ZoneOffset.ofHours(2)).toInstant().toEpochMilli()
             myRef.collection("prenotazione").document(circolo.toString()+"-"+campo.toString()+"-"+giorno).collection("prenotazioni").get().addOnSuccessListener{ document->
                 val data = document.documents
                 for(prenotazione in data){
-                    val prenStart = prenotazione.data!!.get("oraInizio") as Long
-                    val prenEnd = prenotazione.data!!.get("oraFine") as Long
+                    var timestamp = prenotazione?.get("oraInizio") as com.google.firebase.Timestamp
+                    val prenStart = timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000
+                    timestamp = prenotazione?.get("oraFine") as com.google.firebase.Timestamp
+                    val prenEnd = timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000
                     if((prenStart < timestampFine) && (prenEnd>timestampInizio)){
-                        myCallbackAvailable.onCallback(true)
+                        returnValue = true
                     }
                 }
-                myCallbackAvailable.onCallback(false)
+                myCallbackAvailable.onCallback(returnValue)
             }
         }
 
