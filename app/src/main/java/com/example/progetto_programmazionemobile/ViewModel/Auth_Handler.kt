@@ -46,7 +46,6 @@ class Auth_Handler  {
 
 
         fun checkCredentials( userName : String, password : String,myCallBack : MyCallback){
-            var user : Utente? = null
             myRef.collection("users").whereEqualTo("user_name",userName).whereEqualTo("password",password).get().addOnSuccessListener { document->
                 if(document.isEmpty){
                     CURRENT_USER = null
@@ -54,11 +53,9 @@ class Auth_Handler  {
                     myCallBack.onCallback()
                 }else{
                     val data = document.documents[0]
-                    val timestamp = data?.get("data_nascita") as com.google.firebase.Timestamp
-                    val milliseconds = timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000
-                    val data_nascita = Date(milliseconds)
+
                     CURRENT_USER =Utente(data?.get("nome").toString(), data?.get("cognome").toString()
-                            , data_nascita ,data?.get("user_name").toString()
+                            ,data?.get("user_name").toString()
                             ,data?.get("email").toString() ,data?.get("telefono").toString(),data?.get("password").toString())
                     setLOGGED_IN()
                     myCallBack.onCallback()

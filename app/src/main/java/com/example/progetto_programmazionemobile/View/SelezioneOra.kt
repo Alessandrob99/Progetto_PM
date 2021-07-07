@@ -41,7 +41,7 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
 
         // Inflate the layout for this fragment
 
-        var flagClick = false
+        flagClick = false
 
         Annulla.isEnabled = false
         Annulla.setBackgroundColor(Color.GRAY)

@@ -10,7 +10,10 @@
         android:label="QuickPlay"
         android:roundIcon="@drawable/ic_baseline_sports_tennis_24"
         android:supportsRtl="true">
-        <activity android:name=".View.SelezioneOra"></activity>
+        <activity
+            android:name=".View.SelezioneOra"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar" />
         <activity
             android:name=".View.DetailsClubs"
             android:screenOrientation="portrait"

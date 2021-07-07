@@ -27,8 +27,8 @@ class DB_Handler_Users {
         fun onCallback(message : String)
     }
 
-    fun writeUser(name: String, surname: String, nascita : Timestamp?, username : String,email : String?,telefono : String?, password : String) {
-        val user = Utente(name, surname, nascita,username,email,telefono,password)
+    fun writeUser(name: String, surname: String, username : String,email : String?,telefono : String?, password : String) {
+        val user = Utente(name, surname,username,email,telefono,password)
         myRef.collection("users").document(username).set(user)
     }
 
@@ -39,11 +39,8 @@ class DB_Handler_Users {
         var user : Utente
         myRef.collection("users").document(id).get().addOnSuccessListener { document ->
             val data = document
-            val timestamp = data?.get("data_nascita") as com.google.firebase.Timestamp
-            val milliseconds = timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000
-            val data_nascita = Date(milliseconds)
             user = Utente(data?.get("nome").toString(), data?.get("cognome").toString()
-                , data_nascita ,data?.get("user_name").toString()
+                ,data?.get("user_name").toString()
                 ,data?.get("email").toString() ,data?.get("telefono").toString(),data?.get("password").toString())
             myCallBack.onCallback(user)
         }
@@ -65,13 +62,8 @@ class DB_Handler_Users {
         myRef.collection("users").whereEqualTo("nome",query.toLowerCase()).get().addOnSuccessListener { document->
             val data = document.documents
             for(d in data){
-
-                val timestamp = d.data?.get("data_nascita") as com.google.firebase.Timestamp
-                val milliseconds = timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000
-                val data_nascita = Date(milliseconds)
-
                 user = Utente(d.data?.get("nome").toString(), d.data?.get("cognome").toString()
-                    , data_nascita ,d.data?.get("user_name").toString()
+                    ,d.data?.get("user_name").toString()
                     ,d.data?.get("email").toString() ,d.data?.get("telefono").toString(),d.data?.get("password").toString())
                 users.add(user)
             }
@@ -99,7 +91,7 @@ class DB_Handler_Users {
                 val data_nascita = Date(milliseconds)
 
                 user = Utente(d.data?.get("nome").toString(), d.data?.get("cognome").toString()
-                    , data_nascita ,d.data?.get("user_name").toString()
+                    ,d.data?.get("user_name").toString()
                     ,d.data?.get("email").toString() ,d.data?.get("telefono").toString(),d.data?.get("password").toString())
                 users.add(user)
             }
@@ -121,12 +113,9 @@ class DB_Handler_Users {
         myRef.collection("users").whereEqualTo("nome",queryName.toLowerCase()).whereEqualTo("cognome",querySurname.toLowerCase()).get().addOnSuccessListener { document->
             val data = document.documents
             for(d in data){
-                val timestamp = d.data?.get("data_nascita") as com.google.firebase.Timestamp
-                val milliseconds = timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000
-                val data_nascita = Date(milliseconds)
 
                 user = Utente(d.data?.get("nome").toString(), d.data?.get("cognome").toString()
-                    , data_nascita ,d.data?.get("user_name").toString()
+                    ,d.data?.get("user_name").toString()
                     ,d.data?.get("email").toString() ,d.data?.get("telefono").toString(),d.data?.get("password").toString())
                 users.add(user)
             }
@@ -152,7 +141,7 @@ class DB_Handler_Users {
             ).addOnSuccessListener {
                 //Aggiorno i campi nell'Auth Handler
                 Auth_Handler.CURRENT_USER =Utente(name, surname,
-                    Auth_Handler.CURRENT_USER!!.nascita,Auth_Handler.CURRENT_USER!!.username
+                    Auth_Handler.CURRENT_USER!!.username
                     ,email ,number,password)
 
             }
