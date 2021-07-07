@@ -19,19 +19,17 @@ import com.example.progetto_programmazionemobile.ViewModel.DB_Handler_Courts
 import com.google.android.material.circularreveal.coordinatorlayout.CircularRevealCoordinatorLayout
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
-import kotlinx.android.synthetic.main.activity_details_club.*
+import kotlinx.android.synthetic.main.activity_details_clubs.*
 import kotlinx.android.synthetic.main.activity_selezione_1.*
 import java.util.*
 import kotlin.collections.ArrayList
 
 
 class DetailsClubs:AppCompatActivity() {
-    lateinit var autocompleteDurata: AutoCompleteTextView
-    lateinit var autocompleteInizio: AutoCompleteTextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_details_club)
+        setContentView(R.layout.activity_details_clubs)
 
         init()
 
@@ -42,9 +40,11 @@ class DetailsClubs:AppCompatActivity() {
 
 
         val email : TextView = findViewById(R.id.txtemail_Club)
-        email.text = club.email
-        val telefono : TextView = findViewById(R.id.txtTelefono_club)
-        telefono.text = club.telefono
+        email.text = "Email: "+club.email
+        val telefono : TextView = findViewById(R.id.txtTelefono_Club)
+        telefono.text = "Telefono: "+club.telefono
+
+
 
         val rv: RecyclerView = findViewById(R.id.recyclearCampi)
         rv.layoutManager = LinearLayoutManager(this)
@@ -55,7 +55,13 @@ class DetailsClubs:AppCompatActivity() {
 
     private fun init(){
         viewPagerClub.adapter = MyAdapterViewPager(this@DetailsClubs)
-
+        TabLayoutMediator(tabDots, viewPagerClub){ tab, position ->
+        }.attach()
+        viewPagerClub.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+            }
+        })
     }
 }
 

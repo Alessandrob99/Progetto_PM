@@ -41,6 +41,9 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
              }
          })
 
+
+
+
          if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
              //PERMESSO GARANTITO
 

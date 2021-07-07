@@ -4,11 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="230dp"
-    android:layout_marginStart="20dp"
-    android:layout_marginEnd="20dp"
-    android:layout_marginBottom="10dp"
-    android:layout_marginTop="10dp"
-    android:padding="10dp"
+    android:layout_margin="5dp"
     android:background="@drawable/btn_custom"
     android:clipToPadding="true">
 
@@ -113,8 +109,8 @@
         android:id="@+id/btnVisualizzaPrenotazioni"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="4dp"
-        android:layout_marginBottom="4dp"
+        android:layout_marginEnd="28dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/btn_custom"
         android:fontFamily="sans-serif-medium"
         android:text="Visualizza orari"
