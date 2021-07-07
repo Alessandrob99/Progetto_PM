@@ -20,6 +20,7 @@ import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_home_editprofile.*
+import java.math.RoundingMode
 
 class EditProfileFragment: Fragment()
 {
@@ -157,7 +158,7 @@ class EditProfileFragment: Fragment()
             })
         }.addOnProgressListener {
             var progPercent : Double = (it.bytesTransferred*100.00)/it.totalByteCount
-            progress.setMessage("Completato : "+progPercent+"%")
+            progress.setMessage("Completato : "+progPercent.toBigDecimal().setScale(1,RoundingMode.UP)+"%")
         }
     }
 }
