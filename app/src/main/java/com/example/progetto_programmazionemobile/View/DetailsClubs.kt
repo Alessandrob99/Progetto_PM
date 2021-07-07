@@ -8,12 +8,19 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager.widget.ViewPager
+import androidx.viewpager2.widget.ViewPager2
 import com.example.progetto_programmazionemobile.Model.Campo
 import com.example.progetto_programmazionemobile.Model.Circolo
 import com.example.progetto_programmazionemobile.Model.Utente
 import com.example.progetto_programmazionemobile.R
+import com.example.progetto_programmazionemobile.ViewModel.Auth_Handler
 import com.example.progetto_programmazionemobile.ViewModel.DB_Handler_Courts
+import com.google.android.material.circularreveal.coordinatorlayout.CircularRevealCoordinatorLayout
+import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.activity_details_club.*
+import kotlinx.android.synthetic.main.activity_selezione_1.*
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -26,22 +33,28 @@ class DetailsClubs:AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_details_club)
 
+        init()
+
         val nomeClub: TextView = findViewById(R.id.nomeClub)
         nomeClub.text = intent.getStringExtra("titleClub")
         val courts = intent.getSerializableExtra("courts") as ArrayList<Campo>
         val club = intent.getSerializableExtra("club") as Circolo
 
 
+        val email : TextView = findViewById(R.id.txtemail_Club)
+        email.text = club.email
+        val telefono : TextView = findViewById(R.id.txtTelefono_club)
+        telefono.text = club.telefono
+
         val rv: RecyclerView = findViewById(R.id.recyclearCampi)
-
-
         rv.layoutManager = LinearLayoutManager(this)
         rv.adapter = MyAdapterCourts(courts)
 
 
+    }
 
-
-
+    private fun init(){
+        viewPagerClub.adapter = MyAdapterViewPager(this@DetailsClubs)
 
     }
 }

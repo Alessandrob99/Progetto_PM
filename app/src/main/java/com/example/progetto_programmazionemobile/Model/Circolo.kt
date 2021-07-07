@@ -29,6 +29,7 @@ class Circolo(
 
     companion object {
 
+
         fun filterClubs(
             campiPerSportDaFiltrare: ArrayList<Campo>,
             myLoc: Location,

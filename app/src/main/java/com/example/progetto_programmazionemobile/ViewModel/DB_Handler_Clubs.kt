@@ -1,7 +1,6 @@
 package com.example.progetto_programmazionemobile.ViewModel
 
 import android.location.Location
-import com.example.progetto_programmazionemobile.Model.Campo
 import com.example.progetto_programmazionemobile.Model.Circolo
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -18,6 +17,7 @@ class DB_Handler_Clubs {
     }
     companion object{
         val myRef = FirebaseFirestore.getInstance()
+
 
         //Query per ogni circolo
         fun getAllClubs(myCallBack : MyCallbackClubs){
