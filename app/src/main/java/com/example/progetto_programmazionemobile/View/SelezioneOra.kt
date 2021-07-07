@@ -2,9 +2,9 @@ package com.example.progetto_programmazionemobile.View
 
 import android.annotation.SuppressLint
 import android.content.DialogInterface
-import android.content.Intent
 import android.graphics.Color
 import android.os.Build
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,106 +14,120 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.Fragment
 import com.example.progetto_programmazionemobile.Model.Prenotazione
 import com.example.progetto_programmazionemobile.R
-import com.example.progetto_programmazionemobile.ViewModel.Auth_Handler
 import com.example.progetto_programmazionemobile.ViewModel.DB_Handler_Reservation
-import kotlinx.android.synthetic.main.fragment_home_profile_fragment.*
+import kotlinx.android.synthetic.main.activity_selezione_ora.*
 import java.util.*
 import kotlin.collections.ArrayList
 
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [FragmentOrari.newInstance] factory method to
- * create an instance of this fragment.
- */
-class FragmentOrari : Fragment(), View.OnClickListener {
-
+class SelezioneOra : AppCompatActivity(), View.OnClickListener {
     var flagClick = false
     lateinit var oraInizioStr: String
     lateinit var oraFineStr: String
-    lateinit var textView: TextView
     lateinit var btnOrari: MutableMap<String, Button>
-    lateinit var btnAnnulla : Button
     var prenotazioni = ArrayList<Prenotazione>()
-
 
     //Da leggere
     val giorno = "28-07-2021"
     val campo = 1.toLong()
     val circolo = 1.toLong()
-
+    @SuppressLint("WrongViewCast")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
+        setContentView(R.layout.activity_selezione_ora)
 
 
-        }
-    }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
         // Inflate the layout for this fragment
-        val v: View = inflater.inflate(R.layout.fragment_orari, container, false)
 
-        textView = v.findViewById<TextView>(R.id.textView8)
         var flagClick = false
 
-        btnAnnulla = v.findViewById(R.id.Annulla)
-        btnAnnulla.isEnabled = false
-        btnAnnulla.setBackgroundColor(Color.GRAY)
-        btnAnnulla.setOnClickListener(object : View.OnClickListener{
+        Annulla.isEnabled = false
+        Annulla.setBackgroundColor(Color.GRAY)
+        Annulla.setOnClickListener(object : View.OnClickListener{
             override fun onClick(v: View?) {
                 resetta()
             }
         })
+        ConfermaOrario.isEnabled = false
+        ConfermaOrario.setBackgroundColor(Color.GRAY)
+        ConfermaOrario.setOnClickListener(object : View.OnClickListener{
+            @RequiresApi(Build.VERSION_CODES.O)
+            override fun onClick(v: View?) {
+                DB_Handler_Reservation.checkAvailability(
+                    giorno,
+                    oraInizioStr,
+                    oraFineStr,
+                    campo,
+                    circolo,
+                    object : DB_Handler_Reservation.MyCallbackAvailable {
+                        override fun onCallback(result: Boolean) {
+                            if (result) {
+                                //Sono presenti sovrapposizioni
+                                val builder: AlertDialog.Builder = AlertDialog.Builder(this@SelezioneOra)
+                                builder.setTitle("Errore")
+                                builder.setMessage(
+                                    "L'orario selezionato va in collisione con altre prenotazioni già presenti." +
+                                            System.lineSeparator() + "Inserire un intervallo temporale valido"
+                                )
 
-        btnOrari = mutableMapOf("uno" to v.findViewById(R.id.h6m30))
+                                builder.setNegativeButton("OK", object : DialogInterface.OnClickListener {
+                                    override fun onClick(dialog: DialogInterface?, which: Int) {
 
-        
-        btnOrari.put("6:30", v.findViewById(R.id.h6m30))
-        btnOrari.put("7:00", v.findViewById(R.id.h7m00))
-        btnOrari.put("7:30", v.findViewById(R.id.h7m30))
-        btnOrari.put("8:00", v.findViewById(R.id.h8m00))
-        btnOrari.put("8:30", v.findViewById(R.id.h8m30))
-        btnOrari.put("9:00", v.findViewById(R.id.h9m00))
-        btnOrari.put("9:30", v.findViewById(R.id.h9m30))
-        btnOrari.put("10:00", v.findViewById(R.id.h10m00))
-        btnOrari.put("10:30", v.findViewById(R.id.h10m30))
-        btnOrari.put("11:00", v.findViewById(R.id.h11m00))
-        btnOrari.put("11:30", v.findViewById(R.id.h11m30))
-        btnOrari.put("12:00", v.findViewById(R.id.h12m00))
-        btnOrari.put("12:30", v.findViewById(R.id.h12m30))
-        btnOrari.put("13:00", v.findViewById(R.id.h13m00))
-        btnOrari.put("13:30", v.findViewById(R.id.h13m30))
-        btnOrari.put("14:00", v.findViewById(R.id.h14m00))
-        btnOrari.put("14:30", v.findViewById(R.id.h14m30))
-        btnOrari.put("15:00", v.findViewById(R.id.h15m00))
-        btnOrari.put("15:30", v.findViewById(R.id.h15m30))
-        btnOrari.put("16:00", v.findViewById(R.id.h16m00))
-        btnOrari.put("16:30", v.findViewById(R.id.h16m30))
-        btnOrari.put("17:00", v.findViewById(R.id.h17m00))
-        btnOrari.put("17:30", v.findViewById(R.id.h17m30))
-        btnOrari.put("18:00", v.findViewById(R.id.h18m00))
-        btnOrari.put("18:30", v.findViewById(R.id.h18m30))
-        btnOrari.put("19:00", v.findViewById(R.id.h19m00))
-        btnOrari.put("19:30", v.findViewById(R.id.h19m30))
-        btnOrari.put("20:00", v.findViewById(R.id.h20m00))
-        btnOrari.put("20:30", v.findViewById(R.id.h20m30))
-        btnOrari.put("21:00", v.findViewById(R.id.h21m00))
-        btnOrari.put("21:30", v.findViewById(R.id.h21m30))
-        btnOrari.put("22:00", v.findViewById(R.id.h22m00))
-        btnOrari.put("22:30", v.findViewById(R.id.h22m30))
-        btnOrari.put("23:00", v.findViewById(R.id.h23m00))
-        btnOrari.put("23:30", v.findViewById(R.id.h23m30))
-        btnOrari.put("24:00", v.findViewById(R.id.h24m00))
+                                    }
+                                })
+                                val alertDialog = builder.create()
+                                alertDialog.show()
+                                resetta()
+                            }else{
+                                Toast.makeText(this@SelezioneOra,"Hai prenotato dalle "+oraInizioStr+" alle "+oraFineStr,
+                                    Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    })
+            }
+        })
+
+        btnOrari = mutableMapOf("uno" to h6m30)
+
+
+        btnOrari.put("6:30", h6m30)
+        btnOrari.put("7:00", h7m00)
+        btnOrari.put("7:30", h7m30)
+        btnOrari.put("8:00", h8m00)
+        btnOrari.put("8:30", h8m30)
+        btnOrari.put("9:00", h9m00)
+        btnOrari.put("9:30", h9m30)
+        btnOrari.put("10:00", h10m00)
+        btnOrari.put("10:30", h10m30)
+        btnOrari.put("11:00", h11m00)
+        btnOrari.put("11:30", h11m30)
+        btnOrari.put("12:00", h12m00)
+        btnOrari.put("12:30", h12m30)
+        btnOrari.put("13:00", h13m00)
+        btnOrari.put("13:30", h13m30)
+        btnOrari.put("14:00", h14m00)
+        btnOrari.put("14:30", h14m30)
+        btnOrari.put("15:00", h15m00)
+        btnOrari.put("15:30", h15m30)
+        btnOrari.put("16:00", h16m00)
+        btnOrari.put("16:30", h16m30)
+        btnOrari.put("17:00", h17m00)
+        btnOrari.put("17:30", h17m30)
+        btnOrari.put("18:00", h18m00)
+        btnOrari.put("18:30", h18m30)
+        btnOrari.put("19:00", h19m00)
+        btnOrari.put("19:30", h19m30)
+        btnOrari.put("20:00", h20m00)
+        btnOrari.put("20:30", h20m30)
+        btnOrari.put("21:00", h21m00)
+        btnOrari.put("21:30", h21m30)
+        btnOrari.put("22:00", h22m00)
+        btnOrari.put("22:30", h22m30)
+        btnOrari.put("23:00", h23m00)
+        btnOrari.put("23:30", h23m30)
+        btnOrari.put("24:00", h24m00)
 
 
         btnOrari.get("6:30")!!.isEnabled = false
@@ -307,16 +321,14 @@ class FragmentOrari : Fragment(), View.OnClickListener {
         //Settiamo il comportamento sugli onClick
 
 
-        return v
 
     }
-
     @SuppressLint("ResourceAsColor")
     fun firstClick(btntId: String) {
         oraInizioStr = btntId
 
         flagClick = true
-        textView.text = "Selezionare orario di fine"
+        textView8.text = "Selezionare orario di fine"
         btnOrari.get(btntId)!!.isEnabled = false
         btnOrari.get(btntId)!!.setBackgroundColor(Color.CYAN)
         btnOrari.get("24:00")!!.isEnabled = true
@@ -359,8 +371,8 @@ class FragmentOrari : Fragment(), View.OnClickListener {
                 }
             }
         }
-        btnAnnulla.isEnabled = true
-        btnAnnulla.setBackgroundColor(Color.BLUE)
+        Annulla.isEnabled = true
+        Annulla.setBackgroundColor(Color.BLUE)
     }
 
 
@@ -370,34 +382,7 @@ class FragmentOrari : Fragment(), View.OnClickListener {
         btnOrari.get(btntId)!!.setBackgroundColor(Color.CYAN)
         btnOrari.get(btntId)!!.isEnabled = false
 
-        DB_Handler_Reservation.checkAvailability(
-            giorno,
-            oraInizioStr,
-            oraFineStr,
-            campo,
-            circolo,
-            object : DB_Handler_Reservation.MyCallbackAvailable {
-                override fun onCallback(result: Boolean) {
-                    if (result) {
-                        //Sono presenti sovrapposizioni
-                        val builder: AlertDialog.Builder = AlertDialog.Builder(context!!)
-                        builder.setTitle("Errore")
-                        builder.setMessage(
-                            "L'orario selezionato va in collisione con altre prenotazioni già presenti." +
-                                    System.lineSeparator() + "Inserire un intervallo temporale valido"
-                        )
 
-                        builder.setNegativeButton("OK", object : DialogInterface.OnClickListener {
-                            override fun onClick(dialog: DialogInterface?, which: Int) {
-
-                            }
-                        })
-                        val alertDialog = builder.create()
-                        alertDialog.show()
-                        resetta()
-                    }
-                }
-            })
         //Coloro di ciano tutti i bottoni che rappresentano la fascia oraria indicata
         var splitOraInizio = oraInizioStr.split(":")
         var oraInizioInt : Int
@@ -416,14 +401,18 @@ class FragmentOrari : Fragment(), View.OnClickListener {
                 minInizio = "30"
             }
         }
+        ConfermaOrario.isEnabled = true
+        ConfermaOrario.setBackgroundColor(Color.GREEN)
     }
     fun resetta() {
         flagClick = false
         oraFineStr = ""
         oraInizioStr = ""
-        textView.text = "Selezionare orario di inizio"
-        btnAnnulla.isEnabled = false
-        btnAnnulla.setBackgroundColor(Color.GRAY)
+        textView8.text = "Selezionare orario di inizio"
+        Annulla.isEnabled = false
+        Annulla.setBackgroundColor(Color.GRAY)
+        ConfermaOrario.isEnabled = false
+        ConfermaOrario.setBackgroundColor(Color.GRAY)
 
         btnOrari.get("6:30")!!.setBackgroundColor(Color.BLUE)
         btnOrari.get("7:00")!!.setBackgroundColor(Color.BLUE)
@@ -540,7 +529,7 @@ class FragmentOrari : Fragment(), View.OnClickListener {
     override fun onClick(v: View?) {
         @RequiresApi(Build.VERSION_CODES.O)
         when (v!!.id) {
-            R.id.h6m30 -> {
+            h6m30.id-> {
                 if (flagClick == false) {
                     //Bottone non cliccato
                     firstClick("6:30")
@@ -549,7 +538,7 @@ class FragmentOrari : Fragment(), View.OnClickListener {
                     secondClick("6:30")
                 }
             }
-            R.id.h7m00 -> {
+            h7m00.id -> {
                 if (flagClick == false) {
                     //Bottone non cliccato
                     firstClick("7:00")
@@ -559,7 +548,7 @@ class FragmentOrari : Fragment(), View.OnClickListener {
                 }
             }
 
-            R.id.h7m30 -> {
+            h7m30.id -> {
                 if (flagClick == false) {
                     //Bottone non cliccato
                     firstClick("7:30")
@@ -568,7 +557,7 @@ class FragmentOrari : Fragment(), View.OnClickListener {
                     secondClick("7:30")
                 }
             }
-            R.id.h8m00 -> {
+            h8m00.id -> {
                 if (flagClick == false) {
                     //Bottone non cliccato
                     firstClick("8:00")
@@ -577,7 +566,7 @@ class FragmentOrari : Fragment(), View.OnClickListener {
                     secondClick("8:00")
                 }
             }
-            R.id.h8m30 -> {
+            h8m30.id -> {
                 if (flagClick == false) {
                     //Bottone non cliccato
                     firstClick("8:30")
@@ -586,7 +575,7 @@ class FragmentOrari : Fragment(), View.OnClickListener {
                     secondClick("8:30")
                 }
             }
-            R.id.h9m00 -> {
+            h9m00.id -> {
                 if (flagClick == false) {
                     //Bottone non cliccato
                     firstClick("9:00")
@@ -595,7 +584,7 @@ class FragmentOrari : Fragment(), View.OnClickListener {
                     secondClick("9:00")
                 }
             }
-            R.id.h9m30 -> {
+            h9m30.id -> {
                 if (flagClick == false) {
                     //Bottone non cliccato
                     firstClick("9:30")
@@ -604,7 +593,7 @@ class FragmentOrari : Fragment(), View.OnClickListener {
                     secondClick("9:30")
                 }
             }
-            R.id.h10m00 -> {
+            h10m00.id -> {
                 if (flagClick == false) {
                     //Bottone non cliccato
                     firstClick("10:00")
@@ -613,7 +602,7 @@ class FragmentOrari : Fragment(), View.OnClickListener {
                     secondClick("10:00")
                 }
             }
-            R.id.h10m30 -> {
+            h10m30.id -> {
                 if (flagClick == false) {
                     //Bottone non cliccato
                     firstClick("10:30")
@@ -622,7 +611,7 @@ class FragmentOrari : Fragment(), View.OnClickListener {
                     secondClick("10:30")
                 }
             }
-            R.id.h11m00 -> {
+            h11m00.id -> {
                 if (flagClick == false) {
                     //Bottone non cliccato
                     firstClick("11:00")
@@ -631,7 +620,7 @@ class FragmentOrari : Fragment(), View.OnClickListener {
                     secondClick("11:00")
                 }
             }
-            R.id.h11m30 -> {
+            h11m30.id -> {
                 if (flagClick == false) {
                     //Bottone non cliccato
                     firstClick("11:30")
@@ -640,7 +629,7 @@ class FragmentOrari : Fragment(), View.OnClickListener {
                     secondClick("11:30")
                 }
             }
-            R.id.h12m00 -> {
+            h12m00.id -> {
                 if (flagClick == false) {
                     //Bottone non cliccato
                     firstClick("12:00")
@@ -649,7 +638,7 @@ class FragmentOrari : Fragment(), View.OnClickListener {
                     secondClick("12:00")
                 }
             }
-            R.id.h12m30 -> {
+            h12m30.id -> {
                 if (flagClick == false) {
                     //Bottone non cliccato
                     firstClick("12:30")
@@ -658,7 +647,7 @@ class FragmentOrari : Fragment(), View.OnClickListener {
                     secondClick("12:30")
                 }
             }
-            R.id.h13m00 -> {
+            h13m00.id -> {
                 if (flagClick == false) {
                     //Bottone non cliccato
                     firstClick("13:00")
@@ -667,7 +656,7 @@ class FragmentOrari : Fragment(), View.OnClickListener {
                     secondClick("13:00")
                 }
             }
-            R.id.h13m30 -> {
+            h13m30.id -> {
                 if (flagClick == false) {
                     //Bottone non cliccato
                     firstClick("13:30")
@@ -676,7 +665,7 @@ class FragmentOrari : Fragment(), View.OnClickListener {
                     secondClick("13:30")
                 }
             }
-            R.id.h14m00 -> {
+            h14m00.id -> {
                 if (flagClick == false) {
                     //Bottone non cliccato
                     firstClick("14:00")
@@ -685,7 +674,7 @@ class FragmentOrari : Fragment(), View.OnClickListener {
                     secondClick("14:00")
                 }
             }
-            R.id.h14m30 -> {
+            h14m30.id -> {
                 if (flagClick == false) {
                     //Bottone non cliccato
                     firstClick("14:30")
@@ -694,7 +683,7 @@ class FragmentOrari : Fragment(), View.OnClickListener {
                     secondClick("14:30")
                 }
             }
-            R.id.h15m00 -> {
+            h15m00.id -> {
                 if (flagClick == false) {
                     //Bottone non cliccato
                     firstClick("15:00")
@@ -703,7 +692,7 @@ class FragmentOrari : Fragment(), View.OnClickListener {
                     secondClick("15:00")
                 }
             }
-            R.id.h15m30 -> {
+            h15m30.id -> {
                 if (flagClick == false) {
                     //Bottone non cliccato
                     firstClick("15:30")
@@ -712,7 +701,7 @@ class FragmentOrari : Fragment(), View.OnClickListener {
                     secondClick("15:30")
                 }
             }
-            R.id.h16m00 -> {
+            h16m00.id -> {
                 if (flagClick == false) {
                     //Bottone non cliccato
                     firstClick("16:00")
@@ -721,7 +710,7 @@ class FragmentOrari : Fragment(), View.OnClickListener {
                     secondClick("16:00")
                 }
             }
-            R.id.h16m30 -> {
+            h16m30.id -> {
                 if (flagClick == false) {
                     //Bottone non cliccato
                     firstClick("16:30")
@@ -730,7 +719,7 @@ class FragmentOrari : Fragment(), View.OnClickListener {
                     secondClick("16:30")
                 }
             }
-            R.id.h17m00 -> {
+            h17m00.id -> {
                 if (flagClick == false) {
                     //Bottone non cliccato
                     firstClick("17:00")
@@ -739,7 +728,7 @@ class FragmentOrari : Fragment(), View.OnClickListener {
                     secondClick("17:00")
                 }
             }
-            R.id.h17m30 -> {
+            h17m30.id -> {
                 if (flagClick == false) {
                     //Bottone non cliccato
                     firstClick("17:30")
@@ -748,7 +737,7 @@ class FragmentOrari : Fragment(), View.OnClickListener {
                     secondClick("17:30")
                 }
             }
-            R.id.h18m00 -> {
+            h18m00.id -> {
                 if (flagClick == false) {
                     //Bottone non cliccato
                     firstClick("18:00")
@@ -757,7 +746,7 @@ class FragmentOrari : Fragment(), View.OnClickListener {
                     secondClick("18:00")
                 }
             }
-            R.id.h18m30 -> {
+            h18m30.id -> {
                 if (flagClick == false) {
                     //Bottone non cliccato
                     firstClick("18:30")
@@ -766,7 +755,7 @@ class FragmentOrari : Fragment(), View.OnClickListener {
                     secondClick("18:30")
                 }
             }
-            R.id.h19m00 -> {
+            h19m00.id -> {
                 if (flagClick == false) {
                     //Bottone non cliccato
                     firstClick("19:00")
@@ -775,7 +764,7 @@ class FragmentOrari : Fragment(), View.OnClickListener {
                     secondClick("19:00")
                 }
             }
-            R.id.h19m30 -> {
+            h19m30.id -> {
                 if (flagClick == false) {
                     //Bottone non cliccato
                     firstClick("19:30")
@@ -784,7 +773,7 @@ class FragmentOrari : Fragment(), View.OnClickListener {
                     secondClick("19:30")
                 }
             }
-            R.id.h20m00 -> {
+            h20m00.id -> {
                 if (flagClick == false) {
                     //Bottone non cliccato
                     firstClick("20:00")
@@ -793,7 +782,7 @@ class FragmentOrari : Fragment(), View.OnClickListener {
                     secondClick("20:00")
                 }
             }
-            R.id.h20m30 -> {
+            h20m30.id -> {
                 if (flagClick == false) {
                     //Bottone non cliccato
                     firstClick("20:30")
@@ -802,7 +791,7 @@ class FragmentOrari : Fragment(), View.OnClickListener {
                     secondClick("20:30")
                 }
             }
-            R.id.h21m00 -> {
+            h21m00.id -> {
                 if (flagClick == false) {
                     //Bottone non cliccato
                     firstClick("21:00")
@@ -811,7 +800,7 @@ class FragmentOrari : Fragment(), View.OnClickListener {
                     secondClick("21:00")
                 }
             }
-            R.id.h21m30 -> {
+            h21m30.id -> {
                 if (flagClick == false) {
                     //Bottone non cliccato
                     firstClick("21:30")
@@ -820,7 +809,7 @@ class FragmentOrari : Fragment(), View.OnClickListener {
                     secondClick("21:30")
                 }
             }
-            R.id.h22m00 -> {
+            h22m00.id -> {
                 if (flagClick == false) {
                     //Bottone non cliccato
                     firstClick("22:00")
@@ -829,7 +818,7 @@ class FragmentOrari : Fragment(), View.OnClickListener {
                     secondClick("22:00")
                 }
             }
-            R.id.h22m30 -> {
+            h22m30.id -> {
                 if (flagClick == false) {
                     //Bottone non cliccato
                     firstClick("22:30")
@@ -838,7 +827,7 @@ class FragmentOrari : Fragment(), View.OnClickListener {
                     secondClick("22:30")
                 }
             }
-            R.id.h23m00 -> {
+            h23m00.id -> {
                 if (flagClick == false) {
                     //Bottone non cliccato
                     firstClick("23:00")
@@ -847,7 +836,7 @@ class FragmentOrari : Fragment(), View.OnClickListener {
                     secondClick("23:00")
                 }
             }
-            R.id.h23m30 -> {
+            h23m30.id -> {
                 if (flagClick == false) {
                     //Bottone non cliccato
                     firstClick("23:30")
@@ -856,9 +845,12 @@ class FragmentOrari : Fragment(), View.OnClickListener {
                     secondClick("23:30")
                 }
             }
-            R.id.h24m00 ->
+            h24m00.id ->
                 secondClick("24:00")
         }
     }
 
 }
+
+
+

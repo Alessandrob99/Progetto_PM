@@ -161,4 +161,8 @@ class LoaderLocation : AppCompatActivity()
         }
 
     }
+
+    override fun onBackPressed() {
+        //controllo sul tempo o su un eventuale crash
+    }
 }

@@ -4,17 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".View.FragmentOrari">
+    tools:context=".View.SelezioneOra">
 
     <Button
         android:id="@+id/h20m00"
         android:layout_width="72dp"
         android:layout_height="40dp"
-        android:layout_marginStart="4dp"
         android:layout_marginTop="72dp"
         android:text="20:00"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.186"
+        app:layout_constraintHorizontal_bias="0.276"
         app:layout_constraintStart_toEndOf="@+id/h15m30"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -105,11 +104,10 @@
         android:id="@+id/h20m30"
         android:layout_width="72dp"
         android:layout_height="40dp"
-        android:layout_marginStart="4dp"
         android:layout_marginTop="16dp"
         android:text="20:30"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.195"
+        app:layout_constraintHorizontal_bias="0.297"
         app:layout_constraintStart_toEndOf="@+id/h16m00"
         app:layout_constraintTop_toBottomOf="@+id/h20m00" />
 
@@ -413,5 +411,6 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/h15m00" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

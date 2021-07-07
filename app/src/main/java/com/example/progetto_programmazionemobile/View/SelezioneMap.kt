@@ -273,6 +273,16 @@ class SelezioneMap : AppCompatActivity(), OnMapReadyCallback
                     startActivity(intent)
                 }
             })
+        builder.setNegativeButton(
+            "NO",
+            object : DialogInterface.OnClickListener {
+                override fun onClick(
+                    dialog: DialogInterface?,
+                    which: Int
+                ) {
+
+                }
+            })
         val alertDialog = builder.create()
         alertDialog.show()
 
