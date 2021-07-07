@@ -1,6 +1,8 @@
 package com.example.progetto_programmazionemobile.View
 
 import android.annotation.SuppressLint
+import android.content.DialogInterface
+import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
@@ -11,9 +13,11 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.example.progetto_programmazionemobile.Model.Prenotazione
 import com.example.progetto_programmazionemobile.R
+import com.example.progetto_programmazionemobile.ViewModel.Auth_Handler
 import com.example.progetto_programmazionemobile.ViewModel.DB_Handler_Reservation
 import kotlinx.android.synthetic.main.fragment_home_profile_fragment.*
 import java.util.*
@@ -35,6 +39,7 @@ class FragmentOrari : Fragment(), View.OnClickListener {
     lateinit var oraFineStr: String
     lateinit var textView: TextView
     lateinit var btnOrari: MutableMap<String, Button>
+    lateinit var btnAnnulla : Button
     var prenotazioni = ArrayList<Prenotazione>()
 
 
@@ -61,8 +66,18 @@ class FragmentOrari : Fragment(), View.OnClickListener {
         textView = v.findViewById<TextView>(R.id.textView8)
         var flagClick = false
 
+        btnAnnulla = v.findViewById(R.id.Annulla)
+        btnAnnulla.isEnabled = false
+        btnAnnulla.setBackgroundColor(Color.GRAY)
+        btnAnnulla.setOnClickListener(object : View.OnClickListener{
+            override fun onClick(v: View?) {
+                resetta()
+            }
+        })
+
         btnOrari = mutableMapOf("uno" to v.findViewById(R.id.h6m30))
 
+        
         btnOrari.put("6:30", v.findViewById(R.id.h6m30))
         btnOrari.put("7:00", v.findViewById(R.id.h7m00))
         btnOrari.put("7:30", v.findViewById(R.id.h7m30))
@@ -139,6 +154,42 @@ class FragmentOrari : Fragment(), View.OnClickListener {
         btnOrari.get("24:00")!!.isEnabled = false
 
 
+        btnOrari.get("6:30")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("7:00")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("7:30")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("8:00")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("8:30")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("9:00")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("9:30")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("10:00")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("10:30")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("11:00")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("11:30")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("12:00")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("12:30")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("13:00")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("13:30")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("14:00")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("14:30")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("15:00")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("15:30")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("16:00")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("16:30")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("17:00")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("17:30")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("18:00")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("18:30")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("19:00")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("19:30")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("20:00")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("20:30")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("21:00")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("21:30")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("22:00")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("22:30")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("23:00")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("23:30")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("24:00")!!.setBackgroundColor(Color.GRAY)
         val prenotazioni = DB_Handler_Reservation.getListOfReservations(
             giorno,
             campo,
@@ -180,7 +231,7 @@ class FragmentOrari : Fragment(), View.OnClickListener {
                     btnOrari.get("22:30")!!.isEnabled = true
                     btnOrari.get("23:00")!!.isEnabled = true
                     btnOrari.get("23:30")!!.isEnabled = true
-                    btnOrari.get("24:00")!!.isEnabled = true
+                    btnOrari.get("24:00")!!.isEnabled = false
                     var minFine: String
                     var oraFine: String
                     var min: Int
@@ -196,17 +247,13 @@ class FragmentOrari : Fragment(), View.OnClickListener {
                         minFine = cal.get(Calendar.MINUTE).toString()
                         oraFine = cal.get(Calendar.HOUR_OF_DAY).toString()
                         while (ora.toString() + ":" + min.toString() != oraFine + ":" + minFine) {
-
-
                             if (min == 0) {
                                 btn = btnOrari.get(ora.toString() + ":00")!!
-
                             } else {
                                 btn = btnOrari.get(ora.toString() + ":" + min.toString())!!
                             }
                             btn.setBackgroundColor(Color.RED)
                             btn.isEnabled = false
-
                             //Aggiungo mezz'ora
                             if (min == 30) {
                                 min = 0
@@ -215,7 +262,6 @@ class FragmentOrari : Fragment(), View.OnClickListener {
                                 min = 30
                             }
                         }
-
                     }
 
                 }
@@ -271,9 +317,10 @@ class FragmentOrari : Fragment(), View.OnClickListener {
 
         flagClick = true
         textView.text = "Selezionare orario di fine"
-        btnOrari.get(btntId)!!.isEnabled = true
+        btnOrari.get(btntId)!!.isEnabled = false
         btnOrari.get(btntId)!!.setBackgroundColor(Color.CYAN)
         btnOrari.get("24:00")!!.isEnabled = true
+        btnOrari.get("24:00")!!.setBackgroundColor(Color.BLUE)
         var ora = "6:30".split(":") as MutableList<String>
         while (oraInizioStr != ora[0] + ":" + ora[1]) {
             btnOrari.get(ora[0] + ":" + ora[1])!!.isEnabled = false
@@ -304,21 +351,25 @@ class FragmentOrari : Fragment(), View.OnClickListener {
 
             if(cal.get(Calendar.HOUR_OF_DAY)>splitOraInizio[0].toInt()){
                 btnOrari.get(cal.get(Calendar.HOUR_OF_DAY).toString()+":"+minPren)!!.isEnabled = true
-                btnOrari.get(cal.get(Calendar.HOUR_OF_DAY).toString()+":"+minPren)!!.setBackgroundResource(R.drawable.common_google_signin_btn_icon_dark_normal)
+                btnOrari.get(cal.get(Calendar.HOUR_OF_DAY).toString()+":"+minPren)!!.setBackgroundColor(Color.BLUE)
             }else{
                 if(cal.get(Calendar.HOUR_OF_DAY)==splitOraInizio[0].toInt() && minPren=="30" && splitOraInizio[1].toString()=="00"){
                     btnOrari.get(cal.get(Calendar.HOUR_OF_DAY).toString()+":"+minPren)!!.isEnabled = true
-                    btnOrari.get(cal.get(Calendar.HOUR_OF_DAY).toString()+":"+minPren)!!.setBackgroundResource(R.drawable.common_google_signin_btn_icon_dark_normal)
+                    btnOrari.get(cal.get(Calendar.HOUR_OF_DAY).toString()+":"+minPren)!!.setBackgroundColor(Color.BLUE)
                 }
             }
-
         }
+        btnAnnulla.isEnabled = true
+        btnAnnulla.setBackgroundColor(Color.BLUE)
     }
 
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun secondClick(btntId: String) {
         oraFineStr = btntId
+        btnOrari.get(btntId)!!.setBackgroundColor(Color.CYAN)
+        btnOrari.get(btntId)!!.isEnabled = false
+
         DB_Handler_Reservation.checkAvailability(
             giorno,
             oraInizioStr,
@@ -329,64 +380,161 @@ class FragmentOrari : Fragment(), View.OnClickListener {
                 override fun onCallback(result: Boolean) {
                     if (result) {
                         //Sono presenti sovrapposizioni
-                        Toast.makeText(context, "Errore", Toast.LENGTH_SHORT).show()
-                        //resetta()
-                    } else {
-                        //Nessuna sovrapposizione
-                        Toast.makeText(context, "Prenotazione effettuata", Toast.LENGTH_SHORT)
-                            .show()
+                        val builder: AlertDialog.Builder = AlertDialog.Builder(context!!)
+                        builder.setTitle("Errore")
+                        builder.setMessage(
+                            "L'orario selezionato va in collisione con altre prenotazioni già presenti." +
+                                    System.lineSeparator() + "Inserire un intervallo temporale valido"
+                        )
 
+                        builder.setNegativeButton("OK", object : DialogInterface.OnClickListener {
+                            override fun onClick(dialog: DialogInterface?, which: Int) {
+
+                            }
+                        })
+                        val alertDialog = builder.create()
+                        alertDialog.show()
+                        resetta()
                     }
                 }
             })
-
+        //Coloro di ciano tutti i bottoni che rappresentano la fascia oraria indicata
+        var splitOraInizio = oraInizioStr.split(":")
+        var oraInizioInt : Int
+        var oraInizio = splitOraInizio[0]
+        var minInizio = splitOraInizio[1]
+        while(oraInizio+":"+minInizio != oraFineStr){
+            btnOrari.get(oraInizio+":"+minInizio)!!.isEnabled = false
+            btnOrari.get(oraInizio+":"+minInizio)!!.setBackgroundColor(Color.CYAN)
+            //Aggiungo mezz'ora
+            if(minInizio=="30"){
+                oraInizioInt = oraInizio.toInt()
+                oraInizioInt+=1
+                oraInizio = oraInizioInt.toString()
+                minInizio="00"
+            }else{
+                minInizio = "30"
+            }
+        }
     }
-
     fun resetta() {
         flagClick = false
         oraFineStr = ""
         oraInizioStr = ""
         textView.text = "Selezionare orario di inizio"
+        btnAnnulla.isEnabled = false
+        btnAnnulla.setBackgroundColor(Color.GRAY)
+
+        btnOrari.get("6:30")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("7:00")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("7:30")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("8:00")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("8:30")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("9:00")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("9:30")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("10:00")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("10:30")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("11:00")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("11:30")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("12:00")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("12:30")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("13:00")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("13:30")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("14:00")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("14:30")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("15:00")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("15:30")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("16:00")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("16:30")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("17:00")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("17:30")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("18:00")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("18:30")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("19:00")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("19:30")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("20:00")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("20:30")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("21:00")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("21:30")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("22:00")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("22:30")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("23:00")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("23:30")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("24:00")!!.setBackgroundColor(Color.GRAY)
 
 
-        btnOrari.get("6:30")!!.setBackgroundColor(Color.WHITE)
-        btnOrari.get("7:00")!!.setBackgroundColor(Color.WHITE)
-        btnOrari.get("7:30")!!.setBackgroundColor(Color.WHITE)
-        btnOrari.get("8:00")!!.setBackgroundColor(Color.WHITE)
-        btnOrari.get("8:30")!!.setBackgroundColor(Color.WHITE)
-        btnOrari.get("9:00")!!.setBackgroundColor(Color.WHITE)
-        btnOrari.get("9:30")!!.setBackgroundColor(Color.WHITE)
-        btnOrari.get("10:00")!!.setBackgroundColor(Color.WHITE)
-        btnOrari.get("10:30")!!.setBackgroundColor(Color.WHITE)
-        btnOrari.get("11:00")!!.setBackgroundColor(Color.WHITE)
-        btnOrari.get("11:30")!!.setBackgroundColor(Color.WHITE)
-        btnOrari.get("12:00")!!.setBackgroundColor(Color.WHITE)
-        btnOrari.get("12:30")!!.setBackgroundColor(Color.WHITE)
-        btnOrari.get("13:00")!!.setBackgroundColor(Color.WHITE)
-        btnOrari.get("13:30")!!.setBackgroundColor(Color.WHITE)
-        btnOrari.get("14:00")!!.setBackgroundColor(Color.WHITE)
-        btnOrari.get("14:30")!!.setBackgroundColor(Color.WHITE)
-        btnOrari.get("15:00")!!.setBackgroundColor(Color.WHITE)
-        btnOrari.get("15:30")!!.setBackgroundColor(Color.WHITE)
-        btnOrari.get("16:00")!!.setBackgroundColor(Color.WHITE)
-        btnOrari.get("16:30")!!.setBackgroundColor(Color.WHITE)
-        btnOrari.get("17:00")!!.setBackgroundColor(Color.WHITE)
-        btnOrari.get("17:30")!!.setBackgroundColor(Color.WHITE)
-        btnOrari.get("18:00")!!.setBackgroundColor(Color.WHITE)
-        btnOrari.get("18:30")!!.setBackgroundColor(Color.WHITE)
-        btnOrari.get("19:00")!!.setBackgroundColor(Color.WHITE)
-        btnOrari.get("19:30")!!.setBackgroundColor(Color.WHITE)
-        btnOrari.get("20:00")!!.setBackgroundColor(Color.WHITE)
-        btnOrari.get("20:30")!!.setBackgroundColor(Color.WHITE)
-        btnOrari.get("21:00")!!.setBackgroundColor(Color.WHITE)
-        btnOrari.get("21:30")!!.setBackgroundColor(Color.WHITE)
-        btnOrari.get("22:00")!!.setBackgroundColor(Color.WHITE)
-        btnOrari.get("22:30")!!.setBackgroundColor(Color.WHITE)
-        btnOrari.get("23:00")!!.setBackgroundColor(Color.WHITE)
-        btnOrari.get("23:30")!!.setBackgroundColor(Color.WHITE)
-        btnOrari.get("24:00")!!.setBackgroundColor(Color.WHITE)
+        //Reimposto tuti i bottoi cpme cliccabolei
+        btnOrari.get("6:30")!!.isEnabled = true
+        btnOrari.get("7:00")!!.isEnabled = true
+        btnOrari.get("7:30")!!.isEnabled = true
+        btnOrari.get("8:00")!!.isEnabled = true
+        btnOrari.get("8:30")!!.isEnabled = true
+        btnOrari.get("9:00")!!.isEnabled = true
+        btnOrari.get("9:30")!!.isEnabled = true
+        btnOrari.get("10:00")!!.isEnabled = true
+        btnOrari.get("10:30")!!.isEnabled = true
+        btnOrari.get("11:00")!!.isEnabled = true
+        btnOrari.get("11:30")!!.isEnabled = true
+        btnOrari.get("12:00")!!.isEnabled = true
+        btnOrari.get("12:30")!!.isEnabled = true
+        btnOrari.get("13:00")!!.isEnabled = true
+        btnOrari.get("13:30")!!.isEnabled = true
+        btnOrari.get("14:00")!!.isEnabled = true
+        btnOrari.get("14:30")!!.isEnabled = true
+        btnOrari.get("15:00")!!.isEnabled = true
+        btnOrari.get("15:30")!!.isEnabled = true
+        btnOrari.get("16:00")!!.isEnabled = true
+        btnOrari.get("16:30")!!.isEnabled = true
+        btnOrari.get("17:00")!!.isEnabled = true
+        btnOrari.get("17:30")!!.isEnabled = true
+        btnOrari.get("18:00")!!.isEnabled = true
+        btnOrari.get("18:30")!!.isEnabled = true
+        btnOrari.get("19:00")!!.isEnabled = true
+        btnOrari.get("19:30")!!.isEnabled = true
+        btnOrari.get("20:00")!!.isEnabled = true
+        btnOrari.get("20:30")!!.isEnabled = true
+        btnOrari.get("21:00")!!.isEnabled = true
+        btnOrari.get("21:30")!!.isEnabled = true
+        btnOrari.get("22:00")!!.isEnabled = true
+        btnOrari.get("22:30")!!.isEnabled = true
+        btnOrari.get("23:00")!!.isEnabled = true
+        btnOrari.get("23:30")!!.isEnabled = true
+        btnOrari.get("24:00")!!.isEnabled = false
+        //------------------
+        var minFine: String
+        var oraFine: String
+        var min: Int
+        var ora: Int
+        var btn: Button
+        val cal: Calendar = Calendar.getInstance()
+        for (prenotazione in prenotazioni) {
+            cal.time = prenotazione.oraInizio
+            min = cal.get(Calendar.MINUTE)
+            ora = cal.get(Calendar.HOUR_OF_DAY)
+            cal.time = prenotazione.oraFine
+            minFine = cal.get(Calendar.MINUTE).toString()
+            oraFine = cal.get(Calendar.HOUR_OF_DAY).toString()
+            while (ora.toString() + ":" + min.toString() != oraFine + ":" + minFine) {
 
 
+                if (min == 0) {
+                    btn = btnOrari.get(ora.toString() + ":00")!!
+
+                } else {
+                    btn = btnOrari.get(ora.toString() + ":" + min.toString())!!
+                }
+                btn.setBackgroundColor(Color.RED)
+                btn.isEnabled = false
+
+                //Aggiungo mezz'ora
+                if (min == 30) {
+                    min = 0
+                    ora += 1
+                } else {
+                    min = 30
+                }
+            }
+        }
     }
 
     override fun onClick(v: View?) {
