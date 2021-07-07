@@ -10,8 +10,11 @@ import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import com.bumptech.glide.Glide
 import com.example.progetto_programmazionemobile.R
 import com.example.progetto_programmazionemobile.ViewModel.Auth_Handler
+import com.google.firebase.storage.FirebaseStorage
+import kotlinx.android.synthetic.main.fragment_home_profile_fragment.*
 
 
 class ProfileFragment : Fragment()
@@ -21,7 +24,15 @@ class ProfileFragment : Fragment()
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+
         val v: View = inflater.inflate(R.layout.fragment_home_profile_fragment, container, false)
+        val storage = FirebaseStorage.getInstance()
+        val storageRef = storage.reference
+        val picRef = storageRef.child("usersPics/"+Auth_Handler.CURRENT_USER!!.username)
+
+
+
+
 
         val userText = v.findViewById<TextView>(R.id.txtUsername)
         val nameText = v.findViewById<TextView>(R.id.editNome)
@@ -33,6 +44,10 @@ class ProfileFragment : Fragment()
         cognomeText.setText(Auth_Handler.CURRENT_USER?.cognome?.capitalize())
         emailText.setText(Auth_Handler.CURRENT_USER?.email)
         cellulareText.setText(Auth_Handler.CURRENT_USER?.telefono)
+
+        picRef.downloadUrl.addOnSuccessListener{
+            Glide.with(context).load(it).into(imageView)
+        }
 
 
 
