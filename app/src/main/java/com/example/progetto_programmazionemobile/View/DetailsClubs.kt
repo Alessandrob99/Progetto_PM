@@ -8,21 +8,14 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
 import com.example.progetto_programmazionemobile.Model.Campo
 import com.example.progetto_programmazionemobile.Model.Circolo
-import com.example.progetto_programmazionemobile.Model.Utente
 import com.example.progetto_programmazionemobile.R
-import com.example.progetto_programmazionemobile.ViewModel.Auth_Handler
-import com.example.progetto_programmazionemobile.ViewModel.DB_Handler_Courts
-import com.google.android.material.circularreveal.coordinatorlayout.CircularRevealCoordinatorLayout
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.activity_details_clubs.*
 import kotlinx.android.synthetic.main.activity_selezione_1.*
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class DetailsClubs:AppCompatActivity() {
@@ -44,11 +37,12 @@ class DetailsClubs:AppCompatActivity() {
         val telefono : TextView = findViewById(R.id.txtTelefono_Club)
         telefono.text = "Telefono: "+club.telefono
 
-
-
         val rv: RecyclerView = findViewById(R.id.recyclearCampi)
         rv.layoutManager = LinearLayoutManager(this)
         rv.adapter = MyAdapterCourts(courts)
+
+
+
 
 
     }
@@ -57,7 +51,7 @@ class DetailsClubs:AppCompatActivity() {
         viewPagerClub.adapter = MyAdapterViewPager(this@DetailsClubs)
         TabLayoutMediator(tabDots, viewPagerClub){ tab, position ->
         }.attach()
-        viewPagerClub.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
+        viewPagerClub.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
             }
@@ -69,19 +63,20 @@ class DetailsClubs:AppCompatActivity() {
 class MyAdapterCourts(val courts: ArrayList<Campo>) : RecyclerView.Adapter<MyAdapterCourts.MyViewHolderCourts>() {
 
 
+
     class MyViewHolderCourts(val row: View) : RecyclerView.ViewHolder(row) {
         val riscaldamentoCheck = row.findViewById<CheckBox>(R.id.riscaldamentoCheck)
         val copertoCheck = row.findViewById<CheckBox>(R.id.copertoCheck)
         val prezzoText = row.findViewById<TextView>(R.id.prezzo)
         val n_campoText = row.findViewById<TextView>(R.id.numeroCampo)
         val superficieText = row.findViewById<TextView>(R.id.superficie)
+
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolderCourts {
 
-        val layout = LayoutInflater.from(parent.context).inflate(
-            R.layout.rv_campi,
-            parent, false)
+        val layout = LayoutInflater.from(parent.context).inflate(R.layout.rv_campi, parent, false)
 
         return MyViewHolderCourts(layout)
 
@@ -97,6 +92,8 @@ class MyAdapterCourts(val courts: ArrayList<Campo>) : RecyclerView.Adapter<MyAda
         holder.riscaldamentoCheck.isChecked = courts.get(position).riscaldamento
 
     }
+
+
 
     override fun getItemCount(): Int = courts.size
 }
