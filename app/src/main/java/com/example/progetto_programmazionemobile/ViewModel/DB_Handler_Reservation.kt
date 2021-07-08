@@ -17,6 +17,8 @@ import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.time.hours
+import kotlin.time.minutes
 
 class DB_Handler_Reservation {
 
@@ -151,16 +153,29 @@ class DB_Handler_Reservation {
             codice_prenotazione: String,
             myCallBackNewRes: MyCallBackNewRes
         ) {
+            //Controllo se oraFine == Mezzanotte
+            val cal = Calendar.getInstance()
+            cal.time = Date(oraFine)
+            var oraFineChecked : Long
+            if(cal.get(Calendar.HOUR_OF_DAY)==0){
+                oraFineChecked = oraFine+86399000
+
+            }else{
+                oraFineChecked = oraFine
+            }
+            val docData = hashMapOf(
+                "oraInizio" to Timestamp(oraInizio),
+                "oraFine" to Timestamp(oraFineChecked),
+                "prenotatore" to myRef.document("/users/ales")
+            )
+
+
             myRef.collection("prenotazione")
                 .document(circolo.toString() + "-" + campo.toString() + "-" + giorno).get()
                 .addOnCompleteListener {
                     if (it.result.exists()) {
                         //esistono prenotazioni per quel giorno
-                        val docData = hashMapOf(
-                            "oraInizio" to Timestamp(oraInizio),
-                            "oraFine" to Timestamp(oraFine),
-                            "prenotatore" to myRef.document("/users/ales")
-                        )
+
                         val dummy : String = "dummyText"
                         val dummyData = hashMapOf(
                             "dummy" to dummy
@@ -178,13 +193,6 @@ class DB_Handler_Reservation {
 
                     } else {
                         //non esistono--> Creo la nuova raccolta e riempio la prenotazione
-
-
-                        val docData = hashMapOf(
-                            "oraInizio" to Timestamp(oraInizio),
-                            "oraFine" to Timestamp(oraFine),
-                            "prenotatore" to myRef.document("/users/ales")
-                        )
 
                         val dummy : String = "dummyText"
                         val dummyData = hashMapOf(

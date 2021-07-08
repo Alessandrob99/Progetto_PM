@@ -346,7 +346,7 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
                             minFine = cal.get(Calendar.MINUTE).toString()
                             oraFine = cal.get(Calendar.HOUR_OF_DAY).toString()
                             while (ora.toString() + ":" + min.toString() != oraFine + ":" + minFine) {
-                                if(ora==24){
+                                if(ora==23 && min ==59){
                                     btn = btnOrari.get("00:00")!!
                                     break
                                 }else{
@@ -361,8 +361,12 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
                                 btn.isEnabled = false
                                 //Aggiungo mezz'ora
                                 if (min == 30) {
-                                    min = 0
-                                    ora += 1
+                                    if(ora==23){
+                                        min=59
+                                    }else{
+                                        min = 0
+                                        ora += 1
+                                    }
                                 } else {
                                     min = 30
                                 }
@@ -430,10 +434,15 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
             btnOrari.get(ora[0] + ":" + ora[1])!!.setBackgroundColor(Color.GRAY)
             //aggiungo mezzo'ora
             if (ora[1] == "30") {
-                ora[1] = "00"
-                var app = ora[0].toInt()
-                app+=1
-                ora[0] = app.toString()
+                if(ora[0]=="23"){
+                    ora[1] = "59"
+                }else{
+                    ora[1] = "00"
+                    var app = ora[0].toInt()
+                    app+=1
+                    ora[0] = app.toString()
+                }
+
             } else {
                 ora[1] = "30"
             }
@@ -473,9 +482,17 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun secondClick(btntId: String) {
-        oraFineStr = btntId
-        btnOrari.get(btntId)!!.setBackgroundColor(Color.CYAN)
-        btnOrari.get(btntId)!!.isEnabled = false
+        if(btntId=="00:00"){
+            oraFineStr = "23:59"
+            btnOrari.get("00:00")!!.setBackgroundColor(Color.CYAN)
+            btnOrari.get("00:00")!!.isEnabled = false
+        }else{
+            oraFineStr = btntId
+            btnOrari.get(btntId)!!.setBackgroundColor(Color.CYAN)
+            btnOrari.get(btntId)!!.isEnabled = false
+        }
+
+
 
 
         //Coloro di ciano tutti i bottoni che rappresentano la fascia oraria indicata
@@ -484,17 +501,28 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
         var oraInizio = splitOraInizio[0]
         var minInizio = splitOraInizio[1]
         while(oraInizio+":"+minInizio != oraFineStr){
-            btnOrari.get(oraInizio + ":" + minInizio)!!.isEnabled = false
-            btnOrari.get(oraInizio + ":" + minInizio)!!.setBackgroundColor(Color.CYAN)
-            //Aggiungo mezz'ora
-            if(minInizio=="30"){
-                oraInizioInt = oraInizio.toInt()
-                oraInizioInt+=1
-                oraInizio = oraInizioInt.toString()
-                minInizio="00"
+            if(oraInizio=="23" && minInizio=="59"){
+                btnOrari.get("00:00")!!.isEnabled = false
+
             }else{
-                minInizio = "30"
+                btnOrari.get(oraInizio + ":" + minInizio)!!.isEnabled = false
+                btnOrari.get(oraInizio + ":" + minInizio)!!.setBackgroundColor(Color.CYAN)
+                //Aggiungo mezz'ora
+                if(minInizio=="30"){
+                    if(oraInizio=="23"){
+                        minInizio = "59"
+                    }else{
+                        oraInizioInt = oraInizio.toInt()
+                        oraInizioInt+=1
+                        oraInizio = oraInizioInt.toString()
+                        minInizio="00"
+                    }
+
+                }else{
+                    minInizio = "30"
+                }
             }
+
         }
         ConfermaOrario.isEnabled = true
         ConfermaOrario.setBackgroundColor(Color.GREEN)
@@ -601,7 +629,7 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
             while (ora.toString() + ":" + min.toString() != oraFine + ":" + minFine) {
 
 
-                if(ora==24){
+                if(ora==23 && min == 59){
                     btn = btnOrari.get("00:00")!!
                     break
                 }else{
@@ -616,8 +644,13 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
 
                 //Aggiungo mezz'ora
                 if (min == 30) {
-                    min = 0
-                    ora += 1
+                    if(ora==23){
+                        min = 59
+                    }else{
+                        min = 0
+                        ora += 1
+                    }
+
                 } else {
                     min = 30
                 }
