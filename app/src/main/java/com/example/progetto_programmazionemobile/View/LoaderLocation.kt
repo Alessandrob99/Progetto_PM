@@ -24,8 +24,6 @@ class LoaderLocation : AppCompatActivity()
     lateinit var locationManager: LocationManager
     private var hasGps = false
     private var hasNetwork = false
-    private var locationGps: Location? = null
-    private var locationNetwork: Location? = null
 
     interface MyCallbackPosition {
         fun onCallback(latitude: Double, longitude: Double)
@@ -36,7 +34,7 @@ class LoaderLocation : AppCompatActivity()
         setContentView(R.layout.loader_location)
 
 
-
+        val giorno = intent.getStringExtra("giorno")
         val sport = intent.getStringExtra("sport")
         var locMan: LocationManager? = getSystemService(Context.LOCATION_SERVICE) as LocationManager
         /** Controllo se ha attiva la geocalizzazione  **/
@@ -57,6 +55,7 @@ class LoaderLocation : AppCompatActivity()
                                                 this@LoaderLocation,
                                                 SelezioneMap::class.java
                                             )
+                                        intent.putExtra("giorno",giorno)
                                         intent.putExtra("latitude", latitude)
                                         intent.putExtra("longitude", longitude)
                                         //intent.putExtra("giorno",giorno)

@@ -33,13 +33,17 @@ class SelezioneMap : AppCompatActivity(), OnMapReadyCallback
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<LinearLayout>
     lateinit var autocompleteSuperficie: AutoCompleteTextView
     lateinit var campiPerSport: ArrayList<Campo>
+    lateinit var giorno : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_selezionemap)
 
+
+
         //Campi filtrati per sport da SELEZIONE 1
         campiPerSport = getIntent().getSerializableExtra("campiPerSport") as ArrayList<Campo>
+        giorno = intent.getStringExtra("giorno")
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment
         mapFragment?.getMapAsync(this@SelezioneMap)
 
@@ -205,6 +209,7 @@ class SelezioneMap : AppCompatActivity(), OnMapReadyCallback
                                                     intent.putExtra("titleClub", clickedMarker?.title)
                                                     intent.putExtra("courts",found_courts)
                                                     intent.putExtra("club",returnedClub)
+                                                    intent.putExtra("giorno",giorno)
                                                     startActivity(intent)
 
 

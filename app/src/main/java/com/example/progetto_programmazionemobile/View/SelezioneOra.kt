@@ -34,7 +34,7 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
     var prenotazioni = ArrayList<Prenotazione>()
 
     //Da leggere
-    val giorno = "28-07-2021"
+    val giorno = "08-07-2021"
     val campo = 1.toLong()
     val circolo = 1.toLong()
     @SuppressLint("WrongViewCast")

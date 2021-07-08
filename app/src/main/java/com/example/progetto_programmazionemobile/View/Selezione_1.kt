@@ -178,6 +178,7 @@ class Selezione_1 : AppCompatActivity() {
                         {
                             val intent = Intent(this@Selezione_1, LoaderLocation::class.java)
                             intent.putExtra("sport", sportText.text.toString())
+                            intent.putExtra("giorno", data.text)
                             startActivity(intent)
                             finish()
                         }
