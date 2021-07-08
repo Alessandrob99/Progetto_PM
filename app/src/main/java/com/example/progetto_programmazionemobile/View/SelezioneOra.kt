@@ -1,25 +1,30 @@
 package com.example.progetto_programmazionemobile.View
 
 import android.annotation.SuppressLint
+import android.app.ProgressDialog
 import android.content.DialogInterface
+import android.content.Intent
 import android.graphics.Color
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.LayoutInflater
+import android.util.Base64.encodeToString
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
-import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import com.example.progetto_programmazionemobile.Model.Prenotazione
 import com.example.progetto_programmazionemobile.R
+import com.example.progetto_programmazionemobile.ViewModel.Auth_Handler
 import com.example.progetto_programmazionemobile.ViewModel.DB_Handler_Reservation
 import kotlinx.android.synthetic.main.activity_selezione_ora.*
+import java.time.LocalDateTime
+import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.collections.ArrayList
+
 
 class SelezioneOra : AppCompatActivity(), View.OnClickListener {
     var flagClick = false
@@ -38,21 +43,20 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
         setContentView(R.layout.activity_selezione_ora)
 
 
-
         // Inflate the layout for this fragment
 
         flagClick = false
 
         Annulla.isEnabled = false
         Annulla.setBackgroundColor(Color.GRAY)
-        Annulla.setOnClickListener(object : View.OnClickListener{
+        Annulla.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
                 resetta()
             }
         })
         ConfermaOrario.isEnabled = false
         ConfermaOrario.setBackgroundColor(Color.GRAY)
-        ConfermaOrario.setOnClickListener(object : View.OnClickListener{
+        ConfermaOrario.setOnClickListener(object : View.OnClickListener {
             @RequiresApi(Build.VERSION_CODES.O)
             override fun onClick(v: View?) {
                 DB_Handler_Reservation.checkAvailability(
@@ -65,24 +69,102 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
                         override fun onCallback(result: Boolean) {
                             if (result) {
                                 //Sono presenti sovrapposizioni
-                                val builder: AlertDialog.Builder = AlertDialog.Builder(this@SelezioneOra)
+                                val builder: AlertDialog.Builder =
+                                    AlertDialog.Builder(this@SelezioneOra)
                                 builder.setTitle("Errore")
                                 builder.setMessage(
                                     "L'orario selezionato va in collisione con altre prenotazioni già presenti." +
                                             System.lineSeparator() + "Inserire un intervallo temporale valido"
                                 )
 
-                                builder.setNegativeButton("OK", object : DialogInterface.OnClickListener {
-                                    override fun onClick(dialog: DialogInterface?, which: Int) {
+                                builder.setNegativeButton(
+                                    "OK",
+                                    object : DialogInterface.OnClickListener {
+                                        override fun onClick(dialog: DialogInterface?, which: Int) {
 
-                                    }
-                                })
+                                        }
+                                    })
                                 val alertDialog = builder.create()
                                 alertDialog.show()
                                 resetta()
-                            }else{
-                                Toast.makeText(this@SelezioneOra,"Hai prenotato dalle "+oraInizioStr+" alle "+oraFineStr,
-                                    Toast.LENGTH_SHORT).show()
+                            } else {
+                                val prog : ProgressDialog = ProgressDialog.show(this@SelezioneOra,"","Registrando la nuova prenotazione...")
+
+                                val oraInizioTime : LocalDateTime
+                                val oraFineTime : LocalDateTime
+
+                                //Formatter diversi
+                                var split = oraInizioStr.split(":")
+                                var formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm",Locale.ITALY)
+
+                                if(split[0].length==1){
+                                    formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy H:mm",Locale.ITALY)
+                                }else{
+                                    formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm",Locale.ITALY)
+                                }
+                                oraInizioTime = LocalDateTime.parse(giorno+" "+oraInizioStr, formatter)
+                                split = oraFineStr.split(":")
+                                if(split[0].length==1){
+                                    formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy H:mm",Locale.ITALY)
+                                }else{
+                                    formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm",Locale.ITALY)
+                                }
+                                oraFineTime = LocalDateTime.parse(giorno+" "+oraFineStr, formatter)
+
+                                //Genero codice prenotazione
+                                val cod_pren = DB_Handler_Reservation.cipher(circolo.toString()+campo.toString()+giorno+oraInizioStr,15)
+
+                                DB_Handler_Reservation.newReservation(
+                                    circolo.toString(),
+                                    campo.toString(),
+                                    giorno,
+                                    oraInizioTime.atOffset(ZoneOffset.ofHours(2)).toInstant().toEpochMilli(),
+                                    oraFineTime.atOffset(ZoneOffset.ofHours(2)).toInstant().toEpochMilli(),
+                                    cod_pren,
+                                    object : DB_Handler_Reservation.MyCallBackNewRes{
+                                        override fun onCallback(result: Boolean) {
+                                            if(result){
+                                                //Mostra Avviso
+                                                prog.dismiss()
+                                                val builder : AlertDialog.Builder = AlertDialog.Builder(this@SelezioneOra)
+                                                builder.setTitle("Operazione conclusa")
+                                                builder.setMessage("Prenotazione registrata con successo")
+                                                builder.setPositiveButton("Ok",object : DialogInterface.OnClickListener{
+                                                    override fun onClick(dialog: DialogInterface?, which: Int) {
+                                                        Auth_Handler.setLOGGET_OUT(context = applicationContext)
+                                                       /* val intent = Intent(this@SelezioneOra, HomePage_Activity::class.java)
+                                                        startActivity(intent)
+
+                                                        //Terminare tutte le activity dopo la Home
+                                                        finish()*/
+                                                    }
+                                                })
+                                                val alertDialog = builder.create()
+                                                alertDialog.show()
+                                            }else{
+                                                //Mostra Avviso
+                                                prog.dismiss()
+                                                val builder : AlertDialog.Builder = AlertDialog.Builder(this@SelezioneOra)
+                                                builder.setTitle("Errore")
+                                                builder.setMessage("Qualcosa è andato storto...")
+                                                builder.setPositiveButton("Riprova",object : DialogInterface.OnClickListener{
+                                                    override fun onClick(dialog: DialogInterface?, which: Int) {
+                                                        Auth_Handler.setLOGGET_OUT(context = applicationContext)
+                                                        val intent = Intent(this@SelezioneOra, HomePage_Activity::class.java)
+                                                        startActivity(intent)
+
+                                                        //Terminare tutte le activity dopo la Home
+                                                        finish()
+                                                    }
+                                                })
+                                                val alertDialog = builder.create()
+                                                alertDialog.show()
+
+                                            }
+                                        }
+                                    }
+                                    )
+
                             }
                         }
                     })
@@ -209,7 +291,7 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
             campo,
             circolo,
             object : DB_Handler_Reservation.MyCallbackReservations {
-                override fun onCallback(reservations: ArrayList<Prenotazione>) {
+                override fun onCallback(reservations: ArrayList<Prenotazione>?) {
                     btnOrari.get("6:30")!!.isEnabled = true
                     btnOrari.get("7:00")!!.isEnabled = true
                     btnOrari.get("7:30")!!.isEnabled = true
@@ -246,38 +328,41 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
                     btnOrari.get("23:00")!!.isEnabled = true
                     btnOrari.get("23:30")!!.isEnabled = true
                     btnOrari.get("24:00")!!.isEnabled = false
-                    var minFine: String
-                    var oraFine: String
-                    var min: Int
-                    var ora: Int
-                    val cal: Calendar = Calendar.getInstance()
-                    var btn: Button
-                    for (prenotazione in reservations) {
-                        prenotazioni.add(prenotazione)
-                        cal.time = prenotazione.oraInizio
-                        min = cal.get(Calendar.MINUTE)
-                        ora = cal.get(Calendar.HOUR_OF_DAY)
-                        cal.time = prenotazione.oraFine
-                        minFine = cal.get(Calendar.MINUTE).toString()
-                        oraFine = cal.get(Calendar.HOUR_OF_DAY).toString()
-                        while (ora.toString() + ":" + min.toString() != oraFine + ":" + minFine) {
-                            if (min == 0) {
-                                btn = btnOrari.get(ora.toString() + ":00")!!
-                            } else {
-                                btn = btnOrari.get(ora.toString() + ":" + min.toString())!!
-                            }
-                            btn.setBackgroundColor(Color.RED)
-                            btn.isEnabled = false
-                            //Aggiungo mezz'ora
-                            if (min == 30) {
-                                min = 0
-                                ora += 1
-                            } else {
-                                min = 30
+
+                    //Oscuro le prenotazioni già effettuate (se ci sono)
+                    if(reservations!=null){
+                        var minFine: String
+                        var oraFine: String
+                        var min: Int
+                        var ora: Int
+                        val cal: Calendar = Calendar.getInstance()
+                        var btn: Button
+                        for (prenotazione in reservations) {
+                            prenotazioni.add(prenotazione)
+                            cal.time = prenotazione.oraInizio
+                            min = cal.get(Calendar.MINUTE)
+                            ora = cal.get(Calendar.HOUR_OF_DAY)
+                            cal.time = prenotazione.oraFine
+                            minFine = cal.get(Calendar.MINUTE).toString()
+                            oraFine = cal.get(Calendar.HOUR_OF_DAY).toString()
+                            while (ora.toString() + ":" + min.toString() != oraFine + ":" + minFine) {
+                                if (min == 0) {
+                                    btn = btnOrari.get(ora.toString() + ":00")!!
+                                } else {
+                                    btn = btnOrari.get(ora.toString() + ":" + min.toString())!!
+                                }
+                                btn.setBackgroundColor(Color.RED)
+                                btn.isEnabled = false
+                                //Aggiungo mezz'ora
+                                if (min == 30) {
+                                    min = 0
+                                    ora += 1
+                                } else {
+                                    min = 30
+                                }
                             }
                         }
                     }
-
                 }
             })
         btnOrari.get("6:30")!!.setOnClickListener(this)
@@ -362,12 +447,16 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
             var splitOraInizio = oraInizioStr.split(":")
 
             if(cal.get(Calendar.HOUR_OF_DAY)>splitOraInizio[0].toInt()){
-                btnOrari.get(cal.get(Calendar.HOUR_OF_DAY).toString()+":"+minPren)!!.isEnabled = true
-                btnOrari.get(cal.get(Calendar.HOUR_OF_DAY).toString()+":"+minPren)!!.setBackgroundColor(Color.BLUE)
+                btnOrari.get(cal.get(Calendar.HOUR_OF_DAY).toString() + ":" + minPren)!!.isEnabled = true
+                btnOrari.get(cal.get(Calendar.HOUR_OF_DAY).toString() + ":" + minPren)!!.setBackgroundColor(
+                    Color.BLUE
+                )
             }else{
                 if(cal.get(Calendar.HOUR_OF_DAY)==splitOraInizio[0].toInt() && minPren=="30" && splitOraInizio[1].toString()=="00"){
-                    btnOrari.get(cal.get(Calendar.HOUR_OF_DAY).toString()+":"+minPren)!!.isEnabled = true
-                    btnOrari.get(cal.get(Calendar.HOUR_OF_DAY).toString()+":"+minPren)!!.setBackgroundColor(Color.BLUE)
+                    btnOrari.get(cal.get(Calendar.HOUR_OF_DAY).toString() + ":" + minPren)!!.isEnabled = true
+                    btnOrari.get(cal.get(Calendar.HOUR_OF_DAY).toString() + ":" + minPren)!!.setBackgroundColor(
+                        Color.BLUE
+                    )
                 }
             }
         }
@@ -389,8 +478,8 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
         var oraInizio = splitOraInizio[0]
         var minInizio = splitOraInizio[1]
         while(oraInizio+":"+minInizio != oraFineStr){
-            btnOrari.get(oraInizio+":"+minInizio)!!.isEnabled = false
-            btnOrari.get(oraInizio+":"+minInizio)!!.setBackgroundColor(Color.CYAN)
+            btnOrari.get(oraInizio + ":" + minInizio)!!.isEnabled = false
+            btnOrari.get(oraInizio + ":" + minInizio)!!.setBackgroundColor(Color.CYAN)
             //Aggiungo mezz'ora
             if(minInizio=="30"){
                 oraInizioInt = oraInizio.toInt()
@@ -526,10 +615,12 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
         }
     }
 
+
+
     override fun onClick(v: View?) {
         @RequiresApi(Build.VERSION_CODES.O)
         when (v!!.id) {
-            h6m30.id-> {
+            h6m30.id -> {
                 if (flagClick == false) {
                     //Bottone non cliccato
                     firstClick("6:30")
@@ -849,6 +940,7 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
                 secondClick("24:00")
         }
     }
+
 
 }
 
