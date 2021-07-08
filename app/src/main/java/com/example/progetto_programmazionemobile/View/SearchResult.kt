@@ -1,14 +1,13 @@
 package com.example.progetto_programmazionemobile.View
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.progetto_programmazionemobile.Model.Circolo
 import com.example.progetto_programmazionemobile.Model.Utente
 import com.example.progetto_programmazionemobile.R
 
@@ -37,8 +36,9 @@ class MyAdapter(val users: ArrayList<Utente>) : RecyclerView.Adapter<MyAdapter.M
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolderUser {
 
                 val layout = LayoutInflater.from(parent.context).inflate(
-                        R.layout.user_rv_layout,
-                        parent, false)
+                    R.layout.user_rv_layout,
+                    parent, false
+                )
                 return MyViewHolderUser(layout)
 
     }

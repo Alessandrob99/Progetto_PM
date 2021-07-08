@@ -88,85 +88,151 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
                                 alertDialog.show()
                                 resetta()
                             } else {
-                                val prog : ProgressDialog = ProgressDialog.show(this@SelezioneOra,"","Registrando la nuova prenotazione...")
+                                val builder: AlertDialog.Builder =
+                                    AlertDialog.Builder(this@SelezioneOra)
+                                builder.setTitle("Sei sicuro?")
+                                builder.setMessage("Confermare la prenotazione dalle " + oraInizioStr + " alle " + oraFineStr + " del giorno " + giorno)
 
-                                val oraInizioTime : LocalDateTime
-                                val oraFineTime : LocalDateTime
-
-                                //Formatter diversi
-                                var split = oraInizioStr.split(":")
-                                var formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm",Locale.ITALY)
-
-                                if(split[0].length==1){
-                                    formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy H:mm",Locale.ITALY)
-                                }else{
-                                    formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm",Locale.ITALY)
-                                }
-                                oraInizioTime = LocalDateTime.parse(giorno+" "+oraInizioStr, formatter)
-                                split = oraFineStr.split(":")
-                                if(split[0].length==1){
-                                    formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy H:mm",Locale.ITALY)
-                                }else{
-                                    formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm",Locale.ITALY)
-                                }
-                                oraFineTime = LocalDateTime.parse(giorno+" "+oraFineStr, formatter)
-
-                                //Genero codice prenotazione
-                                val cod_pren = DB_Handler_Reservation.cipher(circolo.toString()+campo.toString()+giorno+oraInizioStr,15)
-
-                                DB_Handler_Reservation.newReservation(
-                                    circolo.toString(),
-                                    campo.toString(),
-                                    giorno,
-                                    oraInizioTime.atOffset(ZoneOffset.ofHours(2)).toInstant().toEpochMilli(),
-                                    oraFineTime.atOffset(ZoneOffset.ofHours(2)).toInstant().toEpochMilli(),
-                                    cod_pren,
-                                    object : DB_Handler_Reservation.MyCallBackNewRes{
-                                        override fun onCallback(result: Boolean) {
-                                            if(result){
-                                                //Mostra Avviso
-                                                prog.dismiss()
-                                                val builder : AlertDialog.Builder = AlertDialog.Builder(this@SelezioneOra)
-                                                builder.setTitle("Operazione conclusa")
-                                                builder.setMessage("Prenotazione registrata con successo")
-                                                builder.setPositiveButton("Ok",object : DialogInterface.OnClickListener{
-                                                    override fun onClick(dialog: DialogInterface?, which: Int) {
-                                                        Auth_Handler.setLOGGET_OUT(context = applicationContext)
-                                                       /* val intent = Intent(this@SelezioneOra, HomePage_Activity::class.java)
-                                                        startActivity(intent)
-
-                                                        //Terminare tutte le activity dopo la Home
-                                                        finish()*/
-                                                    }
-                                                })
-                                                val alertDialog = builder.create()
-                                                alertDialog.show()
-                                            }else{
-                                                //Mostra Avviso
-                                                prog.dismiss()
-                                                val builder : AlertDialog.Builder = AlertDialog.Builder(this@SelezioneOra)
-                                                builder.setTitle("Errore")
-                                                builder.setMessage("Qualcosa è andato storto...")
-                                                builder.setPositiveButton("Riprova",object : DialogInterface.OnClickListener{
-                                                    override fun onClick(dialog: DialogInterface?, which: Int) {
-                                                        Auth_Handler.setLOGGET_OUT(context = applicationContext)
-                                                        val intent = Intent(this@SelezioneOra, HomePage_Activity::class.java)
-                                                        startActivity(intent)
-
-                                                        //Terminare tutte le activity dopo la Home
-                                                        finish()
-                                                    }
-                                                })
-                                                val alertDialog = builder.create()
-                                                alertDialog.show()
-
-                                            }
+                                builder.setNegativeButton("NO",
+                                    object : DialogInterface.OnClickListener {
+                                        override fun onClick(dialog: DialogInterface?, which: Int) {
+                                            resetta()
                                         }
-                                    }
-                                    )
+                                    })
+                                builder.setPositiveButton("SI",
+                                    object : DialogInterface.OnClickListener {
+                                        override fun onClick(dialog: DialogInterface?, which: Int) {
 
+                                            val prog: ProgressDialog = ProgressDialog.show(
+                                                this@SelezioneOra,
+                                                "",
+                                                "Registrando la nuova prenotazione..."
+                                            )
+
+                                            val oraInizioTime: LocalDateTime
+                                            val oraFineTime: LocalDateTime
+
+                                            //Formatter diversi
+                                            var split = oraInizioStr.split(":")
+                                            var formatter = DateTimeFormatter.ofPattern(
+                                                "dd-MM-yyyy HH:mm",
+                                                Locale.ITALY
+                                            )
+
+                                            if (split[0].length == 1) {
+                                                formatter = DateTimeFormatter.ofPattern(
+                                                    "dd-MM-yyyy H:mm",
+                                                    Locale.ITALY
+                                                )
+                                            } else {
+                                                formatter = DateTimeFormatter.ofPattern(
+                                                    "dd-MM-yyyy HH:mm",
+                                                    Locale.ITALY
+                                                )
+                                            }
+                                            oraInizioTime = LocalDateTime.parse(
+                                                giorno + " " + oraInizioStr,
+                                                formatter
+                                            )
+                                            split = oraFineStr.split(":")
+                                            if (split[0].length == 1) {
+                                                formatter = DateTimeFormatter.ofPattern(
+                                                    "dd-MM-yyyy H:mm",
+                                                    Locale.ITALY
+                                                )
+                                            } else {
+                                                formatter = DateTimeFormatter.ofPattern(
+                                                    "dd-MM-yyyy HH:mm",
+                                                    Locale.ITALY
+                                                )
+                                            }
+                                            oraFineTime = LocalDateTime.parse(
+                                                giorno + " " + oraFineStr,
+                                                formatter
+                                            )
+
+                                            //Genero codice prenotazione
+                                            val cod_pren = DB_Handler_Reservation.cipher(
+                                                circolo.toString() + campo.toString() + giorno + oraInizioStr,
+                                                15
+                                            )
+
+                                            DB_Handler_Reservation.newReservation(
+                                                circolo.toString(),
+                                                campo.toString(),
+                                                giorno,
+                                                oraInizioTime.atOffset(ZoneOffset.ofHours(2))
+                                                    .toInstant().toEpochMilli(),
+                                                oraFineTime.atOffset(ZoneOffset.ofHours(2))
+                                                    .toInstant().toEpochMilli(),
+                                                cod_pren,
+                                                object : DB_Handler_Reservation.MyCallBackNewRes {
+                                                    override fun onCallback(result: Boolean) {
+                                                        if (result) {
+                                                            //Mostra Avviso
+                                                            prog.dismiss()
+                                                            val builder: AlertDialog.Builder =
+                                                                AlertDialog.Builder(this@SelezioneOra)
+                                                            builder.setTitle("Operazione conclusa")
+                                                            builder.setMessage("Prenotazione registrata con successo")
+                                                            builder.setPositiveButton("Ok",
+                                                                object :
+                                                                    DialogInterface.OnClickListener {
+                                                                    override fun onClick(
+                                                                        dialog: DialogInterface?,
+                                                                        which: Int
+                                                                    ) {
+                                                                        /* val intent = Intent(this@SelezioneOra, HomePage_Activity::class.java)
+                                                                     startActivity(intent)
+
+                                                                     //Terminare tutte le activity dopo la Home
+                                                                     finish()*/
+                                                                    }
+                                                                })
+                                                            val alertDialog = builder.create()
+                                                            alertDialog.show()
+                                                        } else {
+                                                            //Mostra Avviso
+                                                            prog.dismiss()
+                                                            val builder: AlertDialog.Builder =
+                                                                AlertDialog.Builder(this@SelezioneOra)
+                                                            builder.setTitle("Errore")
+                                                            builder.setMessage("Qualcosa è andato storto...")
+                                                            builder.setPositiveButton("Riprova",
+                                                                object :
+                                                                    DialogInterface.OnClickListener {
+                                                                    override fun onClick(
+                                                                        dialog: DialogInterface?,
+                                                                        which: Int
+                                                                    ) {
+                                                                        Auth_Handler.setLOGGET_OUT(
+                                                                            context = applicationContext
+                                                                        )
+                                                                        val intent = Intent(
+                                                                            this@SelezioneOra,
+                                                                            HomePage_Activity::class.java
+                                                                        )
+                                                                        startActivity(intent)
+
+                                                                        //Terminare tutte le activity dopo la Home
+                                                                        finish()
+                                                                    }
+                                                                })
+                                                            val alertDialog = builder.create()
+                                                            alertDialog.show()
+
+                                                        }
+                                                    }
+                                                }
+                                            )
+                                        }
+                                    })
+                                val alertDialog = builder.create()
+                                alertDialog.show()
                             }
+
                         }
+
                     })
             }
         })
