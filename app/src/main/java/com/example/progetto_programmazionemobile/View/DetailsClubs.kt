@@ -1,109 +1,92 @@
 package com.example.progetto_programmazionemobile.View
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.example.progetto_programmazionemobile.Model.Campo
 import com.example.progetto_programmazionemobile.Model.Circolo
 import com.example.progetto_programmazionemobile.R
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.navigation.NavigationBarView
+import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayoutMediator
+import kotlinx.android.synthetic.main.activity_details_club.*
 import kotlinx.android.synthetic.main.activity_details_clubs.*
 import kotlinx.android.synthetic.main.activity_selezione_1.*
 import java.util.*
 
 
-class DetailsClubs:AppCompatActivity() {
+class DetailsClubs:AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+    private val mBtmView: BottomNavigationView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_details_clubs)
+        val club = intent.getSerializableExtra("club") as Circolo
+        val courts = intent.getSerializableExtra("courts") as ArrayList<Campo>
+        setContentView(R.layout.activity_details_club)
 
-        init()
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        bottomNavigationView.setOnNavigationItemSelectedListener { item: MenuItem? ->  // using lamda
+            myClickItem(item) //call here
+            true
+        }
 
         val nomeClub: TextView = findViewById(R.id.nomeClub)
         nomeClub.text = intent.getStringExtra("titleClub")
-        val courts = intent.getSerializableExtra("courts") as ArrayList<Campo>
-        val club = intent.getSerializableExtra("club") as Circolo
 
 
-        val email : TextView = findViewById(R.id.txtemail_Club)
+        /*val email : TextView = findViewById(R.id.txtemail_Club)
         email.text = "Email: "+club.email
         val telefono : TextView = findViewById(R.id.txtTelefono_Club)
         telefono.text = "Telefono: "+club.telefono
-
         val rv: RecyclerView = findViewById(R.id.recyclearCampi)
         rv.layoutManager = LinearLayoutManager(this)
         rv.adapter = MyAdapterCourts(courts)
 
+         */
+
+
 
 
 
 
     }
 
-    private fun init(){
-        viewPagerClub.adapter = MyAdapterViewPager(this@DetailsClubs)
-        TabLayoutMediator(tabDots, viewPagerClub){ tab, position ->
-        }.attach()
-        viewPagerClub.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
+    private fun myClickItem(item: MenuItem?) {
+        when (item!!.itemId) {
+            R.id.campi_Disponibili -> {ChangeFragment(DetailsClubs_Campi(),"INFO")
             }
-        })
+            R.id.infoClub -> {ChangeFragment(DetailsClubs_Info(),"PROFILO")
+            }
+        }
+    }
+
+
+    fun ChangeFragment(frag: Fragment, ID: String)
+    {
+        val fragment = supportFragmentManager.beginTransaction()
+        fragment.replace(R.id.fragment_details, frag, ID).commit()
+    }
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        when(item.itemId)
+        {
+            R.id.campi_Disponibili ->{
+                ChangeFragment(DetailsClubs_Campi(),"INFO")
+            }
+            R.id.infoClub ->{
+                ChangeFragment(DetailsClubs_Info(),"PROFILO")
+            }
+
+        }
+        return true
     }
 }
-
-
-class MyAdapterCourts(val courts: ArrayList<Campo>) : RecyclerView.Adapter<MyAdapterCourts.MyViewHolderCourts>() {
-
-
-
-    class MyViewHolderCourts(val row: View) : RecyclerView.ViewHolder(row) {
-        val riscaldamentoCheck = row.findViewById<CheckBox>(R.id.riscaldamentoCheck)
-        val copertoCheck = row.findViewById<CheckBox>(R.id.copertoCheck)
-        val prezzoText = row.findViewById<TextView>(R.id.prezzo)
-        val n_campoText = row.findViewById<TextView>(R.id.numeroCampo)
-        val superficieText = row.findViewById<TextView>(R.id.superficie)
-
-
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolderCourts {
-
-        val layout = LayoutInflater.from(parent.context).inflate(R.layout.rv_campi, parent, false)
-
-        return MyViewHolderCourts(layout)
-
-    }
-
-
-    override fun onBindViewHolder(holder: MyAdapterCourts.MyViewHolderCourts, position: Int) {
-
-        holder.superficieText.text = courts.get(position).superficie.capitalize()
-        holder.prezzoText.text = courts.get(position).prezzo_ora.toString()
-        holder.n_campoText.text = courts.get(position).n_c.toString()
-        holder.copertoCheck.isChecked = courts.get(position).coperto
-        holder.riscaldamentoCheck.isChecked = courts.get(position).riscaldamento
-
-    }
-
-
-
-    override fun getItemCount(): Int = courts.size
-}
-
-
-
-
-
-
-
 
 
 

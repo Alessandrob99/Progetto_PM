@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/campi_navigation.xml"
+    app:startDestination="@id/detailsClubs_Campi">
+    <fragment
+        android:id="@+id/detailsClubs_Campi"
+        android:name="com.example.progetto_programmazionemobile.View.DetailsClubs_Campi"
+        android:label="fragment_details_clubs__campi"
+        tools:layout="@layout/fragment_details_clubs__campi" >
+        <action
+            android:id="@+id/action_detailsClubs_Campi_to_detailsClubs_Info"
+            app:destination="@id/detailsClubs_Info" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailsClubs_Info"
+        android:name="com.example.progetto_programmazionemobile.View.DetailsClubs_Info"
+        android:label="fragment_details_clubs__info"
+        tools:layout="@layout/fragment_details_clubs__info" />
+</navigation>
