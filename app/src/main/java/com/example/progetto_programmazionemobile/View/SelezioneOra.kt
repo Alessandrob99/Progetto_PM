@@ -209,7 +209,7 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
         btnOrari.put("22:30", h22m30)
         btnOrari.put("23:00", h23m00)
         btnOrari.put("23:30", h23m30)
-        btnOrari.put("24:00", h24m00)
+        btnOrari.put("00:00", h24m00)
 
 
         btnOrari.get("6:30")!!.isEnabled = false
@@ -247,7 +247,7 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
         btnOrari.get("22:30")!!.isEnabled = false
         btnOrari.get("23:00")!!.isEnabled = false
         btnOrari.get("23:30")!!.isEnabled = false
-        btnOrari.get("24:00")!!.isEnabled = false
+        btnOrari.get("00:00")!!.isEnabled = false
 
 
         btnOrari.get("6:30")!!.setBackgroundColor(Color.BLUE)
@@ -285,7 +285,7 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
         btnOrari.get("22:30")!!.setBackgroundColor(Color.BLUE)
         btnOrari.get("23:00")!!.setBackgroundColor(Color.BLUE)
         btnOrari.get("23:30")!!.setBackgroundColor(Color.BLUE)
-        btnOrari.get("24:00")!!.setBackgroundColor(Color.GRAY)
+        btnOrari.get("00:00")!!.setBackgroundColor(Color.GRAY)
         val prenotazioni = DB_Handler_Reservation.getListOfReservations(
             giorno,
             campo,
@@ -327,7 +327,7 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
                     btnOrari.get("22:30")!!.isEnabled = true
                     btnOrari.get("23:00")!!.isEnabled = true
                     btnOrari.get("23:30")!!.isEnabled = true
-                    btnOrari.get("24:00")!!.isEnabled = false
+                    btnOrari.get("00:00")!!.isEnabled = false
 
                     //Oscuro le prenotazioni già effettuate (se ci sono)
                     if(reservations!=null){
@@ -346,11 +346,17 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
                             minFine = cal.get(Calendar.MINUTE).toString()
                             oraFine = cal.get(Calendar.HOUR_OF_DAY).toString()
                             while (ora.toString() + ":" + min.toString() != oraFine + ":" + minFine) {
-                                if (min == 0) {
-                                    btn = btnOrari.get(ora.toString() + ":00")!!
-                                } else {
-                                    btn = btnOrari.get(ora.toString() + ":" + min.toString())!!
+                                if(ora==24){
+                                    btn = btnOrari.get("00:00")!!
+                                    break
+                                }else{
+                                    if (min == 0) {
+                                        btn = btnOrari.get(ora.toString() + ":00")!!
+                                    } else {
+                                        btn = btnOrari.get(ora.toString() + ":" + min.toString())!!
+                                    }
                                 }
+
                                 btn.setBackgroundColor(Color.RED)
                                 btn.isEnabled = false
                                 //Aggiungo mezz'ora
@@ -400,7 +406,7 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
         btnOrari.get("22:30")!!.setOnClickListener(this)
         btnOrari.get("23:00")!!.setOnClickListener(this)
         btnOrari.get("23:30")!!.setOnClickListener(this)
-        btnOrari.get("24:00")!!.setOnClickListener(this)
+        btnOrari.get("00:00")!!.setOnClickListener(this)
 
 
         //Settiamo il comportamento sugli onClick
@@ -416,8 +422,8 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
         textView8.text = "Selezionare orario di fine"
         btnOrari.get(btntId)!!.isEnabled = false
         btnOrari.get(btntId)!!.setBackgroundColor(Color.CYAN)
-        btnOrari.get("24:00")!!.isEnabled = true
-        btnOrari.get("24:00")!!.setBackgroundColor(Color.BLUE)
+        btnOrari.get("00:00")!!.isEnabled = true
+        btnOrari.get("00:00")!!.setBackgroundColor(Color.BLUE)
         var ora = "6:30".split(":") as MutableList<String>
         while (oraInizioStr != ora[0] + ":" + ora[1]) {
             btnOrari.get(ora[0] + ":" + ora[1])!!.isEnabled = false
@@ -538,7 +544,7 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
         btnOrari.get("22:30")!!.setBackgroundColor(Color.BLUE)
         btnOrari.get("23:00")!!.setBackgroundColor(Color.BLUE)
         btnOrari.get("23:30")!!.setBackgroundColor(Color.BLUE)
-        btnOrari.get("24:00")!!.setBackgroundColor(Color.GRAY)
+        btnOrari.get("00:00")!!.setBackgroundColor(Color.GRAY)
 
 
         //Reimposto tuti i bottoi cpme cliccabolei
@@ -577,7 +583,7 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
         btnOrari.get("22:30")!!.isEnabled = true
         btnOrari.get("23:00")!!.isEnabled = true
         btnOrari.get("23:30")!!.isEnabled = true
-        btnOrari.get("24:00")!!.isEnabled = false
+        btnOrari.get("00:00")!!.isEnabled = false
         //------------------
         var minFine: String
         var oraFine: String
@@ -595,11 +601,15 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
             while (ora.toString() + ":" + min.toString() != oraFine + ":" + minFine) {
 
 
-                if (min == 0) {
-                    btn = btnOrari.get(ora.toString() + ":00")!!
-
-                } else {
-                    btn = btnOrari.get(ora.toString() + ":" + min.toString())!!
+                if(ora==24){
+                    btn = btnOrari.get("00:00")!!
+                    break
+                }else{
+                    if (min == 0) {
+                        btn = btnOrari.get(ora.toString() + ":00")!!
+                    } else {
+                        btn = btnOrari.get(ora.toString() + ":" + min.toString())!!
+                    }
                 }
                 btn.setBackgroundColor(Color.RED)
                 btn.isEnabled = false
@@ -937,7 +947,7 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
                 }
             }
             h24m00.id ->
-                secondClick("24:00")
+                secondClick("00:00")
         }
     }
 
