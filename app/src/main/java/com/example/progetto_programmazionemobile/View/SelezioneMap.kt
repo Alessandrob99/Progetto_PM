@@ -200,8 +200,13 @@ class SelezioneMap : AppCompatActivity(), OnMapReadyCallback
                                             DB_Handler_Clubs.getClubByPosition(p0.position.latitude,p0.position.longitude,object : DB_Handler_Clubs.MyCallbackClub{
                                                 override fun onCallback(returnedClub: Circolo) {
 
+                                                    val app_array = ArrayList<Campo>()
+                                                    for(court in returnedCourts) {
+                                                        app_array.add(court)
+                                                    }
+
                                                     //Filtro i campi in base al circolo cliccato
-                                                    for(court in returnedCourts){
+                                                    for(court in app_array){
                                                         if(court.id_club!=returnedClub.id){
                                                             found_courts!!.remove(court)
                                                         }
