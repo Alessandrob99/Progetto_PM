@@ -145,6 +145,7 @@ class DB_Handler_Reservation {
         }
 
         fun newReservation(
+            user : String,
             circolo: String,
             campo: String,
             giorno: String,
@@ -181,11 +182,19 @@ class DB_Handler_Reservation {
                             "dummy" to dummy
                         )
 
-                        Auth_Handler.myRef.collection("prenotazione").document(
+                        myRef.collection("prenotazione").document(
                             circolo.toString() + "-" + campo.toString() + "-"+ giorno)
                             .collection("prenotazioni").document(codice_prenotazione)
                             .set(docData)
-                            .addOnSuccessListener { myCallBackNewRes.onCallback(true) }
+                            .addOnSuccessListener {
+
+                                myRef.collection("users").document(user).collection("prenotazioni").document(codice_prenotazione).set(docData).addOnSuccessListener{
+                                    myCallBackNewRes.onCallback(true)
+                                }.addOnFailureListener{
+                                    myCallBackNewRes.onCallback(false)
+                                }
+
+                            }
                             .addOnFailureListener { myCallBackNewRes.onCallback(false) }
 
 
@@ -204,7 +213,13 @@ class DB_Handler_Reservation {
                                 myRef.collection("prenotazione").document(circolo + "-" + campo + "-" + giorno)
                                     .collection("prenotazioni").document(codice_prenotazione)
                                     .set(docData)
-                                    .addOnSuccessListener { myCallBackNewRes.onCallback(true) }
+                                    .addOnSuccessListener {
+                                        myRef.collection("users").document(user).collection("prenotazioni").document(codice_prenotazione).set(docData).addOnSuccessListener{
+                                            myCallBackNewRes.onCallback(true)
+                                        }.addOnFailureListener{
+                                            myCallBackNewRes.onCallback(false)
+                                        }
+                                    }
                                     .addOnFailureListener { myCallBackNewRes.onCallback(false) }
                             }
 

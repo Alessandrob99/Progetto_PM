@@ -2,6 +2,7 @@ package com.example.progetto_programmazionemobile.View
 
 import android.content.Context
 import android.content.Intent
+import android.location.LocationManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -43,8 +44,11 @@ class DetailsClubs_Campi : Fragment()  {
         val bundle = activity?.intent?.extras
         val courts = bundle!!.getSerializable("courts") as ArrayList<Campo>
 
+        val giorno = bundle!!.getSerializable("giorno") as String
+        val circolo = bundle!!.getSerializable("club") as String
+
         val recyclerView = v.findViewById<View>(R.id.recyclearCampi) as RecyclerView
-        val viewAdapter = MyAdapterCourts(courts)
+        val viewAdapter = MyAdapterCourts(courts,giorno,circolo,requireContext())
         recyclerView.setLayoutManager(LinearLayoutManager(activity))
         recyclerView.setAdapter(viewAdapter)
 
@@ -67,7 +71,7 @@ class DetailsClubs_Campi : Fragment()  {
 
 }
 
-class MyAdapterCourts(val courts: ArrayList<Campo>) : RecyclerView.Adapter<MyAdapterCourts.MyViewHolderCourts>() {
+class MyAdapterCourts(val courts: ArrayList<Campo>,val giorno : String,val circolo : String, val context : Context) : RecyclerView.Adapter<MyAdapterCourts.MyViewHolderCourts>() {
 
 
     class MyViewHolderCourts(val row: View) : RecyclerView.ViewHolder(row) {
@@ -98,18 +102,17 @@ class MyAdapterCourts(val courts: ArrayList<Campo>) : RecyclerView.Adapter<MyAda
         holder.copertoCheck.isChecked = courts.get(position).coperto
         holder.riscaldamentoCheck.isChecked = courts.get(position).riscaldamento
 
-        /*
+
         holder.btnPrenota.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
-                val intent = Intent(this@MyAdapterCourts, SelezioneOra::class.java)
-                intent.putExtra("club", club)
+                val intent = Intent(context, SelezioneOra::class.java)
+                intent.putExtra("club", circolo)
                 intent.putExtra("giorno", giorno)
-                intent.putExtra("n_campo", num_campo.text)
-                startActivity(intent)
+                intent.putExtra("n_campo", holder.n_campoText.text)
+                context.startActivity(intent)
             }
         })
 
-         */
     }
 
 

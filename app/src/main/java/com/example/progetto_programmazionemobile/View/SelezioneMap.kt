@@ -217,13 +217,8 @@ class SelezioneMap : AppCompatActivity(), OnMapReadyCallback
                                                     intent.putExtra("giorno",giorno)
                                                     startActivity(intent)
 
-
                                                 }
                                             })
-
-
-
-
 
                                         }
                                     })
