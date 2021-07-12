@@ -11,9 +11,9 @@
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPagerClub"
         android:layout_width="match_parent"
-        android:layout_height="130dp"
+        android:layout_height="200dp"
         android:layout_below="@+id/nomeClub"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="50dp"
         android:orientation="horizontal" />
 
     <com.google.android.material.tabs.TabLayout
@@ -29,18 +29,24 @@
     <TextView
         android:id="@+id/txtemail"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:layout_height="25dp"
+        android:fontFamily="sans-serif-light"
         android:gravity="center"
-        android:text="TextView" />
+        android:text="TextView"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textSize="24sp" />
 
     <TextView
         android:id="@+id/txtTelefonoClub"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:layout_height="25dp"
+        android:fontFamily="sans-serif-light"
         android:gravity="center"
-        android:text="TextView" />
+        android:text="TextView"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textSize="24sp" />
 
 
 
