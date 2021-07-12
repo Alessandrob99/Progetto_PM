@@ -17,5 +17,9 @@
         android:id="@+id/detailsClubs_Info"
         android:name="com.example.progetto_programmazionemobile.View.DetailsClubs_Info"
         android:label="fragment_details_clubs__info"
-        tools:layout="@layout/fragment_details_clubs__info" />
+        tools:layout="@layout/fragment_details_clubs__info" >
+        <action
+            android:id="@+id/action_detailsClubs_Info_to_detailsClubs_Campi"
+            app:destination="@id/detailsClubs_Campi" />
+    </fragment>
 </navigation>

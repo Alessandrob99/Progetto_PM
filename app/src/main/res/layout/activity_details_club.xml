@@ -37,7 +37,7 @@
         android:id="@+id/fragment_details"
         android:name="com.example.progetto_programmazionemobile.View.DetailsClubs_Campi"
         android:layout_width="match_parent"
-        android:layout_height="630dp"
+        android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="2dp"
         android:layout_marginTop="10dp"

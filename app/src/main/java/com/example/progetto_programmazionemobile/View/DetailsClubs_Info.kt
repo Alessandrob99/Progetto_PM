@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.example.progetto_programmazionemobile.R
+import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import kotlinx.android.synthetic.main.activity_details_clubs.*
 
 
 class DetailsClubs_Info : Fragment() {
@@ -20,14 +20,21 @@ class DetailsClubs_Info : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val v = inflater.inflate(R.layout.fragment_details_clubs__info, container, false)
-        init()
 
 
-        return v
-    }
+        /*val email : TextView = findViewById(R.id.txtemail_Club)
+       email.text = "Email: "+club.email
+       val telefono : TextView = findViewById(R.id.txtTelefono_Club)
+       telefono.text = "Telefono: "+club.telefono
+       val rv: RecyclerView = findViewById(R.id.recyclearCampi)
+       rv.layoutManager = LinearLayoutManager(this)
+       rv.adapter = MyAdapterCourts(courts)
 
-    private fun init(){
+        */
 
+        val viewPagerClub : ViewPager2 = v.findViewById(R.id.viewPagerClub)
+        val tabDots : TabLayout = v.findViewById(R.id.tabDots)
+        viewPagerClub.adapter = MyAdapterViewPager(activity)
         //viewPagerClub.adapter = MyAdapterViewPager(context)
         TabLayoutMediator(tabDots, viewPagerClub){ tab, position ->
         }.attach()
@@ -36,6 +43,13 @@ class DetailsClubs_Info : Fragment() {
                 super.onPageSelected(position)
             }
         })
+
+
+        return v
     }
+
+
+
+
 
 }

@@ -7,12 +7,14 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.PagerAdapter
 import com.example.progetto_programmazionemobile.R
 
-class MyAdapterViewPager(var context: Context) : RecyclerView.Adapter<MyAdapterViewPager.MyViewHolder>()
+class MyAdapterViewPager(var context: FragmentActivity?) : RecyclerView.Adapter<MyAdapterViewPager.MyViewHolder>()
 {
+
     var color_icon = arrayOf<IntArray>(
         intArrayOf(android.R.color.white, R.drawable.domatore),
         intArrayOf(android.R.color.white, R.drawable.caparezza))
