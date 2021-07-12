@@ -49,8 +49,8 @@ class EditProfileFragment: Fragment()
 
 
         userText.setText(Auth_Handler.CURRENT_USER?.username)
-        nameText.setText(Auth_Handler.CURRENT_USER?.nome)
-        cognomeText.setText(Auth_Handler.CURRENT_USER?.cognome)
+        nameText.setText(Auth_Handler.CURRENT_USER?.nome!!.capitalize())
+        cognomeText.setText(Auth_Handler.CURRENT_USER?.cognome!!.capitalize())
         emailText.setText(Auth_Handler.CURRENT_USER?.email)
         cellulareText.setText(Auth_Handler.CURRENT_USER?.telefono)
         passwordText.setText(Auth_Handler.CURRENT_USER?.password)
@@ -136,7 +136,7 @@ class EditProfileFragment: Fragment()
             builder.setPositiveButton("OK",object : DialogInterface.OnClickListener{
                 override fun onClick(dialog: DialogInterface?, which: Int) {
                     var fr = getFragmentManager()?.beginTransaction()
-                    fr?.replace(R.id.fragment_container, infoFragment())
+                    fr?.replace(R.id.fragment_container, ProfileFragment())
                     fr?.commit()
                 }
             })

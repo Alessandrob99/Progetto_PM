@@ -24,8 +24,8 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:fontFamily="sans-serif-thin"
+        android:layout_marginTop="10dp"
+        android:fontFamily="sans-serif-light"
         android:gravity="center"
         android:text="Sempre pronto all'allenamento!"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"

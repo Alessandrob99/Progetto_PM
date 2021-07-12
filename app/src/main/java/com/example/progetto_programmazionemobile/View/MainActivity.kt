@@ -8,6 +8,8 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
+import android.view.Window
+import android.view.WindowManager
 import android.widget.Button
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -32,14 +34,18 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
-
          if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
              //PERMESSO GARANTITO
 
          }else{
              requestPermissions(arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),10)
          }
+
+
+         val window: Window = this.getWindow()
+         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+         window.setStatusBarColor(ContextCompat.getColor(this, R.color.purple_700))
 
      }
 

@@ -1,154 +1,159 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".View.LoginFragment">
 
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="20dp"
-        android:text="Inserisci le tue credenziali :"
+        android:layout_marginTop="10dp"
+        android:text="Inserisci le tue credenziali"
         android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/nomeutenteInputReg"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_weight="0.002"/>
 
-    <EditText
-        android:id="@+id/nomeInputReg"
-        android:layout_width="377dp"
-        android:layout_height="44dp"
-        android:layout_marginTop="25dp"
-        android:background="@drawable/editext"
-        android:hint="Nome"
-        android:paddingLeft="5dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@color/black"
-        android:textColorHint="#808080"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.529"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/confermaPassword" />
-
-    <EditText
-        android:id="@+id/emailInputReg"
-        android:layout_width="377dp"
-        android:layout_height="44dp"
-        android:layout_marginTop="25dp"
-        android:background="@drawable/editext"
-        android:hint="E-mail"
-        android:inputType="textEmailAddress"
-        android:paddingLeft="5dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@color/black"
-        android:textColorHint="#808080"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.529"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/telefonoInputReg" />
-
-    <EditText
-        android:id="@+id/cognomeInputReg"
-        android:layout_width="377dp"
-        android:layout_height="44dp"
-        android:layout_marginTop="25dp"
-        android:background="@drawable/editext"
-        android:hint="Cognome"
-        android:paddingLeft="5dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@color/black"
-        android:textColorHint="#808080"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.529"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nomeInputReg" />
-
-    <EditText
-        android:id="@+id/passwordInputReg"
-        android:layout_width="377dp"
-        android:layout_height="44dp"
-        android:layout_marginTop="25dp"
-        android:background="@drawable/editext"
-        android:hint="Password"
-        android:inputType="textPassword"
-        android:paddingLeft="5dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@color/black"
-        android:textColorHint="#808080"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.529"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nomeutenteInputReg" />
-
-    <EditText
-        android:id="@+id/confermaPassword"
-        android:layout_width="377dp"
-        android:layout_height="44dp"
-        android:layout_marginTop="25dp"
-        android:background="@drawable/editext"
-        android:hint="Conferma Password"
-        android:inputType="textPassword"
-        android:paddingLeft="5dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@color/black"
-        android:textColorHint="#808080"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.529"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passwordInputReg" />
-
-    <Button
-        android:id="@+id/confermaReg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Conferma"
-        android:background="@drawable/btn_custom"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailInputReg"
-        app:layout_constraintVertical_bias="0.649" />
 
     <EditText
         android:id="@+id/nomeutenteInputReg"
-        android:layout_width="377dp"
-        android:layout_height="44dp"
-        android:layout_marginTop="60dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:background="@drawable/editext"
         android:hint="Username"
-        android:paddingLeft="5dp"
+        android:paddingStart="5dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@color/black"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_weight="0.001"
+        android:textColorHint="#808080"/>
+
+
+
+    <EditText
+        android:id="@+id/passwordInputReg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/editext"
+        android:paddingStart="5dp"
+        android:hint="Password"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_weight="0.001"
+        android:inputType="textPassword"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@color/black"
+        android:textColorHint="#808080"/>
+
+    <EditText
+        android:id="@+id/confermaPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="5dp"
+        android:background="@drawable/editext"
+        android:hint="Conferma Password"
+        android:inputType="textPassword"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_weight="0.001"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@color/black"
+        android:textColorHint="#808080" />
+
+
+    <EditText
+        android:id="@+id/nomeInputReg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/editext"
+        android:paddingStart="5dp"
+        android:hint="Nome"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="@color/black"
         android:textColorHint="#808080"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.47"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_weight="0.001"/>
+
+    <EditText
+        android:id="@+id/cognomeInputReg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/editext"
+        android:paddingStart="5dp"
+        android:hint="Cognome"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@color/black"
+        android:textColorHint="#808080"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_weight="0.001"/>
+
+
+    <EditText
+        android:id="@+id/emailInputReg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/editext"
+        android:hint="E-mail"
+        android:inputType="textEmailAddress"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@color/black"
+        android:textColorHint="#808080"
+        android:paddingStart="5dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_weight="0.001"/>
 
     <EditText
         android:id="@+id/telefonoInputReg"
-        android:layout_width="377dp"
-        android:layout_height="44dp"
-        android:layout_marginTop="25dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:background="@drawable/editext"
         android:hint="Cellulare"
+        android:paddingStart="5dp"
         android:inputType="phone"
-        android:paddingLeft="5dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="@color/black"
         android:textColorHint="#808080"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cognomeInputReg" />
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_weight="0.001"/>
 
 
-    +
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <Button
+        android:id="@+id/confermaReg"
+        android:layout_width="102dp"
+        android:layout_height="23dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
+        android:layout_weight="0.001"
+        android:background="@drawable/btn_custom"
+        android:gravity="center"
+        android:text="Conferma"
+        android:textColor="@color/black" />
+
+
+
+
+
+</LinearLayout>
 

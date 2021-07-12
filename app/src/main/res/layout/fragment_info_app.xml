@@ -8,28 +8,27 @@
     android:layout_height="match_parent"
     tools:context=".View.InfoApp">
 
-    <LinearLayout
+
+    <TextView
+        android:id="@+id/textView10"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/textView10"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/open_sans_condensed_bold"
-            android:text="Guida all'App"
-            android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-            android:textColor="#610000"
-            android:textSize="34sp"/>
-    </LinearLayout>
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/open_sans_condensed_bold"
+        android:text="Guida all'App"
+        android:gravity="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textColor="#610000"
+        android:textSize="34sp"
+        android:layout_weight="0.2"/>
 
     <TextView
         android:id="@+id/textView13"
+        android:layout_weight="1"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:fontFamily="@font/open_sans_condensed_bold"
-        android:gravity="center"
         android:text="@string/infoApp"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textSize="22sp"
