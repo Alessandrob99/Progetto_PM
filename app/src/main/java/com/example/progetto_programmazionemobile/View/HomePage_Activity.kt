@@ -55,7 +55,7 @@ class HomePage_Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         toggle.syncState()
         if(savedInstanceState == null)
         {
-            ChangeFragment(infoFragment(),"INFO")
+            ChangeFragment(infoFragment(),"HOME")
         }
 
     }
@@ -65,8 +65,8 @@ class HomePage_Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
             drawer.closeDrawer(GravityCompat.START)
         } else {
 
-            if(supportFragmentManager.findFragmentByTag("INFO")!=null){
-                if(supportFragmentManager.findFragmentByTag("INFO")!!.isVisible) {
+            if(supportFragmentManager.findFragmentByTag("HOME")!=null){
+                if(supportFragmentManager.findFragmentByTag("HOME")!!.isVisible) {
                     val builder : AlertDialog.Builder = AlertDialog.Builder(this)
                     builder.setTitle("Selezionare si o no")
                     builder.setMessage("Effettuare il logout?")
@@ -90,22 +90,27 @@ class HomePage_Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
             }
             if(supportFragmentManager.findFragmentByTag("PROFILO")!=null){
                 if(supportFragmentManager.findFragmentByTag("PROFILO")!!.isVisible) {
-                    ChangeFragment(infoFragment(),"INFO")
+                    ChangeFragment(infoFragment(),"HOME")
                 }
             }
             if(supportFragmentManager.findFragmentByTag("RICERCA_GIOCATORI")!=null){
                 if(supportFragmentManager.findFragmentByTag("RICERCA_GIOCATORI")!!.isVisible) {
-                    ChangeFragment(infoFragment(),"INFO")
+                    ChangeFragment(infoFragment(),"HOME")
                 }
             }
             if(supportFragmentManager.findFragmentByTag("RICERCA_CIRCOLI")!=null){
                 if(supportFragmentManager.findFragmentByTag("RICERCA_CIRCOLI")!!.isVisible) {
-                    ChangeFragment(infoFragment(),"INFO")
+                    ChangeFragment(infoFragment(),"HOME")
                 }
             }
             if(supportFragmentManager.findFragmentByTag("MODIFICA_PROFILO")!=null){
                 if(supportFragmentManager.findFragmentByTag("MODIFICA_PROFILO")!!.isVisible) {
                     ChangeFragment(ProfileFragment(),"PROFILO")
+                }
+            }
+            if(supportFragmentManager.findFragmentByTag("APP")!=null){
+                if(supportFragmentManager.findFragmentByTag("APP")!!.isVisible) {
+                    ChangeFragment(infoFragment(),"HOME")
                 }
             }
         }
@@ -127,7 +132,7 @@ class HomePage_Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
                 ChangeFragment(RicercaCircoli(),"RICERCA_CIRCOLI")
             }
             R.id.info_app -> {
-                ChangeFragment(InfoApp(), "INFO APP")
+                ChangeFragment(InfoApp(), "APP")
             }
         }
         return true

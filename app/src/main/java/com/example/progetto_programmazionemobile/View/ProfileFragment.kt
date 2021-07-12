@@ -54,7 +54,6 @@ class ProfileFragment : Fragment()
         val btnEdit: Button = v.findViewById(R.id.btnConferma)
         btnEdit.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
-                //v!!.findNavController().navigate(R.id.editProfileFragment)
                 var fr = getFragmentManager()?.beginTransaction()
                 fr?.replace(R.id.fragment_container, EditProfileFragment(),"MODIFICA_PROFILO")
                 fr?.commit()
