@@ -33,16 +33,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
         setContentView(R.layout.activity_main)
 
 
-         val btn = findViewById<Button>(R.id.button)
-         btn.setOnClickListener(object : View.OnClickListener{
-             override fun onClick(v: View?) {
-                 val int = Intent(this@MainActivity,SelezioneOra::class.java)
-                 startActivity(int)
-             }
-         })
-
-
-
 
          if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
              //PERMESSO GARANTITO
