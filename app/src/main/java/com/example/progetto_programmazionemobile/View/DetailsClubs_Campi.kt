@@ -2,7 +2,6 @@ package com.example.progetto_programmazionemobile.View
 
 import android.content.Context
 import android.content.Intent
-import android.location.LocationManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,11 +9,11 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.TextView
-import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.progetto_programmazionemobile.Model.Campo
+import com.example.progetto_programmazionemobile.Model.Circolo
 import com.example.progetto_programmazionemobile.R
 import kotlinx.android.synthetic.main.activity_selezione_1.*
 import kotlinx.android.synthetic.main.fragment_details_clubs__campi.*
@@ -43,12 +42,11 @@ class DetailsClubs_Campi : Fragment()  {
 
         val bundle = activity?.intent?.extras
         val courts = bundle!!.getSerializable("courts") as ArrayList<Campo>
-
-        val giorno = bundle!!.getSerializable("giorno") as String
-        val circolo = bundle!!.getSerializable("club") as String
+        val giorno = bundle!!.getString("giorno") as String
+        val circolo = bundle!!.getSerializable("club") as Circolo
 
         val recyclerView = v.findViewById<View>(R.id.recyclearCampi) as RecyclerView
-        val viewAdapter = MyAdapterCourts(courts,giorno,circolo,requireContext())
+        val viewAdapter = MyAdapterCourts(courts,giorno,circolo,context)
         recyclerView.setLayoutManager(LinearLayoutManager(activity))
         recyclerView.setAdapter(viewAdapter)
 
@@ -71,7 +69,10 @@ class DetailsClubs_Campi : Fragment()  {
 
 }
 
-class MyAdapterCourts(val courts: ArrayList<Campo>,val giorno : String,val circolo : String, val context : Context) : RecyclerView.Adapter<MyAdapterCourts.MyViewHolderCourts>() {
+class MyAdapterCourts(
+    val courts: ArrayList<Campo>,
+    val giorno: String,
+    val circolo: Circolo, val context: Context?) : RecyclerView.Adapter<MyAdapterCourts.MyViewHolderCourts>() {
 
 
     class MyViewHolderCourts(val row: View) : RecyclerView.ViewHolder(row) {
@@ -106,10 +107,10 @@ class MyAdapterCourts(val courts: ArrayList<Campo>,val giorno : String,val circo
         holder.btnPrenota.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
                 val intent = Intent(context, SelezioneOra::class.java)
-                intent.putExtra("club", circolo)
+                intent.putExtra("club", circolo.id)
                 intent.putExtra("giorno", giorno)
                 intent.putExtra("n_campo", holder.n_campoText.text)
-                context.startActivity(intent)
+                context!!.startActivity(intent)
             }
         })
 

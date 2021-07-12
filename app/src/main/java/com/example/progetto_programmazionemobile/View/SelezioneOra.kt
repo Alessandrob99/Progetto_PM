@@ -14,6 +14,8 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.example.progetto_programmazionemobile.Model.Campo
+import com.example.progetto_programmazionemobile.Model.Circolo
 import com.example.progetto_programmazionemobile.Model.Prenotazione
 import com.example.progetto_programmazionemobile.R
 import com.example.progetto_programmazionemobile.ViewModel.Auth_Handler
@@ -34,12 +36,17 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
     var prenotazioni = ArrayList<Prenotazione>()
 
     //Da leggere
-    val giorno = "08-07-2021"
-    val campo = 1.toLong()
-    val circolo = 1.toLong()
+
+
+
+
+
     @SuppressLint("WrongViewCast")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val giorno = intent.getStringExtra("giorno")
+        val campo = intent.getStringExtra("n_campo").toLong()
+        val circolo = intent.getLongExtra("club", 0L)
         setContentView(R.layout.activity_selezione_ora)
 
 
