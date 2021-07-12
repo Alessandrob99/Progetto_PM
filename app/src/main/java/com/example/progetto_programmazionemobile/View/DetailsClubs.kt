@@ -14,7 +14,6 @@ import com.example.progetto_programmazionemobile.Model.Campo
 import com.example.progetto_programmazionemobile.Model.Circolo
 import com.example.progetto_programmazionemobile.R
 import com.google.android.material.tabs.TabLayout
-import kotlinx.android.synthetic.main.activity_details_club.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_selezione_1.*
 import kotlinx.android.synthetic.main.rv_campi.*
@@ -36,42 +35,20 @@ class DetailsClubs:AppCompatActivity(){
         val giorno = intent.getStringExtra("giorno")
 
 
-        setContentView(R.layout.activity_details_clubs)
 
+        setContentView(R.layout.activity_details_clubs)
+        val titleClub = findViewById<TextView>(R.id.titleClub)
+        titleClub.text = club.nome
 
         adapter = PickerAdapter(supportFragmentManager)
         viewPager = findViewById<ViewPager>(R.id.pager)
         viewPager?.setAdapter(adapter)
 
 
-        setSupportActionBar(findViewById(R.id.toolbar))
+        //setSupportActionBar(findViewById(R.id.toolbar))
         val tabLayout = findViewById<TabLayout>(R.id.tabs)
         tabLayout.setupWithViewPager(viewPager)
         for (i in 0 until adapter?.getCount()!!) tabLayout.getTabAt(i)?.setText(adapter!!.getTitle(i))
-
-
-        /*
-        val frame_rv = findViewById<RecyclerView>(R.id.rv_campi)
-        val num_campo : TextView = frame_rv.findViewById<TextView>(R.id.numeroCampo)
-        val buttonPrenota : Button = frame_rv.findViewById<Button>(R.id.btnVisualizzaPrenotazioni)
-
-        buttonPrenota.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View?) {
-                val intent = Intent(this@DetailsClubs, SelezioneOra::class.java)
-                intent.putExtra("club", club)
-                intent.putExtra("giorno", giorno)
-                intent.putExtra("n_campo", num_campo.text)
-                startActivity(intent)
-            }
-        })
-
-
-
-
-        val nomeClub: TextView = findViewById(R.id.nomeClub)
-        nomeClub.text = intent.getStringExtra("titleClub")
-
-         */
 
 
     }

@@ -55,15 +55,6 @@ class DetailsClubs_Campi : Fragment()  {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-       /*val bundle = activity?.intent?.extras
-        val courts = bundle!!.getSerializable("courts") as ArrayList<Campo>
-
-        recyclearCampi.layoutManager = LinearLayoutManager(this.context)
-        recyclearCampi.adapter = MyAdapterCourts(courts)
-
-        */
-
     }
 
 
