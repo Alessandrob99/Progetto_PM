@@ -44,8 +44,6 @@ class DetailsClubs:AppCompatActivity(){
         viewPager = findViewById<ViewPager>(R.id.pager)
         viewPager?.setAdapter(adapter)
 
-
-        //setSupportActionBar(findViewById(R.id.toolbar))
         val tabLayout = findViewById<TabLayout>(R.id.tabs)
         tabLayout.setupWithViewPager(viewPager)
         for (i in 0 until adapter?.getCount()!!) tabLayout.getTabAt(i)?.setText(adapter!!.getTitle(i))

@@ -28,6 +28,10 @@
     <item android:title="Info">
         <menu>
             <item
+                android:id="@+id/info_app"
+                android:title="Info App"
+                android:icon="@drawable/ic_info"/>
+            <item
                 android:id="@+id/nav_contattaci"
                 android:title="Contattaci"
                 android:icon="@drawable/ic_info"/>

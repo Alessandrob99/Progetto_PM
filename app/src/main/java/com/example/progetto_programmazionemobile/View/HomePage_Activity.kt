@@ -115,7 +115,7 @@ class HomePage_Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         when(item.itemId)
         {
             R.id.nav_home ->{
-                ChangeFragment(infoFragment(),"INFO")
+                ChangeFragment(infoFragment(),"HOME")
             }
             R.id.nav_profilo ->{
                 ChangeFragment(ProfileFragment(),"PROFILO")
@@ -125,6 +125,9 @@ class HomePage_Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
             }
             R.id.nav_ricerca_circoli -> {
                 ChangeFragment(RicercaCircoli(),"RICERCA_CIRCOLI")
+            }
+            R.id.info_app -> {
+                ChangeFragment(InfoApp(), "INFO APP")
             }
         }
         return true
