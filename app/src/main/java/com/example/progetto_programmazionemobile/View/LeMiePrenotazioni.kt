@@ -1,11 +1,29 @@
 package com.example.progetto_programmazionemobile.View
 
+import android.app.ProgressDialog
+import android.content.Context
+import android.content.DialogInterface
+import android.graphics.Color
+import android.graphics.Paint
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
+import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
+import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.progetto_programmazionemobile.Model.Prenotazione
 import com.example.progetto_programmazionemobile.R
+import com.example.progetto_programmazionemobile.ViewModel.Auth_Handler
+import com.example.progetto_programmazionemobile.ViewModel.DB_Handler_Reservation
+import com.example.progetto_programmazionemobile.ViewModel.DB_Handler_Users
+import kotlinx.android.synthetic.main.fragment_le_mie_prenotazioni.*
+import java.util.*
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -35,7 +53,23 @@ class LeMiePrenotazioni : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_le_mie_prenotazioni, container, false)
+        val v =  inflater.inflate(R.layout.fragment_le_mie_prenotazioni, container, false)
+
+        DB_Handler_Users.getReservationList(Auth_Handler.CURRENT_USER!!.username,object : DB_Handler_Users.MyCallbackReservations{
+            override fun onCallback(reservations: ArrayList<Prenotazione>?) {
+                if(reservations.isNullOrEmpty()){
+                    topText.text = "Nessuna prenotazione registrata.."
+                }else{
+                    val recyclerView = v.findViewById<View>(R.id.recyclerViewPrenotazioni) as RecyclerView
+                    val viewAdapter = MyAdapterReservations(reservations,context!!)
+                    recyclerView.setLayoutManager(LinearLayoutManager(activity))
+                    recyclerView.setAdapter(viewAdapter)
+                }
+            }
+        })
+
+
+        return v
     }
 
     companion object {
@@ -56,5 +90,141 @@ class LeMiePrenotazioni : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+}
+
+
+
+class MyAdapterReservations(val prenotazioni : ArrayList<Prenotazione>?, val context : Context) : RecyclerView.Adapter<MyAdapterReservations.MyViewHolderReservations>() {
+
+    val cal = Calendar.getInstance()
+    val today = cal.time
+
+    class MyViewHolderReservations(val row: View) : RecyclerView.ViewHolder(row) {
+
+        val circolo = row.findViewById<TextView>(R.id.CircoloText)
+        val campo = row.findViewById<TextView>(R.id.CampoTxt)
+        val giorno = row.findViewById<TextView>(R.id.giornoPrenText)
+        val oraInizio = row.findViewById<TextView>(R.id.oraInizioPrenText)
+        val oraFine= row.findViewById<TextView>(R.id.oraFinePrenText)
+        val cod_prem = row.findViewById<TextView>(R.id.codicePrenText)
+        val btnElimina = row.findViewById<ImageButton>(R.id.btnElimina)
+        val scadutaText = row.findViewById<TextView>(R.id.scaduta)
+
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolderReservations {
+
+        val layout = LayoutInflater.from(parent.context).inflate(R.layout.rv_reservation, parent, false)
+
+        return MyViewHolderReservations(layout)
+
+    }
+
+
+    override fun onBindViewHolder(holder: MyViewHolderReservations, position: Int) {
+
+        holder.btnElimina.isClickable = false
+
+        //Decodifica del codice
+        DB_Handler_Reservation.getReservationLayoutInfo(prenotazioni!!.get(position),object : DB_Handler_Reservation.MyCallBackInfo{
+            override fun onCallBack(
+                campo: String,
+                circolo: String,
+                oraInizio: String,
+                oraFine: String,
+                giorno: String,
+                codice: String
+            ) {
+                //Scrivo sul mio layout
+                holder.giorno.text = giorno
+                holder.oraInizio.text = oraInizio
+                holder.oraFine.text = oraFine
+                holder.cod_prem.text = codice
+                holder.circolo.text = circolo
+                holder.campo.text = campo
+                if(prenotazioni.get(position).oraFine.before(today)){
+                    holder.scadutaText.text = "SCADUTA"
+                    holder.scadutaText.setTextColor(Color.RED)
+                    holder.scadutaText.textSize = 20F
+                    holder.cod_prem.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
+                }
+            }
+        })
+        holder.btnElimina.isClickable = true
+
+        holder.btnElimina.setOnClickListener(object : View.OnClickListener{
+            override fun onClick(v: View?) {
+
+                val builder : AlertDialog.Builder = AlertDialog.Builder(context)
+                builder.setTitle("Sei sicuro?")
+                builder.setMessage("Eliminare la prenotazione dalla lista?")
+
+                builder.setPositiveButton("Si",object : DialogInterface.OnClickListener{
+                    override fun onClick(dialog: DialogInterface?, which: Int) {
+                        val progress : ProgressDialog = ProgressDialog(context)
+                        progress.setTitle("Eliminazione in corso...")
+                        progress.show()
+
+                        DB_Handler_Reservation.deleteReservation(Auth_Handler.CURRENT_USER!!.username,
+                            holder.cod_prem.text.toString(),object : DB_Handler_Reservation.MyCallBackNewRes{
+                                override fun onCallback(result: Boolean) {
+                                    progress.dismiss()
+                                    holder.btnElimina.isVisible = false
+                                    holder.row.setBackgroundColor(Color.GRAY)
+                                    if(result){
+                                        val builder : AlertDialog.Builder = AlertDialog.Builder(context)
+                                        builder.setTitle("Eliminazione completata")
+                                        builder.setMessage("Operazione completata con successo")
+
+                                        builder.setPositiveButton("OK",object : DialogInterface.OnClickListener{
+                                            override fun onClick(dialog: DialogInterface?, which: Int) {
+
+                                            }
+                                        })
+
+                                        val alertDialog = builder.create()
+                                        alertDialog.show()
+
+                                    }else{
+                                        val builder : AlertDialog.Builder = AlertDialog.Builder(context)
+                                        builder.setTitle("Errore")
+                                        builder.setMessage("Qualcosa è andato storto... Contattaci in quanto potresti inavvertitamente bloccare delle ore libere!")
+
+                                        builder.setPositiveButton("OK",object : DialogInterface.OnClickListener{
+                                            override fun onClick(dialog: DialogInterface?, which: Int) {
+
+                                            }
+                                        })
+
+                                        val alertDialog = builder.create()
+                                        alertDialog.show()
+
+                                    }
+                                }
+                            })
+                    }
+                })
+                builder.setNegativeButton("NO",object : DialogInterface.OnClickListener{
+                    override fun onClick(dialog: DialogInterface?, which: Int) {
+
+                    }
+                })
+
+                val alertDialog = builder.create()
+                alertDialog.show()
+
+            }
+        })
+    }
+
+
+
+    override fun getItemCount(): Int {
+        if (prenotazioni!=null){
+            return prenotazioni.size
+        }else{
+            return 0
+        }
     }
 }

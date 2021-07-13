@@ -65,6 +65,26 @@ class DB_Handler_Clubs {
             }
         }
 
+
+        fun getClubByID(id : String,myCallBack: MyCallbackClub){
+            myRef.collection("clubs").document(id).get().addOnSuccessListener{
+                if(it!=null){
+                    myCallBack.onCallback(Circolo(
+                        it.data?.get("id_circolo") as Long,
+                        it.data?.get("nome").toString(),
+                        it.data?.get("email").toString(),
+                        it.data?.get("telefono").toString(),
+                        it.data?.get("docce") as Boolean,
+                        it.getGeoPoint("posizione")!!.latitude,
+                        it.getGeoPoint("posizione")!!.longitude)
+
+                    )
+                }
+            }
+        }
+
+
+
         fun getClubByPosition(latitude : Double, longitude : Double, myCallBack: MyCallbackClub){
 
             myRef.collection("clubs").get().addOnSuccessListener{   document->

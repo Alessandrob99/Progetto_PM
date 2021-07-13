@@ -12,4 +12,5 @@ class Prenotazione (id : String, prenotatore : String, oraInizio : Date, oraFine
 
 
 
+
 }

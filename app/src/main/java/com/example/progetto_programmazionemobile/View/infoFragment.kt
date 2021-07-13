@@ -28,6 +28,7 @@ class infoFragment : Fragment() {
         val btnUnisciti : Button = v.findViewById(R.id.btnUniscitiPrenotazione)
         val btnPrenota : Button = v.findViewById(R.id.btnPrenotazione)
         val btnInfo : Button = v.findViewById(R.id.InfoApplicazione)
+        val btnLeMiePrenotazioni : Button = v.findViewById(R.id.VisualizzaPrenotazione)
 
 
         //Va al fragment dell'info App
@@ -77,6 +78,14 @@ class infoFragment : Fragment() {
         btnUnisciti.setOnClickListener(object : View.OnClickListener{
             override fun onClick(v: View?) {
                 TODO("Not yet implemented")
+            }
+        })
+        //Visualizza le mie prenotazioni
+        btnLeMiePrenotazioni.setOnClickListener(object : View.OnClickListener{
+            override fun onClick(v: View?) {
+                var fr = getFragmentManager()?.beginTransaction()
+                fr?.replace(R.id.fragment_container, LeMiePrenotazioni(),"APP")
+                fr?.commit()
             }
         })
 

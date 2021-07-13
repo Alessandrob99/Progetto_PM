@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_infoFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_infoFragment_to_leMiePrenotazioni"
+            app:destination="@id/leMiePrenotazioni" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -34,5 +37,14 @@
         <action
             android:id="@+id/action_editProfileFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/leMiePrenotazioni"
+        android:name="com.example.progetto_programmazionemobile.View.LeMiePrenotazioni"
+        android:label="fragment_le_mie_prenotazioni"
+        tools:layout="@layout/fragment_le_mie_prenotazioni" >
+        <action
+            android:id="@+id/action_leMiePrenotazioni_to_infoFragment"
+            app:destination="@id/infoFragment" />
     </fragment>
 </navigation>

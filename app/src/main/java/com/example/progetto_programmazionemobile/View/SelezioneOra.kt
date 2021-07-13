@@ -160,7 +160,7 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
 
                                             //Genero codice prenotazione
                                             val cod_pren = DB_Handler_Reservation.cipher(
-                                                circolo.toString() + campo.toString() + giorno + oraInizioStr,
+                                                circolo.toString() +"&"+ campo.toString() +"&"+ giorno +"&"+ oraInizioStr,
                                                 15
                                             )
 

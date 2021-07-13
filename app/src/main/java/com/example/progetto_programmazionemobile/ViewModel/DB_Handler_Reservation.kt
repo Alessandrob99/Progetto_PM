@@ -5,6 +5,7 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import com.example.progetto_programmazionemobile.Model.Campo
+import com.example.progetto_programmazionemobile.Model.Circolo
 import com.example.progetto_programmazionemobile.Model.Prenotazione
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
@@ -21,6 +22,10 @@ import kotlin.time.hours
 import kotlin.time.minutes
 
 class DB_Handler_Reservation {
+
+    interface MyCallBackInfo{
+        fun onCallBack(campo : String,circolo: String,oraInizio: String,oraFine: String,giorno : String,codice : String)
+    }
 
     //Callback function per i campi
     interface MyCallbackAvailable {
@@ -188,6 +193,10 @@ class DB_Handler_Reservation {
                             .set(docData)
                             .addOnSuccessListener {
 
+
+
+
+
                                 myRef.collection("users").document(user).collection("prenotazioni").document(codice_prenotazione).set(docData).addOnSuccessListener{
                                     myCallBackNewRes.onCallback(true)
                                 }.addOnFailureListener{
@@ -226,6 +235,56 @@ class DB_Handler_Reservation {
                     }
                 }
         }
+
+
+        fun getReservationLayoutInfo(prenotazione: Prenotazione, myCallBack : MyCallBackInfo){
+            val cod = DB_Handler_Reservation.decipher(prenotazione.id,15)
+            val codSplit = cod.split("&")
+            var oraInizioStr = ""
+            var oraFineStr = ""
+            DB_Handler_Clubs.getClubByID(codSplit[0].toString(),object : DB_Handler_Clubs.MyCallbackClub{
+                override fun onCallback(returnedClub: Circolo) {
+                    val nomeCircolo = returnedClub.nome
+                    val cal = Calendar.getInstance()
+                    cal.time = prenotazione.oraInizio
+                    if(cal.get(Calendar.MINUTE).toString().length==1){
+                        oraInizioStr = cal.get(Calendar.HOUR_OF_DAY).toString()+":0"+cal.get(Calendar.MINUTE)
+                    }else{
+                        oraInizioStr = cal.get(Calendar.HOUR_OF_DAY).toString()+":"+cal.get(Calendar.MINUTE)
+                    }
+                    cal.time = prenotazione.oraFine
+                    if(cal.get(Calendar.MINUTE).toString().length==1){
+                        oraFineStr = cal.get(Calendar.HOUR_OF_DAY).toString()+":0"+cal.get(Calendar.MINUTE)
+                    }else{
+                        oraFineStr = cal.get(Calendar.HOUR_OF_DAY).toString()+":"+cal.get(Calendar.MINUTE)
+                    }
+                    myCallBack.onCallBack(codSplit[1].toString(),nomeCircolo,oraInizioStr,oraFineStr,codSplit[2],prenotazione.id)
+                }
+
+            })
+        }
+
+
+
+        fun deleteReservation(user : String,codice : String,myCallBackNewRes: MyCallBackNewRes){
+            val codStr = DB_Handler_Reservation.decipher(codice,15)
+            val splitStr = codStr.split("&")
+            val cod_giorno = splitStr[0]+"-"+splitStr[1]+"-"+splitStr[2]
+
+            myRef.collection("users").document(user).collection("prenotazioni").document(codice).delete().addOnSuccessListener{
+                myRef.collection("prenotazione").document(cod_giorno).collection("prenotazioni").document(codice).delete().addOnSuccessListener{
+                    myCallBackNewRes.onCallback(true)
+                }.addOnFailureListener{
+                    myCallBackNewRes.onCallback(false)
+                }
+            }.addOnFailureListener{
+                myCallBackNewRes.onCallback(false)
+            }
+
+
+
+        }
+
 
 
         fun cipher(text: String, shift: Int): String {
