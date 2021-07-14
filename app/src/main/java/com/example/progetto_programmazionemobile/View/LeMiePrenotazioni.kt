@@ -1,7 +1,10 @@
 package com.example.progetto_programmazionemobile.View
 
 import android.app.ProgressDialog
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
+import android.content.Context.CLIPBOARD_SERVICE
 import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.Paint
@@ -11,7 +14,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -55,10 +61,12 @@ class LeMiePrenotazioni : Fragment() {
         // Inflate the layout for this fragment
         val v =  inflater.inflate(R.layout.fragment_le_mie_prenotazioni, container, false)
 
+
+
         DB_Handler_Users.getReservationList(Auth_Handler.CURRENT_USER!!.username,object : DB_Handler_Users.MyCallbackReservations{
             override fun onCallback(reservations: ArrayList<Prenotazione>?) {
                 if(reservations.isNullOrEmpty()){
-                    topText.text = "Nessuna prenotazione registrata.."
+                    topText.text = "Nessuna prenotazione registrata"
                 }else{
                     val recyclerView = v.findViewById<View>(R.id.recyclerViewPrenotazioni) as RecyclerView
                     val viewAdapter = MyAdapterReservations(reservations,context!!)
@@ -97,6 +105,7 @@ class LeMiePrenotazioni : Fragment() {
 
 class MyAdapterReservations(val prenotazioni : ArrayList<Prenotazione>?, val context : Context) : RecyclerView.Adapter<MyAdapterReservations.MyViewHolderReservations>() {
 
+    val conx = context
     val cal = Calendar.getInstance()
     val today = cal.time
 
@@ -111,6 +120,8 @@ class MyAdapterReservations(val prenotazioni : ArrayList<Prenotazione>?, val con
         val cod_prem = row.findViewById<TextView>(R.id.codicePrenText)
         val btnElimina = row.findViewById<ImageButton>(R.id.btnElimina)
         val scadutaText = row.findViewById<TextView>(R.id.scaduta)
+        val copyCode = row.findViewById<ImageButton>(R.id.copyCode)
+
 
     }
 
@@ -124,6 +135,19 @@ class MyAdapterReservations(val prenotazioni : ArrayList<Prenotazione>?, val con
 
 
     override fun onBindViewHolder(holder: MyViewHolderReservations, position: Int) {
+
+
+        holder.copyCode.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(v: View?) {
+                val textToCopy = holder.cod_prem.text
+
+                val clipboardManager = conx.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+                val clipData = ClipData.newPlainText("text", textToCopy)
+                clipboardManager.setPrimaryClip(clipData)
+                Toast.makeText(conx, "Copiato negli appunti: $textToCopy", Toast.LENGTH_LONG).show()
+
+            }
+        })
 
         holder.btnElimina.isClickable = false
 
