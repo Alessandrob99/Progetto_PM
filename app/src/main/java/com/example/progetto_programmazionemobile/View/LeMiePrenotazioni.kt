@@ -100,6 +100,7 @@ class MyAdapterReservations(val prenotazioni : ArrayList<Prenotazione>?, val con
     val cal = Calendar.getInstance()
     val today = cal.time
 
+
     class MyViewHolderReservations(val row: View) : RecyclerView.ViewHolder(row) {
 
         val circolo = row.findViewById<TextView>(R.id.CircoloText)
@@ -169,9 +170,9 @@ class MyAdapterReservations(val prenotazioni : ArrayList<Prenotazione>?, val con
                         DB_Handler_Reservation.deleteReservation(Auth_Handler.CURRENT_USER!!.username,
                             holder.cod_prem.text.toString(),object : DB_Handler_Reservation.MyCallBackNewRes{
                                 override fun onCallback(result: Boolean) {
+
                                     progress.dismiss()
-                                    holder.btnElimina.isVisible = false
-                                    holder.row.setBackgroundColor(Color.GRAY)
+
                                     if(result){
                                         val builder : AlertDialog.Builder = AlertDialog.Builder(context)
                                         builder.setTitle("Eliminazione completata")
@@ -179,8 +180,9 @@ class MyAdapterReservations(val prenotazioni : ArrayList<Prenotazione>?, val con
 
                                         builder.setPositiveButton("OK",object : DialogInterface.OnClickListener{
                                             override fun onClick(dialog: DialogInterface?, which: Int) {
-
+                                                deleteItem(position)
                                             }
+
                                         })
 
                                         val alertDialog = builder.create()
@@ -226,5 +228,10 @@ class MyAdapterReservations(val prenotazioni : ArrayList<Prenotazione>?, val con
         }else{
             return 0
         }
+    }
+
+    fun deleteItem(position : Int){
+        prenotazioni!!.removeAt(position)
+        notifyDataSetChanged()
     }
 }
