@@ -10,11 +10,13 @@
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="85dp"
+        android:fontFamily="@font/open_sans_condensed_bold"
+        android:paddingTop="25dp"
         android:text="CIRCOLI AFFILIATI"
-        android:textSize="20dp"
         android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textColor="@color/black"
-        android:paddingTop="25dp"/>
+        android:textSize="24sp" />
 
     <com.google.android.gms.maps.MapView
         android:id="@+id/mapCircoli"
