@@ -1,8 +1,11 @@
 package com.example.progetto_programmazionemobile.View
 
+import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
@@ -28,6 +31,8 @@ class SelezioneMap : AppCompatActivity(), OnMapReadyCallback
 {
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<LinearLayout>
     lateinit var autocompleteSuperficie: AutoCompleteTextView
+    lateinit var buttonInfo : ImageView
+    lateinit var dialog : Dialog
     lateinit var campiPerSport: ArrayList<Campo>
     lateinit var giorno : String
 
@@ -44,6 +49,15 @@ class SelezioneMap : AppCompatActivity(), OnMapReadyCallback
         mapFragment?.getMapAsync(this@SelezioneMap)
 
         bottomSheetBehavior = BottomSheetBehavior.from<LinearLayout>(persistent_bottom_sheet)
+        buttonInfo = findViewById(R.id.infoSwipe)
+        dialog = Dialog(this)
+
+
+        buttonInfo.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(v: View?) {
+                openDialog()
+            }
+        })
 
         val aggiornaFiltriButton: Button = findViewById(R.id.aggiornFiltriButton)
         aggiornaFiltriButton.setOnClickListener(object : View.OnClickListener {
@@ -88,6 +102,21 @@ class SelezioneMap : AppCompatActivity(), OnMapReadyCallback
                 }
 
             }
+    }
+
+    private fun openDialog(){
+        dialog.setContentView(R.layout.bottom_sheet_layout_popup)
+        dialog.getWindow().setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        val btnClose : Button = dialog.findViewById(R.id.btnOK)
+        dialog.show()
+
+        btnClose.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(v: View?) {
+                dialog.dismiss() //Close dialog
+            }
+        })
+
     }
 
     override fun onRestart() {
