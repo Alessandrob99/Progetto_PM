@@ -10,10 +10,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Spinner
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
@@ -22,9 +19,15 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import com.bumptech.glide.Glide
+import com.example.progetto_programmazionemobile.Model.Circolo
 import com.example.progetto_programmazionemobile.R
 import com.example.progetto_programmazionemobile.ViewModel.Auth_Handler
+import com.example.progetto_programmazionemobile.ViewModel.DB_Handler_Clubs
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.storage.FirebaseStorage
+import kotlinx.android.synthetic.main.fragment_home_profile_fragment.*
+import org.w3c.dom.Text
 
 
 class HomePage_Activity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener
@@ -42,6 +45,8 @@ class HomePage_Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
 
         var toolbar: Toolbar
         toolbar = findViewById(R.id.toolbar)
+
+
 
         setSupportActionBar(toolbar)
 
@@ -66,7 +71,17 @@ class HomePage_Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         {
             ChangeFragment(infoFragment(),"HOME")
         }
+        val storage = FirebaseStorage.getInstance()
+        val storageRef = storage.reference
+        val picRef = storageRef.child("usersPics/"+Auth_Handler.CURRENT_USER!!.username)
 
+        picRef.downloadUrl.addOnSuccessListener{
+            Glide.with(this).load(it).into(drawer.findViewById(R.id.ImgProfiloDrawer))
+        }
+        val navView : NavigationView = findViewById(R.id.nav_view)
+        val header = navView.getHeaderView(0)
+        header.findViewById<TextView>(R.id.NameDrawer).text = Auth_Handler.CURRENT_USER!!.nome.capitalize()
+        header.findViewById<TextView>(R.id.SurnameDrawer).text = Auth_Handler.CURRENT_USER!!.cognome.capitalize()
     }
 
     override fun onBackPressed() {

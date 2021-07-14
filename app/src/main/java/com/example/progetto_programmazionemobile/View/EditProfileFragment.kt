@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import com.example.progetto_programmazionemobile.R
 import com.example.progetto_programmazionemobile.ViewModel.Auth_Handler
 import com.example.progetto_programmazionemobile.ViewModel.DB_Handler_Users
@@ -20,6 +21,8 @@ import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_home_editprofile.*
+import kotlinx.android.synthetic.main.fragment_home_editprofile.editProfileImgBtn
+import kotlinx.android.synthetic.main.fragment_home_profile_fragment.*
 import java.math.RoundingMode
 
 class EditProfileFragment: Fragment()
@@ -66,7 +69,9 @@ class EditProfileFragment: Fragment()
                         DB_Handler_Users.updateUserByUsername(Auth_Handler.CURRENT_USER?.username,nameText.text.toString(),cognomeText.text.toString(),emailText.text.toString(),cellulareText.text.toString(),passwordText.text.toString())
 
                         //Upload image selected
-                        if(imgUri!=null){ uploadPicture()
+                        if(imgUri!=null){
+                            uploadPicture()
+
                         }else{
                             val builder : AlertDialog.Builder = AlertDialog.Builder(requireContext())
                             builder.setTitle("Modifiche effettuate")
@@ -123,7 +128,6 @@ class EditProfileFragment: Fragment()
         progress.setTitle("Caricamento...")
         progress.show()
         val picRef = storageRef.child("usersPics/"+Auth_Handler.CURRENT_USER!!.username)
-
         picRef.putFile(imgUri!!).addOnSuccessListener {
             progress.dismiss()
 

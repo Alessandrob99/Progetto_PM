@@ -6,13 +6,10 @@ import android.content.Intent
 import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.View.inflate
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.res.ColorStateListInflaterCompat.inflate
 import androidx.core.location.LocationManagerCompat
 import com.example.progetto_programmazionemobile.Model.Campo
 import com.example.progetto_programmazionemobile.Model.Circolo
@@ -24,7 +21,6 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.android.synthetic.main.activity_selezionemap.*
 import kotlinx.android.synthetic.main.bottom_sheet_layout.*
 

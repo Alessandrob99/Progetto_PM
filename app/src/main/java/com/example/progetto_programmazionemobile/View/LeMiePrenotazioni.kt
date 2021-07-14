@@ -180,10 +180,12 @@ class MyAdapterReservations(val prenotazioni : ArrayList<Prenotazione>?, val con
 
                                         builder.setPositiveButton("OK",object : DialogInterface.OnClickListener{
                                             override fun onClick(dialog: DialogInterface?, which: Int) {
-                                                deleteItem(position)
                                             }
 
                                         })
+                                        builder.setOnDismissListener{
+                                            deleteItem(position)
+                                        }
 
                                         val alertDialog = builder.create()
                                         alertDialog.show()

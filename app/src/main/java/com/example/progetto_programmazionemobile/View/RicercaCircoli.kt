@@ -1,79 +1,71 @@
 package com.example.progetto_programmazionemobile.View
 
-import android.app.Activity
-import android.os.Build
+import android.app.ProgressDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.annotation.Nullable
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import com.example.progetto_programmazionemobile.Model.Circolo
 import com.example.progetto_programmazionemobile.R
+import com.example.progetto_programmazionemobile.ViewModel.DB_Handler_Clubs
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.CameraPosition
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 
-class RicercaCircoli : Fragment()
-{
-    //lateinit var spinnerRegione : Spinner
-    //lateinit var spinnerCircoli : Spinner
-    lateinit var autocomplete : AutoCompleteTextView
-    lateinit var autocompleteCircoli: AutoCompleteTextView
 
-    @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-    @Nullable
+class RicercaCircoli : Fragment() , OnMapReadyCallback {
+    lateinit var progress : ProgressDialog
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
         val v =  inflater.inflate(R.layout.fragment_ricerca_circoli, container, false)
-        val array = arrayOf("","Bella", "fra", "ciao")
-        val array2 = arrayOf("","zio", "bellino")
-
-        //spinnerRegione = v.findViewById(R.id.spinnerRegione) as Spinner
-        //spinnerCircoli = v.findViewById(R.id.spinnerCircoli) as Spinner
-        autocomplete = v.findViewById(R.id.autoCompleteRegione) as AutoCompleteTextView
-        autocompleteCircoli = v.findViewById(R.id.autoCompleteCircolo) as AutoCompleteTextView
-
-        val adapter = ArrayAdapter(activity, android.R.layout.simple_list_item_1, array)
-        val adapter2 = ArrayAdapter(activity, android.R.layout.simple_list_item_1, array2)
-
-        autocompleteCircoli.setText(adapter2.getItem(0).toString(), false)
-        autocomplete.setText(adapter.getItem(0).toString(),false)
-        autocompleteCircoli.setAdapter((adapter2))
-        autocomplete.setAdapter(adapter)
-
-
-        autocomplete.onItemSelectedListener = object  : AdapterView.OnItemClickListener, AdapterView.OnItemSelectedListener{
-            override fun onItemClick(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                TODO("Not yet implemented")
-            }
-
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                Toast.makeText(context, "Prova", Toast.LENGTH_SHORT).show()
-            }
-
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-                TODO("Not yet implemented")
-            }
-
-        }
-
-        autocompleteCircoli.onItemSelectedListener = object : AdapterView.OnItemClickListener,  AdapterView.OnItemSelectedListener {
-
-            override fun onItemClick(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                TODO("Not yet implemented")
-            }
-
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                Toast.makeText(context, "Prova", Toast.LENGTH_SHORT).show()
-            }
-
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-                TODO("Not yet implemented")
-            }
-
-        }
+        progress = ProgressDialog(context)
+        val supportFragmentManager : SupportMapFragment = SupportMapFragment.newInstance()
+        childFragmentManager.beginTransaction().replace(R.id.mapCircoli,supportFragmentManager).commit()
+        supportFragmentManager?.getMapAsync(this)
+        progress.setTitle("Caricamento...")
+        progress.show()
 
 
         return v
+    }
+
+    override fun onMapReady(googleMap: GoogleMap) {
+
+        DB_Handler_Clubs.getAllClubs(object : DB_Handler_Clubs.MyCallbackClubs{
+            override fun onCallback(returnedClubs: ArrayList<Circolo>?) {
+                if (returnedClubs != null) {
+                    for (club in returnedClubs){
+                        var marker = googleMap.addMarker(
+                            MarkerOptions().position(
+                                LatLng(
+                                    club.posizione[0],
+                                    club.posizione[1]
+                                )
+                            ).title(club.nome)
+                        )
+                    }
+                    progress.dismiss()
+                    val cameraPosition =
+                        CameraPosition.Builder().target(LatLng(42.54701640764917, 12.4)).zoom(
+                            5.5f
+                        ).build()
+                    val cameraUpdate = CameraUpdateFactory.newCameraPosition(
+                        cameraPosition
+                    )
+                    googleMap.moveCamera(cameraUpdate)
+                }
+            }
+        })
+
+
+
     }
 
 }

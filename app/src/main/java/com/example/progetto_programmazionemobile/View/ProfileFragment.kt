@@ -17,9 +17,6 @@ import kotlinx.android.synthetic.main.fragment_home_profile_fragment.*
 
 class ProfileFragment : Fragment()
 {
-    private lateinit var password : EditText
-    private lateinit var showpass : ImageView
-
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
