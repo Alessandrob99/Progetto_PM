@@ -1,4 +1,5 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/persistent_bottom_sheet"
@@ -36,129 +37,158 @@
         android:textSize="26sp"
         android:textStyle="bold" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="466dp">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_weight="1">
 
-        <TextView
-            android:id="@+id/textView17"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="56dp"
-            android:text="Distanza massima da te: "
-            android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <EditText
-            android:id="@+id/radiusMax"
-            android:layout_width="72dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="28dp"
-            android:layout_marginTop="46dp"
-            android:ems="10"
-            android:inputType="number"
-            android:text="20"
-            app:layout_constraintStart_toEndOf="@+id/textView17"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayout2"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="48dp"
-            android:layout_marginTop="50dp"
-            android:layout_marginEnd="48dp"
-            android:hint="Superficie"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView17">
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_weight="1">
 
-            <AutoCompleteTextView
-                android:id="@+id/superficie"
+            <TextView
+                android:id="@+id/textView17"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:text="Distanza massima da te: "
+                android:textSize="20sp"
+                android:layout_weight="1"/>
+
+            <EditText
+                android:id="@+id/radiusMax"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="number"
+                android:text="20"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Km"
+                android:layout_marginEnd="20dp"
+                android:textSize="20sp"
+                android:layout_weight="1"/>
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:layout_weight="1">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout2"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/darker_gray"
-                android:enabled="false"
-                android:inputType="none"
-                android:textColor="#000" />
+                android:layout_marginStart="50dp"
+                android:layout_marginEnd="50dp"
+                android:hint="Superficie">
+
+                <AutoCompleteTextView
+                    android:id="@+id/superficie"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/darker_gray"
+                    android:enabled="false"
+                    android:inputType="none"
+                    android:textColor="#000" />
 
 
-        </com.google.android.material.textfield.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <CheckBox
-            android:id="@+id/docceCheckbox"
-            android:layout_width="wrap_content"
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="35dp"
-            android:layout_marginTop="40dp"
-            android:text="Docce"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
+            android:orientation="horizontal"
+            android:layout_weight="1">
 
-        <CheckBox
-            android:id="@+id/riscaldamentoCheckbox"
-            android:layout_width="wrap_content"
+            <CheckBox
+                android:id="@+id/docceCheckbox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:text="Docce"
+                android:layout_weight="1"/>
+
+            <CheckBox
+                android:id="@+id/riscaldamentoCheckbox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Riscaldamento"/>
+
+            <CheckBox
+                android:id="@+id/copertoCheckbox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:layout_weight="1"
+                android:text="Coperto"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="25dp"
-            android:layout_marginTop="40dp"
-            android:layout_marginEnd="20dp"
-            android:text="Riscaldamento"
-            app:layout_constraintEnd_toStartOf="@+id/copertoCheckbox"
-            app:layout_constraintStart_toEndOf="@+id/docceCheckbox"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
+            android:orientation="horizontal"
+            android:layout_weight="1">
 
-        <CheckBox
-            android:id="@+id/copertoCheckbox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:layout_marginEnd="35dp"
-            android:text="Coperto"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
+            <TextView
+                android:id="@+id/textView18"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:text="Prezzo massimo all'ora:"
+                android:textSize="20sp"
+                android:layout_weight="1"/>
 
-        <TextView
-            android:id="@+id/textView18"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="48dp"
-            android:text="Prezzo massimo all'ora:"
-            android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/docceCheckbox" />
+            <EditText
+                android:id="@+id/prezzoMax"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="number"
+                android:text=""
+                android:layout_weight="1"/>
 
-        <EditText
-            android:id="@+id/prezzoMax"
-            android:layout_width="72dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="40dp"
-            android:ems="10"
-            android:inputType="number"
-            android:text=""
-            app:layout_constraintStart_toEndOf="@+id/textView18"
-            app:layout_constraintTop_toBottomOf="@+id/copertoCheckbox" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="€"
+                android:layout_marginEnd="20dp"
+                android:textSize="20sp"
+                android:layout_weight="1"/>
 
-        <Button
-            android:id="@+id/aggiornFiltriButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/btn_custom"
-            android:text="Applica filtri"
-            android:textColor="#000"
-            app:backgroundTint="@null"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent" />
+        </LinearLayout>
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
+    </LinearLayout>
+
+    <Button
+        android:layout_gravity="center"
+        android:layout_marginBottom="20dp"
+        android:id="@+id/aggiornFiltriButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btn_custom"
+        android:text="Applica filtri"
+        android:textColor="#000"
+        app:backgroundTint="@null"/>
 
 </LinearLayout>
