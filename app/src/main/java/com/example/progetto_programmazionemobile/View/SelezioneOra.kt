@@ -190,13 +190,16 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
                                                                         dialog: DialogInterface?,
                                                                         which: Int
                                                                     ) {
-                                                                        /* val intent = Intent(this@SelezioneOra, HomePage_Activity::class.java)
-                                                                     startActivity(intent)
-
-                                                                     //Terminare tutte le activity dopo la Home
-                                                                     finish()*/
+                                                                        val intent = Intent(this@SelezioneOra, HomePage_Activity::class.java)
+                                                                        startActivity(intent)
+                                                                        finish()
                                                                     }
                                                                 })
+                                                            builder.setOnDismissListener {
+                                                                val intent = Intent(this@SelezioneOra, HomePage_Activity::class.java)
+                                                                startActivity(intent)
+                                                                finish()
+                                                            }
                                                             val alertDialog = builder.create()
                                                             alertDialog.show()
                                                         } else {
