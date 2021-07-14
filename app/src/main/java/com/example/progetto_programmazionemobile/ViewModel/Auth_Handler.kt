@@ -24,6 +24,19 @@ class Auth_Handler  {
         fun setLOGGED_IN (){
             LOGGED_IN=true
         }
+        fun setLOGGED_IN (context: Context,ricordami : Boolean,userName: String,password: String){
+            LOGGED_IN=true
+            if(ricordami) {
+                var sharedPreferences : SharedPreferences? = context?.getSharedPreferences("remember", Context.MODE_PRIVATE)
+                var editor : SharedPreferences.Editor? = sharedPreferences?.edit()
+                if (editor != null) {
+                    editor.putString("username",userName)
+                    editor.putString("password",password)
+                    editor.putBoolean("remember",true)
+                    editor.apply()
+                }
+            }
+        }
 
         fun setLOGGET_OUT(){
             LOGGED_IN = false

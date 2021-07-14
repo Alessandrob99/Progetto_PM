@@ -92,10 +92,13 @@ class SelezioneMap : AppCompatActivity(), OnMapReadyCallback
                 }
 
             }
+    }
 
-
-
-
+    override fun onRestart() {
+        super.onRestart()
+        val mapFragment =
+            supportFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment
+        mapFragment?.getMapAsync(this@SelezioneMap)
 
     }
 

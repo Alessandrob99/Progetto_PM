@@ -1,15 +1,12 @@
 package com.example.progetto_programmazionemobile.View
 
 import android.os.Bundle
-import android.text.method.PasswordTransformationMethod
 import android.view.*
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
 import com.example.progetto_programmazionemobile.R
 import com.example.progetto_programmazionemobile.ViewModel.Auth_Handler
@@ -46,7 +43,7 @@ class ProfileFragment : Fragment()
         cellulareText.setText(Auth_Handler.CURRENT_USER?.telefono)
 
         picRef.downloadUrl.addOnSuccessListener{
-            Glide.with(context).load(it).into(imageView)
+            Glide.with(context).load(it).into(immagineProfilo)
         }
 
 

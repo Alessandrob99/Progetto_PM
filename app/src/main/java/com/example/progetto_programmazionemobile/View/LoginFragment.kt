@@ -51,7 +51,7 @@ class LoginFragment : Fragment() {
         val userNameEditText = v.findViewById<EditText>(R.id.txtUsername)
         val passWordEditText = v.findViewById<EditText>(R.id.txtPassword)
 
-        //Controllo se ci sono valori user e pass salvati nella 'session'
+        //Controllo se ci sono valori user e pass salvati nelle shared pref'
         var sharedPreferences : SharedPreferences? = activity?.getSharedPreferences("remember", Context.MODE_PRIVATE)
         if (sharedPreferences != null) {
             if(sharedPreferences.getBoolean("remember",false)){
@@ -102,16 +102,7 @@ class LoginFragment : Fragment() {
                                 val goToHomePage = Intent(v?.context,HomePage_Activity::class.java)
 
                                 //Se Ricordami == true  allora scrivi su file
-                                if(flagRicordami.isChecked) {
-                                    var sharedPreferences : SharedPreferences? = activity?.getSharedPreferences("remember", Context.MODE_PRIVATE)
-                                    var editor : SharedPreferences.Editor? = sharedPreferences?.edit()
-                                    if (editor != null) {
-                                        editor.putString("username",userName)
-                                        editor.putString("password",password)
-                                        editor.putBoolean("remember",true)
-                                        editor.apply()
-                                    }
-                                }
+                                Auth_Handler.setLOGGED_IN(context!!,flagRicordami.isChecked,userName,password)
 
                                 //GO HOME INTENT
                                 startActivityForResult(goToHomePage, 1)
