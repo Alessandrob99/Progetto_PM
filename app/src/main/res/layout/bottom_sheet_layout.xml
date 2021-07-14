@@ -27,8 +27,6 @@
         android:id="@+id/textView2"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginStart="0dp"
-        android:layout_marginEnd="0dp"
         android:background="#E8E5E5"
         android:gravity="center|top"
         android:text="FILTRI"
