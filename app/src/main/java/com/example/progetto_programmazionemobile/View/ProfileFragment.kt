@@ -6,6 +6,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.example.progetto_programmazionemobile.R
@@ -43,7 +44,7 @@ class ProfileFragment : Fragment()
         cellulareText.setText(Auth_Handler.CURRENT_USER?.telefono)
 
         picRef.downloadUrl.addOnSuccessListener{
-            Glide.with(context).load(it).into(immagineProfilo)
+            Glide.with(context).load(it).into(editProfileImgBtn)
         }
 
 
@@ -57,6 +58,9 @@ class ProfileFragment : Fragment()
             }
         })
         return v
+
+
+
     }
 
 }

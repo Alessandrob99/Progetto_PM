@@ -13,7 +13,7 @@
         android:layout_weight="0.01">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/immagineProfilo"
+            android:id="@+id/editProfileImgBtn"
             android:layout_width="120dp"
             android:layout_marginLeft="30dp"
             android:layout_marginTop="30dp"

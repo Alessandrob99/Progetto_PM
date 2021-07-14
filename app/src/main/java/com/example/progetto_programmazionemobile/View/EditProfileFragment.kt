@@ -93,7 +93,7 @@ class EditProfileFragment: Fragment()
 
             }
         })
-        val imgButton = v.findViewById<ImageButton>(R.id.editProfileImgBtn)
+        val imgButton = v.findViewById<ImageView>(R.id.editProfileImgBtn)
         imgButton.setOnClickListener(object : View.OnClickListener{
             override fun onClick(v: View?) {
                 choosePicture()
@@ -114,8 +114,6 @@ class EditProfileFragment: Fragment()
         if(requestCode==1 && resultCode==Activity.RESULT_OK && data!=null){
             imgUri = data.data
             editProfileImgBtn.setImageURI(imgUri)
-            editProfileImgBtn.scaleType = ImageView.ScaleType.CENTER_INSIDE
-
         }
     }
 
