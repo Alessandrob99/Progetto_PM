@@ -98,7 +98,7 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
                                 val builder: AlertDialog.Builder =
                                     AlertDialog.Builder(this@SelezioneOra)
                                 builder.setTitle("Sei sicuro?")
-                                builder.setMessage("Confermare la prenotazione dalle " + oraInizioStr + " alle " + oraFineStr + " del giorno " + giorno)
+                                builder.setMessage("Confermare la prenotazione? "+System.getProperty("line.separator")+"Dalle " + oraInizioStr +System.getProperty("line.separator")+"Alle " + oraFineStr +System.getProperty("line.separator")+"Del giorno " + giorno)
 
                                 builder.setNegativeButton("NO",
                                     object : DialogInterface.OnClickListener {
