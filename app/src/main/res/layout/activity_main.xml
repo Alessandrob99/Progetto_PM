@@ -17,6 +17,7 @@
         <ImageView
             android:id="@+id/imageView3"
             android:layout_width="match_parent"
+            android:layout_marginTop="7dp"
             android:layout_height="150dp"
             app:layout_constraintBottom_toTopOf="@+id/fragment"
             app:srcCompat="@drawable/quickplaylogo" />
