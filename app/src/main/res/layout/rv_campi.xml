@@ -1,125 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:id="@+id/rv_campi"
-    android:layout_height="230dp"
+    android:layout_height="wrap_content"
     android:layout_margin="5dp"
     android:background="@drawable/btn_custom"
+    android:orientation="vertical"
     android:clipToPadding="true">
 
-    <TextView
-        android:id="@+id/numeroCampotxt"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        android:text="Numero campo:"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp"
+        android:layout_weight="0.1">
+
+        <TextView
+            android:id="@+id/numeroCampotxt"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_weight="1"
+            android:text="Numero campo:" />
+        <TextView
+            android:id="@+id/numeroCampo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text=""
+            android:textStyle="bold"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="0.1">
+
+        <CheckBox
+            android:id="@+id/riscaldamentoCheck"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:clickable="false"
+            android:text="Riscaldamento"/>
+
+        <CheckBox
+            android:id="@+id/copertoCheck"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="Coperto"
+            android:clickable="false" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_weight="0.1">
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="Superficie:"
+            android:textColor="@color/black"
+            android:layout_weight="1"
+            android:textSize="15sp" />
+        <TextView
+            android:id="@+id/superficie"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Inserire superficie"
+            android:textColor="@color/black"
+            android:layout_weight="0.5"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_weight="0.1"
+        android:layout_marginTop="5dp">
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_weight="1"
+            android:text="Prezzo:"
+            android:textColor="@color/black"
+            android:textSize="15sp"/>
+
+        <TextView
+            android:id="@+id/prezzo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Inserire prezzo"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:layout_weight="0.5"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="10dp"
+        android:layout_weight="0.1">
+
+        <Button
+            android:id="@+id/btnVisualizzaPrenotazioni"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/btn_custom"
+            android:fontFamily="sans-serif-medium"
+            android:text="Visualizza orari"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="#000"
+            app:backgroundTint="@null" />
+    </LinearLayout>
 
 
-    <TextView
-        android:id="@+id/numeroCampo"
-        android:layout_width="wrap_content"
-        android:layout_height="32dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="16dp"
-        android:text=""
-        android:textStyle="bold"
-        android:textSize="20sp"
-        app:layout_constraintStart_toEndOf="@+id/numeroCampotxt"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <CheckBox
-        android:id="@+id/riscaldamentoCheck"
-        android:layout_width="wrap_content"
-        android:layout_height="32dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="13dp"
-        android:clickable="false"
-        android:text="Riscaldamento"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/numeroCampotxt" />
-
-    <CheckBox
-        android:id="@+id/copertoCheck"
-        android:layout_width="wrap_content"
-        android:layout_height="32dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="13dp"
-        android:text="Coperto"
-        android:clickable="false"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/riscaldamentoCheck" />
-
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
-        android:layout_height="32dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="13dp"
-        android:text="Superficie:"
-        android:textColor="@color/black"
-        android:textSize="15sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/copertoCheck" />
-
-
-    <TextView
-        android:id="@+id/superficie"
-        android:layout_width="wrap_content"
-        android:layout_height="32dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="12dp"
-        android:text="Inserire superficie"
-        android:textColor="@color/black"
-        android:textSize="15sp"
-        app:layout_constraintStart_toEndOf="@+id/textView5"
-        app:layout_constraintTop_toBottomOf="@+id/copertoCheck" />
-
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="32dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="13dp"
-        android:text="Prezzo:"
-        android:textColor="@color/black"
-        android:textSize="15sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/superficie" />
-
-
-    <TextView
-        android:id="@+id/prezzo"
-        android:layout_width="wrap_content"
-        android:layout_height="32dp"
-        android:layout_marginStart="21dp"
-        android:layout_marginTop="13dp"
-        android:text="Inserire prezzo"
-        android:textColor="@color/black"
-        android:textSize="15sp"
-        app:layout_constraintStart_toEndOf="@+id/textView6"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
-
-    <Button
-        android:id="@+id/btnVisualizzaPrenotazioni"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="28dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/btn_custom"
-        android:fontFamily="sans-serif-medium"
-        android:text="Visualizza orari"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="#000"
-        app:backgroundTint="@null"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
