@@ -14,16 +14,14 @@ import java.util.*
 class Utente(
     name: String,
     surname: String,
-    user: String,
-    email: String?,
+    email: String,
     telefono: String?,
     password: String
 ) : Serializable {
 
-    var username: String = user
     var nome: String = name
     var cognome: String = surname
-    var email: String? = email
+    var email: String = email
     var telefono: String? = telefono
     var password: String = password
 }

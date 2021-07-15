@@ -25,7 +25,10 @@ import com.example.progetto_programmazionemobile.R
 import com.example.progetto_programmazionemobile.ViewModel.Auth_Handler
 import com.example.progetto_programmazionemobile.ViewModel.DB_Handler_Clubs
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.fragment_home_profile_fragment.*
 import org.w3c.dom.Text
 
@@ -45,8 +48,6 @@ class HomePage_Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
 
         var toolbar: Toolbar
         toolbar = findViewById(R.id.toolbar)
-
-
 
         setSupportActionBar(toolbar)
 
@@ -73,11 +74,13 @@ class HomePage_Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         }
         val storage = FirebaseStorage.getInstance()
         val storageRef = storage.reference
-        val picRef = storageRef.child("usersPics/"+Auth_Handler.CURRENT_USER!!.username)
-
-        picRef.downloadUrl.addOnSuccessListener{
-            Glide.with(this).load(it).into(drawer.findViewById(R.id.ImgProfiloDrawer))
+        val picRef : StorageReference? = storageRef.child("usersPics/"+Auth_Handler.CURRENT_USER!!.email)
+        if(picRef!=null){
+            picRef.downloadUrl.addOnSuccessListener{
+                Glide.with(this).load(it).into(drawer.findViewById(R.id.ImgProfiloDrawer))
+            }
         }
+
         val navView : NavigationView = findViewById(R.id.nav_view)
         val header = navView.getHeaderView(0)
         header.findViewById<TextView>(R.id.NameDrawer).text = Auth_Handler.CURRENT_USER!!.nome.capitalize()

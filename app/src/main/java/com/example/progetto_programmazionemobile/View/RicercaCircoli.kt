@@ -32,7 +32,6 @@ class RicercaCircoli : Fragment() , OnMapReadyCallback {
         progress.setTitle("Caricamento...")
         progress.show()
 
-
         return v
     }
 

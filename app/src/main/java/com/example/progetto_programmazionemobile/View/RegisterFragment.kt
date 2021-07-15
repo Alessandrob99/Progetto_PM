@@ -1,5 +1,6 @@
 package com.example.progetto_programmazionemobile.View
 
+import android.app.ProgressDialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
@@ -52,7 +53,6 @@ class RegisterFragment : Fragment() {
         // Inflate the layout for this fragment
         val goToHomePage = Intent(v.context,HomePage_Activity::class.java)
 
-        val userText = v.findViewById<EditText>(R.id.nomeutenteInputReg)
         val nomeText = v.findViewById<EditText>(R.id.nomeInputReg)
         val cognomeText = v.findViewById<EditText>(R.id.cognomeInputReg)
         val passwordText = v.findViewById<EditText>(R.id.passwordInputReg)
@@ -64,70 +64,94 @@ class RegisterFragment : Fragment() {
 
         confermabtn.setOnClickListener(object : View.OnClickListener{
             override fun onClick(v: View?) {
+
+                val progress : ProgressDialog = ProgressDialog(context)
+
                 //Metodo che controlla la validita delle credenziali e la password
 
-                if(confermaPassword.text.toString()!= passwordText.text.toString()){
-                    Toast.makeText(context,"Le password non coincidono",Toast.LENGTH_SHORT).show()
-                }
 
-                if((nomeText.text.toString()=="")||(userText.text.toString()=="")||(cognomeText.text.toString()=="")||(passwordText.text.toString()=="")||(emailText.text.toString()=="")||(telefonoText.text.toString()=="")){
-                    Toast.makeText(context,"Inserire tutti i campi",Toast.LENGTH_SHORT).show()
-                }else {
-                    if(telefonoText.text.length!=10) {
-                        Toast.makeText(context,"Numero di telefono non valido",Toast.LENGTH_SHORT).show()
+                //-------
+                if (confermaPassword.text.toString() != passwordText.text.toString()) {
+                    Toast.makeText(context, "Le password non coincidono", Toast.LENGTH_SHORT).show()
+                } else {
+                    if(passwordText.text.length<6){
+                        Toast.makeText(context, "Password troppo corta (6 caratteri minimo)", Toast.LENGTH_SHORT).show()
                     }else{
 
-                        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(emailText.text.toString())
-                                .matches()) {
-
-                            Toast.makeText(context, "Inserire una mail valida", Toast.LENGTH_SHORT).show()
-
-
-
+                        if ((nomeText.text.toString() == "") || (cognomeText.text.toString() == "") || (passwordText.text.toString() == "") || (emailText.text.toString() == "") || (telefonoText.text.toString() == "")) {
+                            Toast.makeText(context, "Inserire tutti i campi", Toast.LENGTH_SHORT).show()
                         } else {
-                            //-----------------------Conferma mail da implementare-------------------------//
+                            if (telefonoText.text.length != 10) {
+                                Toast.makeText(
+                                    context,
+                                    "Numero di telefono non valido",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            } else {
 
-                            //Controlli per credenziali già esistenti
-                            DB_Handler_Users.checkCreds(userText.text.toString(),
-                                emailText.text.toString(),
-                                telefonoText.text.toString(),object : DB_Handler_Users.MyCallbackMessage{
-                                    override fun onCallback(message: String) {
-                                        if(message=="OK") {
-                                            val cal = Calendar.getInstance()
-                                            val dataNascita = cal.time
+                                if (!android.util.Patterns.EMAIL_ADDRESS.matcher(emailText.text.toString())
+                                        .matches()
+                                ) {
 
-                                            //Metodo per la memeorizzaione dei dati
+                                    Toast.makeText(
+                                        context,
+                                        "Inserire una mail valida",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
 
-                                            DB_Handler_Users.newUser(
-                                                userText.text.toString(),
-                                                passwordText.text.toString(),
-                                                nomeText.text.toString(),
-                                                cognomeText.text.toString(),
-                                                emailText.text.toString(),
-                                                telefonoText.text.toString(),
-                                                dataNascita
-                                            )
-                                            val intent = Intent(context, MainActivity::class.java)
 
-                                            //POPUP Registrazione compleatta + redirect alla mainactivity
-                                            val builder : AlertDialog.Builder = AlertDialog.Builder(context!!)
-                                            builder.setMessage("Registrazione Completata")
-                                            builder.setPositiveButton("OK",object : DialogInterface.OnClickListener{
-                                                override fun onClick(dialog: DialogInterface?, which: Int) {
-                                                    val intent = Intent(context, MainActivity::class.java)
-                                                    startActivity(intent)
+                                } else {
+                                    //-----------------------Conferma mail da implementare-------------------------//
+                                    //Disabilito il pulsante di richiesta registrazione
+                                    progress.setTitle("Registrazione in corso...")
+                                    progress.show()
+                                    confermabtn.isEnabled = false
+
+                                    //Controlli per credenziali già esistenti
+                                    Auth_Handler.FireBaseRegistration(
+                                        emailText.text.toString(),
+                                        passwordText.text.toString(),
+                                        nomeText.text.toString(),
+                                        cognomeText.text.toString(),
+                                        telefonoText.text.toString(),
+                                        object : Auth_Handler.Companion.MyCallBackResult {
+                                            override fun onCallBack(result: Boolean, message: String) {
+                                                progress.dismiss()
+                                                confermabtn.isEnabled = true
+                                                val builder: AlertDialog.Builder = AlertDialog.Builder(context!!)
+                                                builder.setMessage(message)
+                                                builder.setPositiveButton("OK",
+                                                    object : DialogInterface.OnClickListener {
+                                                        override fun onClick(
+                                                            dialog: DialogInterface?,
+                                                            which: Int
+                                                        ) {
+                                                            if (result) {
+                                                                val intent = Intent(context, MainActivity::class.java)
+                                                                startActivity(intent)
+                                                            }
+                                                        }
+                                                    })
+                                                builder.setOnDismissListener {
+                                                    if (result) {
+                                                        val intent =
+                                                            Intent(context, MainActivity::class.java)
+                                                        startActivity(intent)
+                                                    }
                                                 }
-                                            })
-                                            val alertDialog = builder.create()
-                                            alertDialog.show()
-                                        }else {
-                                            Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+                                                val alertDialog = builder.create()
+                                                alertDialog.show()
+                                            }
+
                                         }
-                                    }
-                                })
+                                    )
+
+                                }
+                            }
                         }
-                    }
                 }
+                //_---------
+            }
             }
         })
         return v

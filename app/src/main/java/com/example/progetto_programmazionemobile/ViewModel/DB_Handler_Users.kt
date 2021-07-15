@@ -5,8 +5,11 @@ import android.util.Log
 import com.example.progetto_programmazionemobile.Model.Prenotazione
 import com.example.progetto_programmazionemobile.Model.Utente
 import com.example.progetto_programmazionemobile.ViewModel.Auth_Handler.Companion.myRef
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -17,12 +20,11 @@ class DB_Handler_Users {
 
     //CALLBACK FUNCTION PER IL RETURN DEGLI UTENTI RICERCATI
 
+    interface MyCallbackFoundUser {
+        fun onCallback(returnUser: Utente)
+    }
     interface MyCallbackFoundUsers {
         fun onCallback(returnUsers: ArrayList<Utente>)
-    }
-
-    interface MyCallbackMessage {
-        fun onCallback(message: String)
     }
 
     interface MyCallbackReservations {
@@ -30,27 +32,6 @@ class DB_Handler_Users {
     }
 
 
-//---RICERCA UTENTE PER ID -----------------------------------FORSE NON FUNZIONANTE
-
-    fun readUser(id: String, myCallBack: MyCallbackUser) {
-        var user: Utente
-        myRef.collection("users").document(id).get().addOnSuccessListener { document ->
-            val data = document
-            user = Utente(
-                data?.get("nome").toString(),
-                data?.get("cognome").toString(),
-                data?.get("user_name").toString(),
-                data?.get("email").toString(),
-                data?.get("telefono").toString(),
-                data?.get("password").toString()
-            )
-            myCallBack.onCallback(user)
-        }
-    }
-
-    interface MyCallbackUser {
-        fun onCallback(returnValue: Utente)
-    }
 
 
 //---RICERCA UTENTI per nome -----------------------------------
@@ -67,7 +48,6 @@ class DB_Handler_Users {
                     user = Utente(
                         d.data?.get("nome").toString(),
                         d.data?.get("cognome").toString(),
-                        d.data?.get("user_name").toString(),
                         d.data?.get("email").toString(),
                         d.data?.get("telefono").toString(),
                         d.data?.get("password").toString()
@@ -101,7 +81,6 @@ class DB_Handler_Users {
                     user = Utente(
                         d.data?.get("nome").toString(),
                         d.data?.get("cognome").toString(),
-                        d.data?.get("user_name").toString(),
                         d.data?.get("email").toString(),
                         d.data?.get("telefono").toString(),
                         d.data?.get("password").toString()
@@ -136,7 +115,6 @@ class DB_Handler_Users {
                     user = Utente(
                         d.data?.get("nome").toString(),
                         d.data?.get("cognome").toString(),
-                        d.data?.get("user_name").toString(),
                         d.data?.get("email").toString(),
                         d.data?.get("telefono").toString(),
                         d.data?.get("password").toString()
@@ -153,16 +131,32 @@ class DB_Handler_Users {
 
 //------AGGIORNAMENTO UTENTE DATO USERNAME ---------------//
 
+        //Ricerca utente per email
+        fun SearchUsersByEmail(email: String, myCallBack: MyCallbackFoundUser) {
 
-        fun updateUserByUsername(
-            username: String?,
+            myRef.collection("users").document(email).get()
+                .addOnSuccessListener { document ->
+                    myCallBack.onCallback(Utente(
+                        document.data?.get("nome").toString(),
+                        document.data?.get("cognome").toString(),
+                        document.data?.get("email").toString(),
+                        document.data?.get("telefono").toString(),
+                        document.data?.get("password").toString()
+                    ))
+                }
+
+        }
+
+
+
+        fun updateUserByEmail(
             name: String,
             surname: String,
             email: String,
             number: String,
             password: String
         ) {
-            var user = myRef.collection("users").document(username!!)
+            var user = myRef.collection("users").document(email!!)
             user.update(
                 "nome", name.toLowerCase(),
                 "cognome", surname.toLowerCase(),
@@ -173,8 +167,17 @@ class DB_Handler_Users {
                 //Aggiorno i campi nell'Auth Handler
                 Auth_Handler.CURRENT_USER = Utente(
                     name, surname,
-                    Auth_Handler.CURRENT_USER!!.username, email, number, password
+                    Auth_Handler.CURRENT_USER!!.email, number, password
                 )
+                //Aggiorno i campi dell'Auth firebase
+                var firebaseuser = Firebase.auth.currentUser
+                if (firebaseuser != null) {
+                    firebaseuser.updatePassword(password)
+                } else {
+                    // No user is signed in
+                }
+
+
 
             }
                 .addOnFailureListener { e ->
@@ -185,66 +188,52 @@ class DB_Handler_Users {
 
         //FUNZIONE PER L'AGGIUNTA DI UN NUOVO UTENTE
         fun newUser(
-            username: String,
             password: String,
             name: String,
             surname: String,
             email: String,
             telefono: String,
-            dataNascita: Date
         ) {
             val docData = hashMapOf(
-                "user_name" to username.toLowerCase(),
                 "password" to password,
                 "nome" to name.toLowerCase(),
                 "cognome" to surname.toLowerCase(),
-                "data_nascita" to dataNascita,
                 "email" to email,
                 "telefono" to telefono
             )
 
-            myRef.collection("users").document(username)
+            myRef.collection("users").document(email)
                 .set(docData)
                 .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully written!") }
                 .addOnFailureListener { e -> Log.w(TAG, "Error writing document", e) }
         }
 
         //FUNZIONE PER IL CONTROLLO DELLE CREDENZIALI GIA ESISTENTI
-        fun checkCreds(
-            username: String,
+        /*fun checkCreds(
             email: String,
             telefono: String,
             myCallBack: MyCallbackMessage
         ) {
-            myRef.collection("users").whereEqualTo("user_name", username).get()
+            myRef.collection("users").whereEqualTo("email", email).get()
                 .addOnSuccessListener {
                     if (it.isEmpty) {
-                        myRef.collection("users").whereEqualTo("email", email).get()
-                            .addOnSuccessListener {
-                                if (it.isEmpty) {
-                                    myRef.collection("users").whereEqualTo("telefono", telefono)
-                                        .get().addOnSuccessListener {
-                                        if (it.isEmpty) {
-                                            myCallBack.onCallback("OK")
-                                        } else {
-                                            myCallBack.onCallback("Telefono già registrato")
-                                        }
-                                    }
-                                } else {
-                                    myCallBack.onCallback("Email già in uso")
-                                }
+                        myRef.collection("users").whereEqualTo("telefono", telefono)
+                            .get().addOnSuccessListener {
+                            if (it.isEmpty) {
+                                myCallBack.onCallback("OK")
+                            } else {
+                                myCallBack.onCallback("Telefono già registrato")
                             }
+                        }
                     } else {
-                        myCallBack.onCallback("Username già in uso")
+                        myCallBack.onCallback("Email già in uso")
                     }
-
                 }
-
         }
+*/
+        fun getReservationList(email: String, myCallBack: MyCallbackReservations) {
 
-        fun getReservationList(user: String, myCallBack: MyCallbackReservations) {
-
-            myRef.collection("users").document(user).collection("prenotazioni").get()
+            myRef.collection("users").document(email).collection("prenotazioni").get()
                 .addOnSuccessListener {
                     val data = it.documents
                     val reservations = ArrayList<Prenotazione>()

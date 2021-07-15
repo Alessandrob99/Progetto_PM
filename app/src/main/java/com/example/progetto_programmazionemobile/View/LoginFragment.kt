@@ -1,6 +1,8 @@
 package com.example.progetto_programmazionemobile.View
 
+import android.app.ProgressDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -9,10 +11,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.example.progetto_programmazionemobile.R
 import com.example.progetto_programmazionemobile.ViewModel.Auth_Handler
-import org.json.JSONException
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -48,19 +50,19 @@ class LoginFragment : Fragment() {
 
         val confermabtn : Button = v.findViewById(R.id.confermaLog)
         val flagRicordami = v.findViewById<CheckBox>(R.id.ricordami)
-        val userNameEditText = v.findViewById<EditText>(R.id.txtUsername)
+        val emailEditText = v.findViewById<EditText>(R.id.txtEmail)
         val passWordEditText = v.findViewById<EditText>(R.id.txtPassword)
 
         //Controllo se ci sono valori user e pass salvati nelle shared pref'
         var sharedPreferences : SharedPreferences? = activity?.getSharedPreferences("remember", Context.MODE_PRIVATE)
         if (sharedPreferences != null) {
             if(sharedPreferences.getBoolean("remember",false)){
-                var savedUser = sharedPreferences?.getString("username","")
+                var savedUser = sharedPreferences?.getString("email","")
                 var savedPass = sharedPreferences?.getString("password","")
 
-                //Preimposto i campi username e password
+                //Preimposto i campi email e password
                 flagRicordami.isChecked = true
-                userNameEditText.setText(savedUser)
+                emailEditText.setText(savedUser)
                 passWordEditText.setText(savedPass)
 
             }
@@ -74,7 +76,7 @@ class LoginFragment : Fragment() {
                 var sharedPreferences : SharedPreferences? = activity?.getSharedPreferences("remember", Context.MODE_PRIVATE)
                 var editor : SharedPreferences.Editor? = sharedPreferences?.edit()
                 if (editor != null) {
-                    editor.putString("username","")
+                    editor.putString("email","")
                     editor.putString("password","")
                     editor.putBoolean("remember",false)
                     editor.apply()
@@ -90,30 +92,40 @@ class LoginFragment : Fragment() {
         confermabtn.setOnClickListener(object : View.OnClickListener{
             override fun onClick(v: View?) {
                 //Metodo che controlla la validita delle credenziali
-                val userName = userNameEditText.text.toString()
+                val email = emailEditText.text.toString()
                 val password = passWordEditText.text.toString()
+                val progress : ProgressDialog = ProgressDialog(context)
+                progress.setTitle("Controllando le credenziali...")
+                progress.show()
+                confermabtn.isEnabled = false
 
-                if(((TextUtils.equals(userName,""))||((TextUtils.equals(password,""))))){
-                    Toast.makeText(this@LoginFragment.context, "Fornire sia username che password", Toast.LENGTH_SHORT).show()
-                }else{
-                    Auth_Handler.checkCredentials(userName,password,object : Auth_Handler.Companion.MyCallback{
-                        override fun onCallback() {
-                            if(Auth_Handler.isLOGGED_IN()==true){
-                                val goToHomePage = Intent(v?.context,HomePage_Activity::class.java)
+                if(((TextUtils.equals(email,""))||((TextUtils.equals(password,""))))){
+                    Toast.makeText(this@LoginFragment.context, "Fornire sia email che password", Toast.LENGTH_SHORT).show()
+                }else {
+                    Auth_Handler.FireBaseLogin(flagRicordami.isChecked,context!!,email,password,object : Auth_Handler.Companion.MyCallBackResult{
+                        override fun onCallBack(result: Boolean, message: String) {
+                            progress.dismiss()
+                            confermabtn.isEnabled = true
+                            if(result){
 
-                                //Se Ricordami == true  allora scrivi su file
-                                Auth_Handler.setLOGGED_IN(context!!,flagRicordami.isChecked,userName,password)
-
-                                //GO HOME INTENT
-                                startActivityForResult(goToHomePage, 1)
+                                val intent = Intent(context,HomePage_Activity::class.java)
+                                startActivity(intent)
                             }else{
-                                Toast.makeText(this@LoginFragment.context, "Credenziali non valide", Toast.LENGTH_SHORT).show()
+                                val builder : AlertDialog.Builder = AlertDialog.Builder(context!!)
+                                builder.setTitle("Errore")
+                                builder.setMessage(message)
+                                builder.setPositiveButton("OK",object : DialogInterface.OnClickListener{
+                                    override fun onClick(dialog: DialogInterface?, which: Int) {
+
+                                    }
+                                })
+                                val alertDialog = builder.create()
+                                alertDialog.show()
                             }
                         }
                     })
-                }
 
-                //----------
+                }
             }
         })
 

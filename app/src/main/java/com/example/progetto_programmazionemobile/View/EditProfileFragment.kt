@@ -12,13 +12,11 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import com.bumptech.glide.Glide
 import com.example.progetto_programmazionemobile.R
 import com.example.progetto_programmazionemobile.ViewModel.Auth_Handler
 import com.example.progetto_programmazionemobile.ViewModel.DB_Handler_Users
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import com.google.firebase.storage.UploadTask
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_home_editprofile.*
 import kotlinx.android.synthetic.main.fragment_home_editprofile.editProfileImgBtn
@@ -42,19 +40,15 @@ class EditProfileFragment: Fragment()
 
         val v: View = inflater.inflate(R.layout.fragment_home_editprofile, container, false)
 
-        val userText = v.findViewById<TextView>(R.id.txtUsername)
         val nameText = v.findViewById<TextView>(R.id.editNome)
-        val emailText = v.findViewById<TextView>(R.id.editEmail)
         val cognomeText = v.findViewById<TextView>(R.id.editCognome)
         val cellulareText = v.findViewById<TextView>(R.id.editCellulare)
         val passwordText = v.findViewById<TextView>(R.id.passwordText)
         val confermaPasswordText = v.findViewById<TextView>(R.id.confermapasswordText)
 
 
-        userText.setText(Auth_Handler.CURRENT_USER?.username)
         nameText.setText(Auth_Handler.CURRENT_USER?.nome!!.capitalize())
         cognomeText.setText(Auth_Handler.CURRENT_USER?.cognome!!.capitalize())
-        emailText.setText(Auth_Handler.CURRENT_USER?.email)
         cellulareText.setText(Auth_Handler.CURRENT_USER?.telefono)
         passwordText.setText(Auth_Handler.CURRENT_USER?.password)
         confermaPasswordText.setText(Auth_Handler.CURRENT_USER?.password)
@@ -62,40 +56,56 @@ class EditProfileFragment: Fragment()
         val btnConferma: Button = v.findViewById(R.id.btnConferma)
         btnConferma.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
-                //CONTROLLO PASSWORD UGUALI
-                if((nameText.text.toString()!="")||(cognomeText.text.toString()!="")||(emailText.text.toString()!="")||(cellulareText.text.toString()!="")){
-                    if(passwordText.text.toString().equals(confermaPasswordText.text.toString())){
-                        //SALVA MODIFICHE FATTE
-                        DB_Handler_Users.updateUserByUsername(Auth_Handler.CURRENT_USER?.username,nameText.text.toString(),cognomeText.text.toString(),emailText.text.toString(),cellulareText.text.toString(),passwordText.text.toString())
+                //CONTROLLO PASSWORD Abbastanza lunghe
 
-                        //Upload image selected
-                        if(imgUri!=null){
-                            uploadPicture()
+                if ((nameText.text.toString() != "") || (cognomeText.text.toString() != "") || (cellulareText.text.toString() != "")) {
+                    if(passwordText.text.length<6) {
+                        Toast.makeText(context, "Password troppo corta (6 caratteri minimo)", Toast.LENGTH_SHORT).show()
+                    }else{
+                        //CONTROLLO PASSWORD UGUALI
+                        if (passwordText.text.toString().equals(confermaPasswordText.text.toString())) {
 
-                        }else{
-                            val builder : AlertDialog.Builder = AlertDialog.Builder(requireContext())
-                            builder.setTitle("Modifiche effettuate")
-                            builder.setMessage("Operazione completata con successo")
 
-                            builder.setPositiveButton("OK",object : DialogInterface.OnClickListener{
-                                override fun onClick(dialog: DialogInterface?, which: Int) {
-                                    var fr = getFragmentManager()?.beginTransaction()
-                                    fr?.replace(R.id.fragment_container, infoFragment())
-                                    fr?.commit()
-                                }
-                            })
+                            //SALVA MODIFICHE FATTE
+                            DB_Handler_Users.updateUserByEmail(
+                                nameText.text.toString(),
+                                cognomeText.text.toString(),
+                                Auth_Handler.CURRENT_USER!!.email,
+                                cellulareText.text.toString(),
+                                passwordText.text.toString()
+                            )
 
-                            val alertDialog = builder.create()
-                            alertDialog.show()
+                            //Upload image selected
+                            if (imgUri != null) {
+                                uploadPicture()
+
+                            } else {
+                                val builder: AlertDialog.Builder = AlertDialog.Builder(requireContext())
+                                builder.setTitle("Modifiche effettuate")
+                                builder.setMessage("Operazione completata con successo")
+
+                                builder.setPositiveButton("OK",
+                                    object : DialogInterface.OnClickListener {
+                                        override fun onClick(dialog: DialogInterface?, which: Int) {
+                                            var fr = getFragmentManager()?.beginTransaction()
+                                            fr?.replace(R.id.fragment_container, infoFragment())
+                                            fr?.commit()
+                                        }
+                                    })
+
+                                val alertDialog = builder.create()
+                                alertDialog.show()
+                            }
+
+                        } else {
+                            Toast.makeText(context, "Conferma password errata", Toast.LENGTH_SHORT)
+                                .show()
                         }
 
-                    }else{
-                        Toast.makeText(context,"Conferma password errata",Toast.LENGTH_SHORT).show()
                     }
-                }else{
-                    Toast.makeText(context,"Inserire tutti i campi",Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(context, "Inserire tutti i campi", Toast.LENGTH_SHORT).show()
                 }
-
             }
         })
         val imgButton = v.findViewById<ImageView>(R.id.editProfileImgBtn)
@@ -127,7 +137,7 @@ class EditProfileFragment: Fragment()
         val progress : ProgressDialog = ProgressDialog(context)
         progress.setTitle("Caricamento...")
         progress.show()
-        val picRef = storageRef.child("usersPics/"+Auth_Handler.CURRENT_USER!!.username)
+        val picRef = storageRef.child("usersPics/"+Auth_Handler.CURRENT_USER!!.email)
         picRef.putFile(imgUri!!).addOnSuccessListener {
             progress.dismiss()
 

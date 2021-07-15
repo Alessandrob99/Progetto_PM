@@ -26,12 +26,12 @@
             android:layout_marginTop="50dp"
             android:clickable="true"
             android:enabled="true"
-            android:hint="@string/hint_Username"
+            android:hint="@string/hint_Email"
             android:textSize="18sp"
             android:background="@drawable/editext">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/txtUsername"
+                android:id="@+id/txtEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"

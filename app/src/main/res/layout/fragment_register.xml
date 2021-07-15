@@ -26,21 +26,20 @@
 
 
     <EditText
-        android:id="@+id/nomeutenteInputReg"
+        android:id="@+id/emailInputReg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/editext"
-        android:hint="Username"
-        android:paddingStart="5dp"
+        android:hint="E-mail"
+        android:inputType="textEmailAddress"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="@color/black"
+        android:textColorHint="#808080"
+        android:paddingStart="5dp"
         android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
-        android:layout_weight="0.001"
-        android:textColorHint="#808080"/>
-
-
-
+        android:layout_weight="0.001"/>
     <EditText
         android:id="@+id/passwordInputReg"
         android:layout_width="match_parent"
@@ -105,21 +104,7 @@
         android:layout_weight="0.001"/>
 
 
-    <EditText
-        android:id="@+id/emailInputReg"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/editext"
-        android:hint="E-mail"
-        android:inputType="textEmailAddress"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@color/black"
-        android:textColorHint="#808080"
-        android:paddingStart="5dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_weight="0.001"/>
+
 
     <EditText
         android:id="@+id/telefonoInputReg"

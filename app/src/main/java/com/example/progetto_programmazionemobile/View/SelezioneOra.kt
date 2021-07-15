@@ -165,7 +165,7 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
                                             )
 
                                             DB_Handler_Reservation.newReservation(
-                                                Auth_Handler.CURRENT_USER!!.username,
+                                                Auth_Handler.CURRENT_USER!!.email,
                                                 circolo.toString(),
                                                 campo.toString(),
                                                 giorno,

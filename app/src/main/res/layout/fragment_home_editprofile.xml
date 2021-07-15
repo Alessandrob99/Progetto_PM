@@ -36,17 +36,17 @@
 
 
         <TextView
-            android:id="@+id/txtUsername"
+            android:id="@+id/txtEmail"
+            android:layout_width="222dp"
+            android:layout_height="50dp"
             android:layout_gravity="center"
-            android:gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Username"
             android:layout_marginEnd="20dp"
+            android:layout_weight="4"
+            android:gravity="center"
+            android:text="Modifica Profilo"
             android:textColor="@color/black"
             android:textSize="26sp"
-            android:textStyle="bold|italic"
-            android:layout_weight="4"/>
+            android:textStyle="bold|italic" />
 
 
 
@@ -142,34 +142,6 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="5dp"
-        android:layout_weight="0.01">
-
-        <TextView
-            android:id="@+id/txtemail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="10dp"
-            android:text="e-mail"
-            android:textSize="20sp"
-            android:layout_weight="2"/>
-
-        <EditText
-            android:id="@+id/editEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:clickable="true"
-            android:enabled="true"
-            android:textSize="18sp"
-            android:layout_weight="1"/>
-
-    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

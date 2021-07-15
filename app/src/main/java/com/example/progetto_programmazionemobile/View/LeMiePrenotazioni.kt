@@ -63,7 +63,7 @@ class LeMiePrenotazioni : Fragment() {
 
 
 
-        DB_Handler_Users.getReservationList(Auth_Handler.CURRENT_USER!!.username,object : DB_Handler_Users.MyCallbackReservations{
+        DB_Handler_Users.getReservationList(Auth_Handler.CURRENT_USER!!.email,object : DB_Handler_Users.MyCallbackReservations{
             override fun onCallback(reservations: ArrayList<Prenotazione>?) {
                 if(reservations.isNullOrEmpty()){
                     topText.text = "Nessuna prenotazione registrata"
@@ -191,7 +191,7 @@ class MyAdapterReservations(val prenotazioni : ArrayList<Prenotazione>?, val con
                         progress.setTitle("Eliminazione in corso...")
                         progress.show()
 
-                        DB_Handler_Reservation.deleteReservation(Auth_Handler.CURRENT_USER!!.username,
+                        DB_Handler_Reservation.deleteReservation(Auth_Handler.CURRENT_USER!!.email,
                             holder.cod_prem.text.toString(),object : DB_Handler_Reservation.MyCallBackNewRes{
                                 override fun onCallback(result: Boolean) {
 
