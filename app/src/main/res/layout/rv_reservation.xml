@@ -16,14 +16,14 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="15dp"
-        android:layout_weight="0.1">
+        android:layout_weight="1">
 
         <TextView
             android:id="@+id/textView22"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_weight="0.5"
+            android:layout_weight="1.5"
             android:text="Circolo: " />
         <TextView
             android:id="@+id/CircoloText"
@@ -45,7 +45,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_weight="0.5"
+            android:layout_weight="1.5"
             android:text="Campo n°: "/>
         <TextView
             android:id="@+id/CampoTxt"
@@ -68,7 +68,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_weight="0.5"
+            android:layout_weight="1.5"
             android:text="Giorno: "/>
         <TextView
             android:id="@+id/giornoPrenText"
@@ -92,7 +92,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:text="Dalle: "
-            android:layout_weight="0.5"/>
+            android:layout_weight="1.5"/>
         <TextView
             android:id="@+id/oraInizioPrenText"
             android:layout_width="match_parent"
@@ -114,7 +114,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:text="alle: "
-            android:layout_weight="0.5"/>
+            android:layout_weight="1.5"/>
 
         <TextView
             android:id="@+id/oraFinePrenText"
