@@ -72,36 +72,38 @@
         android:textColor="@color/black"
         android:textColorHint="#808080" />
 
-
     <EditText
         android:id="@+id/nomeInputReg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/editext"
         android:paddingStart="5dp"
+        android:background="@drawable/editext"
         android:hint="Nome"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@color/black"
-        android:textColorHint="#808080"
+        android:inputType="text"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
-        android:layout_weight="0.001"/>
+        android:layout_weight="0.001"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@color/black"
+        android:textColorHint="#808080" />
 
     <EditText
         android:id="@+id/cognomeInputReg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/editext"
         android:paddingStart="5dp"
+        android:background="@drawable/editext"
         android:hint="Cognome"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@color/black"
-        android:textColorHint="#808080"
+        android:inputType="text"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
-        android:layout_weight="0.001"/>
+        android:layout_weight="0.001"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@color/black"
+        android:textColorHint="#808080" />
+
 
 
 

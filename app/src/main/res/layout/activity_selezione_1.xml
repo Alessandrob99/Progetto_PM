@@ -97,8 +97,9 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:fontFamily="sans-serif-light"
+            android:gravity="center"
             android:textColor="#808080"
-            android:textSize="40sp"
+            android:textSize="35sp"
             android:layout_weight="2"/>
 
         <ImageView
