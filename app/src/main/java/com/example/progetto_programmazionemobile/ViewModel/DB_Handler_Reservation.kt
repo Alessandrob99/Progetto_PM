@@ -10,6 +10,7 @@ import com.example.progetto_programmazionemobile.Model.Prenotazione
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.type.DateTime
+import java.lang.Exception
 import java.sql.Time
 import java.sql.Timestamp
 import java.time.LocalDate
@@ -21,7 +22,7 @@ import kotlin.collections.ArrayList
 import kotlin.time.hours
 import kotlin.time.minutes
 
-class DB_Handler_Reservation {
+class   DB_Handler_Reservation {
 
     interface MyCallBackInfo{
         fun onCallBack(campo : String,circolo: String,oraInizio: String,oraFine: String,giorno : String,codice : String)
@@ -172,7 +173,7 @@ class DB_Handler_Reservation {
             val docData = hashMapOf(
                 "oraInizio" to Timestamp(oraInizio),
                 "oraFine" to Timestamp(oraFineChecked),
-                "prenotatore" to myRef.document("/users/ales")
+                "prenotatore" to myRef.document("/users/"+user)
             )
 
 
@@ -192,23 +193,13 @@ class DB_Handler_Reservation {
                             .collection("prenotazioni").document(codice_prenotazione)
                             .set(docData)
                             .addOnSuccessListener {
-
-
-
-
-
                                 myRef.collection("users").document(user).collection("prenotazioni").document(codice_prenotazione).set(docData).addOnSuccessListener{
                                     myCallBackNewRes.onCallback(true)
                                 }.addOnFailureListener{
                                     myCallBackNewRes.onCallback(false)
                                 }
-
                             }
                             .addOnFailureListener { myCallBackNewRes.onCallback(false) }
-
-
-
-
                     } else {
                         //non esistono--> Creo la nuova raccolta e riempio la prenotazione
 
@@ -271,19 +262,85 @@ class DB_Handler_Reservation {
             val splitStr = codStr.split("&")
             val cod_giorno = splitStr[0]+"-"+splitStr[1]+"-"+splitStr[2]
 
-            myRef.collection("users").document(user).collection("prenotazioni").document(codice).delete().addOnSuccessListener{
-                myRef.collection("prenotazione").document(cod_giorno).collection("prenotazioni").document(codice).delete().addOnSuccessListener{
-                    myCallBackNewRes.onCallback(true)
-                }.addOnFailureListener{
-                    myCallBackNewRes.onCallback(false)
+            myRef.collection("users").document(user).collection("prenotazioni").document(codice).get().addOnSuccessListener{
+                val prenotatoreRef = it.data!!.get("prenotatore") as DocumentReference
+                val prenotatore = prenotatoreRef.id
+                if(Auth_Handler.CURRENT_USER!!.email==prenotatore){
+                    myRef.collection("prenotazione").document(cod_giorno).collection("prenotazioni").document(codice).collection("partecipanti").get().addOnSuccessListener{
+                        var data = it.documents
+                        for(record in data){    // Non Cancella le partecipazioni
+                            myRef.collection("users").document(record.id).collection("prenotazioni").document(codice).delete()
+                        }
+                        myRef.collection("users").document(user).collection("prenotazioni").document(codice).delete().addOnSuccessListener{
+                            myRef.collection("prenotazione").document(cod_giorno).collection("prenotazioni").document(codice).collection("partecipanti").get().addOnSuccessListener{
+                                data = it.documents
+                                for(record in data){
+                                    myRef.collection("prenotazione").document(cod_giorno).collection("prenotazioni").document(codice).collection("partecipanti").document(record.id).delete()
+                                }
+                                myRef.collection("prenotazione").document(cod_giorno).collection("prenotazioni").document(codice).delete().addOnSuccessListener{
+                                    myCallBackNewRes.onCallback(true)
+                                }
+
+
+                            }.addOnFailureListener{
+                                myCallBackNewRes.onCallback(false)
+                            }
+                        }.addOnFailureListener{
+                            myCallBackNewRes.onCallback(false)
+                        }
+                    }
+
+                }else{
+                    myRef.collection("prenotazione").document(cod_giorno).collection("prenotazioni").document(codice).collection("partecipanti").document(Auth_Handler.CURRENT_USER!!.email).delete().addOnSuccessListener {
+                        myRef.collection("users").document(Auth_Handler.CURRENT_USER!!.email).collection("prenotazioni").document(codice).delete().addOnSuccessListener{
+                            myCallBackNewRes.onCallback(true)
+                        }
+                    }
                 }
-            }.addOnFailureListener{
-                myCallBackNewRes.onCallback(false)
+
             }
 
 
 
+
         }
+
+
+
+        fun newPartecipation(email: String,codice : String,myCallBackNewRes: MyCallBackNewRes){
+            val decypheredCod = decipher(codice,15)
+            try{
+                val splitStr = decypheredCod.split("&")
+                val cod_giorno = splitStr[0]+"-"+splitStr[1]+"-"+splitStr[2]
+                myRef.collection("prenotazione").document(cod_giorno).collection("prenotazioni").document(codice).get().addOnSuccessListener{
+                    if(it!=null){
+                        //Il codice esiste
+
+                        val docData = hashMapOf(
+                            "oraInizio" to it.data!!.get("oraInizio"),
+                            "oraFine" to it.data!!.get("oraFine"),
+                            "prenotatore" to it.data!!.get("prenotatore")
+                        )
+
+                        myRef.collection("users").document(email).collection("prenotazioni").document(codice).set(docData).addOnSuccessListener{
+                            myRef.collection("prenotazione").document(cod_giorno).collection("prenotazioni").document(codice).collection("partecipanti").document(Auth_Handler.CURRENT_USER!!.email).set("email" to Auth_Handler.CURRENT_USER!!.email)
+
+                            myCallBackNewRes.onCallback(true)
+                        }
+
+                    }else{
+                        myCallBackNewRes.onCallback(false)
+                    }
+                }.addOnFailureListener{
+                    myCallBackNewRes.onCallback(false)
+                }
+            }catch (e : Exception){
+                myCallBackNewRes.onCallback(false)
+            }
+
+
+        }
+
 
 
 

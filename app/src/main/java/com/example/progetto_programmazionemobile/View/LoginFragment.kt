@@ -100,7 +100,20 @@ class LoginFragment : Fragment() {
                 confermabtn.isEnabled = false
 
                 if(((TextUtils.equals(email,""))||((TextUtils.equals(password,""))))){
-                    Toast.makeText(this@LoginFragment.context, "Fornire sia email che password", Toast.LENGTH_SHORT).show()
+                    progress.dismiss()
+
+                    val builder : AlertDialog.Builder = AlertDialog.Builder(context!!)
+                    builder.setTitle("Errore")
+                    builder.setMessage("Fornire sia email che password")
+                    builder.setPositiveButton("OK",object : DialogInterface.OnClickListener{
+                        override fun onClick(dialog: DialogInterface?, which: Int) {
+
+                        }
+                    })
+                    val alertDialog = builder.create()
+                    alertDialog.show()
+
+                    confermabtn.isEnabled = true
                 }else {
                     Auth_Handler.FireBaseLogin(flagRicordami.isChecked,context!!,email,password,object : Auth_Handler.Companion.MyCallBackResult{
                         override fun onCallBack(result: Boolean, message: String) {

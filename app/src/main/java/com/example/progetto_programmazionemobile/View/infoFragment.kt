@@ -4,6 +4,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.provider.Telephony
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -72,14 +73,17 @@ class infoFragment : Fragment() {
         })
 
 
-
-
         //Partecipa a prenotazione
         btnUnisciti.setOnClickListener(object : View.OnClickListener{
             override fun onClick(v: View?) {
-                TODO("Not yet implemented")
+                var fr = getFragmentManager()?.beginTransaction()
+                fr?.replace(R.id.fragment_container, Partecipa(),"APP")
+                fr?.commit()
             }
         })
+
+
+
         //Visualizza le mie prenotazioni
         btnLeMiePrenotazioni.setOnClickListener(object : View.OnClickListener{
             override fun onClick(v: View?) {
