@@ -25,7 +25,6 @@ import com.example.progetto_programmazionemobile.R
 import com.example.progetto_programmazionemobile.ViewModel.Auth_Handler
 import com.example.progetto_programmazionemobile.ViewModel.DB_Handler_Clubs
 import com.google.android.material.navigation.NavigationView
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
