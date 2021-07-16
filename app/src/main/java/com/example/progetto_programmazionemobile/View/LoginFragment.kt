@@ -92,7 +92,7 @@ class LoginFragment : Fragment() {
         confermabtn.setOnClickListener(object : View.OnClickListener{
             override fun onClick(v: View?) {
                 //Metodo che controlla la validita delle credenziali
-                val email = emailEditText.text.toString()
+                val email = emailEditText.text.toString().replace(" ","")
                 val password = passWordEditText.text.toString()
                 val progress : ProgressDialog = ProgressDialog(context)
                 progress.setTitle("Controllando le credenziali...")

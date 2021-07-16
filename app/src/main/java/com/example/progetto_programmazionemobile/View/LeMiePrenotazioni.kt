@@ -61,10 +61,13 @@ class LeMiePrenotazioni : Fragment() {
         // Inflate the layout for this fragment
         val v =  inflater.inflate(R.layout.fragment_le_mie_prenotazioni, container, false)
 
-
+        val progress : ProgressDialog = ProgressDialog(context)
+        progress.setTitle("Caricando le tue prenotazioni...")
+        progress.show()
 
         DB_Handler_Users.getReservationList(Auth_Handler.CURRENT_USER!!.email,object : DB_Handler_Users.MyCallbackReservations{
             override fun onCallback(reservations: ArrayList<Prenotazione>?) {
+                progress.dismiss()
                 if(reservations.isNullOrEmpty()){
                     topText.text = "Nessuna prenotazione registrata"
                 }else{

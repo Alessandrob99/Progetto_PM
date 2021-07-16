@@ -62,11 +62,12 @@ class RegisterFragment : Fragment() {
 
         val confermabtn : Button = v.findViewById(R.id.confermaReg)
 
+
         confermabtn.setOnClickListener(object : View.OnClickListener{
             override fun onClick(v: View?) {
 
                 val progress : ProgressDialog = ProgressDialog(context)
-
+                val emailSafe = emailText.text.replace("\\s".toRegex(), "")
                 //Metodo che controlla la validita delle credenziali e la password
 
 
@@ -78,7 +79,7 @@ class RegisterFragment : Fragment() {
                         Toast.makeText(context, "Password troppo corta (6 caratteri minimo)", Toast.LENGTH_SHORT).show()
                     }else{
 
-                        if ((nomeText.text.toString() == "") || (cognomeText.text.toString() == "") || (passwordText.text.toString() == "") || (emailText.text.toString() == "") || (telefonoText.text.toString() == "")) {
+                        if ((nomeText.text.toString() == "") || (cognomeText.text.toString() == "") || (passwordText.text.toString() == "") || (emailSafe == "") || (telefonoText.text.toString() == "")) {
                             Toast.makeText(context, "Inserire tutti i campi", Toast.LENGTH_SHORT).show()
                         } else {
                             if (telefonoText.text.length != 10) {
@@ -89,7 +90,7 @@ class RegisterFragment : Fragment() {
                                 ).show()
                             } else {
 
-                                if (!android.util.Patterns.EMAIL_ADDRESS.matcher(emailText.text.toString())
+                                if (!android.util.Patterns.EMAIL_ADDRESS.matcher(emailSafe.toString())
                                         .matches()
                                 ) {
 
@@ -109,7 +110,7 @@ class RegisterFragment : Fragment() {
 
                                     //Controlli per credenziali già esistenti
                                     Auth_Handler.FireBaseRegistration(
-                                        emailText.text.toString(),
+                                        emailSafe,
                                         passwordText.text.toString(),
                                         nomeText.text.toString(),
                                         cognomeText.text.toString(),

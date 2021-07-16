@@ -19,7 +19,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_home_editprofile.*
-import kotlinx.android.synthetic.main.fragment_home_editprofile.editProfileImgBtn
+import kotlinx.android.synthetic.main.fragment_home_editprofile.profileImg
 import kotlinx.android.synthetic.main.fragment_home_profile_fragment.*
 import java.math.RoundingMode
 
@@ -108,7 +108,7 @@ class EditProfileFragment: Fragment()
                 }
             }
         })
-        val imgButton = v.findViewById<ImageView>(R.id.editProfileImgBtn)
+        val imgButton = v.findViewById<ImageView>(R.id.profileImg)
         imgButton.setOnClickListener(object : View.OnClickListener{
             override fun onClick(v: View?) {
                 choosePicture()
@@ -128,7 +128,7 @@ class EditProfileFragment: Fragment()
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode==1 && resultCode==Activity.RESULT_OK && data!=null){
             imgUri = data.data
-            editProfileImgBtn.setImageURI(imgUri)
+            profileImg.setImageURI(imgUri)
         }
     }
 

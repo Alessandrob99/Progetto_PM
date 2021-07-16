@@ -34,30 +34,34 @@ class DB_Handler_Users {
 
 
 
-//---RICERCA UTENTI per nome -----------------------------------
 
 
-    fun SearchUsersByName(query: String, myCallBack: MyCallbackFoundUsers) {
-        var users: ArrayList<Utente> = ArrayList<Utente>()
-        var user: Utente
 
-        myRef.collection("users").whereEqualTo("nome", query.toLowerCase()).get()
-            .addOnSuccessListener { document ->
-                val data = document.documents
-                for (d in data) {
-                    user = Utente(
-                        d.data?.get("nome").toString(),
-                        d.data?.get("cognome").toString(),
-                        d.data?.get("email").toString(),
-                        d.data?.get("telefono").toString(),
-                        d.data?.get("password").toString()
-                    )
-                    users.add(user)
+    companion object {
+
+        //---RICERCA UTENTI per nome -----------------------------------
+
+        fun SearchUsersByName(query: String, myCallBack: MyCallbackFoundUsers) {
+            var users: ArrayList<Utente> = ArrayList<Utente>()
+            var user: Utente
+
+            myRef.collection("users").whereEqualTo("nome", query.toLowerCase()).get()
+                .addOnSuccessListener { document ->
+                    val data = document.documents
+                    for (d in data) {
+                        user = Utente(
+                            d.data?.get("nome").toString(),
+                            d.data?.get("cognome").toString(),
+                            d.data?.get("email").toString(),
+                            d.data?.get("telefono").toString(),
+                            d.data?.get("password").toString()
+                        )
+                        users.add(user)
+                    }
+                    myCallBack.onCallback(users)
                 }
-                myCallBack.onCallback(users)
-            }
 
-    }
+        }
 
 
 //-----------------------------------------------------------------------------------------------------------------------
@@ -66,68 +70,64 @@ class DB_Handler_Users {
 //---RICERCA UTENTI per cognome -----------------------------------
 
 
-    fun SearchUsersBySurname(query: String, myCallBack: MyCallbackFoundUsers) {
-        var users: ArrayList<Utente> = ArrayList<Utente>()
-        var user: Utente
+        fun SearchUsersBySurname(query: String, myCallBack: MyCallbackFoundUsers) {
+            var users: ArrayList<Utente> = ArrayList<Utente>()
+            var user: Utente
 
-        myRef.collection("users").whereEqualTo("cognome", query.toLowerCase()).get()
-            .addOnSuccessListener { document ->
-                val data = document.documents
-                for (d in data) {
-                    val timestamp = d.data?.get("data_nascita") as com.google.firebase.Timestamp
-                    val milliseconds = timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000
-                    val data_nascita = Date(milliseconds)
+            myRef.collection("users").whereEqualTo("cognome", query.toLowerCase()).get()
+                .addOnSuccessListener { document ->
+                    val data = document.documents
+                    for (d in data) {
 
-                    user = Utente(
-                        d.data?.get("nome").toString(),
-                        d.data?.get("cognome").toString(),
-                        d.data?.get("email").toString(),
-                        d.data?.get("telefono").toString(),
-                        d.data?.get("password").toString()
-                    )
-                    users.add(user)
+                        user = Utente(
+                            d.data?.get("nome").toString(),
+                            d.data?.get("cognome").toString(),
+                            d.data?.get("email").toString(),
+                            d.data?.get("telefono").toString(),
+                            d.data?.get("password").toString()
+                        )
+                        users.add(user)
+                    }
+                    myCallBack.onCallback(users)
                 }
-                myCallBack.onCallback(users)
-            }
 
-    }
+        }
 
 
 //-----------------------------------------------------------------------
-    //-----------Ricerca per nome e cognome---------------------------------------------------
+        //-----------Ricerca per nome e cognome---------------------------------------------------
 
-    fun SearchUsersByNameANDSurname(
-        queryName: String,
-        querySurname: String,
-        myCallBack: MyCallbackFoundUsers
-    ) {
-        var users: ArrayList<Utente> = ArrayList<Utente>()
-        var user: Utente
+        fun SearchUsersByNameANDSurname(
+            queryName: String,
+            querySurname: String,
+            myCallBack: MyCallbackFoundUsers
+        ) {
+            var users: ArrayList<Utente> = ArrayList<Utente>()
+            var user: Utente
 
 
 
-        myRef.collection("users").whereEqualTo("nome", queryName.toLowerCase())
-            .whereEqualTo("cognome", querySurname.toLowerCase()).get()
-            .addOnSuccessListener { document ->
-                val data = document.documents
-                for (d in data) {
+            myRef.collection("users").whereEqualTo("nome", queryName.toLowerCase())
+                .whereEqualTo("cognome", querySurname.toLowerCase()).get()
+                .addOnSuccessListener { document ->
+                    val data = document.documents
+                    for (d in data) {
 
-                    user = Utente(
-                        d.data?.get("nome").toString(),
-                        d.data?.get("cognome").toString(),
-                        d.data?.get("email").toString(),
-                        d.data?.get("telefono").toString(),
-                        d.data?.get("password").toString()
-                    )
-                    users.add(user)
+                        user = Utente(
+                            d.data?.get("nome").toString(),
+                            d.data?.get("cognome").toString(),
+                            d.data?.get("email").toString(),
+                            d.data?.get("telefono").toString(),
+                            d.data?.get("password").toString()
+                        )
+                        users.add(user)
+                    }
+                    myCallBack.onCallback(users)
                 }
-                myCallBack.onCallback(users)
-            }
 
-    }
+        }
 
 
-    companion object {
 
 //------AGGIORNAMENTO UTENTE DATO USERNAME ---------------//
 
@@ -157,9 +157,11 @@ class DB_Handler_Users {
             password: String
         ) {
             var user = myRef.collection("users").document(email!!)
+            val nomeSafe = name.replace(" ","")
+            val cognomeSafe = surname.replace(" ","")
             user.update(
-                "nome", name.toLowerCase(),
-                "cognome", surname.toLowerCase(),
+                "nome" , nomeSafe.toLowerCase(),
+                "cognome", cognomeSafe.toLowerCase(),
                 "email", email,
                 "telefono", number,
                 "password", password
@@ -194,10 +196,12 @@ class DB_Handler_Users {
             email: String,
             telefono: String,
         ) {
+            val nomeSafe = name.replace(" ".toRegex(),"")
+            val cognomeSafe = surname.replace(" ".toRegex(),"")
             val docData = hashMapOf(
                 "password" to password,
-                "nome" to name.toLowerCase(),
-                "cognome" to surname.toLowerCase(),
+                "nome" to nomeSafe.toLowerCase(),
+                "cognome" to cognomeSafe.toLowerCase(),
                 "email" to email,
                 "telefono" to telefono
             )
@@ -208,29 +212,6 @@ class DB_Handler_Users {
                 .addOnFailureListener { e -> Log.w(TAG, "Error writing document", e) }
         }
 
-        //FUNZIONE PER IL CONTROLLO DELLE CREDENZIALI GIA ESISTENTI
-        /*fun checkCreds(
-            email: String,
-            telefono: String,
-            myCallBack: MyCallbackMessage
-        ) {
-            myRef.collection("users").whereEqualTo("email", email).get()
-                .addOnSuccessListener {
-                    if (it.isEmpty) {
-                        myRef.collection("users").whereEqualTo("telefono", telefono)
-                            .get().addOnSuccessListener {
-                            if (it.isEmpty) {
-                                myCallBack.onCallback("OK")
-                            } else {
-                                myCallBack.onCallback("Telefono già registrato")
-                            }
-                        }
-                    } else {
-                        myCallBack.onCallback("Email già in uso")
-                    }
-                }
-        }
-*/
         fun getReservationList(email: String, myCallBack: MyCallbackReservations) {
 
             myRef.collection("users").document(email).collection("prenotazioni").get()

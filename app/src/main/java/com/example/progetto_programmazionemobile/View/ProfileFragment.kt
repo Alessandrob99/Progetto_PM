@@ -36,7 +36,7 @@ class ProfileFragment : Fragment()
         cellulareText.setText(Auth_Handler.CURRENT_USER?.telefono)
 
         picRef.downloadUrl.addOnSuccessListener{
-            Glide.with(context).load(it).into(editProfileImgBtn)
+            Glide.with(context).load(it).into(profileImg)
         }
 
 

@@ -8,11 +8,13 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
         android:layout_marginTop="30dp"
+        android:layout_marginRight="20dp"
         android:text="Inserisci il codice della prenotazone a cui vuoi partecipare"
         android:textAlignment="center"
         android:textColor="#000000"
-        android:textSize="20dp" />
+        android:textSize="22sp" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
@@ -24,12 +26,15 @@
         android:id="@+id/codicePrenotazione"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:textAlignment="center"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="150dp"
         android:hint="Codice prenotazione" />
 
     <Button
         android:layout_marginLeft="160dp"
-        android:layout_marginTop="160dp"
+        android:layout_marginTop="230dp"
         android:id="@+id/partecipaBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

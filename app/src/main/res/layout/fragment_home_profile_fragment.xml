@@ -13,7 +13,7 @@
         android:layout_weight="0.01">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/editProfileImgBtn"
+            android:id="@+id/profileImg"
             android:layout_width="120dp"
             android:layout_marginLeft="30dp"
             android:layout_marginTop="30dp"
@@ -30,7 +30,7 @@
             android:layout_marginEnd="20dp"
             android:layout_weight="4"
             android:gravity="center"
-            android:text="Username"
+            android:text="Profilo"
             android:textColor="@color/black"
             android:textSize="26sp"
             android:textStyle="bold|italic" />

@@ -124,7 +124,7 @@ class Auth_Handler  {
                     "There is no user record corresponding to this identifier. The user may have been deleted."->
                         myCallBack.onCallBack(false,"E-mail non valida.")
                     "The email address is badly formatted."->
-                        myCallBack.onCallBack(false,"Ricontrollare l'indirizzo e-mail"+System.getProperty("line.separator")+"(Non devono essere presenti spazi alla fine)")
+                        myCallBack.onCallBack(false,"E-mail mal formattata")
                     "A network error (such as timeout, interrupted connection or unreachable host) has occurred."->
                         myCallBack.onCallBack(false,"Errore di connessione."+System.getProperty("line.separator")+"Controllare che la connessione a internet si abilitata.")
                     else-> myCallBack.onCallBack(false,it.message!!)
