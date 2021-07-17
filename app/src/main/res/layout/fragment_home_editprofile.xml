@@ -59,27 +59,22 @@
         android:layout_marginTop="5dp"
         android:layout_weight="0.01">
 
-        <TextView
-            android:id="@+id/txtNome"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Nome"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="10dp"
-            android:textSize="20sp"
-            android:layout_weight="2"/>
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:hint="Nome"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
 
-        <EditText
-            android:id="@+id/editNome"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:clickable="true"
-            android:enabled="true"
-            android:duplicateParentState="false"
-            android:editable="true"
-            android:textSize="18sp"
-            android:layout_weight="1"/>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editNome"
+                android:inputType="text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
 
@@ -90,25 +85,22 @@
         android:layout_marginTop="5dp"
         android:layout_weight="0.01">
 
-        <TextView
-            android:id="@+id/txtusername"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="10dp"
-            android:text="Cognome"
-            android:textSize="20sp"
-            android:layout_weight="2"/>
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:hint="Cognome"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
 
-        <EditText
-            android:id="@+id/editCognome"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:clickable="true"
-            android:enabled="true"
-            android:textSize="18sp"
-            android:layout_weight="1"/>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editCognome"
+                android:inputType="text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
 
@@ -120,25 +112,22 @@
         android:layout_marginTop="5dp"
         android:layout_weight="0.01">
 
-        <TextView
-            android:id="@+id/txtCellulare"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="10dp"
-            android:text="Cellulare"
-            android:textSize="20sp"
-            android:layout_weight="2"/>
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:hint="Cellulare"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
 
-        <EditText
-            android:id="@+id/editCellulare"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:clickable="true"
-            android:enabled="true"
-            android:textSize="18sp"
-            android:layout_weight="1"/>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editCellulare"
+                android:inputType="number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
 

@@ -82,6 +82,7 @@ class EditProfileFragment: Fragment()
 
                             } else {
                                 val builder: AlertDialog.Builder = AlertDialog.Builder(requireContext())
+
                                 builder.setTitle("Modifiche effettuate")
                                 builder.setMessage("Operazione completata con successo")
 

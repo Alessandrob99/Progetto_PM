@@ -169,6 +169,12 @@ class HomePage_Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
     {
         val fragment = supportFragmentManager.beginTransaction()
         fragment.replace(R.id.fragment_container, frag,ID).commit()
+
+        val navView : NavigationView = findViewById(R.id.nav_view)
+        val header = navView.getHeaderView(0)
+        header.findViewById<TextView>(R.id.NameDrawer).text = Auth_Handler.CURRENT_USER!!.nome.capitalize()
+        header.findViewById<TextView>(R.id.SurnameDrawer).text = Auth_Handler.CURRENT_USER!!.cognome.capitalize()
+
         drawer.closeDrawer(GravityCompat.START)
     }
 
