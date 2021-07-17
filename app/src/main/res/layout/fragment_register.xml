@@ -24,111 +24,122 @@
         android:layout_marginEnd="10dp"
         android:layout_weight="0.002"/>
 
-
-    <EditText
-        android:id="@+id/emailInputReg"
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/editext"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:hint="E-mail"
-        android:inputType="textEmailAddress"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@color/black"
-        android:textColorHint="#808080"
-        android:paddingStart="5dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_weight="0.001"/>
-    <EditText
-        android:id="@+id/passwordInputReg"
+        android:layout_weight="0.001"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+        <EditText
+            android:id="@+id/emailInputReg"
+            android:inputType="textEmailAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/editext"
-        android:paddingStart="5dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:hint="Password"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
         android:layout_weight="0.001"
-        android:inputType="textPassword"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@color/black"
-        android:textColorHint="#808080"/>
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
 
-    <EditText
-        android:id="@+id/confermaPassword"
+        <EditText
+            android:id="@+id/passwordInputReg"
+            android:inputType="textPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="5dp"
-        android:background="@drawable/editext"
-        android:hint="Conferma Password"
-        android:inputType="textPassword"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:hint="Conferma password"
         android:layout_weight="0.001"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@color/black"
-        android:textColorHint="#808080" />
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
 
-    <EditText
-        android:id="@+id/nomeInputReg"
+        <EditText
+            android:id="@+id/confermaPassword"
+            android:inputType="textPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="5dp"
-        android:background="@drawable/editext"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:hint="Nome"
-        android:inputType="text"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
         android:layout_weight="0.001"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@color/black"
-        android:textColorHint="#808080" />
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
 
-    <EditText
-        android:id="@+id/cognomeInputReg"
+        <EditText
+            android:id="@+id/nomeInputReg"
+            android:inputType="textEmailAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="5dp"
-        android:background="@drawable/editext"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:hint="Cognome"
-        android:inputType="text"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
         android:layout_weight="0.001"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@color/black"
-        android:textColorHint="#808080" />
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
 
+        <EditText
+            android:id="@+id/cognomeInputReg"
+            android:inputType="textEmailAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"/>
 
+    </com.google.android.material.textfield.TextInputLayout>
 
-
-
-    <EditText
-        android:id="@+id/telefonoInputReg"
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/editext"
-        android:hint="Cellulare"
-        android:paddingStart="5dp"
-        android:inputType="phone"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@color/black"
-        android:textColorHint="#808080"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_weight="0.001"/>
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:hint="Telefono/Cellulare"
+        android:layout_weight="0.001"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+        <EditText
+            android:id="@+id/telefonoInputReg"
+            android:inputType="textEmailAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+
 
 
     <Button
         android:id="@+id/confermaReg"
-        android:layout_width="102dp"
-        android:layout_height="23dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="20dp"
@@ -136,7 +147,8 @@
         android:background="@drawable/btn_custom"
         android:gravity="center"
         android:text="Conferma"
-        android:textColor="@color/black" />
+        android:textColor="@color/black"
+        app:backgroundTint="@null"/>
 
 
 

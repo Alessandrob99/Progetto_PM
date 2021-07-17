@@ -17,53 +17,45 @@
         android:gravity="center"
         android:layout_weight="1">
 
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/usernameText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginTop="50dp"
-            android:clickable="true"
-            android:enabled="true"
-            android:hint="@string/hint_Email"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:hint="Email"
             android:textSize="18sp"
-            android:background="@drawable/editext">
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/txtEmail"
+                android:inputType="text"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:textColorHint="@color/black"/>
+                android:layout_height="wrap_content"/>
 
         </com.google.android.material.textfield.TextInputLayout>
-
-
 
 
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/passwordText"
             android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             android:layout_marginTop="50dp"
-            android:clickable="true"
-            android:enabled="true"
-            android:background="@drawable/editext"
-            android:hint="@string/hint_Password"
+            android:inputType="textPassword"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:hint="Password"
             android:textSize="18sp"
             app:passwordToggleEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/txtPassword"
+                android:inputType="textPassword"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:textColorHint="@color/black"
-                android:inputType="textPassword" />
+                android:layout_height="wrap_content"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -79,6 +71,20 @@
             android:text="Ricordami"
             android:textColor="@color/black"
             android:textSize="20sp"/>
+
+        <TextView
+            android:id="@+id/passwordDimenticata"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:textColor="@color/black"
+            android:fontFamily="sans-serif-light"
+            android:text="Hai dimenticato la password? Clicca qui"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textSize="18sp" />
+
 
     </LinearLayout>
 
@@ -96,6 +102,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:text="Conferma"
+            app:backgroundTint="@null"
             android:background="@drawable/btn_custom"
             android:textColor="@color/black" />
     </LinearLayout>
