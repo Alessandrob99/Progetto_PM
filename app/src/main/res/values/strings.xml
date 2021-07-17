@@ -10,5 +10,7 @@
     <string name="titleCampi">Campi</string>
     <string name="titleInfo">Info</string>
     <string name="title">Buongiorno</string>
+    <string name="Login"><font color="black" gravity="center">Accedi</font></string>
+    <string name="Register"><font color="black" gravity="center">Registrati</font></string>
 
 </resources>

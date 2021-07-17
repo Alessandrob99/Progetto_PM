@@ -15,30 +15,19 @@
         android:orientation="vertical"
         android:gravity="center">
 
-        <Button
-            android:id="@+id/accedi"
-            android:layout_gravity="center"
-            android:layout_width="143dp"
-            android:layout_height="60dp"
-            android:background="@drawable/btn_custom"
-            android:fontFamily="sans-serif-light"
-            android:text="Accedi"
-            android:textColor="#000000"
-            android:textSize="20sp"
-            android:textStyle="bold"/>
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabsHome"
+            android:layout_marginTop="15dp"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent" />
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/pagerHome"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
     </LinearLayout>
 
-
-    <Button
-        android:id="@+id/registrati"
-        android:layout_gravity="center"
-        android:layout_width="215dp"
-        android:layout_height="61dp"
-        android:layout_marginTop="100dp"
-        android:text="Registrati"
-        android:textColor="#000000"
-        android:background="@drawable/btn_custom"
-        android:textSize="20sp"/>
 
 </LinearLayout>

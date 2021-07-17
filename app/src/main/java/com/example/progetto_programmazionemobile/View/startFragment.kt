@@ -42,21 +42,6 @@ class startFragment : Fragment() {
 
 
 
-
-
-        val accedibtn : Button = v.findViewById(R.id.accedi)
-        accedibtn.setOnClickListener(object : View.OnClickListener{
-            override fun onClick(v: View?) {
-                v!!.findNavController().navigate(R.id.loginFragment)
-            }
-        })
-        val regbtn : Button = v.findViewById(R.id.registrati)
-        regbtn.setOnClickListener(object : View.OnClickListener{
-            override fun onClick(v: View?) {
-                v!!.findNavController().navigate(R.id.registerFragment)
-            }
-        })
-
         return v
     }
 

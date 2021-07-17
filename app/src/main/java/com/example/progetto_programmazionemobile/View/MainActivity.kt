@@ -17,7 +17,11 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentPagerAdapter
 import androidx.navigation.findNavController
+import androidx.viewpager.widget.ViewPager
 import com.example.progetto_programmazionemobile.BuildConfig
 import com.example.progetto_programmazionemobile.Model.Campo
 import com.example.progetto_programmazionemobile.Model.Prenotazione
@@ -26,9 +30,13 @@ import com.example.progetto_programmazionemobile.R
 import com.example.progetto_programmazionemobile.ViewModel.DB_Handler_Courts
 import com.example.progetto_programmazionemobile.ViewModel.DB_Handler_Reservation
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.tabs.TabLayout
 
  class MainActivity : AppCompatActivity() {
      lateinit var user : Utente
+     var viewPager: ViewPager? = null
+     var adapter: PickerAdapter? = null
+
      @RequiresApi(Build.VERSION_CODES.O)
      override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +54,14 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
          window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
          window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
          window.setStatusBarColor(ContextCompat.getColor(this, R.color.purple_700))
+
+         adapter = PickerAdapter(supportFragmentManager)
+         viewPager = findViewById<ViewPager>(R.id.pagerHome)
+         viewPager?.setAdapter(adapter)
+
+         val tabLayout = findViewById<TabLayout>(R.id.tabsHome)
+         tabLayout.setupWithViewPager(viewPager)
+         for (i in 0 until adapter?.getCount()!!) tabLayout.getTabAt(i)?.setText(adapter!!.getTitle(i))
 
      }
 
@@ -74,10 +90,40 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
      }
 
 
-     override fun onBackPressed() {
-         val navController =  findNavController(R.id.fragment)
-         navController.navigate(R.id.startFragment)
-     }
 
+
+     class PickerAdapter internal constructor(fm: FragmentManager?) :
+         FragmentPagerAdapter(fm!!) {
+         var Login: Fragment
+         var Register: Fragment
+         override fun getCount(): Int {
+             return NUM_PAGES
+         }
+
+         override fun getItem(position: Int): Fragment {
+             return when (position) {
+                 0 -> Login
+                 1 -> Register
+                 else -> Login
+             }
+         }
+
+         fun getTitle(position: Int): Int {
+             return when (position) {
+                 0 -> R.string.Login
+                 1 -> R.string.Register
+                 else -> R.string.title
+             }
+         }
+
+         companion object {
+             private const val NUM_PAGES = 2
+         }
+
+         init {
+             Login = LoginFragment()
+             Register = RegisterFragment()
+         }
+     }
 }
 
