@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment
 import com.example.progetto_programmazionemobile.R
 import com.example.progetto_programmazionemobile.ViewModel.Auth_Handler
 import com.example.progetto_programmazionemobile.ViewModel.DB_Handler_Users
+import com.google.android.material.navigation.NavigationView
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.activity_main.*
@@ -87,6 +88,7 @@ class EditProfileFragment: Fragment()
                                 builder.setPositiveButton("OK",
                                     object : DialogInterface.OnClickListener {
                                         override fun onClick(dialog: DialogInterface?, which: Int) {
+
                                             var fr = getFragmentManager()?.beginTransaction()
                                             fr?.replace(R.id.fragment_container, infoFragment())
                                             fr?.commit()

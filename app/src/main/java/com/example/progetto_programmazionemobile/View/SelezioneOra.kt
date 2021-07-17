@@ -250,7 +250,6 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
 
         btnOrari = mutableMapOf("uno" to h6m30)
 
-
         btnOrari.put("6:30", h6m30)
         btnOrari.put("7:00", h7m00)
         btnOrari.put("7:30", h7m30)
@@ -325,7 +324,6 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
         btnOrari.get("23:00")!!.isEnabled = false
         btnOrari.get("23:30")!!.isEnabled = false
         btnOrari.get("00:00")!!.isEnabled = false
-
 
         btnOrari.get("6:30")!!.setBackgroundColor(Color.GRAY)
         btnOrari.get("7:00")!!.setBackgroundColor(Color.GRAY)
