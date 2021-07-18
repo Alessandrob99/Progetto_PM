@@ -1,5 +1,6 @@
 package com.example.progetto_programmazionemobile.View
 
+import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.DialogInterface
@@ -7,11 +8,14 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.progetto_programmazionemobile.R
 import com.example.progetto_programmazionemobile.ViewModel.Auth_Handler
@@ -40,13 +44,16 @@ class LoginFragment : Fragment() {
         }
     }
 
+
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         val v : View = inflater.inflate(R.layout.fragment_login, container, false)
-        val goToHomePage = Intent(v.context,HomePage_Activity::class.java)
+        val goToHomePage = Intent(v.context, HomePage_Activity::class.java)
 
         val confermabtn : Button = v.findViewById(R.id.confermaLog)
         val flagRicordami = v.findViewById<CheckBox>(R.id.ricordami)
@@ -54,11 +61,14 @@ class LoginFragment : Fragment() {
         val passWordEditText = v.findViewById<EditText>(R.id.txtPassword)
 
         //Controllo se ci sono valori user e pass salvati nelle shared pref'
-        var sharedPreferences : SharedPreferences? = activity?.getSharedPreferences("remember", Context.MODE_PRIVATE)
+        var sharedPreferences : SharedPreferences? = activity?.getSharedPreferences(
+            "remember",
+            Context.MODE_PRIVATE
+        )
         if (sharedPreferences != null) {
-            if(sharedPreferences.getBoolean("remember",false)){
-                var savedUser = sharedPreferences?.getString("email","")
-                var savedPass = sharedPreferences?.getString("password","")
+            if(sharedPreferences.getBoolean("remember", false)){
+                var savedUser = sharedPreferences?.getString("email", "")
+                var savedPass = sharedPreferences?.getString("password", "")
 
                 //Preimposto i campi email e password
                 flagRicordami.isChecked = true
@@ -73,12 +83,15 @@ class LoginFragment : Fragment() {
         flagRicordami.setOnCheckedChangeListener { buttonView, isChecked ->
 
             if(flagRicordami.isChecked==false){
-                var sharedPreferences : SharedPreferences? = activity?.getSharedPreferences("remember", Context.MODE_PRIVATE)
+                var sharedPreferences : SharedPreferences? = activity?.getSharedPreferences(
+                    "remember",
+                    Context.MODE_PRIVATE
+                )
                 var editor : SharedPreferences.Editor? = sharedPreferences?.edit()
                 if (editor != null) {
-                    editor.putString("email","")
-                    editor.putString("password","")
-                    editor.putBoolean("remember",false)
+                    editor.putString("email", "")
+                    editor.putString("password", "")
+                    editor.putBoolean("remember", false)
                     editor.apply()
                 }
 
@@ -89,23 +102,23 @@ class LoginFragment : Fragment() {
 
 
 
-        confermabtn.setOnClickListener(object : View.OnClickListener{
+        confermabtn.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
                 //Metodo che controlla la validita delle credenziali
-                val email = emailEditText.text.toString().replace(" ","")
+                val email = emailEditText.text.toString().replace(" ", "")
                 val password = passWordEditText.text.toString()
-                val progress : ProgressDialog = ProgressDialog(context)
+                val progress: ProgressDialog = ProgressDialog(context)
                 progress.setTitle("Controllando le credenziali...")
                 progress.show()
                 confermabtn.isEnabled = false
 
-                if(((TextUtils.equals(email,""))||((TextUtils.equals(password,""))))){
+                if (((TextUtils.equals(email, "")) || ((TextUtils.equals(password, ""))))) {
                     progress.dismiss()
 
-                    val builder : AlertDialog.Builder = AlertDialog.Builder(context!!)
+                    val builder: AlertDialog.Builder = AlertDialog.Builder(context!!)
                     builder.setTitle("Errore")
                     builder.setMessage("Fornire sia email che password")
-                    builder.setPositiveButton("OK",object : DialogInterface.OnClickListener{
+                    builder.setPositiveButton("OK", object : DialogInterface.OnClickListener {
                         override fun onClick(dialog: DialogInterface?, which: Int) {
 
                         }
@@ -114,29 +127,39 @@ class LoginFragment : Fragment() {
                     alertDialog.show()
 
                     confermabtn.isEnabled = true
-                }else {
-                    Auth_Handler.FireBaseLogin(flagRicordami.isChecked,context!!,email,password,object : Auth_Handler.Companion.MyCallBackResult{
-                        override fun onCallBack(result: Boolean, message: String) {
-                            progress.dismiss()
-                            confermabtn.isEnabled = true
-                            if(result){
+                } else {
+                    Auth_Handler.FireBaseLogin(
+                        flagRicordami.isChecked,
+                        context!!,
+                        email,
+                        password,
+                        object : Auth_Handler.Companion.MyCallBackResult {
+                            override fun onCallBack(result: Boolean, message: String) {
+                                progress.dismiss()
+                                confermabtn.isEnabled = true
+                                if (result) {
 
-                                val intent = Intent(context,HomePage_Activity::class.java)
-                                startActivity(intent)
-                            }else{
-                                val builder : AlertDialog.Builder = AlertDialog.Builder(context!!)
-                                builder.setTitle("Errore")
-                                builder.setMessage(message)
-                                builder.setPositiveButton("OK",object : DialogInterface.OnClickListener{
-                                    override fun onClick(dialog: DialogInterface?, which: Int) {
+                                    val intent = Intent(context, HomePage_Activity::class.java)
+                                    startActivity(intent)
+                                } else {
+                                    val builder: AlertDialog.Builder =
+                                        AlertDialog.Builder(context!!)
+                                    builder.setTitle("Errore")
+                                    builder.setMessage(message)
+                                    builder.setPositiveButton("OK",
+                                        object : DialogInterface.OnClickListener {
+                                            override fun onClick(
+                                                dialog: DialogInterface?,
+                                                which: Int
+                                            ) {
 
-                                    }
-                                })
-                                val alertDialog = builder.create()
-                                alertDialog.show()
+                                            }
+                                        })
+                                    val alertDialog = builder.create()
+                                    alertDialog.show()
+                                }
                             }
-                        }
-                    })
+                        })
 
                 }
             }
