@@ -63,6 +63,9 @@ import com.google.android.material.tabs.TabLayout
          tabLayout.setupWithViewPager(viewPager)
          for (i in 0 until adapter?.getCount()!!) tabLayout.getTabAt(i)?.setText(adapter!!.getTitle(i))
 
+
+
+
      }
 
      override fun onRequestPermissionsResult(
@@ -88,6 +91,7 @@ import com.google.android.material.tabs.TabLayout
              alertDialog.show()
          }
      }
+
 
 
 

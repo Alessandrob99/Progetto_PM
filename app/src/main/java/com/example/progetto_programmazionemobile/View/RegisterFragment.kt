@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment
 import com.example.progetto_programmazionemobile.R
 import com.example.progetto_programmazionemobile.ViewModel.Auth_Handler
 import com.example.progetto_programmazionemobile.ViewModel.DB_Handler_Users
+import kotlinx.android.synthetic.main.fragment_register.*
 import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -28,7 +29,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [RegisterFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class RegisterFragment : Fragment() {
+class RegisterFragment : Fragment(){
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -157,6 +158,7 @@ class RegisterFragment : Fragment() {
         })
         return v
     }
+
 
     companion object {
         /**
