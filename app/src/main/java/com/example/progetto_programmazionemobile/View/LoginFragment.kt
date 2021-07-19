@@ -16,6 +16,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.example.progetto_programmazionemobile.R
 import com.example.progetto_programmazionemobile.ViewModel.Auth_Handler
+import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_login.*
@@ -55,7 +56,7 @@ class LoginFragment : Fragment() {
         val v : View = inflater.inflate(R.layout.fragment_login, container, false)
         val goToHomePage = Intent(v.context, HomePage_Activity::class.java)
 
-        val confermabtn : Button = v.findViewById(R.id.confermaLog)
+        val confermabtn : Button = v.findViewById(R.id.inviaEmail)
         val flagRicordami = v.findViewById<CheckBox>(R.id.ricordami)
         val emailEditText = v.findViewById<EditText>(R.id.txtEmail)
         val passWordEditText = v.findViewById<EditText>(R.id.txtPassword)
@@ -86,10 +87,54 @@ class LoginFragment : Fragment() {
                 var emailAddress : String
 
                 val builder = AlertDialog.Builder(context!!)
-                builder.setTitle("Inserire indirizzo email.")
-                val input = EditText(context);
-                input.setInputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_CLASS_TEXT)
-                builder.setView(input)
+
+                val popUp = inflater.inflate(R.layout.popup_mail,null)
+                val emailText = popUp.findViewById<TextInputEditText>(R.id.email)
+                val btnInvia = popUp.findViewById<Button>(R.id.inviaEmail)
+
+                builder.setView(popUp)
+                btnInvia.setOnClickListener(object : View.OnClickListener{
+                    override fun onClick(v: View?) {
+                        val builder1 : AlertDialog.Builder = AlertDialog.Builder(context!!)
+                        emailAddress = emailEditText.text.toString()
+                        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(emailAddress).matches()) {
+                            Toast.makeText(context, "Inserire una mail valida", Toast.LENGTH_SHORT).show()
+                        }else{
+                            Firebase.auth.sendPasswordResetEmail(emailAddress)
+                                .addOnCompleteListener { task ->
+                                    if (task.isSuccessful) {
+                                        builder1.setTitle("ATTENZIONE!")
+                                        builder1.setMessage("Abbiamo inviato una mail all'indirizzo :"+System.getProperty("line.separator")+emailAddress+System.getProperty("line.separator") +"Nella mail è presente un link che vi permetterà di impostare una nuova passowrd di accesso."+System.getProperty("line.separator")+"(La mail potrebbe essere finita nello spam!)")
+                                        builder1.setPositiveButton("OK",object : DialogInterface.OnClickListener{
+                                            override fun onClick(dialog: DialogInterface?, which: Int) {
+
+                                            }
+                                        })
+                                        builder1.setOnDismissListener{
+                                        }
+                                        val alertDialog = builder1.create()
+                                        alertDialog.show()
+                                    }
+                                }.addOnFailureListener{
+                                    builder1.setTitle("Errore!")
+                                    builder1.setMessage("Qualcosa è andato storto nella procedura di invio della mail")
+                                    builder1.setPositiveButton("OK",object : DialogInterface.OnClickListener{
+                                        override fun onClick(dialog: DialogInterface?, which: Int) {
+
+                                        }
+                                    })
+                                    builder1.setOnDismissListener{
+
+                                    }
+                                    val alertDialog = builder.create()
+                                    alertDialog.show()
+
+                                }
+                        }
+                    }
+                })
+                /*builder.setView(layoutInflater.inflate(R.layout.popup_mail,null))
+
                 builder.setPositiveButton("Conferma",
                     DialogInterface.OnClickListener { dialog, which ->
                         //Controllo sulla mail formattata bene
@@ -102,8 +147,7 @@ class LoginFragment : Fragment() {
                                     if (task.isSuccessful) {
                                         val builder : AlertDialog.Builder = AlertDialog.Builder(context!!)
                                         builder.setTitle("ATTENZIONE!")
-                                        builder.setMessage("Abbiamo inviato una mail all'indirizzo :"+System.getProperty("line.separator")+emailAddress+System.getProperty("line.separator")
-                                        +"Nella mail è presente un link che vi permetterà di impostare una nuova passowrd di accesso ")
+                                        builder.setMessage("Abbiamo inviato una mail all'indirizzo :"+System.getProperty("line.separator")+emailAddress+System.getProperty("line.separator") +"Nella mail è presente un link che vi permetterà di impostare una nuova passowrd di accesso."+System.getProperty("line.separator")+"(La mail potrebbe essere finita nello spam!)")
                                         builder.setPositiveButton("OK",object : DialogInterface.OnClickListener{
                                             override fun onClick(dialog: DialogInterface?, which: Int) {
 
@@ -121,7 +165,7 @@ class LoginFragment : Fragment() {
                 )
                 builder.setNegativeButton("Annulla",
                     DialogInterface.OnClickListener { dialog, which -> dialog.cancel() }
-                )
+                )*/
                 builder.show()
             }
         })
