@@ -107,9 +107,9 @@ class LoginFragment : Fragment() {
                                         builder1.setMessage(
                                             "Abbiamo inviato una mail all'indirizzo :" + System.getProperty(
                                                 "line.separator"
-                                            ) + emailAddress + System.getProperty("line.separator") + "Nella mail è presente un link che vi permetterà di impostare una nuova passowrd di accesso." + System.getProperty(
+                                            ) + emailAddress + System.getProperty("line.separator") + "Nella mail è presente un link che vi permetterà di impostare una nuova passoword di accesso." + System.getProperty(
                                                 "line.separator"
-                                            ) + "(La mail potrebbe essere finita nello spam!)"
+                                            ) + "(La mail potrebbe essere finita nello Spam!)"
                                         )
                                         builder1.setPositiveButton("OK",
                                             object : DialogInterface.OnClickListener {
