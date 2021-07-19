@@ -137,5 +137,28 @@ import com.google.android.material.tabs.TabLayout
              Register = RegisterFragment()
          }
      }
+
+
+     override fun onBackPressed() {
+         val builder: AlertDialog.Builder =
+             AlertDialog.Builder(this)
+         builder.setTitle("Uscire?")
+         builder.setMessage("Chiudere l'applicazione?")
+
+         builder.setPositiveButton(
+             "SI",
+             object : DialogInterface.OnClickListener {
+                 override fun onClick(dialog: DialogInterface?, which: Int) {
+                     finishAndRemoveTask()
+                 }
+             })
+         builder.setNegativeButton("NO",object : DialogInterface.OnClickListener{
+             override fun onClick(dialog: DialogInterface?, which: Int) {
+
+             }
+         })
+         val alertDialog = builder.create()
+         alertDialog.show()
+     }
 }
 

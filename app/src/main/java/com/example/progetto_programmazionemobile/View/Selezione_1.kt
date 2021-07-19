@@ -2,9 +2,7 @@ package com.example.progetto_programmazionemobile.View
 
 
 import android.annotation.SuppressLint
-import android.content.Context
-import android.content.DialogInterface
-import android.content.Intent
+import android.content.*
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
@@ -36,6 +34,26 @@ class Selezione_1 : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_selezione_1)
 
+        val broadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+            override fun onReceive(arg0: Context?, intent: Intent) {
+                val action = intent.action
+                if (action == "finish_activity") {
+                    finish()
+                    // DO WHATEVER YOU WANT.
+                }
+            }
+        }
+        registerReceiver(broadcastReceiver, IntentFilter("logout"))
+        val broadcastReceiver1: BroadcastReceiver = object : BroadcastReceiver() {
+            override fun onReceive(arg0: Context?, intent: Intent) {
+                val action = intent.action
+                if (action == "logout") {
+                    finish()
+                    // DO WHATEVER YOU WANT.
+                }
+            }
+        }
+        registerReceiver(broadcastReceiver1, IntentFilter("logout"))
 
         val builder = MaterialDatePicker.Builder.datePicker()
         builder.setTitleText("Seleziona una data per prenotarti")

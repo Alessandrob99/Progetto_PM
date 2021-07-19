@@ -1,9 +1,7 @@
 package com.example.progetto_programmazionemobile.View
 
 import android.app.Dialog
-import android.content.Context
-import android.content.DialogInterface
-import android.content.Intent
+import android.content.*
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.location.Location
@@ -27,6 +25,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.android.synthetic.main.activity_selezionemap.*
 import kotlinx.android.synthetic.main.bottom_sheet_layout.*
 
+
 class SelezioneMap : AppCompatActivity(), OnMapReadyCallback
 {
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<LinearLayout>
@@ -40,6 +39,32 @@ class SelezioneMap : AppCompatActivity(), OnMapReadyCallback
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_selezionemap)
 
+
+        //---CHIUSURA ---
+        val broadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+            override fun onReceive(arg0: Context?, intent: Intent) {
+                val action = intent.action
+                if (action == "finish_activity") {
+                    finish()
+                    // DO WHATEVER YOU WANT.
+                }
+            }
+        }
+        registerReceiver(broadcastReceiver, IntentFilter("finish_activity"))
+        registerReceiver(broadcastReceiver, IntentFilter("logout"))
+        val broadcastReceiver1: BroadcastReceiver = object : BroadcastReceiver() {
+            override fun onReceive(arg0: Context?, intent: Intent) {
+                val action = intent.action
+                if (action == "logout") {
+                    finish()
+                    // DO WHATEVER YOU WANT.
+                }
+            }
+        }
+        registerReceiver(broadcastReceiver1, IntentFilter("logout"))
+
+
+        //-------------------------------------
 
 
         //Campi filtrati per sport da SELEZIONE 1
@@ -189,12 +214,14 @@ class SelezioneMap : AppCompatActivity(), OnMapReadyCallback
                         superficie,
                         prezzoMax,
                         object : Circolo.MyCallbackClubs {
-                            override fun onCallback(returnedClubs: ArrayList<Circolo>?,returnedCourts: ArrayList<Campo>?) {
+                            override fun onCallback(
+                                returnedClubs: ArrayList<Circolo>?,
+                                returnedCourts: ArrayList<Campo>?
+                            ) {
                                 found_clubs = returnedClubs
                                 var found_courts = returnedCourts
 
-                                if (found_clubs!!.size > 0 && returnedCourts!!.size>0)
-                                {
+                                if (found_clubs!!.size > 0 && returnedCourts!!.size > 0) {
                                     for (club in found_clubs!!) {
                                         //Aggiungo marker del club sulla mappa
                                         marker = googleMap.addMarker(
@@ -225,28 +252,34 @@ class SelezioneMap : AppCompatActivity(), OnMapReadyCallback
                                             //Ricaviamo i parametri da passare
 
                                             //Ricavo l'oggetto del circolo trovato
-                                            DB_Handler_Clubs.getClubByPosition(p0.position.latitude,p0.position.longitude,object : DB_Handler_Clubs.MyCallbackClub{
-                                                override fun onCallback(returnedClub: Circolo) {
+                                            DB_Handler_Clubs.getClubByPosition(
+                                                p0.position.latitude,
+                                                p0.position.longitude,
+                                                object : DB_Handler_Clubs.MyCallbackClub {
+                                                    override fun onCallback(returnedClub: Circolo) {
 
-                                                    val app_array = ArrayList<Campo>()
-                                                    for(court in returnedCourts) {
-                                                        app_array.add(court)
-                                                    }
-
-                                                    //Filtro i campi in base al circolo cliccato
-                                                    for(court in app_array){
-                                                        if(court.id_club!=returnedClub.id){
-                                                            found_courts!!.remove(court)
+                                                        val app_array = ArrayList<Campo>()
+                                                        for (court in returnedCourts) {
+                                                            app_array.add(court)
                                                         }
-                                                    }
-                                                    intent.putExtra("titleClub", clickedMarker?.title)
-                                                    intent.putExtra("courts",found_courts)
-                                                    intent.putExtra("club",returnedClub)
-                                                    intent.putExtra("giorno",giorno)
-                                                    startActivity(intent)
 
-                                                }
-                                            })
+                                                        //Filtro i campi in base al circolo cliccato
+                                                        for (court in app_array) {
+                                                            if (court.id_club != returnedClub.id) {
+                                                                found_courts!!.remove(court)
+                                                            }
+                                                        }
+                                                        intent.putExtra(
+                                                            "titleClub",
+                                                            clickedMarker?.title
+                                                        )
+                                                        intent.putExtra("courts", found_courts)
+                                                        intent.putExtra("club", returnedClub)
+                                                        intent.putExtra("giorno", giorno)
+                                                        startActivity(intent)
+
+                                                    }
+                                                })
 
                                         }
                                     })
@@ -302,8 +335,9 @@ class SelezioneMap : AppCompatActivity(), OnMapReadyCallback
                     dialog: DialogInterface?,
                     which: Int
                 ) {
-                    val intent = Intent(this@SelezioneMap,HomePage_Activity::class.java)
+                    val intent = Intent(this@SelezioneMap, HomePage_Activity::class.java)
                     startActivity(intent)
+                    finish()
                 }
             })
         builder.setNegativeButton(

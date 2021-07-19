@@ -2,20 +2,15 @@ package com.example.progetto_programmazionemobile.View
 
 import android.annotation.SuppressLint
 import android.app.ProgressDialog
-import android.content.DialogInterface
-import android.content.Intent
+import android.content.*
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.util.Base64.encodeToString
 import android.view.View
 import android.widget.Button
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.example.progetto_programmazionemobile.Model.Campo
-import com.example.progetto_programmazionemobile.Model.Circolo
 import com.example.progetto_programmazionemobile.Model.Prenotazione
 import com.example.progetto_programmazionemobile.R
 import com.example.progetto_programmazionemobile.ViewModel.Auth_Handler
@@ -48,6 +43,18 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
         val campo = intent.getStringExtra("n_campo").toLong()
         val circolo = intent.getLongExtra("club", 0L)
         setContentView(R.layout.activity_selezione_ora)
+
+
+        val broadcastReceiver1: BroadcastReceiver = object : BroadcastReceiver() {
+            override fun onReceive(arg0: Context?, intent: Intent) {
+                val action = intent.action
+                if (action == "logout") {
+                    finish()
+                    // DO WHATEVER YOU WANT.
+                }
+            }
+        }
+        registerReceiver(broadcastReceiver1, IntentFilter("logout"))
 
 
         // Inflate the layout for this fragment
@@ -98,7 +105,13 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
                                 val builder: AlertDialog.Builder =
                                     AlertDialog.Builder(this@SelezioneOra)
                                 builder.setTitle("Sei sicuro?")
-                                builder.setMessage("Confermare la prenotazione? "+System.getProperty("line.separator")+"Dalle " + oraInizioStr +System.getProperty("line.separator")+"Alle " + oraFineStr +System.getProperty("line.separator")+"Del giorno " + giorno)
+                                builder.setMessage(
+                                    "Confermare la prenotazione? " + System.getProperty(
+                                        "line.separator"
+                                    ) + "Dalle " + oraInizioStr + System.getProperty("line.separator") + "Alle " + oraFineStr + System.getProperty(
+                                        "line.separator"
+                                    ) + "Del giorno " + giorno
+                                )
 
                                 builder.setNegativeButton("NO",
                                     object : DialogInterface.OnClickListener {
@@ -160,7 +173,7 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
 
                                             //Genero codice prenotazione
                                             val cod_pren = DB_Handler_Reservation.cipher(
-                                                circolo.toString() +"&"+ campo.toString() +"&"+ giorno +"&"+ oraInizioStr,
+                                                circolo.toString() + "&" + campo.toString() + "&" + giorno + "&" + oraInizioStr,
                                                 15
                                             )
 
@@ -190,13 +203,22 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
                                                                         dialog: DialogInterface?,
                                                                         which: Int
                                                                     ) {
-                                                                        val intent = Intent(this@SelezioneOra, HomePage_Activity::class.java)
+                                                                        val broadcastIntent = Intent()
+                                                                        broadcastIntent.action = "finish_activity"
+                                                                        sendBroadcast(broadcastIntent)
+                                                                        /*val intent = Intent(
+                                                                            this@SelezioneOra,
+                                                                            HomePage_Activity::class.java
+                                                                        )*/
                                                                         startActivity(intent)
                                                                         finish()
                                                                     }
                                                                 })
                                                             builder.setOnDismissListener {
-                                                                val intent = Intent(this@SelezioneOra, HomePage_Activity::class.java)
+                                                                val intent = Intent(
+                                                                    this@SelezioneOra,
+                                                                    HomePage_Activity::class.java
+                                                                )
                                                                 startActivity(intent)
                                                                 finish()
                                                             }
@@ -442,7 +464,7 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
                     btnOrari.get("00:00")!!.setBackgroundColor(Color.GRAY)
 
                     //Oscuro le prenotazioni già effettuate (se ci sono)
-                    if(reservations!=null){
+                    if (reservations != null) {
                         var minFine: String
                         var oraFine: String
                         var min: Int
@@ -458,10 +480,10 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
                             minFine = cal.get(Calendar.MINUTE).toString()
                             oraFine = cal.get(Calendar.HOUR_OF_DAY).toString()
                             while (ora.toString() + ":" + min.toString() != oraFine + ":" + minFine) {
-                                if(ora==23 && min ==59){
+                                if (ora == 23 && min == 59) {
                                     btn = btnOrari.get("00:00")!!
                                     break
-                                }else{
+                                } else {
                                     if (min == 0) {
                                         btn = btnOrari.get(ora.toString() + ":00")!!
                                     } else {
@@ -473,9 +495,9 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
                                 btn.isEnabled = false
                                 //Aggiungo mezz'ora
                                 if (min == 30) {
-                                    if(ora==23){
-                                        min=59
-                                    }else{
+                                    if (ora == 23) {
+                                        min = 59
+                                    } else {
                                         min = 0
                                         ora += 1
                                     }

@@ -1,6 +1,9 @@
 package com.example.progetto_programmazionemobile.View
 
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.view.*
 import android.widget.*
@@ -34,6 +37,28 @@ class DetailsClubs:AppCompatActivity(){
         val nomeClub= intent.getStringExtra("titleClub")
         val giorno = intent.getStringExtra("giorno")
 
+
+        val broadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+            override fun onReceive(arg0: Context?, intent: Intent) {
+                val action = intent.action
+                if (action == "finish_activity") {
+                    finish()
+                    // DO WHATEVER YOU WANT.
+                }
+            }
+        }
+        registerReceiver(broadcastReceiver, IntentFilter("logout"))
+
+        val broadcastReceiver1: BroadcastReceiver = object : BroadcastReceiver() {
+            override fun onReceive(arg0: Context?, intent: Intent) {
+                val action = intent.action
+                if (action == "logout") {
+                    finish()
+                    // DO WHATEVER YOU WANT.
+                }
+            }
+        }
+        registerReceiver(broadcastReceiver1, IntentFilter("logout"))
 
 
         setContentView(R.layout.activity_details_clubs)

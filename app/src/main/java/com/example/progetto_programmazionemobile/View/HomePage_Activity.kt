@@ -105,6 +105,9 @@ class HomePage_Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
                     builder.setPositiveButton("SI",object : DialogInterface.OnClickListener{
                         override fun onClick(dialog: DialogInterface?, which: Int) {
                             Auth_Handler.setLOGGET_OUT(context = applicationContext)
+                            val broadcastIntent = Intent()
+                            broadcastIntent.action = "logout"
+                            sendBroadcast(broadcastIntent)
                             val intent = Intent(this@HomePage_Activity, MainActivity::class.java)
                             startActivity(intent)
                             finish()

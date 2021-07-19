@@ -1,6 +1,9 @@
 package com.example.progetto_programmazionemobile.View
 
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.view.ContextMenu
 import android.view.LayoutInflater
@@ -22,6 +25,21 @@ class SearchResult : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search_result)
+
+        val broadcastReceiver1: BroadcastReceiver = object : BroadcastReceiver() {
+            override fun onReceive(arg0: Context?, intent: Intent) {
+                val action = intent.action
+                if (action == "logout") {
+                    finish()
+                    // DO WHATEVER YOU WANT.
+                }
+            }
+        }
+        registerReceiver(broadcastReceiver1, IntentFilter("logout"))
+
+
+
+
         val intent = getIntent()
         val users : ArrayList<Utente> = intent.getSerializableExtra("usersList") as ArrayList<Utente>
 
