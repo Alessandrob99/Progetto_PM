@@ -151,7 +151,7 @@ class MyAdapterReservations(val prenotazioni : ArrayList<Prenotazione>?, val con
         holder.notexpandableLayout.setOnClickListener(object : View.OnClickListener{
             override fun onClick(v: View?) {
                 prenotazioni.get(position).expanded = !prenotazioni.get(position).expanded
-                notifyItemChanged(position)
+                notifyDataSetChanged()
             }
         })
 
