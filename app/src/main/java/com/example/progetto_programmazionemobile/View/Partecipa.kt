@@ -1,18 +1,23 @@
 package com.example.progetto_programmazionemobile.View
 
 import android.app.ProgressDialog
+import android.content.Context
+import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.DialogInterface
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat.getSystemService
+import androidx.fragment.app.Fragment
 import com.example.progetto_programmazionemobile.R
 import com.example.progetto_programmazionemobile.ViewModel.Auth_Handler
 import com.example.progetto_programmazionemobile.ViewModel.DB_Handler_Reservation
 import kotlinx.android.synthetic.main.fragment_partecipa.*
+
 
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
@@ -42,47 +47,57 @@ class Partecipa : Fragment() {
         // Inflate the layout for this fragment
         val v =  inflater.inflate(R.layout.fragment_partecipa, container, false)
         val partecipaBtn = v.findViewById<Button>(R.id.partecipaBtn)
-        partecipaBtn.setOnClickListener(object : View.OnClickListener{
+        partecipaBtn.setOnClickListener(object : View.OnClickListener {
 
             override fun onClick(v: View?) {
-                val progress : ProgressDialog = ProgressDialog(context)
+                val progress: ProgressDialog = ProgressDialog(context)
                 progress.setTitle("Controllando il codice...")
                 progress.show()
-                DB_Handler_Reservation.newPartecipation(Auth_Handler.CURRENT_USER!!.email,codicePrenotazione.text.toString(),object : DB_Handler_Reservation.MyCallBackNewRes{
-                    override fun onCallback(result: Boolean) {
-                        progress.dismiss()
+                DB_Handler_Reservation.newPartecipation(
+                    Auth_Handler.CURRENT_USER!!.email,
+                    codicePrenotazione.text.toString(),
+                    object : DB_Handler_Reservation.MyCallBackNewRes {
+                        override fun onCallback(result: Boolean) {
+                            progress.dismiss()
 
-                        if(result){
-                            val builder : AlertDialog.Builder = AlertDialog.Builder(context!!)
-                            builder.setTitle("Operazione conclusa")
-                            builder.setMessage("Partecipazione aggiunta con successo")
-                            builder.setPositiveButton("OK",object : DialogInterface.OnClickListener{
-                                override fun onClick(dialog: DialogInterface?, which: Int) {
+                            if (result) {
+                                val builder: AlertDialog.Builder = AlertDialog.Builder(context!!)
+                                builder.setTitle("Operazione conclusa")
+                                builder.setMessage("Partecipazione aggiunta con successo")
+                                builder.setPositiveButton("OK",
+                                    object : DialogInterface.OnClickListener {
+                                        override fun onClick(dialog: DialogInterface?, which: Int) {
+                                            var fr = getFragmentManager()?.beginTransaction()
+                                            fr?.replace(
+                                                R.id.fragment_container,
+                                                infoFragment(),
+                                                "APP"
+                                            )
+                                            fr?.commit()
+
+                                        }
+                                    })
+                                builder.setOnDismissListener {
                                     var fr = getFragmentManager()?.beginTransaction()
-                                    fr?.replace(R.id.fragment_container, infoFragment(),"APP")
+                                    fr?.replace(R.id.fragment_container, infoFragment(), "APP")
                                     fr?.commit()
                                 }
-                            })
-                            builder.setOnDismissListener{
-                                var fr = getFragmentManager()?.beginTransaction()
-                                fr?.replace(R.id.fragment_container, infoFragment(),"APP")
-                                fr?.commit()
+                                val alertDialog = builder.create()
+                                alertDialog.show()
+                            } else {
+                                val builder: AlertDialog.Builder = AlertDialog.Builder(context!!)
+                                builder.setTitle("Errore")
+                                builder.setMessage("Il codice inserito non corrisponde a nessuna prenotazione")
+                                builder.setPositiveButton("Riprova",
+                                    object : DialogInterface.OnClickListener {
+                                        override fun onClick(dialog: DialogInterface?, which: Int) {
+                                        }
+                                    })
+                                val alertDialog = builder.create()
+                                alertDialog.show()
                             }
-                            val alertDialog = builder.create()
-                            alertDialog.show()
-                        }else{
-                            val builder : AlertDialog.Builder = AlertDialog.Builder(context!!)
-                            builder.setTitle("Errore")
-                            builder.setMessage("Il codice inserito non corrisponde a nessuna prenotazione")
-                            builder.setPositiveButton("Riprova",object : DialogInterface.OnClickListener{
-                                override fun onClick(dialog: DialogInterface?, which: Int) {
-                                }
-                            })
-                            val alertDialog = builder.create()
-                            alertDialog.show()
                         }
-                    }
-                })
+                    })
             }
         })
 
