@@ -184,10 +184,11 @@ class MyAdapterReservations(val prenotazioni : ArrayList<Prenotazione>?, val con
 
                     //Segnala che la prenotazione è scaduta
 
-
-
+                    holder.row.setBackgroundResource(R.drawable.btn_custom_red)
 
                     holder.copyCode.isEnabled = false
+
+                    holder.copyCode.isVisible = false
 
                     holder.cod_prem.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
                 }

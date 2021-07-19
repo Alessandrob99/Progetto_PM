@@ -12,5 +12,5 @@
     <color name="orange">#FFA500</color>
     <color name="purpleAndroid">#6A0DAD</color>
     <color name="colorPrimaryDark">#000</color>
-
+    <color name="light_red">#FFFF9A9A</color>
 </resources>
