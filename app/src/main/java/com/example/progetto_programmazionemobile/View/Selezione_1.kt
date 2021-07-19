@@ -74,74 +74,97 @@ class Selezione_1 : AppCompatActivity() {
 
         picker.addOnPositiveButtonClickListener {
 
-
+            val currentDate: String = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(Date())
             val split: List<String> = picker.headerText.split(" ")
             val day = split[0]
             val month = split[1]
             val year = split[2]
+            val all = "$day-$month-$year"
+
+            if(all.compareTo(currentDate) < 0)
+            {
+                val builder: AlertDialog.Builder =
+                    AlertDialog.Builder(this@Selezione_1)
+                builder.setTitle("Errore")
+                builder.setMessage("Devi allenarti oggi! Ieri è troppo tardi.")
+                builder.setPositiveButton(
+                    "OK",
+                    object : DialogInterface.OnClickListener {
+                        override fun onClick(
+                            dialog: DialogInterface?,
+                            which: Int
+                        ) {
+                        }
+                    })
+                val alertDialog = builder.create()
+                alertDialog.show()
+            }
+            else {
 
 
+                if (month == "gen") {
+                    if (day.toInt() < 10) {
+                        data.setText("0" + day + "-01" + "-" + year)
+                    } else data.setText(day + "-01" + "-" + year)
+                }
+                if (month == "feb") {
+                    if (day.toInt() < 10) {
+                        data.setText("0" + day + "-02" + "-" + year)
+                    } else data.setText(day + "-02" + "-" + year)
+                }
+                if (month == "mar") {
+                    if (day.toInt() < 10) {
+                        data.setText("0" + day + "-03" + "-" + year)
+                    } else data.setText(day + "-03" + "-" + year)
+                }
+                if (month == "apr") {
+                    if (day.toInt() < 10) {
+                        data.setText("0" + day + "-04" + "-" + year)
+                    } else data.setText(day + "-04" + "-" + year)
+                }
+                if (month == "mag") {
+                    if (day.toInt() < 10) {
+                        data.setText("0" + day + "-05" + "-" + year)
+                    } else data.setText(day + "-05" + "-" + year)
+                }
+                if (month == "giu") {
+                    if (day.toInt() < 10) {
+                        data.setText("0" + day + "-06" + "-" + year)
+                    } else data.setText(day + "-06" + "-" + year)
+                }
+                if (month == "lug") {
+                    if (day.toInt() < 10) {
+                        data.setText("0" + day + "-07" + "-" + year)
+                    } else data.setText(day + "-07" + "-" + year)
+                }
+                if (month == "ago") {
+                    if (day.toInt() < 10) {
+                        data.setText("0" + day + "-08" + "-" + year)
+                    } else data.setText(day + "-08" + "-" + year)
+                }
+                if (month == "set") {
+                    if (day.toInt() < 10) {
+                        data.setText("0" + day + "-09" + "-" + year)
+                    } else data.setText(day + "-09" + "-" + year)
+                }
+                if (month == "ott") {
+                    if (day.toInt() < 10) {
+                        data.setText("0" + day + "-10" + "-" + year)
+                    } else data.setText(day + "-10" + "-" + year)
+                }
+                if (month == "nov") {
+                    if (day.toInt() < 10) {
+                        data.setText("0" + day + "-11" + "-" + year)
+                    } else data.setText(day + "-11" + "-" + year)
+                }
+                if (month == "dic") {
+                    if (day.toInt() < 10) {
+                        data.setText("0" + day + "-12" + "-" + year)
+                    } else data.setText(day + "-12" + "-" + year)
+                }
+            }
 
-            if (month == "gen") {
-                if (day < 10.toString()) {
-                    data.setText("0" + day + "-01" + "-" + year)
-                } else data.setText(day + "-01" + "-" + year)
-            }
-            if (month == "feb") {
-                if (day < 10.toString()) {
-                    data.setText("0" + day + "-02" + "-" + year)
-                } else data.setText(day + "-02" + "-" + year)
-            }
-            if (month == "mar") {
-                if (day < 10.toString()) {
-                    data.setText("0" + day + "-03" + "-" + year)
-                } else data.setText(day + "-03" + "-" + year)
-            }
-            if (month == "apr") {
-                if (day < 10.toString()) {
-                    data.setText("0" + day + "-04" + "-" + year)
-                } else data.setText(day + "-04" + "-" + year)
-            }
-            if (month == "mag") {
-                if (day < 10.toString()) {
-                    data.setText("0" + day + "-05" + "-" + year)
-                } else data.setText(day + "-05" + "-" + year)
-            }
-            if (month == "giu") {
-                if (day < 10.toString()) {
-                    data.setText("0" + day + "-06" + "-" + year)
-                } else data.setText(day + "-06" + "-" + year)
-            }
-            if (month == "lug") {
-                if (day < 10.toString()) {
-                    data.setText("0" + day + "-07" + "-" + year)
-                } else data.setText(day + "-07" + "-" + year)
-            }
-            if (month == "ago") {
-                if (day < 10.toString()) {
-                    data.setText("0" + day + "-08" + "-" + year)
-                } else data.setText(day + "-08" + "-" + year)
-            }
-            if (month == "set") {
-                if (day < 10.toString()) {
-                    data.setText("0" + day + "-09" + "-" + year)
-                } else data.setText(day + "-09" + "-" + year)
-            }
-            if (month == "ott") {
-                if (day < 10.toString()) {
-                    data.setText("0" + day + "-10" + "-" + year)
-                } else data.setText(day + "-10" + "-" + year)
-            }
-            if (month == "nov") {
-                if (day < 10.toString()) {
-                    data.setText("0" + day + "-11" + "-" + year)
-                } else data.setText(day + "-11" + "-" + year)
-            }
-            if (month == "dic") {
-                if (day < 10.toString()) {
-                    data.setText("0" + day + "-12" + "-" + year)
-                } else data.setText(day + "-12" + "-" + year)
-            }
+
 
 
         }
