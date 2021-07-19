@@ -12,9 +12,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getSystemService
@@ -122,9 +120,12 @@ class MyAdapterReservations(val prenotazioni : ArrayList<Prenotazione>?, val con
         val oraFine= row.findViewById<TextView>(R.id.oraFinePrenText)
         val cod_prem = row.findViewById<TextView>(R.id.codicePrenText)
         val btnElimina = row.findViewById<ImageButton>(R.id.btnElimina)
-        val scadutaText = row.findViewById<TextView>(R.id.scaduta)
         val copyCode = row.findViewById<ImageButton>(R.id.copyCode)
+        val partecipaBtn = row.findViewById<Button>(R.id.partecipantiBtn)
 
+        //Menu espandibile
+        val expandableLayout = row.findViewById<LinearLayout>(R.id.expandableLayout)
+        val notexpandableLayout = row.findViewById<LinearLayout>(R.id.notexpandedLayout)
 
     }
 
@@ -139,31 +140,39 @@ class MyAdapterReservations(val prenotazioni : ArrayList<Prenotazione>?, val con
 
     override fun onBindViewHolder(holder: MyViewHolderReservations, position: Int) {
 
+        //Vedo se il layout è allargato
+        var isExpanded = prenotazioni!!.get(position).expanded
+        if(isExpanded){
+            holder.expandableLayout.visibility = View.VISIBLE
+        }else{
+            holder.expandableLayout.visibility = View.GONE
+        }
+
+        holder.notexpandableLayout.setOnClickListener(object : View.OnClickListener{
+            override fun onClick(v: View?) {
+                prenotazioni.get(position).expanded = !prenotazioni.get(position).expanded
+                notifyItemChanged(position)
+            }
+        })
 
         holder.copyCode.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View?) {
-                val textToCopy = holder.cod_prem.text
+        override fun onClick(v: View?) {
+            val textToCopy = holder.cod_prem.text
 
-                val clipboardManager = conx.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
-                val clipData = ClipData.newPlainText("text", textToCopy)
-                clipboardManager.setPrimaryClip(clipData)
-                Toast.makeText(conx, "Copiato negli appunti: $textToCopy", Toast.LENGTH_LONG).show()
+            val clipboardManager = conx.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+            val clipData = ClipData.newPlainText("text", textToCopy)
+            clipboardManager.setPrimaryClip(clipData)
+            Toast.makeText(conx, "Copiato negli appunti: $textToCopy", Toast.LENGTH_LONG).show()
 
-            }
+        }
         })
 
         holder.btnElimina.isClickable = false
 
         //Decodifica del codice
         DB_Handler_Reservation.getReservationLayoutInfo(prenotazioni!!.get(position),object : DB_Handler_Reservation.MyCallBackInfo{
-            override fun onCallBack(
-                campo: String,
-                circolo: String,
-                oraInizio: String,
-                oraFine: String,
-                giorno: String,
-                codice: String
-            ) {
+            override fun onCallBack(campo: String, circolo: String, oraInizio: String, oraFine: String, giorno: String, codice: String) {
+
                 //Scrivo sul mio layout
                 holder.giorno.text = giorno
                 holder.oraInizio.text = oraInizio
@@ -172,9 +181,14 @@ class MyAdapterReservations(val prenotazioni : ArrayList<Prenotazione>?, val con
                 holder.circolo.text = circolo
                 holder.campo.text = campo
                 if(prenotazioni.get(position).oraFine.before(today)){
-                    holder.scadutaText.text = "SCADUTA"
-                    holder.scadutaText.setTextColor(Color.RED)
-                    holder.scadutaText.textSize = 20F
+
+                    //Segnala che la prenotazione è scaduta
+
+
+
+
+                    holder.copyCode.isEnabled = false
+
                     holder.cod_prem.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
                 }
             }

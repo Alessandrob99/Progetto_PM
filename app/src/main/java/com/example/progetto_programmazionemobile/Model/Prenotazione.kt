@@ -11,6 +11,8 @@ class Prenotazione (id : String, prenotatore : String, oraInizio : Date, oraFine
     val oraInizio = oraInizio
 
 
+    //Variabile di layout
+    var expanded = false
 
 
 }
