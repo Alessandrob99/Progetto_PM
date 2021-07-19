@@ -1,24 +1,24 @@
 package com.example.progetto_programmazionemobile.View
 
-import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.text.InputType
 import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.progetto_programmazionemobile.R
 import com.example.progetto_programmazionemobile.ViewModel.Auth_Handler
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
+import kotlinx.android.synthetic.main.fragment_login.*
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -59,7 +59,7 @@ class LoginFragment : Fragment() {
         val flagRicordami = v.findViewById<CheckBox>(R.id.ricordami)
         val emailEditText = v.findViewById<EditText>(R.id.txtEmail)
         val passWordEditText = v.findViewById<EditText>(R.id.txtPassword)
-
+        val link = v.findViewById<TextView>(R.id.link)
         //Controllo se ci sono valori user e pass salvati nelle shared pref'
         var sharedPreferences : SharedPreferences? = activity?.getSharedPreferences(
             "remember",
@@ -79,6 +79,52 @@ class LoginFragment : Fragment() {
 
         }
 
+        //Link recupero password
+        link.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(v: View?) {
+
+                var emailAddress : String
+
+                val builder = AlertDialog.Builder(context!!)
+                builder.setTitle("Inserire indirizzo email.")
+                val input = EditText(context);
+                input.setInputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_CLASS_TEXT)
+                builder.setView(input)
+                builder.setPositiveButton("Conferma",
+                    DialogInterface.OnClickListener { dialog, which ->
+                        //Controllo sulla mail formattata bene
+                        emailAddress = input.getText().toString().replace(" ","")
+                        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(emailAddress).matches()) {
+                            Toast.makeText(context, "Inserire una mail valida", Toast.LENGTH_SHORT).show()
+                        }else{
+                            Firebase.auth.sendPasswordResetEmail(emailAddress)
+                                .addOnCompleteListener { task ->
+                                    if (task.isSuccessful) {
+                                        val builder : AlertDialog.Builder = AlertDialog.Builder(context!!)
+                                        builder.setTitle("ATTENZIONE!")
+                                        builder.setMessage("Abbiamo inviato una mail all'indirizzo :"+System.getProperty("line.separator")+emailAddress+System.getProperty("line.separator")
+                                        +"Nella mail è presente un link che vi permetterà di impostare una nuova passowrd di accesso ")
+                                        builder.setPositiveButton("OK",object : DialogInterface.OnClickListener{
+                                            override fun onClick(dialog: DialogInterface?, which: Int) {
+
+                                            }
+                                        })
+                                        builder.setOnDismissListener{
+
+                                        }
+                                        val alertDialog = builder.create()
+                                        alertDialog.show()
+                                    }
+                                }
+                        }
+                    }
+                )
+                builder.setNegativeButton("Annulla",
+                    DialogInterface.OnClickListener { dialog, which -> dialog.cancel() }
+                )
+                builder.show()
+            }
+        })
 
         flagRicordami.setOnCheckedChangeListener { buttonView, isChecked ->
 
