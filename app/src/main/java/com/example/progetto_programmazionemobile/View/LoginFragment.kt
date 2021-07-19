@@ -6,7 +6,6 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.text.InputType
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
@@ -19,7 +18,6 @@ import com.example.progetto_programmazionemobile.ViewModel.Auth_Handler
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import kotlinx.android.synthetic.main.fragment_login.*
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -56,7 +54,7 @@ class LoginFragment : Fragment() {
         val v : View = inflater.inflate(R.layout.fragment_login, container, false)
         val goToHomePage = Intent(v.context, HomePage_Activity::class.java)
 
-        val confermabtn : Button = v.findViewById(R.id.inviaEmail)
+        val confermabtn : Button = v.findViewById(R.id.confermaLog)
         val flagRicordami = v.findViewById<CheckBox>(R.id.ricordami)
         val emailEditText = v.findViewById<EditText>(R.id.txtEmail)
         val passWordEditText = v.findViewById<EditText>(R.id.txtPassword)
@@ -84,47 +82,64 @@ class LoginFragment : Fragment() {
         link.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
 
-                var emailAddress : String
+                var emailAddress: String
 
                 val builder = AlertDialog.Builder(context!!)
-
-                val popUp = inflater.inflate(R.layout.popup_mail,null)
+                val popUp = inflater.inflate(R.layout.popup_mail, null)
                 val emailText = popUp.findViewById<TextInputEditText>(R.id.email)
                 val btnInvia = popUp.findViewById<Button>(R.id.inviaEmail)
 
                 builder.setView(popUp)
-                btnInvia.setOnClickListener(object : View.OnClickListener{
+                val alertDialogPopUp = builder.create()
+
+                btnInvia.setOnClickListener(object : View.OnClickListener {
                     override fun onClick(v: View?) {
-                        val builder1 : AlertDialog.Builder = AlertDialog.Builder(context!!)
-                        emailAddress = emailEditText.text.toString()
+                        val builder1: AlertDialog.Builder = AlertDialog.Builder(context!!)
+                        emailAddress = emailText.text.toString()
                         if (!android.util.Patterns.EMAIL_ADDRESS.matcher(emailAddress).matches()) {
-                            Toast.makeText(context, "Inserire una mail valida", Toast.LENGTH_SHORT).show()
-                        }else{
+                            Toast.makeText(context, "Inserire una mail valida", Toast.LENGTH_SHORT)
+                                .show()
+                        } else {
                             Firebase.auth.sendPasswordResetEmail(emailAddress)
                                 .addOnCompleteListener { task ->
                                     if (task.isSuccessful) {
                                         builder1.setTitle("ATTENZIONE!")
-                                        builder1.setMessage("Abbiamo inviato una mail all'indirizzo :"+System.getProperty("line.separator")+emailAddress+System.getProperty("line.separator") +"Nella mail è presente un link che vi permetterà di impostare una nuova passowrd di accesso."+System.getProperty("line.separator")+"(La mail potrebbe essere finita nello spam!)")
-                                        builder1.setPositiveButton("OK",object : DialogInterface.OnClickListener{
-                                            override fun onClick(dialog: DialogInterface?, which: Int) {
-
-                                            }
-                                        })
-                                        builder1.setOnDismissListener{
+                                        builder1.setMessage(
+                                            "Abbiamo inviato una mail all'indirizzo :" + System.getProperty(
+                                                "line.separator"
+                                            ) + emailAddress + System.getProperty("line.separator") + "Nella mail è presente un link che vi permetterà di impostare una nuova passowrd di accesso." + System.getProperty(
+                                                "line.separator"
+                                            ) + "(La mail potrebbe essere finita nello spam!)"
+                                        )
+                                        builder1.setPositiveButton("OK",
+                                            object : DialogInterface.OnClickListener {
+                                                override fun onClick(
+                                                    dialog: DialogInterface?,
+                                                    which: Int
+                                                ) {
+                                                    alertDialogPopUp.dismiss()
+                                                }
+                                            })
+                                        builder1.setOnDismissListener {
+                                            alertDialogPopUp.dismiss()
                                         }
                                         val alertDialog = builder1.create()
                                         alertDialog.show()
                                     }
-                                }.addOnFailureListener{
+                                }.addOnFailureListener {
                                     builder1.setTitle("Errore!")
                                     builder1.setMessage("Qualcosa è andato storto nella procedura di invio della mail")
-                                    builder1.setPositiveButton("OK",object : DialogInterface.OnClickListener{
-                                        override fun onClick(dialog: DialogInterface?, which: Int) {
-
-                                        }
-                                    })
-                                    builder1.setOnDismissListener{
-
+                                    builder1.setPositiveButton("OK",
+                                        object : DialogInterface.OnClickListener {
+                                            override fun onClick(
+                                                dialog: DialogInterface?,
+                                                which: Int
+                                            ) {
+                                                alertDialogPopUp.dismiss()
+                                            }
+                                        })
+                                    builder1.setOnDismissListener {
+                                        alertDialogPopUp.dismiss()
                                     }
                                     val alertDialog = builder.create()
                                     alertDialog.show()
@@ -133,40 +148,7 @@ class LoginFragment : Fragment() {
                         }
                     }
                 })
-                /*builder.setView(layoutInflater.inflate(R.layout.popup_mail,null))
-
-                builder.setPositiveButton("Conferma",
-                    DialogInterface.OnClickListener { dialog, which ->
-                        //Controllo sulla mail formattata bene
-                        emailAddress = input.getText().toString().replace(" ","")
-                        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(emailAddress).matches()) {
-                            Toast.makeText(context, "Inserire una mail valida", Toast.LENGTH_SHORT).show()
-                        }else{
-                            Firebase.auth.sendPasswordResetEmail(emailAddress)
-                                .addOnCompleteListener { task ->
-                                    if (task.isSuccessful) {
-                                        val builder : AlertDialog.Builder = AlertDialog.Builder(context!!)
-                                        builder.setTitle("ATTENZIONE!")
-                                        builder.setMessage("Abbiamo inviato una mail all'indirizzo :"+System.getProperty("line.separator")+emailAddress+System.getProperty("line.separator") +"Nella mail è presente un link che vi permetterà di impostare una nuova passowrd di accesso."+System.getProperty("line.separator")+"(La mail potrebbe essere finita nello spam!)")
-                                        builder.setPositiveButton("OK",object : DialogInterface.OnClickListener{
-                                            override fun onClick(dialog: DialogInterface?, which: Int) {
-
-                                            }
-                                        })
-                                        builder.setOnDismissListener{
-
-                                        }
-                                        val alertDialog = builder.create()
-                                        alertDialog.show()
-                                    }
-                                }
-                        }
-                    }
-                )
-                builder.setNegativeButton("Annulla",
-                    DialogInterface.OnClickListener { dialog, which -> dialog.cancel() }
-                )*/
-                builder.show()
+                alertDialogPopUp.show()
             }
         })
 
@@ -282,3 +264,4 @@ class LoginFragment : Fragment() {
             }
     }
 }
+
