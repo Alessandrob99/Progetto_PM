@@ -1,21 +1,17 @@
 package com.example.progetto_programmazionemobile.View
 
 
-import android.annotation.SuppressLint
 import android.content.*
+import android.content.res.Configuration
 import android.location.Location
-import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.location.LocationManagerCompat.isLocationEnabled
-import com.example.progetto_programmazionemobile.Model.Campo
 import com.example.progetto_programmazionemobile.R
-import com.example.progetto_programmazionemobile.ViewModel.DB_Handler_Courts
 import com.google.android.material.datepicker.MaterialDatePicker
 import java.text.SimpleDateFormat
 import java.util.*
@@ -55,6 +51,13 @@ class Selezione_1 : AppCompatActivity() {
         }
         registerReceiver(broadcastReceiver1, IntentFilter("logout"))
 
+
+        val locale = Locale("IT")
+        Locale.setDefault(locale)
+        val config = Configuration()
+        config.locale = locale
+        applicationContext.resources.updateConfiguration(config, null)
+
         val builder = MaterialDatePicker.Builder.datePicker()
         builder.setTitleText("Seleziona una data per prenotarti")
         val picker = builder.build()
@@ -64,9 +67,9 @@ class Selezione_1 : AppCompatActivity() {
         data.text = currentDate
 
 
-
-
-
+        data.setOnClickListener {
+            picker.show(supportFragmentManager, picker.toString())
+        }
 
         imageData.setOnClickListener {
             picker.show(supportFragmentManager, picker.toString())
@@ -74,7 +77,9 @@ class Selezione_1 : AppCompatActivity() {
 
         picker.addOnPositiveButtonClickListener {
 
-            val currentDate: String = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(Date())
+            val currentDate: String = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(
+                Date()
+            )
             val split: List<String> = picker.headerText.split(" ")
             val day = split[0]
             val month = split[1]
@@ -102,62 +107,62 @@ class Selezione_1 : AppCompatActivity() {
             else {
 
 
-                if (month == "gen") {
+                if (month == "gen" || month == "Jan") {
                     if (day.toInt() < 10) {
                         data.setText("0" + day + "-01" + "-" + year)
                     } else data.setText(day + "-01" + "-" + year)
                 }
-                if (month == "feb") {
+                if (month == "feb" || month == "Feb") {
                     if (day.toInt() < 10) {
                         data.setText("0" + day + "-02" + "-" + year)
                     } else data.setText(day + "-02" + "-" + year)
                 }
-                if (month == "mar") {
+                if (month == "mar" || month == "Mar") {
                     if (day.toInt() < 10) {
                         data.setText("0" + day + "-03" + "-" + year)
                     } else data.setText(day + "-03" + "-" + year)
                 }
-                if (month == "apr") {
+                if (month == "apr" || month == "Apr") {
                     if (day.toInt() < 10) {
                         data.setText("0" + day + "-04" + "-" + year)
                     } else data.setText(day + "-04" + "-" + year)
                 }
-                if (month == "mag") {
+                if (month == "mag" || month == "May") {
                     if (day.toInt() < 10) {
                         data.setText("0" + day + "-05" + "-" + year)
                     } else data.setText(day + "-05" + "-" + year)
                 }
-                if (month == "giu") {
+                if (month == "giu" || month == "Jun") {
                     if (day.toInt() < 10) {
                         data.setText("0" + day + "-06" + "-" + year)
                     } else data.setText(day + "-06" + "-" + year)
                 }
-                if (month == "lug") {
+                if (month == "lug" || month == "Jul") {
                     if (day.toInt() < 10) {
                         data.setText("0" + day + "-07" + "-" + year)
                     } else data.setText(day + "-07" + "-" + year)
                 }
-                if (month == "ago") {
+                if (month == "ago" || month == "Aug") {
                     if (day.toInt() < 10) {
                         data.setText("0" + day + "-08" + "-" + year)
                     } else data.setText(day + "-08" + "-" + year)
                 }
-                if (month == "set") {
+                if (month == "set" || month == "Sep") {
                     if (day.toInt() < 10) {
                         data.setText("0" + day + "-09" + "-" + year)
                     } else data.setText(day + "-09" + "-" + year)
                 }
-                if (month == "ott") {
+                if (month == "ott" || month == "Oct") {
                     if (day.toInt() < 10) {
                         data.setText("0" + day + "-10" + "-" + year)
                     } else data.setText(day + "-10" + "-" + year)
                 }
-                if (month == "nov") {
+                if (month == "nov" || month == "Nov") {
                     if (day.toInt() < 10) {
                         data.setText("0" + day + "-11" + "-" + year)
                     } else data.setText(day + "-11" + "-" + year)
                 }
-                if (month == "dic") {
+                if (month == "dic"|| month == "Dec") {
                     if (day.toInt() < 10) {
                         data.setText("0" + day + "-12" + "-" + year)
                     } else data.setText(day + "-12" + "-" + year)
@@ -169,9 +174,6 @@ class Selezione_1 : AppCompatActivity() {
 
         }
 
-        data.setOnClickListener {
-            picker.show(supportFragmentManager, picker.toString())
-        }
 
         val confermaBtn: Button = findViewById(R.id.confermabtn)
         val sportText: EditText = findViewById(R.id.sport)
@@ -209,21 +211,18 @@ class Selezione_1 : AppCompatActivity() {
 
         confermaBtn.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
-                var locMan: LocationManager? = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+                var locMan: LocationManager? =
+                    getSystemService(Context.LOCATION_SERVICE) as LocationManager
                 /** Controllo se ha attiva la geocalizzazione  **/
-                if (locMan != null)
-                {
-                    if (isLocationEnabled(locMan))
-                    {
-                        if (sportText.text.toString() != "")
-                        {
+                if (locMan != null) {
+                    if (isLocationEnabled(locMan)) {
+                        if (sportText.text.toString() != "") {
                             val intent = Intent(this@Selezione_1, LoaderLocation::class.java)
                             intent.putExtra("sport", sportText.text.toString())
                             intent.putExtra("giorno", data.text)
                             startActivity(intent)
                             finish()
-                        }
-                        else{
+                        } else {
                             val builder: AlertDialog.Builder =
                                 AlertDialog.Builder(this@Selezione_1)
                             builder.setTitle("Errore")
@@ -242,8 +241,7 @@ class Selezione_1 : AppCompatActivity() {
                             alertDialog.show()
                         }
 
-                    }
-                    else {
+                    } else {
                         val builder: AlertDialog.Builder =
                             AlertDialog.Builder(this@Selezione_1)
                         builder.setTitle("Errore")
