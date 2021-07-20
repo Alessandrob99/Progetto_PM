@@ -146,12 +146,22 @@ class MyAdapterReservations(val prenotazioni : ArrayList<Prenotazione>?, val con
         var isExpanded = prenotazioni!!.get(position).expanded
         if(isExpanded){
             holder.expandableLayout.visibility = View.VISIBLE
+            holder.btnExpand.setImageResource(R.drawable.ic_arrow_up)
         }else{
             holder.expandableLayout.visibility = View.GONE
+            holder.btnExpand.setImageResource(R.drawable.ic_arrow_down)
         }
 
         holder.notexpandableLayout.setOnClickListener(object : View.OnClickListener{
             override fun onClick(v: View?) {
+                prenotazioni.get(position).expanded = !prenotazioni.get(position).expanded
+                notifyDataSetChanged()
+            }
+        })
+
+        holder.btnExpand.setOnClickListener(object : View.OnClickListener{
+            override fun onClick(v: View?) {
+
                 prenotazioni.get(position).expanded = !prenotazioni.get(position).expanded
                 notifyDataSetChanged()
             }
@@ -266,24 +276,7 @@ class MyAdapterReservations(val prenotazioni : ArrayList<Prenotazione>?, val con
         })
 
 
-        holder.btnExpand.setOnClickListener(object : View.OnClickListener{
-            override fun onClick(v: View?) {
-                if (c == 0)
-                {
-                    c++
-                    prenotazioni.get(position).expanded = !prenotazioni.get(position).expanded
-                    notifyDataSetChanged()
-                    holder.btnExpand.setImageResource(R.drawable.ic_arrow_up)
-                }
-                else{
-                    prenotazioni.get(position).expanded = !prenotazioni.get(position).expanded
-                    notifyDataSetChanged()
-                    holder.btnExpand.setImageResource(R.drawable.ic_arrow_down)
-                    c = c-1
-                }
 
-            }
-        })
 
 
 
