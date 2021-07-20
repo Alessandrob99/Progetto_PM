@@ -129,7 +129,7 @@ class Selezione_1 : AppCompatActivity() {
             else {
 
 
-                if (month == "gen" || month == "Jan") {
+                if (month == "gen" || month == "Gen") {
                     if (day.toInt() < 10) {
                         data.setText("0" + day + "-01" + "-" + year)
                     } else data.setText(day + "-01" + "-" + year)
@@ -149,32 +149,32 @@ class Selezione_1 : AppCompatActivity() {
                         data.setText("0" + day + "-04" + "-" + year)
                     } else data.setText(day + "-04" + "-" + year)
                 }
-                if (month == "mag" || month == "May") {
+                if (month == "mag" || month == "Mag") {
                     if (day.toInt() < 10) {
                         data.setText("0" + day + "-05" + "-" + year)
                     } else data.setText(day + "-05" + "-" + year)
                 }
-                if (month == "giu" || month == "Jun") {
+                if (month == "giu" || month == "Giu") {
                     if (day.toInt() < 10) {
                         data.setText("0" + day + "-06" + "-" + year)
                     } else data.setText(day + "-06" + "-" + year)
                 }
-                if (month == "lug" || month == "Jul") {
+                if (month == "lug" || month == "Lug") {
                     if (day.toInt() < 10) {
                         data.setText("0" + day + "-07" + "-" + year)
                     } else data.setText(day + "-07" + "-" + year)
                 }
-                if (month == "ago" || month == "Aug") {
+                if (month == "ago" || month == "Ago") {
                     if (day.toInt() < 10) {
                         data.setText("0" + day + "-08" + "-" + year)
                     } else data.setText(day + "-08" + "-" + year)
                 }
-                if (month == "set" || month == "Sep") {
+                if (month == "set" || month == "Set") {
                     if (day.toInt() < 10) {
                         data.setText("0" + day + "-09" + "-" + year)
                     } else data.setText(day + "-09" + "-" + year)
                 }
-                if (month == "ott" || month == "Oct") {
+                if (month == "ott" || month == "Ott") {
                     if (day.toInt() < 10) {
                         data.setText("0" + day + "-10" + "-" + year)
                     } else data.setText(day + "-10" + "-" + year)
@@ -184,7 +184,7 @@ class Selezione_1 : AppCompatActivity() {
                         data.setText("0" + day + "-11" + "-" + year)
                     } else data.setText(day + "-11" + "-" + year)
                 }
-                if (month == "dic"|| month == "Dec") {
+                if (month == "dic"|| month == "Dic") {
                     if (day.toInt() < 10) {
                         data.setText("0" + day + "-12" + "-" + year)
                     } else data.setText(day + "-12" + "-" + year)
