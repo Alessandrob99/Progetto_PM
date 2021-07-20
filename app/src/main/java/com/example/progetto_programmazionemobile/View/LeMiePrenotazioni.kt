@@ -194,8 +194,7 @@ class MyAdapterReservations(val prenotazioni : ArrayList<Prenotazione>?, val con
                 holder.campo.text = campo
                 if(prenotazioni.get(position).oraFine.before(today)){
 
-                    //Segnala che la prenotazione è scaduta
-
+                    //Segnala che la prenotazione è scadut
                     holder.row.setBackgroundResource(R.drawable.btn_custom_red)
 
                     holder.copyCode.isEnabled = false
@@ -294,6 +293,7 @@ class MyAdapterReservations(val prenotazioni : ArrayList<Prenotazione>?, val con
 
     fun deleteItem(position : Int){
         prenotazioni!!.removeAt(position)
-        notifyDataSetChanged()
+        notifyItemRemoved(position)
+        notifyItemRangeChanged(position, prenotazioni.size)
     }
 }
