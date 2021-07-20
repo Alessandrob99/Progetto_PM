@@ -109,6 +109,7 @@ class MyAdapterReservations(val prenotazioni : ArrayList<Prenotazione>?, val con
     val conx = context
     val cal = Calendar.getInstance()
     val today = cal.time
+    var c : Int = 0
 
 
     class MyViewHolderReservations(val row: View) : RecyclerView.ViewHolder(row) {
@@ -122,6 +123,7 @@ class MyAdapterReservations(val prenotazioni : ArrayList<Prenotazione>?, val con
         val btnElimina = row.findViewById<ImageButton>(R.id.btnElimina)
         val copyCode = row.findViewById<ImageButton>(R.id.copyCode)
         val partecipaBtn = row.findViewById<Button>(R.id.partecipantiBtn)
+        val btnExpand = row.findViewById<ImageView>(R.id.btn_Expand)
 
         //Menu espandibile
         val expandableLayout = row.findViewById<LinearLayout>(R.id.expandableLayout)
@@ -262,6 +264,29 @@ class MyAdapterReservations(val prenotazioni : ArrayList<Prenotazione>?, val con
 
             }
         })
+
+
+        holder.btnExpand.setOnClickListener(object : View.OnClickListener{
+            override fun onClick(v: View?) {
+                if (c == 0)
+                {
+                    c++
+                    prenotazioni.get(position).expanded = !prenotazioni.get(position).expanded
+                    notifyDataSetChanged()
+                    holder.btnExpand.setImageResource(R.drawable.ic_arrow_up)
+                }
+                else{
+                    prenotazioni.get(position).expanded = !prenotazioni.get(position).expanded
+                    notifyDataSetChanged()
+                    holder.btnExpand.setImageResource(R.drawable.ic_arrow_down)
+                    c = c-1
+                }
+
+            }
+        })
+
+
+
     }
 
 
