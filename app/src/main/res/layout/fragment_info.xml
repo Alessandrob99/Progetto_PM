@@ -45,28 +45,39 @@
             android:gravity="center"
             android:layout_weight="1">
 
+            <Space
+                android:layout_width="100dp"
+                android:layout_height="150dp"
+                android:layout_weight="10"/>
+
             <Button
                 android:id="@+id/btnUniscitiPrenotazione"
-                android:layout_width="157dp"
-                android:layout_height="150dp"
-                android:layout_weight="2"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
+                android:layout_width="150dp"
+                android:layout_height="100dp"
+                android:layout_weight="0"
                 app:backgroundTint="@null"
                 android:background="@drawable/btn_custom_home"
                 android:text="Unisciti Prenotazione"
                 android:textColor="#000" />
+            <Space
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:layout_weight="10"/>
 
             <Button
                 android:id="@+id/btnPrenotazione"
-                android:layout_width="157dp"
-                android:layout_weight="2"
-                android:layout_height="150dp"
-                android:layout_marginEnd="10dp"
+                android:layout_width="150dp"
+                android:layout_weight="0"
+                android:layout_height="100dp"
                 android:background="@drawable/btn_custom_home"
                 android:text="Effettua Prenotazione"
                 android:textColor="#000"
                 app:backgroundTint="@null"/>
+
+            <Space
+                android:layout_width="100dp"
+                android:layout_height="150dp"
+                android:layout_weight="10"/>
 
         </LinearLayout>
 
@@ -76,29 +87,41 @@
             android:layout_weight="1"
             android:orientation="horizontal">
 
+            <Space
+                android:layout_width="100dp"
+                android:layout_height="150dp"
+                android:layout_weight="10"/>
+
             <Button
                 android:id="@+id/VisualizzaPrenotazione"
-                android:layout_width="157dp"
-                android:layout_height="150dp"
-                android:layout_weight="2"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
+                android:layout_width="150dp"
+                android:layout_height="100dp"
+                android:layout_weight="0"
                 app:backgroundTint="@null"
                 android:background="@drawable/btn_custom_home"
                 android:text="Visualizza Prenotazione"
                 android:textColor="#000" />
 
+            <Space
+                android:layout_width="100dp"
+                android:layout_height="150dp"
+                android:layout_weight="10"/>
+
             <Button
                 android:id="@+id/InfoApplicazione"
                 android:tag="APP"
-                android:layout_width="157dp"
-                android:layout_weight="2"
-                android:layout_height="150dp"
-                android:layout_marginEnd="10dp"
+                android:layout_width="150dp"
+                android:layout_weight="0"
+                android:layout_height="100dp"
                 android:background="@drawable/btn_custom_home"
                 android:text="Info Applicazione"
                 android:textColor="#000"
                 app:backgroundTint="@null"/>
+
+            <Space
+                android:layout_width="100dp"
+                android:layout_height="150dp"
+                android:layout_weight="10"/>
         </LinearLayout>
 
 
