@@ -81,17 +81,35 @@ class Selezione_1 : AppCompatActivity() {
                 Date()
             )
             val split: List<String> = picker.headerText.split(" ")
-            val day = split[0]
-            val month = split[1]
+            var day = split[0]
+            var month = split[1]
             val year = split[2]
+
+            if(day.toInt() < 10){day = "0$day"}
+
+            if (month == "gen") {month = "1"}
+            if (month == "feb") {month = "2"}
+            if (month == "mar") {month = "3"}
+            if (month == "apr") {month = "4"}
+            if (month == "mag") {month = "5"}
+            if (month == "giu") {month = "6"}
+            if (month == "lug") {month = "7"}
+            if (month == "ago") {month = "8"}
+            if (month == "set") {month = "9"}
+            if (month == "ott") {month = "10"}
+            if (month == "nov") {month = "11"}
+            if (month == "dic") {month = "12"}
+
             val all = "$day-$month-$year"
+
+
 
             if(all.compareTo(currentDate) < 0)
             {
                 val builder: AlertDialog.Builder =
                     AlertDialog.Builder(this@Selezione_1)
                 builder.setTitle("Errore")
-                builder.setMessage("Devi allenarti oggi! Ieri è troppo tardi.")
+                builder.setMessage("Non esiste ancora la macchina del tempo!")
                 builder.setPositiveButton(
                     "OK",
                     object : DialogInterface.OnClickListener {
