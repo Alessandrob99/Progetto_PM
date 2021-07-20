@@ -85,22 +85,26 @@ class Selezione_1 : AppCompatActivity() {
             var month = split[1]
             val year = split[2]
 
-            if(day.toInt() < 10){day = "0$day"}
+            var day2 = split[0]
+            var month2 = split[1]
 
-            if (month == "gen") {month = "1"}
-            if (month == "feb") {month = "2"}
-            if (month == "mar") {month = "3"}
-            if (month == "apr") {month = "4"}
-            if (month == "mag") {month = "5"}
-            if (month == "giu") {month = "6"}
-            if (month == "lug") {month = "7"}
-            if (month == "ago") {month = "8"}
-            if (month == "set") {month = "9"}
-            if (month == "ott") {month = "10"}
-            if (month == "nov") {month = "11"}
-            if (month == "dic") {month = "12"}
 
-            val all = "$day-$month-$year"
+            if(day2.toInt() < 10){day2 = "0$day"}
+
+            if (month2 == "gen") {month2 = "1"}
+            if (month2 == "feb") {month2 = "2"}
+            if (month2 == "mar") {month2 = "3"}
+            if (month2 == "apr") {month2 = "4"}
+            if (month2 == "mag") {month2 = "5"}
+            if (month2 == "giu") {month2 = "6"}
+            if (month2 == "lug") {month2 = "7"}
+            if (month2 == "ago") {month2 = "8"}
+            if (month2 == "set") {month2 = "9"}
+            if (month2 == "ott") {month2 = "10"}
+            if (month2 == "nov") {month2 = "11"}
+            if (month2 == "dic") {month2 = "12"}
+
+            val all = "$day2-$month2-$year"
 
 
 
