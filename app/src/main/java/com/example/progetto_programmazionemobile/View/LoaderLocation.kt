@@ -2,22 +2,20 @@ package com.example.progetto_programmazionemobile.View
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.location.LocationManagerCompat
-import androidx.loader.content.Loader
-import com.airbnb.lottie.LottieAnimationView
 import com.example.progetto_programmazionemobile.Model.Campo
 import com.example.progetto_programmazionemobile.R
 import com.example.progetto_programmazionemobile.ViewModel.DB_Handler_Courts
-import java.util.ArrayList
+import java.util.*
 
 class LoaderLocation : AppCompatActivity()
 {
@@ -36,7 +34,11 @@ class LoaderLocation : AppCompatActivity()
 
         val giorno = intent.getStringExtra("giorno")
         val sport = intent.getStringExtra("sport")
+
         var locMan: LocationManager? = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+
+
+
         /** Controllo se ha attiva la geocalizzazione  **/
         if (locMan != null)
         {

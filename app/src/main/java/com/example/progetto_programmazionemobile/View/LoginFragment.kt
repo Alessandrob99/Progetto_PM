@@ -128,7 +128,16 @@ class LoginFragment : Fragment() {
                                     }
                                 }.addOnFailureListener {
                                     builder1.setTitle("Errore!")
-                                    builder1.setMessage("Qualcosa è andato storto nella procedura di invio della mail")
+
+                                    when(it.message){
+                                        "There is no user record corresponding to this identifier. The user may have been deleted."->
+                                            builder1.setMessage("L'e-mail inserita non risulta legata a nessun account registrato.")
+                                        "A network error (such as timeout, interrupted connection or unreachable host) has occurred."->
+                                            builder1.setMessage("Assicurarsi che il dispositivo sia connesso alla rete")
+                                        else ->builder1.setMessage("Qualcosa è andato storto nella procedura di invio della mail"+ System.getProperty("line.separator") +"Assicurati che il dispositivo sia connesso alla rete e che la mail sia ben scritta.")
+                                    }
+
+
                                     builder1.setPositiveButton("OK",
                                         object : DialogInterface.OnClickListener {
                                             override fun onClick(
@@ -141,7 +150,7 @@ class LoginFragment : Fragment() {
                                     builder1.setOnDismissListener {
                                         alertDialogPopUp.dismiss()
                                     }
-                                    val alertDialog = builder.create()
+                                    val alertDialog = builder1.create()
                                     alertDialog.show()
 
                                 }

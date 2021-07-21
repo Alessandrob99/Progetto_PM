@@ -13,4 +13,5 @@
     <color name="purpleAndroid">#6A0DAD</color>
     <color name="colorPrimaryDark">#000</color>
     <color name="light_red">#FFFF9A9A</color>
+    <color name="hard_red">#FFFF4646</color>
 </resources>

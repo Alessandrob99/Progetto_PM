@@ -1,32 +1,33 @@
 package com.example.progetto_programmazionemobile.View
 
 import android.app.ProgressDialog
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
+import android.content.*
 import android.content.Context.CLIPBOARD_SERVICE
-import android.content.DialogInterface
-import android.graphics.Color
 import android.graphics.Paint
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getSystemService
+import androidx.core.content.ContextCompat.startActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.progetto_programmazionemobile.Model.Prenotazione
+import com.example.progetto_programmazionemobile.Model.Utente
 import com.example.progetto_programmazionemobile.R
 import com.example.progetto_programmazionemobile.ViewModel.Auth_Handler
 import com.example.progetto_programmazionemobile.ViewModel.DB_Handler_Reservation
 import com.example.progetto_programmazionemobile.ViewModel.DB_Handler_Users
 import kotlinx.android.synthetic.main.fragment_le_mie_prenotazioni.*
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -52,6 +53,7 @@ class LeMiePrenotazioni : Fragment() {
         }
     }
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -59,23 +61,50 @@ class LeMiePrenotazioni : Fragment() {
         // Inflate the layout for this fragment
         val v =  inflater.inflate(R.layout.fragment_le_mie_prenotazioni, container, false)
 
-        val progress : ProgressDialog = ProgressDialog(context)
-        progress.setTitle("Caricando le tue prenotazioni...")
-        progress.show()
 
-        DB_Handler_Users.getReservationList(Auth_Handler.CURRENT_USER!!.email,object : DB_Handler_Users.MyCallbackReservations{
-            override fun onCallback(reservations: ArrayList<Prenotazione>?) {
-                progress.dismiss()
-                if(reservations.isNullOrEmpty()){
-                    topText.text = "Nessuna prenotazione registrata"
-                }else{
-                    val recyclerView = v.findViewById<View>(R.id.recyclerViewPrenotazioni) as RecyclerView
-                    val viewAdapter = MyAdapterReservations(reservations,context!!)
-                    recyclerView.setLayoutManager(LinearLayoutManager(activity))
-                    recyclerView.setAdapter(viewAdapter)
-                }
+
+        var connectivityManager = requireActivity().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetworkInfo = connectivityManager!!.activeNetworkInfo
+        if(activeNetworkInfo!=null && activeNetworkInfo.isConnected){
+            val progress : ProgressDialog = ProgressDialog(context)
+            progress.setTitle("Caricando le tue prenotazioni...")
+            progress.show()
+
+            DB_Handler_Users.getReservationList(Auth_Handler.CURRENT_USER!!.email,
+                object : DB_Handler_Users.MyCallbackReservations {
+                    override fun onCallback(reservations: ArrayList<Prenotazione>?) {
+                        progress.dismiss()
+                        if (reservations.isNullOrEmpty()) {
+                            topText.text = "Nessuna prenotazione registrata"
+                        } else {
+                            val recyclerView =
+                                v.findViewById<View>(R.id.recyclerViewPrenotazioni) as RecyclerView
+                            val viewAdapter = MyAdapterReservations(reservations, context!!)
+                            recyclerView.setLayoutManager(LinearLayoutManager(activity))
+                            recyclerView.setAdapter(viewAdapter)
+                        }
+                    }
+                })
+
+        }else{
+            val builder: AlertDialog.Builder = AlertDialog.Builder(requireContext())
+            builder.setTitle("Errore")
+            builder.setMessage("Assicurarsi che il dispositivo sia connesso alla rete.")
+
+            builder.setPositiveButton("OK",
+                object : DialogInterface.OnClickListener {
+                    override fun onClick(dialog: DialogInterface?, which: Int) {
+
+                    }
+                })
+            builder.setOnDismissListener {
+
             }
-        })
+
+            val alertDialog = builder.create()
+            alertDialog.show()
+        }
+
 
 
         return v
@@ -104,7 +133,7 @@ class LeMiePrenotazioni : Fragment() {
 
 
 
-class MyAdapterReservations(val prenotazioni : ArrayList<Prenotazione>?, val context : Context) : RecyclerView.Adapter<MyAdapterReservations.MyViewHolderReservations>() {
+class MyAdapterReservations(val prenotazioni: ArrayList<Prenotazione>?, val context: Context) : RecyclerView.Adapter<MyAdapterReservations.MyViewHolderReservations>() {
 
     val conx = context
     val cal = Calendar.getInstance()
@@ -120,10 +149,11 @@ class MyAdapterReservations(val prenotazioni : ArrayList<Prenotazione>?, val con
         val oraInizio = row.findViewById<TextView>(R.id.oraInizioPrenText)
         val oraFine= row.findViewById<TextView>(R.id.oraFinePrenText)
         val cod_prem = row.findViewById<TextView>(R.id.codicePrenText)
-        val btnElimina = row.findViewById<ImageButton>(R.id.btnElimina)
+        val btnElimina = row.findViewById<Button>(R.id.btnElimina)
         val copyCode = row.findViewById<ImageButton>(R.id.copyCode)
         val partecipaBtn = row.findViewById<Button>(R.id.partecipantiBtn)
         val btnExpand = row.findViewById<ImageView>(R.id.btn_Expand)
+        val textViewCod = row.findViewById<TextView>(R.id.textView9)
 
         //Menu espandibile
         val expandableLayout = row.findViewById<LinearLayout>(R.id.expandableLayout)
@@ -133,7 +163,11 @@ class MyAdapterReservations(val prenotazioni : ArrayList<Prenotazione>?, val con
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolderReservations {
 
-        val layout = LayoutInflater.from(parent.context).inflate(R.layout.rv_reservation, parent, false)
+        val layout = LayoutInflater.from(parent.context).inflate(
+            R.layout.rv_reservation,
+            parent,
+            false
+        )
 
         return MyViewHolderReservations(layout)
 
@@ -141,6 +175,20 @@ class MyAdapterReservations(val prenotazioni : ArrayList<Prenotazione>?, val con
 
 
     override fun onBindViewHolder(holder: MyViewHolderReservations, position: Int) {
+
+        //Bottone partecipanti
+        holder.partecipaBtn.setOnClickListener(object : View.OnClickListener{
+            override fun onClick(v: View?) {
+                DB_Handler_Reservation.getPartecipanti(prenotazioni!!.get(position).id,object : DB_Handler_Reservation.MyCallBackPartecipanti{
+                    override fun onCallback(users: ArrayList<Utente>) {
+                        val intent = Intent(v?.context,SearchResult::class.java)
+                        intent.putExtra("usersList", users)
+                        startActivity(context,intent,null)
+                    }
+                })
+            }
+        })
+
 
         //Vedo se il layout è allargato
         var isExpanded = prenotazioni!!.get(position).expanded
@@ -152,14 +200,14 @@ class MyAdapterReservations(val prenotazioni : ArrayList<Prenotazione>?, val con
             holder.btnExpand.setImageResource(R.drawable.ic_arrow_down)
         }
 
-        holder.notexpandableLayout.setOnClickListener(object : View.OnClickListener{
+        holder.notexpandableLayout.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
                 prenotazioni.get(position).expanded = !prenotazioni.get(position).expanded
                 notifyDataSetChanged()
             }
         })
 
-        holder.btnExpand.setOnClickListener(object : View.OnClickListener{
+        holder.btnExpand.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
 
                 prenotazioni.get(position).expanded = !prenotazioni.get(position).expanded
@@ -168,91 +216,119 @@ class MyAdapterReservations(val prenotazioni : ArrayList<Prenotazione>?, val con
         })
 
         holder.copyCode.setOnClickListener(object : View.OnClickListener {
-        override fun onClick(v: View?) {
-            val textToCopy = holder.cod_prem.text
+            override fun onClick(v: View?) {
+                val textToCopy = holder.cod_prem.text
 
-            val clipboardManager = conx.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
-            val clipData = ClipData.newPlainText("text", textToCopy)
-            clipboardManager.setPrimaryClip(clipData)
-            Toast.makeText(conx, "Copiato negli appunti: $textToCopy", Toast.LENGTH_LONG).show()
+                val clipboardManager = conx.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+                val clipData = ClipData.newPlainText("text", textToCopy)
+                clipboardManager.setPrimaryClip(clipData)
+                Toast.makeText(conx, "Copiato negli appunti: $textToCopy", Toast.LENGTH_LONG).show()
 
-        }
+            }
         })
 
         holder.btnElimina.isClickable = false
 
         //Decodifica del codice
-        DB_Handler_Reservation.getReservationLayoutInfo(prenotazioni!!.get(position),object : DB_Handler_Reservation.MyCallBackInfo{
-            override fun onCallBack(campo: String, circolo: String, oraInizio: String, oraFine: String, giorno: String, codice: String) {
+        DB_Handler_Reservation.getReservationLayoutInfo(prenotazioni!!.get(position),
+            object : DB_Handler_Reservation.MyCallBackInfo {
+                override fun onCallBack(
+                    campo: String,
+                    circolo: String,
+                    oraInizio: String,
+                    oraFine: String,
+                    giorno: String,
+                    codice: String
+                ) {
 
-                //Scrivo sul mio layout
-                holder.giorno.text = giorno
-                holder.oraInizio.text = oraInizio
-                holder.oraFine.text = oraFine
-                holder.cod_prem.text = codice
-                holder.circolo.text = circolo
-                holder.campo.text = campo
-                if(prenotazioni.get(position).oraFine.before(today)){
+                    //Scrivo sul mio layout
 
-                    //Segnala che la prenotazione è scadut
-                    holder.row.setBackgroundResource(R.drawable.btn_custom_red)
+                    holder.giorno.text = giorno
+                    holder.oraInizio.text = oraInizio
+                    holder.oraFine.text = oraFine
+                    holder.cod_prem.text = codice
+                    holder.circolo.text = circolo
+                    holder.campo.text = campo
+                    if (prenotazioni.get(position).oraFine.before(today)) {
 
-                    holder.copyCode.isEnabled = false
+                        //Segnala che la prenotazione è scadut
+                        holder.row.setBackgroundResource(R.drawable.btn_custom_red)
 
-                    holder.copyCode.isVisible = false
+                        holder.copyCode.isEnabled = false
 
-                    holder.cod_prem.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
+                        holder.copyCode.isVisible = false
+
+                        holder.cod_prem.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
+                    }
+                    if(prenotazioni.get(position).prenotatore!= Auth_Handler.CURRENT_USER!!.email){
+                        holder.partecipaBtn.isVisible = false
+                        holder.copyCode.isVisible = false
+                        holder.textViewCod.text = "Prenotazione effettuata da"
+                        holder.cod_prem.text = prenotazioni.get(position).prenotatore
+                    }
                 }
-            }
-        })
+            })
         holder.btnElimina.isClickable = true
 
-        holder.btnElimina.setOnClickListener(object : View.OnClickListener{
+        holder.btnElimina.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
 
-                val builder : AlertDialog.Builder = AlertDialog.Builder(context)
+                val builder: AlertDialog.Builder = AlertDialog.Builder(context)
                 builder.setTitle("Sei sicuro?")
                 builder.setMessage("Eliminare la prenotazione dalla lista?")
 
-                builder.setPositiveButton("Si",object : DialogInterface.OnClickListener{
+                builder.setPositiveButton("Si", object : DialogInterface.OnClickListener {
                     override fun onClick(dialog: DialogInterface?, which: Int) {
-                        val progress : ProgressDialog = ProgressDialog(context)
+                        val progress: ProgressDialog = ProgressDialog(context)
                         progress.setTitle("Eliminazione in corso...")
                         progress.show()
 
                         DB_Handler_Reservation.deleteReservation(Auth_Handler.CURRENT_USER!!.email,
-                            holder.cod_prem.text.toString(),object : DB_Handler_Reservation.MyCallBackNewRes{
+                            holder.cod_prem.text.toString(),
+                            object : DB_Handler_Reservation.MyCallBackNewRes {
                                 override fun onCallback(result: Boolean) {
 
                                     progress.dismiss()
 
-                                    if(result){
-                                        val builder : AlertDialog.Builder = AlertDialog.Builder(context)
+                                    if (result) {
+                                        val builder: AlertDialog.Builder = AlertDialog.Builder(
+                                            context
+                                        )
                                         builder.setTitle("Eliminazione completata")
                                         builder.setMessage("Operazione completata con successo")
 
-                                        builder.setPositiveButton("OK",object : DialogInterface.OnClickListener{
-                                            override fun onClick(dialog: DialogInterface?, which: Int) {
-                                            }
+                                        builder.setPositiveButton("OK",
+                                            object : DialogInterface.OnClickListener {
+                                                override fun onClick(
+                                                    dialog: DialogInterface?,
+                                                    which: Int
+                                                ) {
+                                                }
 
-                                        })
-                                        builder.setOnDismissListener{
+                                            })
+                                        builder.setOnDismissListener {
                                             deleteItem(position)
                                         }
 
                                         val alertDialog = builder.create()
                                         alertDialog.show()
 
-                                    }else{
-                                        val builder : AlertDialog.Builder = AlertDialog.Builder(context)
+                                    } else {
+                                        val builder: AlertDialog.Builder = AlertDialog.Builder(
+                                            context
+                                        )
                                         builder.setTitle("Errore")
                                         builder.setMessage("Qualcosa è andato storto... Contattaci in quanto potresti inavvertitamente bloccare delle ore libere!")
 
-                                        builder.setPositiveButton("OK",object : DialogInterface.OnClickListener{
-                                            override fun onClick(dialog: DialogInterface?, which: Int) {
+                                        builder.setPositiveButton("OK",
+                                            object : DialogInterface.OnClickListener {
+                                                override fun onClick(
+                                                    dialog: DialogInterface?,
+                                                    which: Int
+                                                ) {
 
-                                            }
-                                        })
+                                                }
+                                            })
 
                                         val alertDialog = builder.create()
                                         alertDialog.show()
@@ -262,7 +338,7 @@ class MyAdapterReservations(val prenotazioni : ArrayList<Prenotazione>?, val con
                             })
                     }
                 })
-                builder.setNegativeButton("NO",object : DialogInterface.OnClickListener{
+                builder.setNegativeButton("NO", object : DialogInterface.OnClickListener {
                     override fun onClick(dialog: DialogInterface?, which: Int) {
 
                     }
@@ -291,9 +367,11 @@ class MyAdapterReservations(val prenotazioni : ArrayList<Prenotazione>?, val con
         }
     }
 
-    fun deleteItem(position : Int){
+    fun deleteItem(position: Int){
         prenotazioni!!.removeAt(position)
         notifyItemRemoved(position)
         notifyItemRangeChanged(position, prenotazioni.size)
     }
+
+
 }

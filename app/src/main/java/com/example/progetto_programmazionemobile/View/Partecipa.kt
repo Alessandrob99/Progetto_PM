@@ -4,6 +4,7 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.DialogInterface
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -50,54 +51,83 @@ class Partecipa : Fragment() {
         partecipaBtn.setOnClickListener(object : View.OnClickListener {
 
             override fun onClick(v: View?) {
-                val progress: ProgressDialog = ProgressDialog(context)
-                progress.setTitle("Controllando il codice...")
-                progress.show()
-                DB_Handler_Reservation.newPartecipation(
-                    Auth_Handler.CURRENT_USER!!.email,
-                    codicePrenotazione.text.toString(),
-                    object : DB_Handler_Reservation.MyCallBackNewRes {
-                        override fun onCallback(result: Boolean) {
-                            progress.dismiss()
+                var connectivityManager = requireActivity().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+                val activeNetworkInfo = connectivityManager!!.activeNetworkInfo
+                if(activeNetworkInfo!=null && activeNetworkInfo.isConnected){
+                    val progress: ProgressDialog = ProgressDialog(context)
+                    progress.setTitle("Controllando il codice...")
+                    progress.show()
+                    DB_Handler_Reservation.newPartecipation(
+                        Auth_Handler.CURRENT_USER!!.email,
+                        codicePrenotazione.text.toString(),
+                        object : DB_Handler_Reservation.MyCallBackPartecipazione {
+                            override fun onCallback(result: Boolean, codErrore: Int) {
 
-                            if (result) {
-                                val builder: AlertDialog.Builder = AlertDialog.Builder(context!!)
-                                builder.setTitle("Operazione conclusa")
-                                builder.setMessage("Partecipazione aggiunta con successo")
-                                builder.setPositiveButton("OK",
-                                    object : DialogInterface.OnClickListener {
-                                        override fun onClick(dialog: DialogInterface?, which: Int) {
-                                            var fr = getFragmentManager()?.beginTransaction()
-                                            fr?.replace(
-                                                R.id.fragment_container,
-                                                infoFragment(),
-                                                "APP"
-                                            )
-                                            fr?.commit()
+                                progress.dismiss()
 
-                                        }
-                                    })
-                                builder.setOnDismissListener {
-                                    var fr = getFragmentManager()?.beginTransaction()
-                                    fr?.replace(R.id.fragment_container, infoFragment(), "APP")
-                                    fr?.commit()
+                                if (result) {
+                                    val builder: AlertDialog.Builder = AlertDialog.Builder(context!!)
+                                    builder.setTitle("Operazione conclusa")
+                                    builder.setMessage("Partecipazione aggiunta con successo")
+                                    builder.setPositiveButton("OK",
+                                        object : DialogInterface.OnClickListener {
+                                            override fun onClick(dialog: DialogInterface?, which: Int) {
+                                                var fr = getFragmentManager()?.beginTransaction()
+                                                fr?.replace(
+                                                    R.id.fragment_container,
+                                                    infoFragment(),
+                                                    "APP"
+                                                )
+                                                fr?.commit()
+
+                                            }
+                                        })
+                                    builder.setOnDismissListener {
+                                        var fr = getFragmentManager()?.beginTransaction()
+                                        fr?.replace(R.id.fragment_container, infoFragment(), "APP")
+                                        fr?.commit()
+                                    }
+                                    val alertDialog = builder.create()
+                                    alertDialog.show()
+                                } else {
+                                    val builder: AlertDialog.Builder = AlertDialog.Builder(context!!)
+                                    builder.setTitle("Errore")
+                                    when(codErrore){
+                                        1->builder.setMessage("Errore di comunicazione col il database remoto.")
+                                        2->builder.setMessage("Non puoi partecipare alla tua stessa prenotazione.")
+                                        3->builder.setMessage("Il codice inserito non corrisponde a nessuna prenotazione.")
+                                    }
+
+                                    builder.setPositiveButton("Riprova",
+                                        object : DialogInterface.OnClickListener {
+                                            override fun onClick(dialog: DialogInterface?, which: Int) {
+                                            }
+                                        })
+                                    val alertDialog = builder.create()
+                                    alertDialog.show()
                                 }
-                                val alertDialog = builder.create()
-                                alertDialog.show()
-                            } else {
-                                val builder: AlertDialog.Builder = AlertDialog.Builder(context!!)
-                                builder.setTitle("Errore")
-                                builder.setMessage("Il codice inserito non corrisponde a nessuna prenotazione")
-                                builder.setPositiveButton("Riprova",
-                                    object : DialogInterface.OnClickListener {
-                                        override fun onClick(dialog: DialogInterface?, which: Int) {
-                                        }
-                                    })
-                                val alertDialog = builder.create()
-                                alertDialog.show()
                             }
-                        }
-                    })
+                        })
+                }else{
+                    val builder: AlertDialog.Builder = AlertDialog.Builder(requireContext())
+                    builder.setTitle("Errore")
+                    builder.setMessage("Assicurarsi che il dispositivo sia connesso alla rete.")
+
+                    builder.setPositiveButton("OK",
+                        object : DialogInterface.OnClickListener {
+                            override fun onClick(dialog: DialogInterface?, which: Int) {
+
+                            }
+                        })
+                    builder.setOnDismissListener {
+
+                    }
+
+                    val alertDialog = builder.create()
+                    alertDialog.show()
+                }
+
+
             }
         })
 

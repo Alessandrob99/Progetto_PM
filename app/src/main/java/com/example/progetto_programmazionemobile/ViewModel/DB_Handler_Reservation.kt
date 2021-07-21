@@ -2,11 +2,13 @@ package com.example.progetto_programmazionemobile.ViewModel
 
 import android.content.ContentValues
 import android.os.Build
+import android.provider.ContactsContract
 import android.util.Log
 import androidx.annotation.RequiresApi
 import com.example.progetto_programmazionemobile.Model.Campo
 import com.example.progetto_programmazionemobile.Model.Circolo
 import com.example.progetto_programmazionemobile.Model.Prenotazione
+import com.example.progetto_programmazionemobile.Model.Utente
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.type.DateTime
@@ -19,6 +21,7 @@ import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 import kotlin.time.hours
 import kotlin.time.minutes
 
@@ -41,6 +44,16 @@ class   DB_Handler_Reservation {
     //Interfaccia per la Callback della nuova prenotazione
     interface MyCallBackNewRes {
         fun onCallback(result: Boolean)
+    }
+
+    //Interfaccia per la Callback della nuova prenotazione
+    interface MyCallBackPartecipazione {
+        fun onCallback(result: Boolean, codErrore : Int)
+    }
+
+    //Interfaccia per la Callback dei partecipanti
+    interface MyCallBackPartecipanti {
+        fun onCallback(users: ArrayList<Utente>)
     }
 
     companion object {
@@ -280,8 +293,6 @@ class   DB_Handler_Reservation {
                                 myRef.collection("prenotazione").document(cod_giorno).collection("prenotazioni").document(codice).delete().addOnSuccessListener{
                                     myCallBackNewRes.onCallback(true)
                                 }
-
-
                             }.addOnFailureListener{
                                 myCallBackNewRes.onCallback(false)
                             }
@@ -307,38 +318,64 @@ class   DB_Handler_Reservation {
 
 
 
-        fun newPartecipation(email: String,codice : String,myCallBackNewRes: MyCallBackNewRes){
+        fun newPartecipation(email: String,codice : String,myCallBackPartecipation : MyCallBackPartecipazione){
             val decypheredCod = decipher(codice,15)
             try{
                 val splitStr = decypheredCod.split("&")
                 val cod_giorno = splitStr[0]+"-"+splitStr[1]+"-"+splitStr[2]
+
                 myRef.collection("prenotazione").document(cod_giorno).collection("prenotazioni").document(codice).get().addOnSuccessListener{
-                    if(it!=null){
+                    if(it.data!=null){
                         //Il codice esiste
+                        val prenotatore = it.data!!.get("prenotatore") as DocumentReference
+                        val prenotatoreEmail =  prenotatore.id
+                        if(prenotatoreEmail != Auth_Handler.CURRENT_USER!!.email){
+                            val docData = hashMapOf(
+                                "oraInizio" to it.data!!.get("oraInizio"),
+                                "oraFine" to it.data!!.get("oraFine"),
+                                "prenotatore" to it.data!!.get("prenotatore")
+                            )
+                            val partecipatoreData = hashMapOf(
+                                "nome" to Auth_Handler.CURRENT_USER!!.nome,
+                                "cognome" to Auth_Handler.CURRENT_USER!!.cognome,
+                            )
 
-                        val docData = hashMapOf(
-                            "oraInizio" to it.data!!.get("oraInizio"),
-                            "oraFine" to it.data!!.get("oraFine"),
-                            "prenotatore" to it.data!!.get("prenotatore")
-                        )
+                            myRef.collection("users").document(email).collection("prenotazioni").document(codice).set(docData).addOnSuccessListener{
+                                myRef.collection("prenotazione").document(cod_giorno).collection("prenotazioni").document(codice).collection("partecipanti").document(Auth_Handler.CURRENT_USER!!.email).set(partecipatoreData)
 
-                        myRef.collection("users").document(email).collection("prenotazioni").document(codice).set(docData).addOnSuccessListener{
-                            myRef.collection("prenotazione").document(cod_giorno).collection("prenotazioni").document(codice).collection("partecipanti").document(Auth_Handler.CURRENT_USER!!.email).set("email" to Auth_Handler.CURRENT_USER!!.email)
+                                myCallBackPartecipation.onCallback(true,0)
+                            }
 
-                            myCallBackNewRes.onCallback(true)
+                        }else{
+                            myCallBackPartecipation.onCallback(false,2)
                         }
 
                     }else{
-                        myCallBackNewRes.onCallback(false)
+                        myCallBackPartecipation.onCallback(false,3)
                     }
                 }.addOnFailureListener{
-                    myCallBackNewRes.onCallback(false)
+                    myCallBackPartecipation.onCallback(false,1)
                 }
+
             }catch (e : Exception){
-                myCallBackNewRes.onCallback(false)
+                myCallBackPartecipation.onCallback(false,3)
             }
 
+        }
 
+
+        fun getPartecipanti(codice_prenotazione: String, myCallBack : MyCallBackPartecipanti){
+            var partecipanti = ArrayList<Utente>()
+            val codice_decodificato = decipher(codice_prenotazione,15)
+            val splitStr = codice_decodificato.split("&")
+            myRef.collection("prenotazione").document(splitStr[0]+"-"+splitStr[1]+"-"+splitStr[2]).collection("prenotazioni").document(codice_prenotazione).collection("partecipanti").get().addOnSuccessListener{
+                val data = it.documents
+                for(record in data){
+                    partecipanti.add(Utente(record.data!!.get("nome") as String,
+                        record.data!!.get("cognome") as String,record.id,null,null))
+                }
+                myCallBack.onCallback(partecipanti)
+            }
         }
 
 

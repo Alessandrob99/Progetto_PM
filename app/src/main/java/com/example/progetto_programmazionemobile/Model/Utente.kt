@@ -16,13 +16,13 @@ class Utente(
     surname: String,
     email: String,
     telefono: String?,
-    password: String
+    password: String?
 ) : Serializable {
 
     var nome: String = name
     var cognome: String = surname
     var email: String = email
     var telefono: String? = telefono
-    var password: String = password
+    var password: String? = password
 }
 
