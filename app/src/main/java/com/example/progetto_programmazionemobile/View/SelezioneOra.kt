@@ -6,8 +6,10 @@ import android.content.*
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.text.format.DateUtils
 import android.view.View
 import android.widget.Button
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -29,13 +31,9 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
     lateinit var oraFineStr: String
     lateinit var btnOrari: MutableMap<String, Button>
     var prenotazioni = ArrayList<Prenotazione>()
+    var TimestampGiorno = 0L
 
-    //Da leggere
-
-
-
-
-
+    @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("WrongViewCast")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +42,9 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
         val circolo = intent.getLongExtra("club", 0L)
         setContentView(R.layout.activity_selezione_ora)
 
+        val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm", Locale.ITALY)
+        val LocalDateTimeGiorno = LocalDateTime.parse(giorno + " 00:00", formatter)
+        TimestampGiorno = LocalDateTimeGiorno.atOffset(ZoneOffset.ofHours(2)).toInstant().toEpochMilli()
 
         val broadcastReceiver1: BroadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(arg0: Context?, intent: Intent) {
@@ -203,9 +204,13 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
                                                                         dialog: DialogInterface?,
                                                                         which: Int
                                                                     ) {
-                                                                        val broadcastIntent = Intent()
-                                                                        broadcastIntent.action = "finish_activity"
-                                                                        sendBroadcast(broadcastIntent)
+                                                                        val broadcastIntent =
+                                                                            Intent()
+                                                                        broadcastIntent.action =
+                                                                            "finish_activity"
+                                                                        sendBroadcast(
+                                                                            broadcastIntent
+                                                                        )
                                                                         /*val intent = Intent(
                                                                             this@SelezioneOra,
                                                                             HomePage_Activity::class.java
@@ -389,6 +394,7 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
             circolo,
             object : DB_Handler_Reservation.MyCallbackReservations {
                 override fun onCallback(reservations: ArrayList<Prenotazione>?) {
+
                     btnOrari.get("6:30")!!.isEnabled = true
                     btnOrari.get("7:00")!!.isEnabled = true
                     btnOrari.get("7:30")!!.isEnabled = true
@@ -462,6 +468,36 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
                     btnOrari.get("23:00")!!.setBackgroundColor(Color.BLUE)
                     btnOrari.get("23:30")!!.setBackgroundColor(Color.BLUE)
                     btnOrari.get("00:00")!!.setBackgroundColor(Color.GRAY)
+
+                    if (DateUtils.isToday(TimestampGiorno)) {
+
+                        val DataOggi = Date(System.currentTimeMillis())
+                        val ora = DataOggi.hours
+                        var oraInc = 6
+                        var minutiInc = "30"
+                        while (oraInc != ora) {
+                            btnOrari.get(oraInc.toString()+":"+minutiInc)!!.setBackgroundColor(Color.GRAY)
+                            btnOrari.get(oraInc.toString()+":"+minutiInc)!!.isEnabled = false
+                            if (minutiInc == "30") {
+                                if (oraInc == 23) {
+                                    minutiInc = "59"
+                                } else {
+                                    minutiInc = "00"
+                                    oraInc += 1
+                                }
+                            } else {
+                                minutiInc = "30"
+                            }
+                            btnOrari.get(ora.toString()+":00")!!.setBackgroundColor(Color.GRAY)
+                            btnOrari.get(oraInc.toString()+":00")!!.isEnabled = false
+                            if(DataOggi.minutes>30){
+                                btnOrari.get(ora.toString()+":30")!!.setBackgroundColor(Color.GRAY)
+                                btnOrari.get(oraInc.toString()+":30")!!.isEnabled = false
+                            }
+                        }
+
+                    }
+
 
                     //Oscuro le prenotazioni già effettuate (se ci sono)
                     if (reservations != null) {
@@ -550,8 +586,8 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
         //Settiamo il comportamento sugli onClick
 
 
-
     }
+
     @SuppressLint("ResourceAsColor")
     fun firstClick(btntId: String) {
         oraInizioStr = btntId
@@ -568,12 +604,12 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
             btnOrari.get(ora[0] + ":" + ora[1])!!.setBackgroundColor(Color.GRAY)
             //aggiungo mezzo'ora
             if (ora[1] == "30") {
-                if(ora[0]=="23"){
+                if (ora[0] == "23") {
                     ora[1] = "59"
-                }else{
+                } else {
                     ora[1] = "00"
                     var app = ora[0].toInt()
-                    app+=1
+                    app += 1
                     ora[0] = app.toString()
                 }
 
@@ -582,30 +618,35 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
             }
         }
         //Libero i tasti corrispondendti agli inizi delle prenotazione per permettere di usarli come fine della nuova prenotazione
-        var oraIn : String
-        for(prenotazione in prenotazioni){
+        var oraIn: String
+        for (prenotazione in prenotazioni) {
             val cal: Calendar = Calendar.getInstance()
             cal.time = prenotazione.oraInizio
-            var minPren =""
-            if(cal.get(Calendar.MINUTE)==0){
-                minPren ="00"
-            }else{
-                minPren ="30"
+            var minPren = ""
+            if (cal.get(Calendar.MINUTE) == 0) {
+                minPren = "00"
+            } else {
+                minPren = "30"
             }
 
             var splitOraInizio = oraInizioStr.split(":")
 
-            if(cal.get(Calendar.HOUR_OF_DAY)>splitOraInizio[0].toInt()){
-                btnOrari.get(cal.get(Calendar.HOUR_OF_DAY).toString() + ":" + minPren)!!.isEnabled = true
-                btnOrari.get(cal.get(Calendar.HOUR_OF_DAY).toString() + ":" + minPren)!!.setBackgroundColor(
-                    Color.BLUE
-                )
-            }else{
-                if(cal.get(Calendar.HOUR_OF_DAY)==splitOraInizio[0].toInt() && minPren=="30" && splitOraInizio[1].toString()=="00"){
-                    btnOrari.get(cal.get(Calendar.HOUR_OF_DAY).toString() + ":" + minPren)!!.isEnabled = true
-                    btnOrari.get(cal.get(Calendar.HOUR_OF_DAY).toString() + ":" + minPren)!!.setBackgroundColor(
+            if (cal.get(Calendar.HOUR_OF_DAY) > splitOraInizio[0].toInt()) {
+                btnOrari.get(cal.get(Calendar.HOUR_OF_DAY).toString() + ":" + minPren)!!.isEnabled =
+                    true
+                btnOrari.get(cal.get(Calendar.HOUR_OF_DAY).toString() + ":" + minPren)!!
+                    .setBackgroundColor(
                         Color.BLUE
                     )
+            } else {
+                if (cal.get(Calendar.HOUR_OF_DAY) == splitOraInizio[0].toInt() && minPren == "30" && splitOraInizio[1].toString() == "00") {
+                    btnOrari.get(
+                        cal.get(Calendar.HOUR_OF_DAY).toString() + ":" + minPren
+                    )!!.isEnabled = true
+                    btnOrari.get(cal.get(Calendar.HOUR_OF_DAY).toString() + ":" + minPren)!!
+                        .setBackgroundColor(
+                            Color.BLUE
+                        )
                 }
             }
         }
@@ -616,11 +657,11 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun secondClick(btntId: String) {
-        if(btntId=="00:00"){
+        if (btntId == "00:00") {
             oraFineStr = "23:59"
             btnOrari.get("00:00")!!.setBackgroundColor(Color.CYAN)
             btnOrari.get("00:00")!!.isEnabled = false
-        }else{
+        } else {
             oraFineStr = btntId
             btnOrari.get(btntId)!!.setBackgroundColor(Color.CYAN)
             btnOrari.get(btntId)!!.isEnabled = false
@@ -628,28 +669,28 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
 
         //Coloro di ciano tutti i bottoni che rappresentano la fascia oraria indicata
         var splitOraInizio = oraInizioStr.split(":")
-        var oraInizioInt : Int
+        var oraInizioInt: Int
         var oraInizio = splitOraInizio[0]
         var minInizio = splitOraInizio[1]
-        while(oraInizio+":"+minInizio != oraFineStr){
-            if(oraInizio=="23" && minInizio=="59"){
+        while (oraInizio + ":" + minInizio != oraFineStr) {
+            if (oraInizio == "23" && minInizio == "59") {
                 btnOrari.get("00:00")!!.isEnabled = false
 
-            }else{
+            } else {
                 btnOrari.get(oraInizio + ":" + minInizio)!!.isEnabled = false
                 btnOrari.get(oraInizio + ":" + minInizio)!!.setBackgroundColor(Color.CYAN)
                 //Aggiungo mezz'ora
-                if(minInizio=="30"){
-                    if(oraInizio=="23"){
+                if (minInizio == "30") {
+                    if (oraInizio == "23") {
                         minInizio = "59"
-                    }else{
+                    } else {
                         oraInizioInt = oraInizio.toInt()
-                        oraInizioInt+=1
+                        oraInizioInt += 1
                         oraInizio = oraInizioInt.toString()
-                        minInizio="00"
+                        minInizio = "00"
                     }
 
-                }else{
+                } else {
                     minInizio = "30"
                 }
             }
@@ -749,6 +790,33 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
         btnOrari.get("23:00")!!.isEnabled = true
         btnOrari.get("23:30")!!.isEnabled = true
         btnOrari.get("00:00")!!.isEnabled = false
+        if (DateUtils.isToday(TimestampGiorno)) {
+
+            val DataOggi = Date(System.currentTimeMillis())
+            val oraInt = DataOggi.hours
+            var oraInc = 6
+            var minutiInc = "30"
+            while (oraInc != oraInt) {
+                btnOrari.get(oraInc.toString()+":"+minutiInc)!!.setBackgroundColor(Color.GRAY)
+                btnOrari.get(oraInc.toString()+":"+minutiInc)!!.isEnabled = false
+                if (minutiInc == "30") {
+                    if (oraInc == 23) {
+                        minutiInc = "59"
+                    } else {
+                        minutiInc = "00"
+                        oraInc += 1
+                    }
+                } else {
+                    minutiInc = "30"
+                }
+                btnOrari.get(oraInt.toString()+":00")!!.setBackgroundColor(Color.GRAY)
+                btnOrari.get(oraInc.toString()+":00")!!.isEnabled = false
+                if(DataOggi.minutes>30){
+                    btnOrari.get(oraInt.toString()+":30")!!.setBackgroundColor(Color.GRAY)
+                    btnOrari.get(oraInc.toString()+":30")!!.isEnabled = false
+                }
+            }
+        }
         //------------------
         var minFine: String
         var oraFine: String
@@ -766,10 +834,10 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
             while (ora.toString() + ":" + min.toString() != oraFine + ":" + minFine) {
 
 
-                if(ora==23 && min == 59){
+                if (ora == 23 && min == 59) {
                     btn = btnOrari.get("00:00")!!
                     break
-                }else{
+                } else {
                     if (min == 0) {
                         btn = btnOrari.get(ora.toString() + ":00")!!
                     } else {
@@ -781,9 +849,9 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
 
                 //Aggiungo mezz'ora
                 if (min == 30) {
-                    if(ora==23){
+                    if (ora == 23) {
                         min = 59
-                    }else{
+                    } else {
                         min = 0
                         ora += 1
                     }
@@ -794,7 +862,6 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
             }
         }
     }
-
 
 
     override fun onClick(v: View?) {
