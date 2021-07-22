@@ -301,6 +301,6 @@ class Selezione_1 : AppCompatActivity() {
 @Parcelize
 class FutureDateValidator : CalendarConstraints.DateValidator {
     override fun isValid(date: Long): Boolean {
-        return date > System.currentTimeMillis()
+        return date > System.currentTimeMillis()-86400000
     }
 }
