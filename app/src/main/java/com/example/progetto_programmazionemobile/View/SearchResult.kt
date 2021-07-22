@@ -58,6 +58,7 @@ class MyAdapter(val users: ArrayList<Utente>, val context : Context) : RecyclerV
         val nomeViewRV = row.findViewById<TextView>(R.id.user_rv_view_cognome)
         val emailViewRV = row.findViewById<TextView>(R.id.user_rv_view_email)
         val profileImg = row.findViewById<CircleImageView>(R.id.profileImg)
+        val txtTitle = row.findViewById<TextView>(R.id.txtParetecipanti)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolderUser {
@@ -66,6 +67,7 @@ class MyAdapter(val users: ArrayList<Utente>, val context : Context) : RecyclerV
                     R.layout.user_rv_layout,
                     parent, false
                 )
+
                 return MyViewHolderUser(layout)
 
     }
