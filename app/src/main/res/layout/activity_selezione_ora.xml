@@ -1,34 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".View.SelezioneOra"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".View.SelezioneOra">
 
     <TextView
         android:id="@+id/textView8"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
         android:layout_gravity="center"
-        android:gravity="center"
-        android:textSize="20sp"
         android:layout_marginTop="20dp"
-        android:textAlignment="center"
-        android:textColor="#000000"
+        android:layout_weight="1"
         android:fontFamily="@font/open_sans_condensed_bold"
+        android:gravity="center"
+        android:text="SELEZIONARE ORARIO DI INIZIO"
+        android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:text="Selezionare orario di inizio"/>
+        android:textColor="#000000"
+        android:textSize="24sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
+        android:layout_weight="1"
         android:gravity="center"
-        android:layout_weight="1">
+        android:orientation="horizontal">
 
 
         <Button
@@ -37,37 +36,40 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="2dp"
-            android:text="6:30"
-            android:layout_weight="0.5"/>
+            android:layout_weight="0.5"
+            android:text="6:30" />
+
         <Button
             android:id="@+id/h11m00"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="2dp"
-            android:text="11:00"
-            android:layout_weight="0.5"/>
+            android:layout_weight="0.5"
+            android:text="11:00" />
+
         <Button
             android:id="@+id/h15m30"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="2dp"
-            android:text="15:30"
-            android:layout_weight="0.5"/>
+            android:layout_weight="0.5"
+            android:text="15:30" />
+
         <Button
             android:id="@+id/h20m00"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:text="20:00"
-            android:layout_weight="0.5"/>
+            android:layout_weight="0.5"
+            android:text="20:00" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:orientation="horizontal"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/h7m00"
@@ -75,81 +77,81 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="2dp"
-            android:text="7:00"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:text="7:00" />
 
         <Button
             android:id="@+id/h11m30"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="2dp"
-            android:text="11:30"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:text="11:30" />
 
         <Button
             android:id="@+id/h16m00"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="2dp"
-            android:text="16:00"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:text="16:00" />
 
         <Button
             android:id="@+id/h20m30"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:text="20:30"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:text="20:30" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:orientation="horizontal"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/h7m30"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="2dp"
             android:layout_marginStart="16dp"
-            android:text="7:30"
-            android:layout_weight="1"/>
+            android:layout_marginEnd="2dp"
+            android:layout_weight="1"
+            android:text="7:30" />
 
         <Button
             android:id="@+id/h12m00"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="2dp"
-            android:text="12:00"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:text="12:00" />
 
         <Button
             android:id="@+id/h16m30"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="2dp"
-            android:text="16:30"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:text="16:30" />
 
         <Button
             android:id="@+id/h21m00"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:text="21:00"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:text="21:00" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:orientation="horizontal"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/h8m00"
@@ -157,81 +159,81 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="2dp"
-            android:text="8:00"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:text="8:00" />
 
         <Button
             android:id="@+id/h12m30"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="2dp"
-            android:text="12:30"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:text="12:30" />
 
         <Button
             android:id="@+id/h17m00"
             android:layout_width="match_parent"
-            android:layout_marginEnd="2dp"
             android:layout_height="wrap_content"
-            android:text="17:00"
-            android:layout_weight="1"/>
+            android:layout_marginEnd="2dp"
+            android:layout_weight="1"
+            android:text="17:00" />
 
         <Button
             android:id="@+id/h21m30"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:text="21:30"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:text="21:30" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:orientation="horizontal"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/h8m30"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="2dp"
             android:layout_marginStart="16dp"
-            android:text="8:30"
-            android:layout_weight="1"/>
+            android:layout_marginEnd="2dp"
+            android:layout_weight="1"
+            android:text="8:30" />
 
         <Button
             android:id="@+id/h13m00"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="2dp"
-            android:text="13:00"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:text="13:00" />
 
         <Button
             android:id="@+id/h17m30"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="2dp"
-            android:text="17:30"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:text="17:30" />
 
         <Button
             android:id="@+id/h22m00"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:text="22:00"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:text="22:00" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:orientation="horizontal"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/h9m00"
@@ -239,40 +241,40 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="2dp"
-            android:text="9:00"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:text="9:00" />
 
         <Button
             android:id="@+id/h13m30"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="2dp"
-            android:text="13:30"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:text="13:30" />
 
         <Button
             android:id="@+id/h18m00"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="2dp"
-            android:text="18:00"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:text="18:00" />
 
         <Button
             android:id="@+id/h22m30"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:text="22:30"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:text="22:30" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:orientation="horizontal"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/h9m30"
@@ -280,144 +282,155 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="2dp"
-            android:text="9:30"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:text="9:30" />
 
         <Button
             android:id="@+id/h14m00"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="2dp"
-            android:text="14:00"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:text="14:00" />
 
         <Button
             android:id="@+id/h18m30"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="2dp"
-            android:text="18:30"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:text="18:30" />
 
         <Button
             android:id="@+id/h23m00"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:text="23:00"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:text="23:00" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:orientation="horizontal"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/h10m00"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="2dp"
             android:layout_marginStart="16dp"
-            android:text="10:00"
-            android:layout_weight="1"/>
+            android:layout_marginEnd="2dp"
+            android:layout_weight="1"
+            android:text="10:00" />
 
         <Button
             android:id="@+id/h14m30"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="2dp"
-            android:text="14:30"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:text="14:30" />
 
         <Button
             android:id="@+id/h19m00"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="2dp"
-            android:text="19:00"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:text="19:00" />
 
         <Button
             android:id="@+id/h23m30"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:text="23:30"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:text="23:30" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:orientation="horizontal"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/h10m30"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="2dp"
             android:layout_marginStart="16dp"
-            android:text="10:30"
-            android:layout_weight="1"/>
+            android:layout_marginEnd="2dp"
+            android:layout_weight="1"
+            android:text="10:30" />
 
         <Button
             android:id="@+id/h15m00"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="2dp"
-            android:text="15:00"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:text="15:00" />
 
         <Button
             android:id="@+id/h19m30"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="2dp"
-            android:text="19:30"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:text="19:30" />
 
         <Button
             android:id="@+id/h24m00"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:text="24:00"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:text="24:00" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="horizontal"
         android:layout_gravity="center"
-        android:gravity="center">
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="horizontal">
+
         <Space
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.8"/>
+            android:layout_weight="0.8" />
+
         <Button
             android:id="@+id/Annulla"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="2dp"
-            android:text="Annulla"
-            android:layout_weight="0.5"/>
+            android:layout_marginEnd="16dp"
+            android:textSize="15dp"
+            android:background="@drawable/btn_elimina"
+            android:text="Cancella"
+            android:textColor="@color/black"
+            app:backgroundTint="@null" />
+
         <Button
             android:id="@+id/ConfermaOrario"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="30dp"
+            android:textSize="15dp"
+            android:background="@drawable/btn_custom"
             android:text="Conferma"
-            android:layout_weight="0.5"/>
+            android:textColor="@color/black"
+            app:backgroundTint="@null" />
+
         <Space
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.8"/>
+            android:layout_weight="0.8" />
 
     </LinearLayout>
 

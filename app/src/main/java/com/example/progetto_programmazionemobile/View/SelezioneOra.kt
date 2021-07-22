@@ -557,7 +557,7 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
         oraInizioStr = btntId
 
         flagClick = true
-        textView8.text = "Selezionare orario di fine"
+        textView8.text = "SELEZIONARE ORARIO DI FINE"
         btnOrari.get(btntId)!!.isEnabled = false
         btnOrari.get(btntId)!!.setBackgroundColor(Color.CYAN)
         btnOrari.get("00:00")!!.isEnabled = true
@@ -610,7 +610,7 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
             }
         }
         Annulla.isEnabled = true
-        Annulla.setBackgroundColor(Color.BLUE)
+        Annulla.background = getDrawable(R.drawable.btn_elimina)
     }
 
 
@@ -625,9 +625,6 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
             btnOrari.get(btntId)!!.setBackgroundColor(Color.CYAN)
             btnOrari.get(btntId)!!.isEnabled = false
         }
-
-
-
 
         //Coloro di ciano tutti i bottoni che rappresentano la fascia oraria indicata
         var splitOraInizio = oraInizioStr.split(":")
@@ -659,17 +656,23 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
 
         }
         ConfermaOrario.isEnabled = true
-        ConfermaOrario.setBackgroundColor(Color.GREEN)
+        ConfermaOrario.background = getDrawable(R.drawable.btn_custom)
     }
+
+
     fun resetta() {
         flagClick = false
         oraFineStr = ""
         oraInizioStr = ""
-        textView8.text = "Selezionare orario di inizio"
+        textView8.text = "SELEZIONARE ORARIO DI INIZIO"
+
+        Annulla.background = null
+
         Annulla.isEnabled = false
         Annulla.setBackgroundColor(Color.GRAY)
-        ConfermaOrario.isEnabled = false
+        ConfermaOrario.background = null
         ConfermaOrario.setBackgroundColor(Color.GRAY)
+        ConfermaOrario.isEnabled = false
 
         btnOrari.get("6:30")!!.setBackgroundColor(Color.BLUE)
         btnOrari.get("7:00")!!.setBackgroundColor(Color.BLUE)
