@@ -1,151 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#fff"
+    android:orientation="vertical"
     tools:context=".View.infoFragment">
 
 
-    <TextView
-        android:id="@+id/welcome"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:fontFamily="@font/open_sans_condensed_bold"
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center"
-        android:text="Benvenuto"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:textSize="40sp"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="15dp"
-        android:fontFamily="sans-serif-light"
-        android:gravity="center"
-        android:text="Sempre pronto all'allenamento!"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:textSize="18sp" />
-
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@drawable/shape_home"
-        android:layout_margin="15dp"
-        android:layout_weight="0.4">
+        android:background="@drawable/shape_home">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/welcome"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/open_sans_condensed_bold"
             android:gravity="center"
-            android:layout_weight="1">
+            android:text="Benvenuto"
+            android:textColor="@color/white"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textSize="40sp" />
 
-            <Space
-                android:layout_width="100dp"
-                android:layout_height="150dp"
-                android:layout_weight="10"/>
-
-            <Button
-                android:id="@+id/btnUniscitiPrenotazione"
-                android:layout_width="150dp"
-                android:layout_height="100dp"
-                android:textSize="12sp"
-                android:layout_weight="0"
-                app:backgroundTint="@null"
-                android:background="@drawable/btn_custom_home"
-                android:text="Unisciti Prenotazione"
-                android:textColor="#000" />
-            <Space
-                android:layout_width="100dp"
-                android:layout_height="30dp"
-                android:layout_weight="10"/>
-
-            <Button
-                android:id="@+id/btnPrenotazione"
-                android:layout_width="150dp"
-                android:layout_weight="0"
-                android:layout_height="100dp"
-                android:textSize="12sp"
-                android:background="@drawable/btn_custom_home"
-                android:text="Effettua Prenotazione"
-                android:textColor="#000"
-                app:backgroundTint="@null"/>
-
-            <Space
-                android:layout_width="100dp"
-                android:layout_height="150dp"
-                android:layout_weight="10"/>
-
-        </LinearLayout>
-
-        <LinearLayout
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="horizontal">
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="15dp"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center"
+            android:text="Sempre pronto all'allenamento!"
+            android:textColor="@color/white"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textSize="18sp" />
 
-            <Space
-                android:layout_width="100dp"
-                android:layout_height="150dp"
-                android:layout_weight="10"/>
+    </LinearLayout>
 
-            <Button
-                android:id="@+id/VisualizzaPrenotazione"
-                android:layout_width="150dp"
-                android:layout_height="100dp"
-                android:layout_weight="0"
-                android:textSize="12sp"
-                app:backgroundTint="@null"
-                android:background="@drawable/btn_custom_home"
-                android:text="Visualizza Prenotazione"
-                android:textColor="#000" />
 
-            <Space
-                android:layout_width="100dp"
-                android:layout_height="150dp"
-                android:layout_weight="10"/>
 
-            <Button
-                android:id="@+id/InfoApplicazione"
-                android:tag="APP"
-                android:layout_width="150dp"
-                android:layout_weight="0"
-                android:textSize="12sp"
-                android:layout_height="100dp"
-                android:background="@drawable/btn_custom_home"
-                android:text="Info Applicazione"
-                android:textColor="#000"
-                app:backgroundTint="@null"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="15dp"
+        android:layout_weight="0.5"
+        android:gravity="center"
+        android:orientation="vertical">
 
-            <Space
-                android:layout_width="100dp"
-                android:layout_height="150dp"
-                android:layout_weight="10"/>
-        </LinearLayout>
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"/>
+
+        <Button
+            android:id="@+id/btnPrenotazione"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="@drawable/btn_custom_home"
+            android:text="Effettua Prenotazione"
+            android:textColor="#000"
+            android:textSize="18sp"
+            app:backgroundTint="@null"
+            android:layout_weight="0.5"/>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"/>
+
+
+        <Button
+            android:id="@+id/VisualizzaPrenotazione"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="@drawable/btn_custom_home"
+            android:text="Visualizza Prenotazione"
+            android:textColor="#000"
+            android:textSize="18sp"
+            app:backgroundTint="@null"
+            android:layout_weight="0.5"/>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"/>
+
+        <Button
+            android:id="@+id/btnUniscitiPrenotazione"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="@drawable/btn_custom_home"
+            android:text="Unisciti Prenotazione"
+            android:textColor="#000"
+            android:textSize="18sp"
+            app:backgroundTint="@null"
+            android:layout_weight="0.5"/>
+
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_weight="1">
-        <Space
-            android:layout_width="100dp"
-            android:layout_height="150dp"
-            android:layout_weight="10"/>
-    </LinearLayout>
+        android:layout_weight="1.5"
+        android:orientation="vertical">
 
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
 
 
 </LinearLayout>
