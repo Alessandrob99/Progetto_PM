@@ -1,18 +1,13 @@
-package com.example.progetto_programmazionemobile.ViewModel
+    package com.example.progetto_programmazionemobile.ViewModel
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.widget.Toast
 import com.example.progetto_programmazionemobile.Model.Utente
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import java.sql.Timestamp
-import java.util.*
-import kotlin.collections.ArrayList
 
 
-
-class Auth_Handler  {
+    class Auth_Handler  {
 
 
     companion object {

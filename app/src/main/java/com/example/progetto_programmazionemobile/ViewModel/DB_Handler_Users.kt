@@ -16,10 +16,7 @@ import kotlin.collections.ArrayList
 
 class DB_Handler_Users {
     val myRef = FirebaseFirestore.getInstance()
-
-
     //CALLBACK FUNCTION PER IL RETURN DEGLI UTENTI RICERCATI
-
     interface MyCallbackFoundUser {
         fun onCallback(returnUser: Utente)
     }
@@ -30,13 +27,6 @@ class DB_Handler_Users {
     interface MyCallbackReservations {
         fun onCallback(reservations: ArrayList<Prenotazione>?)
     }
-
-
-
-
-
-
-
     companion object {
 
         //---RICERCA UTENTI per nome -----------------------------------
@@ -175,10 +165,7 @@ class DB_Handler_Users {
                 var firebaseuser = Firebase.auth.currentUser
                 if (firebaseuser != null) {
                     firebaseuser.updatePassword(password)
-                } else {
-                    // No user is signed in
                 }
-
 
 
             }
