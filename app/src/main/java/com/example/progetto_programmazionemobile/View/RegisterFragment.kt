@@ -24,11 +24,7 @@ import java.util.*
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [RegisterFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+
 class RegisterFragment : Fragment(){
     // TODO: Rename and change types of parameters
     private var param1: String? = null
@@ -42,25 +38,23 @@ class RegisterFragment : Fragment(){
         }
     }
 
+
+    /**
+     * Fragment per la registrazione dell'utente
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val v : View =  inflater.inflate(R.layout.fragment_register, container, false)
 
-
-
-
-        // Inflate the layout for this fragment
         val goToHomePage = Intent(v.context,HomePage_Activity::class.java)
-
         val nomeText = v.findViewById<EditText>(R.id.nomeInputReg)
         val cognomeText = v.findViewById<EditText>(R.id.cognomeInputReg)
         val passwordText = v.findViewById<EditText>(R.id.passwordInputReg)
         val confermaPassword = v.findViewById<EditText>(R.id.confermaPassword)
         val emailText = v.findViewById<EditText>(R.id.emailInputReg)
         val telefonoText = v.findViewById<EditText>(R.id.telefonoInputReg)
-
         val confermabtn : Button = v.findViewById(R.id.confermaReg)
 
 
@@ -68,11 +62,14 @@ class RegisterFragment : Fragment(){
             override fun onClick(v: View?) {
 
                 val progress : ProgressDialog = ProgressDialog(context)
+                //Rimuove gli spazi avanti e dietro
                 val emailSafe = emailText.text.replace("\\s".toRegex(), "")
-                //Metodo che controlla la validita delle credenziali e la password
 
 
-                //-------
+                /**
+                 * Controlla la validità delle credenziali
+                 */
+
                 if (confermaPassword.text.toString() != passwordText.text.toString()) {
                     Toast.makeText(context, "Le password non coincidono", Toast.LENGTH_SHORT).show()
                 } else {
@@ -91,10 +88,8 @@ class RegisterFragment : Fragment(){
                                 ).show()
                             } else {
 
-                                if (!android.util.Patterns.EMAIL_ADDRESS.matcher(emailSafe.toString())
-                                        .matches()
-                                ) {
-
+                                if (!android.util.Patterns.EMAIL_ADDRESS.matcher(emailSafe.toString()).matches())
+                                {
                                     Toast.makeText(
                                         context,
                                         "Inserire una mail valida",
@@ -103,13 +98,14 @@ class RegisterFragment : Fragment(){
 
 
                                 } else {
-                                    //-----------------------Conferma mail da implementare-------------------------//
                                     //Disabilito il pulsante di richiesta registrazione
                                     progress.setTitle("Registrazione in corso...")
                                     progress.show()
                                     confermabtn.isEnabled = false
 
-                                    //Controlli per credenziali già esistenti
+                                    /**
+                                     * Controllo se le credenziali già esistono
+                                     */
                                     Auth_Handler.FireBaseRegistration(
                                         emailSafe,
                                         passwordText.text.toString(),
