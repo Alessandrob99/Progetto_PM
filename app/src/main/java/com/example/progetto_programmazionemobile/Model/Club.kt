@@ -4,7 +4,7 @@ import android.location.Location
 import com.example.progetto_programmazionemobile.ViewModel.DB_Handler_Clubs
 import java.io.Serializable
 
-class Circolo(
+class Club(
     id: Long,
     name: String,
     email: String,
@@ -24,14 +24,14 @@ class Circolo(
 
     //CallBack che rimanda i risultati filtrati all'activity Selezione_2
     interface MyCallbackClubs {
-        fun onCallback(returnedClubs: ArrayList<Circolo>?, returnedCourts : ArrayList<Campo>?)
+        fun onCallback(returnedClubs: ArrayList<Club>?, returnedCourts : ArrayList<Court>?)
     }
 
     companion object {
 
 
         fun filterClubs(
-            campiPerSportDaFiltrare: ArrayList<Campo>,
+            campiPerSportDaFiltrare: ArrayList<Court>,
             myLoc: Location,
             range: Float?,
             riscaldamento: Boolean,
@@ -43,10 +43,10 @@ class Circolo(
         ) {
 
             var clubs =
-                ArrayList<Circolo>()   // Lo andiamo a riempire man mano che scorriamo i filtri
+                ArrayList<Club>()   // Lo andiamo a riempire man mano che scorriamo i filtri
 
             var campiPerSportFiltrati =
-                ArrayList<Campo>()    // Lista dei campi SOPRAVVISSUTI al filtraggio
+                ArrayList<Court>()    // Lista dei campi SOPRAVVISSUTI al filtraggio
             for (campo in campiPerSportDaFiltrare) {
                 campiPerSportFiltrati.add(campo)
             }
@@ -54,7 +54,7 @@ class Circolo(
             //Controllo sulla distanza massima (Per primo cosi evitiamo di fare controlli inutili)
             if (range != null) {
                 DB_Handler_Clubs.getAllClubsInRange(object : DB_Handler_Clubs.MyCallbackClubs {
-                    override fun onCallback(returnedClubs: ArrayList<Circolo>?) {
+                    override fun onCallback(returnedClubs: ArrayList<Club>?) {
                         if (returnedClubs != null) {
                             //Per ogni campo vedo se si trova in uno dei circoli nel range
                             var clubsIDs = ArrayList<String>()
@@ -129,7 +129,7 @@ class Circolo(
                 }, myLoc, range)
             } else {
                 DB_Handler_Clubs.getAllClubs(object : DB_Handler_Clubs.MyCallbackClubs {
-                    override fun onCallback(returnedClubs: ArrayList<Circolo>?) {
+                    override fun onCallback(returnedClubs: ArrayList<Club>?) {
                         if (returnedClubs != null) {
                             //Per ogni campo vedo se si trova in uno dei circoli nel range
                             var clubsIDs = ArrayList<String>()

@@ -6,13 +6,11 @@ import android.content.Intent
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
-import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.core.location.LocationManagerCompat
-import com.example.progetto_programmazionemobile.Model.Campo
+import com.example.progetto_programmazionemobile.Model.Court
 import com.example.progetto_programmazionemobile.R
 import com.example.progetto_programmazionemobile.ViewModel.DB_Handler_Courts
 import java.util.*
@@ -51,11 +49,11 @@ class LoaderLocation : AppCompatActivity()
                         /** Facciamo partire la funzione per la ricerca di campi per SPORT ( se lo sport è != null ) **/
                             DB_Handler_Courts.getCourtsBySport(sport.toString(),
                                 object : DB_Handler_Courts.MyCallbackCourts {
-                                    override fun onCallback(returnedCourts: ArrayList<Campo>?) {
+                                    override fun onCallback(returnedCourts: ArrayList<Court>?) {
                                         val intent =
                                             Intent(
                                                 this@LoaderLocation,
-                                                SelezioneMap::class.java
+                                                ClubSelection::class.java
                                             )
                                         intent.putExtra("giorno",giorno)
                                         intent.putExtra("latitude", latitude)
@@ -96,30 +94,19 @@ class LoaderLocation : AppCompatActivity()
                                     location!!.latitude,
                                     location!!.longitude
                                 )
-
-
                             }
                         }
-
                         override fun onStatusChanged(
                             provider: String?,
                             status: Int,
                             extras: Bundle?
                         ) {
-
                         }
-
                         override fun onProviderEnabled(provider: String?) {
-
                         }
-
                         override fun onProviderDisabled(provider: String?) {
-
                         }
-
                     })
-
-
             }else{
                 Log.d("CodeAndroidLocation", "hasGps")
                 locationManager.requestLocationUpdates(

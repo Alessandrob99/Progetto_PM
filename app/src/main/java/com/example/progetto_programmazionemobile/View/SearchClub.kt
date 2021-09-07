@@ -5,9 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
 import androidx.fragment.app.Fragment
-import com.example.progetto_programmazionemobile.Model.Circolo
+import com.example.progetto_programmazionemobile.Model.Club
 import com.example.progetto_programmazionemobile.R
 import com.example.progetto_programmazionemobile.ViewModel.DB_Handler_Clubs
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -19,7 +18,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 
 
-class RicercaCircoli : Fragment() , OnMapReadyCallback {
+class SearchClub : Fragment() , OnMapReadyCallback {
     lateinit var progress : ProgressDialog
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
@@ -38,7 +37,7 @@ class RicercaCircoli : Fragment() , OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
 
         DB_Handler_Clubs.getAllClubs(object : DB_Handler_Clubs.MyCallbackClubs{
-            override fun onCallback(returnedClubs: ArrayList<Circolo>?) {
+            override fun onCallback(returnedClubs: ArrayList<Club>?) {
                 if (returnedClubs != null) {
                     for (club in returnedClubs){
                         var marker = googleMap.addMarker(

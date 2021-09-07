@@ -2,17 +2,14 @@ package com.example.progetto_programmazionemobile.View
 
 import android.app.ProgressDialog
 import android.content.Context
-import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.DialogInterface
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import com.example.progetto_programmazionemobile.R
 import com.example.progetto_programmazionemobile.ViewModel.Auth_Handler
@@ -75,7 +72,7 @@ class Partecipa : Fragment() {
                                                 var fr = getFragmentManager()?.beginTransaction()
                                                 fr?.replace(
                                                     R.id.fragment_container,
-                                                    infoFragment(),
+                                                    InfoFragment(),
                                                     "APP"
                                                 )
                                                 fr?.commit()
@@ -84,7 +81,7 @@ class Partecipa : Fragment() {
                                         })
                                     builder.setOnDismissListener {
                                         var fr = getFragmentManager()?.beginTransaction()
-                                        fr?.replace(R.id.fragment_container, infoFragment(), "APP")
+                                        fr?.replace(R.id.fragment_container, InfoFragment(), "APP")
                                         fr?.commit()
                                     }
                                     val alertDialog = builder.create()

@@ -5,22 +5,16 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
-import android.view.*
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
-import com.example.progetto_programmazionemobile.Model.Campo
-import com.example.progetto_programmazionemobile.Model.Circolo
+import com.example.progetto_programmazionemobile.Model.Court
+import com.example.progetto_programmazionemobile.Model.Club
 import com.example.progetto_programmazionemobile.R
 import com.google.android.material.tabs.TabLayout
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_selezione_1.*
-import kotlinx.android.synthetic.main.rv_campi.*
-import org.w3c.dom.Text
 import java.util.*
 
 
@@ -32,8 +26,8 @@ class DetailsClubs:AppCompatActivity(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val club = intent.getSerializableExtra("club") as Circolo
-        val courts = intent.getSerializableExtra("courts") as ArrayList<Campo>
+        val club = intent.getSerializableExtra("club") as Club
+        val courts = intent.getSerializableExtra("courts") as ArrayList<Court>
         val nomeClub= intent.getStringExtra("titleClub")
         val giorno = intent.getStringExtra("giorno")
 

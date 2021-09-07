@@ -12,7 +12,7 @@
         android:roundIcon="@mipmap/app_icon"
         android:supportsRtl="true">
         <activity
-            android:name=".View.SelezioneOra"
+            android:name=".View.TimeSelection"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.MaterialComponents.Light.NoActionBar" />
         <activity
@@ -24,7 +24,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.MaterialComponents.Light.NoActionBar" />
         <activity
-            android:name=".View.SelezioneMap"
+            android:name=".View.ClubSelection"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.MaterialComponents.Light.NoActionBar" />
         <activity

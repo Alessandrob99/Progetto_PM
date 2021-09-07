@@ -1,7 +1,7 @@
 package com.example.progetto_programmazionemobile.ViewModel
 
 import android.location.Location
-import com.example.progetto_programmazionemobile.Model.Circolo
+import com.example.progetto_programmazionemobile.Model.Club
 import com.google.firebase.firestore.FirebaseFirestore
 
 class DB_Handler_Clubs {
@@ -9,11 +9,11 @@ class DB_Handler_Clubs {
 
     //Callback function per i circoli
     interface MyCallbackClubs{
-        fun onCallback(returnedClubs: ArrayList<Circolo>?)
+        fun onCallback(returnedClubs: ArrayList<Club>?)
     }
 
     interface MyCallbackClub{
-        fun onCallback(returnedClub : Circolo)
+        fun onCallback(returnedClub : Club)
     }
     companion object{
         val myRef = FirebaseFirestore.getInstance()
@@ -21,11 +21,11 @@ class DB_Handler_Clubs {
 
         //Query per ogni circolo
         fun getAllClubs(myCallBack : MyCallbackClubs){
-            var clubs : ArrayList<Circolo>? = ArrayList<Circolo>()
+            var clubs : ArrayList<Club>? = ArrayList<Club>()
             myRef.collection("clubs").get().addOnSuccessListener{ document->
                 val data = document.documents
                 for(record in data){
-                    clubs?.add(Circolo(
+                    clubs?.add(Club(
                         record.data?.get("id_circolo") as Long,
                         record.data?.get("nome").toString(),
                         record.data?.get("email").toString(),
@@ -42,7 +42,7 @@ class DB_Handler_Clubs {
 
         //Query per tutti i campi in un dato range
         fun getAllClubsInRange(myCallBack : MyCallbackClubs,centre : Location,radius : Float){
-            var clubs : ArrayList<Circolo>? = ArrayList<Circolo>()
+            var clubs : ArrayList<Club>? = ArrayList<Club>()
             var clubLocation = Location("")
             myRef.collection("clubs").get().addOnSuccessListener{ document->
                 val data = document.documents
@@ -50,7 +50,7 @@ class DB_Handler_Clubs {
                     clubLocation.latitude = record.getGeoPoint("posizione")!!.latitude
                     clubLocation.longitude = record.getGeoPoint("posizione")!!.longitude
                     if(clubLocation.distanceTo(centre)<(radius*1000)){
-                        clubs?.add(Circolo(
+                        clubs?.add(Club(
                             record.data?.get("id_circolo") as Long,
                             record.data?.get("nome").toString(),
                             record.data?.get("email").toString(),
@@ -69,7 +69,7 @@ class DB_Handler_Clubs {
         fun getClubByID(id : String,myCallBack: MyCallbackClub){
             myRef.collection("clubs").document(id).get().addOnSuccessListener{
                 if(it!=null){
-                    myCallBack.onCallback(Circolo(
+                    myCallBack.onCallback(Club(
                         it.data?.get("id_circolo") as Long,
                         it.data?.get("nome").toString(),
                         it.data?.get("email").toString(),
@@ -91,7 +91,7 @@ class DB_Handler_Clubs {
                 val data = document.documents
                 for(record in data){
                     if(record.getGeoPoint("posizione")!!.latitude == latitude && record.getGeoPoint("posizione")!!.longitude == longitude){
-                        myCallBack.onCallback(Circolo(
+                        myCallBack.onCallback(Club(
                             record.data?.get("id_circolo") as Long,
                             record.data?.get("nome").toString(),
                             record.data?.get("email").toString(),

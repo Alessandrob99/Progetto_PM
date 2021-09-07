@@ -12,8 +12,8 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.progetto_programmazionemobile.Model.Campo
-import com.example.progetto_programmazionemobile.Model.Circolo
+import com.example.progetto_programmazionemobile.Model.Court
+import com.example.progetto_programmazionemobile.Model.Club
 import com.example.progetto_programmazionemobile.R
 import kotlinx.android.synthetic.main.activity_selezione_1.*
 import kotlinx.android.synthetic.main.fragment_details_clubs__campi.*
@@ -41,9 +41,9 @@ class DetailsClubs_Campi : Fragment()  {
         val v = inflater.inflate(R.layout.fragment_details_clubs__campi, container, false)
 
         val bundle = activity?.intent?.extras
-        val courts = bundle!!.getSerializable("courts") as ArrayList<Campo>
+        val courts = bundle!!.getSerializable("courts") as ArrayList<Court>
         val giorno = bundle!!.getString("giorno") as String
-        val circolo = bundle!!.getSerializable("club") as Circolo
+        val circolo = bundle!!.getSerializable("club") as Club
 
         val recyclerView = v.findViewById<View>(R.id.recyclearCampi) as RecyclerView
         val viewAdapter = MyAdapterCourts(courts,giorno,circolo,context)
@@ -61,9 +61,9 @@ class DetailsClubs_Campi : Fragment()  {
 }
 
 class MyAdapterCourts(
-    val courts: ArrayList<Campo>,
+    val courts: ArrayList<Court>,
     val giorno: String,
-    val circolo: Circolo, val context: Context?) : RecyclerView.Adapter<MyAdapterCourts.MyViewHolderCourts>() {
+    val circolo: Club, val context: Context?) : RecyclerView.Adapter<MyAdapterCourts.MyViewHolderCourts>() {
 
 
     class MyViewHolderCourts(val row: View) : RecyclerView.ViewHolder(row) {
@@ -97,7 +97,7 @@ class MyAdapterCourts(
 
         holder.btnPrenota.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
-                val intent = Intent(context, SelezioneOra::class.java)
+                val intent = Intent(context, TimeSelection::class.java)
                 intent.putExtra("club", circolo.id)
                 intent.putExtra("giorno", giorno)
                 intent.putExtra("n_campo", holder.n_campoText.text)

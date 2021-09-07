@@ -9,11 +9,10 @@ import android.os.Bundle
 import android.text.format.DateUtils
 import android.view.View
 import android.widget.Button
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.example.progetto_programmazionemobile.Model.Prenotazione
+import com.example.progetto_programmazionemobile.Model.Reservation
 import com.example.progetto_programmazionemobile.R
 import com.example.progetto_programmazionemobile.ViewModel.Auth_Handler
 import com.example.progetto_programmazionemobile.ViewModel.DB_Handler_Reservation
@@ -25,12 +24,12 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class SelezioneOra : AppCompatActivity(), View.OnClickListener {
+class TimeSelection : AppCompatActivity(), View.OnClickListener {
     var flagClick = false
     lateinit var oraInizioStr: String
     lateinit var oraFineStr: String
     lateinit var btnOrari: MutableMap<String, Button>
-    var prenotazioni = ArrayList<Prenotazione>()
+    var prenotazioni = ArrayList<Reservation>()
     var TimestampGiorno = 0L
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -85,7 +84,7 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
                             if (result) {
                                 //Sono presenti sovrapposizioni
                                 val builder: AlertDialog.Builder =
-                                    AlertDialog.Builder(this@SelezioneOra)
+                                    AlertDialog.Builder(this@TimeSelection)
                                 builder.setTitle("Errore")
                                 builder.setMessage(
                                     "L'orario selezionato va in collisione con altre prenotazioni già presenti." +
@@ -104,7 +103,7 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
                                 resetta()
                             } else {
                                 val builder: AlertDialog.Builder =
-                                    AlertDialog.Builder(this@SelezioneOra)
+                                    AlertDialog.Builder(this@TimeSelection)
                                 builder.setTitle("Sei sicuro?")
                                 builder.setMessage(
                                     "Confermare la prenotazione? " + System.getProperty(
@@ -125,7 +124,7 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
                                         override fun onClick(dialog: DialogInterface?, which: Int) {
 
                                             val prog: ProgressDialog = ProgressDialog.show(
-                                                this@SelezioneOra,
+                                                this@TimeSelection,
                                                 "",
                                                 "Registrando la nuova prenotazione..."
                                             )
@@ -194,7 +193,7 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
                                                             //Mostra Avviso
                                                             prog.dismiss()
                                                             val builder: AlertDialog.Builder =
-                                                                AlertDialog.Builder(this@SelezioneOra)
+                                                                AlertDialog.Builder(this@TimeSelection)
                                                             builder.setTitle("Operazione conclusa")
                                                             builder.setMessage("Prenotazione registrata con successo")
                                                             builder.setPositiveButton("Ok",
@@ -221,7 +220,7 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
                                                                 })
                                                             builder.setOnDismissListener {
                                                                 val intent = Intent(
-                                                                    this@SelezioneOra,
+                                                                    this@TimeSelection,
                                                                     HomePage_Activity::class.java
                                                                 )
                                                                 startActivity(intent)
@@ -233,7 +232,7 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
                                                             //Mostra Avviso
                                                             prog.dismiss()
                                                             val builder: AlertDialog.Builder =
-                                                                AlertDialog.Builder(this@SelezioneOra)
+                                                                AlertDialog.Builder(this@TimeSelection)
                                                             builder.setTitle("Errore")
                                                             builder.setMessage("Qualcosa è andato storto...")
                                                             builder.setPositiveButton("Riprova",
@@ -247,7 +246,7 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
                                                                             context = applicationContext
                                                                         )
                                                                         val intent = Intent(
-                                                                            this@SelezioneOra,
+                                                                            this@TimeSelection,
                                                                             HomePage_Activity::class.java
                                                                         )
                                                                         startActivity(intent)
@@ -393,7 +392,7 @@ class SelezioneOra : AppCompatActivity(), View.OnClickListener {
             campo,
             circolo,
             object : DB_Handler_Reservation.MyCallbackReservations {
-                override fun onCallback(reservations: ArrayList<Prenotazione>?) {
+                override fun onCallback(reservations: ArrayList<Reservation>?) {
 
                     btnOrari.get("6:30")!!.isEnabled = true
                     btnOrari.get("7:00")!!.isEnabled = true

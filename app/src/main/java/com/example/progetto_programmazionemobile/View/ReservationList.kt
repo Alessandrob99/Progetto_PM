@@ -10,17 +10,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.content.ContextCompat.startActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.progetto_programmazionemobile.Model.Prenotazione
-import com.example.progetto_programmazionemobile.Model.Utente
+import com.example.progetto_programmazionemobile.Model.Reservation
+import com.example.progetto_programmazionemobile.Model.User
 import com.example.progetto_programmazionemobile.R
 import com.example.progetto_programmazionemobile.ViewModel.Auth_Handler
 import com.example.progetto_programmazionemobile.ViewModel.DB_Handler_Reservation
@@ -72,7 +69,7 @@ class LeMiePrenotazioni : Fragment() {
 
             DB_Handler_Users.getReservationList(Auth_Handler.CURRENT_USER!!.email,
                 object : DB_Handler_Users.MyCallbackReservations {
-                    override fun onCallback(reservations: ArrayList<Prenotazione>?) {
+                    override fun onCallback(reservations: ArrayList<Reservation>?) {
                         progress.dismiss()
                         if (reservations.isNullOrEmpty()) {
                             topText.text = "Nessuna prenotazione registrata"
@@ -133,7 +130,7 @@ class LeMiePrenotazioni : Fragment() {
 
 
 
-class MyAdapterReservations(val prenotazioni: ArrayList<Prenotazione>?, val context: Context) : RecyclerView.Adapter<MyAdapterReservations.MyViewHolderReservations>() {
+class MyAdapterReservations(val prenotazioni: ArrayList<Reservation>?, val context: Context) : RecyclerView.Adapter<MyAdapterReservations.MyViewHolderReservations>() {
 
     val conx = context
     val cal = Calendar.getInstance()
@@ -180,7 +177,7 @@ class MyAdapterReservations(val prenotazioni: ArrayList<Prenotazione>?, val cont
         holder.partecipaBtn.setOnClickListener(object : View.OnClickListener{
             override fun onClick(v: View?) {
                 DB_Handler_Reservation.getPartecipanti(prenotazioni!!.get(position).id,object : DB_Handler_Reservation.MyCallBackPartecipanti{
-                    override fun onCallback(users: ArrayList<Utente>) {
+                    override fun onCallback(users: ArrayList<User>) {
                         val intent = Intent(v?.context,SearchResult::class.java)
                         intent.putExtra("usersList", users)
                         startActivity(context,intent,null)

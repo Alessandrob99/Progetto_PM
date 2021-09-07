@@ -1,29 +1,18 @@
 package com.example.progetto_programmazionemobile.ViewModel
 
-import android.content.ContentValues
-import android.os.Build
-import android.provider.ContactsContract
-import android.util.Log
+    import android.os.Build
 import androidx.annotation.RequiresApi
-import com.example.progetto_programmazionemobile.Model.Campo
-import com.example.progetto_programmazionemobile.Model.Circolo
-import com.example.progetto_programmazionemobile.Model.Prenotazione
-import com.example.progetto_programmazionemobile.Model.Utente
+import com.example.progetto_programmazionemobile.Model.Club
+import com.example.progetto_programmazionemobile.Model.Reservation
+import com.example.progetto_programmazionemobile.Model.User
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.type.DateTime
-import java.lang.Exception
-import java.sql.Time
 import java.sql.Timestamp
-import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
-import kotlin.time.hours
-import kotlin.time.minutes
 
 class   DB_Handler_Reservation {
 
@@ -38,7 +27,7 @@ class   DB_Handler_Reservation {
 
     //Lega ogni prenotazione alla sua ora di inizio e ora di fine
     interface MyCallbackReservations {
-        fun onCallback(reservations: ArrayList<Prenotazione>?)
+        fun onCallback(reservations: ArrayList<Reservation>?)
     }
 
     //Interfaccia per la Callback della nuova prenotazione
@@ -53,7 +42,7 @@ class   DB_Handler_Reservation {
 
     //Interfaccia per la Callback dei partecipanti
     interface MyCallBackPartecipanti {
-        fun onCallback(users: ArrayList<Utente>)
+        fun onCallback(users: ArrayList<User>)
     }
 
     companion object {
@@ -131,7 +120,7 @@ class   DB_Handler_Reservation {
                             .document(circolo.toString() + "-" + campo.toString() + "-" + giorno)
                             .collection("prenotazioni").get().addOnSuccessListener { document ->
                                 val data = document.documents
-                                val reservations = ArrayList<Prenotazione>()
+                                val reservations = ArrayList<Reservation>()
                                 for (reservation in data) {
                                     var prenotatore: DocumentReference =
                                         reservation.data!!.get("prenotatore") as DocumentReference
@@ -146,7 +135,7 @@ class   DB_Handler_Reservation {
                                         timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000
                                     val dtFine = Date(milliseconds)
                                     reservations.add(
-                                        Prenotazione(
+                                        Reservation(
                                             reservation.id,
                                             prenotatore.id,
                                             dtInizio,
@@ -196,11 +185,6 @@ class   DB_Handler_Reservation {
                     if (it.result.exists()) {
                         //esistono prenotazioni per quel giorno
 
-                        val dummy : String = "dummyText"
-                        val dummyData = hashMapOf(
-                            "dummy" to dummy
-                        )
-
                         myRef.collection("prenotazione").document(
                             circolo.toString() + "-" + campo.toString() + "-"+ giorno)
                             .collection("prenotazioni").document(codice_prenotazione)
@@ -241,28 +225,28 @@ class   DB_Handler_Reservation {
         }
 
 
-        fun getReservationLayoutInfo(prenotazione: Prenotazione, myCallBack : MyCallBackInfo){
-            val cod = DB_Handler_Reservation.decipher(prenotazione.id,15)
+        fun getReservationLayoutInfo(reservation: Reservation, myCallBack : MyCallBackInfo){
+            val cod = DB_Handler_Reservation.decipher(reservation.id,15)
             val codSplit = cod.split("&")
             var oraInizioStr = ""
             var oraFineStr = ""
             DB_Handler_Clubs.getClubByID(codSplit[0].toString(),object : DB_Handler_Clubs.MyCallbackClub{
-                override fun onCallback(returnedClub: Circolo) {
+                override fun onCallback(returnedClub: Club) {
                     val nomeCircolo = returnedClub.nome
                     val cal = Calendar.getInstance()
-                    cal.time = prenotazione.oraInizio
+                    cal.time = reservation.oraInizio
                     if(cal.get(Calendar.MINUTE).toString().length==1){
                         oraInizioStr = cal.get(Calendar.HOUR_OF_DAY).toString()+":0"+cal.get(Calendar.MINUTE)
                     }else{
                         oraInizioStr = cal.get(Calendar.HOUR_OF_DAY).toString()+":"+cal.get(Calendar.MINUTE)
                     }
-                    cal.time = prenotazione.oraFine
+                    cal.time = reservation.oraFine
                     if(cal.get(Calendar.MINUTE).toString().length==1){
                         oraFineStr = cal.get(Calendar.HOUR_OF_DAY).toString()+":0"+cal.get(Calendar.MINUTE)
                     }else{
                         oraFineStr = cal.get(Calendar.HOUR_OF_DAY).toString()+":"+cal.get(Calendar.MINUTE)
                     }
-                    myCallBack.onCallBack(codSplit[1].toString(),nomeCircolo,oraInizioStr,oraFineStr,codSplit[2],prenotazione.id)
+                    myCallBack.onCallBack(codSplit[1].toString(),nomeCircolo,oraInizioStr,oraFineStr,codSplit[2],reservation.id)
                 }
 
             })
@@ -365,13 +349,13 @@ class   DB_Handler_Reservation {
 
 
         fun getPartecipanti(codice_prenotazione: String, myCallBack : MyCallBackPartecipanti){
-            var partecipanti = ArrayList<Utente>()
+            var partecipanti = ArrayList<User>()
             val codice_decodificato = decipher(codice_prenotazione,15)
             val splitStr = codice_decodificato.split("&")
             myRef.collection("prenotazione").document(splitStr[0]+"-"+splitStr[1]+"-"+splitStr[2]).collection("prenotazioni").document(codice_prenotazione).collection("partecipanti").get().addOnSuccessListener{
                 val data = it.documents
                 for(record in data){
-                    partecipanti.add(Utente(record.data!!.get("nome") as String,
+                    partecipanti.add(User(record.data!!.get("nome") as String,
                         record.data!!.get("cognome") as String,record.id,null,null))
                 }
                 myCallBack.onCallback(partecipanti)

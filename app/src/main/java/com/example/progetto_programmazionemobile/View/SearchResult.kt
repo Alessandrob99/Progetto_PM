@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
-import android.view.ContextMenu
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,12 +13,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.progetto_programmazionemobile.Model.Utente
+import com.example.progetto_programmazionemobile.Model.User
 import com.example.progetto_programmazionemobile.R
-import com.example.progetto_programmazionemobile.ViewModel.Auth_Handler
 import com.google.firebase.storage.FirebaseStorage
 import de.hdodenhof.circleimageview.CircleImageView
-import kotlinx.android.synthetic.main.fragment_home_profile_fragment.*
 
 class SearchResult : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,7 +38,7 @@ class SearchResult : AppCompatActivity() {
 
 
         val intent = getIntent()
-        val users : ArrayList<Utente> = intent.getSerializableExtra("usersList") as ArrayList<Utente>
+        val users : ArrayList<User> = intent.getSerializableExtra("usersList") as ArrayList<User>
 
         val rv: RecyclerView = findViewById(R.id.rv1)
         rv.layoutManager = LinearLayoutManager(this)
@@ -50,7 +47,7 @@ class SearchResult : AppCompatActivity() {
 }
 
 
-class MyAdapter(val users: ArrayList<Utente>, val context : Context) : RecyclerView.Adapter<MyAdapter.MyViewHolderUser>() {
+class MyAdapter(val users: ArrayList<User>, val context : Context) : RecyclerView.Adapter<MyAdapter.MyViewHolderUser>() {
 
 
     class MyViewHolderUser(val row: View) : RecyclerView.ViewHolder(row) {

@@ -11,11 +11,11 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.annotation.Nullable
-import com.example.progetto_programmazionemobile.Model.Utente
+import com.example.progetto_programmazionemobile.Model.User
 import com.example.progetto_programmazionemobile.R
 import com.example.progetto_programmazionemobile.ViewModel.DB_Handler_Users
 
-class RicercaGiocatori : Fragment() {
+class SearchUsers : Fragment() {
 
     @Nullable
     override fun onCreateView(
@@ -40,19 +40,19 @@ class RicercaGiocatori : Fragment() {
                     val nome = queryUserNome.text.toString().replace(" ","")
 
                     if((TextUtils.isEmpty(queryUserNome.text))&&(TextUtils.isEmpty(queryUserCognome.text))){
-                        Toast.makeText(this@RicercaGiocatori.context, "Inserire Qualcosa", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@SearchUsers.context, "Inserire Qualcosa", Toast.LENGTH_SHORT).show()
                     }else{
 
                         //NEANCHE UN CAMPO MODIFICATO
                         if(((nome=="")&&((cognome=="")))){
-                            Toast.makeText(this@RicercaGiocatori.context, "Inserire Qualcosa", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@SearchUsers.context, "Inserire Qualcosa", Toast.LENGTH_SHORT).show()
                         }
                         //NOME INSERITO - COGNOME NO
                         if(((nome!="")&&((cognome=="")))){
                             DB_Handler_Users.SearchUsersByName(nome, object : DB_Handler_Users.MyCallbackFoundUsers {
-                                override fun onCallback(returnUser: ArrayList<Utente>) {
+                                override fun onCallback(returnUser: ArrayList<User>) {
                                     //INTENT TO ACTIVITY FOR RESULTS
-                                    val intent = Intent(this@RicercaGiocatori.context, SearchResult::class.java)
+                                    val intent = Intent(this@SearchUsers.context, SearchResult::class.java)
                                     intent.putExtra("usersList", returnUser)
                                     startActivity(intent)
                                 }
@@ -61,9 +61,9 @@ class RicercaGiocatori : Fragment() {
                         //NOME NO - COGNOME INSERITO
                         if(((nome=="")&&((cognome!="")))){
                             DB_Handler_Users.SearchUsersBySurname(cognome, object : DB_Handler_Users.MyCallbackFoundUsers {
-                                override fun onCallback(returnUser: ArrayList<Utente>) {
+                                override fun onCallback(returnUser: ArrayList<User>) {
                                     //INTENT TO ACTIVITY FOR RESULTS
-                                    val intent = Intent(this@RicercaGiocatori.context, SearchResult::class.java)
+                                    val intent = Intent(this@SearchUsers.context, SearchResult::class.java)
                                     intent.putExtra("usersList", returnUser)
                                     startActivity(intent)
                                 }
@@ -72,9 +72,9 @@ class RicercaGiocatori : Fragment() {
                         //NOME INSERITO - COGNOME INSERITO
                         if(((nome!="")&&((cognome!="")))){
                             DB_Handler_Users.SearchUsersByNameANDSurname(nome,cognome, object : DB_Handler_Users.MyCallbackFoundUsers {
-                                override fun onCallback(returnUser: ArrayList<Utente>) {
+                                override fun onCallback(returnUser: ArrayList<User>) {
                                     //INTENT TO ACTIVITY FOR RESULTS
-                                    val intent = Intent(this@RicercaGiocatori.context, SearchResult::class.java)
+                                    val intent = Intent(this@SearchUsers.context, SearchResult::class.java)
                                     intent.putExtra("usersList", returnUser)
                                     startActivity(intent)
                                 }

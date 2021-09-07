@@ -2,10 +2,9 @@ package com.example.progetto_programmazionemobile.ViewModel
 
 import android.content.ContentValues.TAG
 import android.util.Log
-import com.example.progetto_programmazionemobile.Model.Prenotazione
-import com.example.progetto_programmazionemobile.Model.Utente
+import com.example.progetto_programmazionemobile.Model.Reservation
+import com.example.progetto_programmazionemobile.Model.User
 import com.example.progetto_programmazionemobile.ViewModel.Auth_Handler.Companion.myRef
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
@@ -18,28 +17,28 @@ class DB_Handler_Users {
     val myRef = FirebaseFirestore.getInstance()
     //CALLBACK FUNCTION PER IL RETURN DEGLI UTENTI RICERCATI
     interface MyCallbackFoundUser {
-        fun onCallback(returnUser: Utente)
+        fun onCallback(returnUser: User)
     }
     interface MyCallbackFoundUsers {
-        fun onCallback(returnUsers: ArrayList<Utente>)
+        fun onCallback(returnUsers: ArrayList<User>)
     }
 
     interface MyCallbackReservations {
-        fun onCallback(reservations: ArrayList<Prenotazione>?)
+        fun onCallback(reservations: ArrayList<Reservation>?)
     }
     companion object {
 
         //---RICERCA UTENTI per nome -----------------------------------
 
         fun SearchUsersByName(query: String, myCallBack: MyCallbackFoundUsers) {
-            var users: ArrayList<Utente> = ArrayList<Utente>()
-            var user: Utente
+            var users: ArrayList<User> = ArrayList<User>()
+            var user: User
 
             myRef.collection("users").whereEqualTo("nome", query.toLowerCase()).get()
                 .addOnSuccessListener { document ->
                     val data = document.documents
                     for (d in data) {
-                        user = Utente(
+                        user = User(
                             d.data?.get("nome").toString(),
                             d.data?.get("cognome").toString(),
                             d.data?.get("email").toString(),
@@ -61,15 +60,15 @@ class DB_Handler_Users {
 
 
         fun SearchUsersBySurname(query: String, myCallBack: MyCallbackFoundUsers) {
-            var users: ArrayList<Utente> = ArrayList<Utente>()
-            var user: Utente
+            var users: ArrayList<User> = ArrayList<User>()
+            var user: User
 
             myRef.collection("users").whereEqualTo("cognome", query.toLowerCase()).get()
                 .addOnSuccessListener { document ->
                     val data = document.documents
                     for (d in data) {
 
-                        user = Utente(
+                        user = User(
                             d.data?.get("nome").toString(),
                             d.data?.get("cognome").toString(),
                             d.data?.get("email").toString(),
@@ -92,8 +91,8 @@ class DB_Handler_Users {
             querySurname: String,
             myCallBack: MyCallbackFoundUsers
         ) {
-            var users: ArrayList<Utente> = ArrayList<Utente>()
-            var user: Utente
+            var users: ArrayList<User> = ArrayList<User>()
+            var user: User
 
 
 
@@ -103,7 +102,7 @@ class DB_Handler_Users {
                     val data = document.documents
                     for (d in data) {
 
-                        user = Utente(
+                        user = User(
                             d.data?.get("nome").toString(),
                             d.data?.get("cognome").toString(),
                             d.data?.get("email").toString(),
@@ -126,7 +125,7 @@ class DB_Handler_Users {
 
             myRef.collection("users").document(email).get()
                 .addOnSuccessListener { document ->
-                    myCallBack.onCallback(Utente(
+                    myCallBack.onCallback(User(
                         document.data?.get("nome").toString(),
                         document.data?.get("cognome").toString(),
                         document.data?.get("email").toString(),
@@ -157,15 +156,12 @@ class DB_Handler_Users {
                 "password", password
             ).addOnSuccessListener {
                 //Aggiorno i campi nell'Auth Handler
-                Auth_Handler.CURRENT_USER = Utente(
+                Auth_Handler.CURRENT_USER = User(
                     name, surname,
                     Auth_Handler.CURRENT_USER!!.email, number, password
                 )
                 //Aggiorno i campi dell'Auth firebase
-                var firebaseuser = Firebase.auth.currentUser
-                if (firebaseuser != null) {
-                    firebaseuser.updatePassword(password)
-                }
+                Auth_Handler.updatePassword(password)
 
 
             }
@@ -204,7 +200,7 @@ class DB_Handler_Users {
             myRef.collection("users").document(email).collection("prenotazioni").get()
                 .addOnSuccessListener {
                     val data = it.documents
-                    val reservations = ArrayList<Prenotazione>()
+                    val reservations = ArrayList<Reservation>()
                     if (data == null) {
                         myCallBack.onCallback(null)
                     } else {
@@ -223,7 +219,7 @@ class DB_Handler_Users {
                                 timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000
                             val dtFine = Date(milliseconds)
                             reservations.add(
-                                Prenotazione(
+                                Reservation(
                                     reservation.id,
                                     prenotatore.id,
                                     dtInizio,

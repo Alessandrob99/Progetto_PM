@@ -2,9 +2,11 @@
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.example.progetto_programmazionemobile.Model.Utente
+import com.example.progetto_programmazionemobile.Model.User
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
 
 
     class Auth_Handler  {
@@ -16,7 +18,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 
         var LOGGED_IN = false
-        var CURRENT_USER : Utente? = null
+        var CURRENT_USER : User? = null
 
         fun setLOGGED_IN() {
             LOGGED_IN = true
@@ -36,8 +38,8 @@ import com.google.firebase.firestore.FirebaseFirestore
                 }
             }
             DB_Handler_Users.SearchUsersByEmail(email,object : DB_Handler_Users.MyCallbackFoundUser{
-                override fun onCallback(returnUser: Utente) {
-                    CURRENT_USER = Utente(
+                override fun onCallback(returnUser: User) {
+                    CURRENT_USER = User(
                         returnUser.nome,
                         returnUser.cognome,
                         returnUser.email,
@@ -128,6 +130,13 @@ import com.google.firebase.firestore.FirebaseFirestore
 
         }
 
+
+        fun updatePassword(newPassword : String){
+            var firebaseuser = Firebase.auth.currentUser
+            if (firebaseuser != null) {
+                firebaseuser.updatePassword(newPassword)
+            }
+        }
 
         interface MyCallBackResult {
             fun onCallBack(result: Boolean,message:String)

@@ -1,30 +1,21 @@
 package com.example.progetto_programmazionemobile.ViewModel
 
-import android.os.Build
-import android.util.Log
-import android.widget.Toast
-import androidx.annotation.RequiresApi
-import com.example.progetto_programmazionemobile.Model.Campo
-import com.example.progetto_programmazionemobile.Model.Circolo
+import com.example.progetto_programmazionemobile.Model.Court
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
-import java.sql.Timestamp
-import java.text.DateFormat
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 class DB_Handler_Courts {
 
     //Callback function per i campi
     interface MyCallbackCourts{
-        fun onCallback(returnedCourts: ArrayList<Campo>?)
+        fun onCallback(returnedCourts: ArrayList<Court>?)
     }
     companion object{
         val myRef = FirebaseFirestore.getInstance()
 
 
         fun getCourtsBySport(sport : String, myCallBack: MyCallbackCourts){
-            var campi = ArrayList<Campo>()
+            var campi = ArrayList<Court>()
             myRef.collection("campo").get().addOnSuccessListener{   document->
                 val data = document.documents
                 for(record in data){
@@ -34,7 +25,7 @@ class DB_Handler_Courts {
                         var circolo : DocumentReference = record.data?.get("id_circolo") as DocumentReference // ritorna questo->    com.google.firebase.firestore.DocumentReference@c44a6e47
                         var id_circolo = circolo.id.toLong()
                         campi.add(
-                            Campo(
+                            Court(
                                 record.data!!.get("n_campo") as Long,
                                 id_circolo,
                                 record.data!!.get("superficie").toString(),
@@ -54,12 +45,12 @@ class DB_Handler_Courts {
 
         //Prende campi di un circolo specificato da ID
         fun getCourtsOfSpecificClub(club_id: Long, myCallBack: DB_Handler_Courts.MyCallbackCourts){
-            var courts : ArrayList<Campo> = ArrayList()
+            var courts : ArrayList<Court> = ArrayList()
             DB_Handler_Clubs.myRef.collection("campo").whereEqualTo("id_circolo",club_id).get().addOnSuccessListener{ document->
                 val data = document.documents
                 for(record in data){
                     courts?.add(
-                        Campo(
+                        Court(
                             record.data?.get("n_campo") as Long,
                             club_id,
                             record.data?.get("superficie").toString(),

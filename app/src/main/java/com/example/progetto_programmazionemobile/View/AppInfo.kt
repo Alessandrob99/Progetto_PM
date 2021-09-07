@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.core.view.GravityCompat
 import com.example.progetto_programmazionemobile.R
 
-class InfoApp : Fragment()
+class AppInfo : Fragment()
 {
 
     override fun onCreateView(

@@ -1,13 +1,10 @@
 package com.example.progetto_programmazionemobile.View
 
-import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
-import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
-import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import android.widget.*
@@ -18,18 +15,13 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import com.bumptech.glide.Glide
-import com.example.progetto_programmazionemobile.Model.Circolo
 import com.example.progetto_programmazionemobile.R
 import com.example.progetto_programmazionemobile.ViewModel.Auth_Handler
-import com.example.progetto_programmazionemobile.ViewModel.DB_Handler_Clubs
 import com.google.android.material.navigation.NavigationView
-import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.fragment_home_profile_fragment.*
-import org.w3c.dom.Text
 
 
 class HomePage_Activity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener
@@ -70,7 +62,7 @@ class HomePage_Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         toggle.syncState()
         if(savedInstanceState == null)
         {
-            ChangeFragment(infoFragment(),"HOME")
+            ChangeFragment(InfoFragment(),"HOME")
         }
         val storage = FirebaseStorage.getInstance()
         val storageRef = storage.reference
@@ -120,17 +112,17 @@ class HomePage_Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
             }
             if(supportFragmentManager.findFragmentByTag("PROFILO")!=null){
                 if(supportFragmentManager.findFragmentByTag("PROFILO")!!.isVisible) {
-                    ChangeFragment(infoFragment(),"HOME")
+                    ChangeFragment(InfoFragment(),"HOME")
                 }
             }
             if(supportFragmentManager.findFragmentByTag("RICERCA_GIOCATORI")!=null){
                 if(supportFragmentManager.findFragmentByTag("RICERCA_GIOCATORI")!!.isVisible) {
-                    ChangeFragment(infoFragment(),"HOME")
+                    ChangeFragment(InfoFragment(),"HOME")
                 }
             }
             if(supportFragmentManager.findFragmentByTag("RICERCA_CIRCOLI")!=null){
                 if(supportFragmentManager.findFragmentByTag("RICERCA_CIRCOLI")!!.isVisible) {
-                    ChangeFragment(infoFragment(),"HOME")
+                    ChangeFragment(InfoFragment(),"HOME")
                 }
             }
             if(supportFragmentManager.findFragmentByTag("MODIFICA_PROFILO")!=null){
@@ -140,7 +132,7 @@ class HomePage_Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
             }
             if(supportFragmentManager.findFragmentByTag("APP")!=null){
                 if(supportFragmentManager.findFragmentByTag("APP")!!.isVisible) {
-                    ChangeFragment(infoFragment(),"HOME")
+                    ChangeFragment(InfoFragment(),"HOME")
                 }
             }
         }
@@ -150,19 +142,19 @@ class HomePage_Activity : AppCompatActivity(), NavigationView.OnNavigationItemSe
         when(item.itemId)
         {
             R.id.nav_home ->{
-                ChangeFragment(infoFragment(),"HOME")
+                ChangeFragment(InfoFragment(),"HOME")
             }
             R.id.nav_profilo ->{
                 ChangeFragment(ProfileFragment(),"PROFILO")
             }
             R.id.nav_ricerca_giocatori ->{
-                ChangeFragment(RicercaGiocatori(),"RICERCA_GIOCATORI")
+                ChangeFragment(SearchUsers(),"RICERCA_GIOCATORI")
             }
             R.id.nav_ricerca_circoli -> {
-                ChangeFragment(RicercaCircoli(),"RICERCA_CIRCOLI")
+                ChangeFragment(SearchClub(),"RICERCA_CIRCOLI")
             }
             R.id.info_app -> {
-                ChangeFragment(InfoApp(), "APP")
+                ChangeFragment(AppInfo(), "APP")
             }
         }
         return true

@@ -11,7 +11,7 @@ import java.io.Serializable
 import java.util.*
 
 
-class Utente(
+class User(
     name: String,
     surname: String,
     email: String,

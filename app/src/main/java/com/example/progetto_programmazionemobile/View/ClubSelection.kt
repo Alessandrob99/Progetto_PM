@@ -12,8 +12,8 @@ import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.location.LocationManagerCompat
-import com.example.progetto_programmazionemobile.Model.Campo
-import com.example.progetto_programmazionemobile.Model.Circolo
+import com.example.progetto_programmazionemobile.Model.Court
+import com.example.progetto_programmazionemobile.Model.Club
 import com.example.progetto_programmazionemobile.R
 import com.example.progetto_programmazionemobile.ViewModel.DB_Handler_Clubs
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -26,13 +26,13 @@ import kotlinx.android.synthetic.main.activity_selezionemap.*
 import kotlinx.android.synthetic.main.bottom_sheet_layout.*
 
 
-class SelezioneMap : AppCompatActivity(), OnMapReadyCallback
+class ClubSelection : AppCompatActivity(), OnMapReadyCallback
 {
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<LinearLayout>
     lateinit var autocompleteSuperficie: AutoCompleteTextView
     lateinit var buttonInfo : ImageView
     lateinit var dialog : Dialog
-    lateinit var campiPerSport: ArrayList<Campo>
+    lateinit var campiPerSport: ArrayList<Court>
     lateinit var giorno : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,10 +68,10 @@ class SelezioneMap : AppCompatActivity(), OnMapReadyCallback
 
 
         //Campi filtrati per sport da SELEZIONE 1
-        campiPerSport = getIntent().getSerializableExtra("campiPerSport") as ArrayList<Campo>
+        campiPerSport = getIntent().getSerializableExtra("campiPerSport") as ArrayList<Court>
         giorno = intent.getStringExtra("giorno")
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment
-        mapFragment?.getMapAsync(this@SelezioneMap)
+        mapFragment?.getMapAsync(this@ClubSelection)
 
         bottomSheetBehavior = BottomSheetBehavior.from<LinearLayout>(persistent_bottom_sheet)
         buttonInfo = findViewById(R.id.infoSwipe)
@@ -91,7 +91,7 @@ class SelezioneMap : AppCompatActivity(), OnMapReadyCallback
                 bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
                 val mapFragment =
                     supportFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment
-                mapFragment?.getMapAsync(this@SelezioneMap)
+                mapFragment?.getMapAsync(this@ClubSelection)
 
             }
         })
@@ -148,7 +148,7 @@ class SelezioneMap : AppCompatActivity(), OnMapReadyCallback
         super.onRestart()
         val mapFragment =
             supportFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment
-        mapFragment?.getMapAsync(this@SelezioneMap)
+        mapFragment?.getMapAsync(this@ClubSelection)
 
     }
 
@@ -167,7 +167,7 @@ class SelezioneMap : AppCompatActivity(), OnMapReadyCallback
         {
             if (LocationManagerCompat.isLocationEnabled(locMan))
             {
-                var found_clubs: ArrayList<Circolo>? = null
+                var found_clubs: ArrayList<Club>? = null
 
                 if (myLat != 0.0 && myLng != 0.0)
                 {
@@ -204,7 +204,7 @@ class SelezioneMap : AppCompatActivity(), OnMapReadyCallback
 
 
                     //FUNZIONE CHE PRENDE L'ELENCO DEI CIRCOLI E APPLICA I FILTRI
-                    Circolo.filterClubs(
+                    Club.filterClubs(
                         campiPerSport,
                         myLocation!!,
                         raggioInKm,
@@ -213,10 +213,10 @@ class SelezioneMap : AppCompatActivity(), OnMapReadyCallback
                         copertoCheck,
                         superficie,
                         prezzoMax,
-                        object : Circolo.MyCallbackClubs {
+                        object : Club.MyCallbackClubs {
                             override fun onCallback(
-                                returnedClubs: ArrayList<Circolo>?,
-                                returnedCourts: ArrayList<Campo>?
+                                returnedClubs: ArrayList<Club>?,
+                                returnedCourts: ArrayList<Court>?
                             ) {
                                 found_clubs = returnedClubs
                                 var found_courts = returnedCourts
@@ -246,7 +246,7 @@ class SelezioneMap : AppCompatActivity(), OnMapReadyCallback
 
                                             val intent =
                                                 Intent(
-                                                    this@SelezioneMap,
+                                                    this@ClubSelection,
                                                     DetailsClubs::class.java
                                                 )
                                             //Ricaviamo i parametri da passare
@@ -256,9 +256,9 @@ class SelezioneMap : AppCompatActivity(), OnMapReadyCallback
                                                 p0.position.latitude,
                                                 p0.position.longitude,
                                                 object : DB_Handler_Clubs.MyCallbackClub {
-                                                    override fun onCallback(returnedClub: Circolo) {
+                                                    override fun onCallback(returnedClub: Club) {
 
-                                                        val app_array = ArrayList<Campo>()
+                                                        val app_array = ArrayList<Court>()
                                                         for (court in returnedCourts) {
                                                             app_array.add(court)
                                                         }
@@ -286,7 +286,7 @@ class SelezioneMap : AppCompatActivity(), OnMapReadyCallback
                                 } else {
                                     //Nessun campo trovato dopo il filtraggio
                                     val builder: AlertDialog.Builder =
-                                        AlertDialog.Builder(this@SelezioneMap)
+                                        AlertDialog.Builder(this@ClubSelection)
                                     builder.setTitle("Attenzione!")
                                     builder.setMessage("Nessun campo soddisfa le caratteristiche desiderate")
                                     builder.setPositiveButton(
@@ -325,7 +325,7 @@ class SelezioneMap : AppCompatActivity(), OnMapReadyCallback
     override fun onBackPressed() {
 
         val builder: AlertDialog.Builder =
-            AlertDialog.Builder(this@SelezioneMap)
+            AlertDialog.Builder(this@ClubSelection)
         builder.setTitle("Avviso")
         builder.setMessage("Si desidera tornare alla Home?")
         builder.setPositiveButton(
@@ -335,7 +335,7 @@ class SelezioneMap : AppCompatActivity(), OnMapReadyCallback
                     dialog: DialogInterface?,
                     which: Int
                 ) {
-                    val intent = Intent(this@SelezioneMap, HomePage_Activity::class.java)
+                    val intent = Intent(this@ClubSelection, HomePage_Activity::class.java)
                     startActivity(intent)
                     finish()
                 }
