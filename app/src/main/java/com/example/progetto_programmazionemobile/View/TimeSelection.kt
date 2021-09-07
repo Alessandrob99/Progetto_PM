@@ -195,7 +195,7 @@ class TimeSelection : AppCompatActivity(), View.OnClickListener {
                                                             val builder: AlertDialog.Builder =
                                                                 AlertDialog.Builder(this@TimeSelection)
                                                             builder.setTitle("Operazione conclusa")
-                                                            builder.setMessage("Prenotazione registrata con successo")
+                                                            builder.setMessage("Prenotazione registrata con successo. Potrai far unire i tuoi amici tramite un codice scritto nella sezione 'Visualizza Prenotazioni'. ")
                                                             builder.setPositiveButton("Ok",
                                                                 object :
                                                                     DialogInterface.OnClickListener {
