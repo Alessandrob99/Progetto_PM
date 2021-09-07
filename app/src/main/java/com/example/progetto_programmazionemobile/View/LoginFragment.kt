@@ -25,11 +25,7 @@ import com.google.firebase.ktx.Firebase
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [LoginFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+
 class LoginFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
@@ -44,13 +40,17 @@ class LoginFragment : Fragment() {
     }
 
 
+    /**
+     *
+     * Fragment Accedi con controllo delle credenziali dell'utente + shared preferences
+     */
+
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         val v : View = inflater.inflate(R.layout.fragment_login, container, false)
         val goToHomePage = Intent(v.context, HomePage_Activity::class.java)
 
@@ -59,7 +59,11 @@ class LoginFragment : Fragment() {
         val emailEditText = v.findViewById<EditText>(R.id.txtEmail)
         val passWordEditText = v.findViewById<EditText>(R.id.txtPassword)
         val link = v.findViewById<TextView>(R.id.link)
-        //Controllo se ci sono valori user e pass salvati nelle shared pref'
+
+        /**
+         * Controllo se ci sono valori user e pass salvati nelle shared pref'
+         */
+
         var sharedPreferences : SharedPreferences? = activity?.getSharedPreferences(
             "remember",
             Context.MODE_PRIVATE
@@ -78,7 +82,9 @@ class LoginFragment : Fragment() {
 
         }
 
-        //Link recupero password
+        /**
+         * Link recupero password gestito da Firebase
+         */
         link.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
 
@@ -181,11 +187,12 @@ class LoginFragment : Fragment() {
         }
 
 
-
-
+        /**
+         * Metodo che controlla la validita delle credenziali
+         */
         confermabtn.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
-                //Metodo che controlla la validita delle credenziali
+
                 val email = emailEditText.text.toString().replace(" ", "")
                 val password = passWordEditText.text.toString()
                 val progress: ProgressDialog = ProgressDialog(context)
@@ -193,6 +200,7 @@ class LoginFragment : Fragment() {
                 progress.show()
                 confermabtn.isEnabled = false
 
+                //Controllo se sono vuote
                 if (((TextUtils.equals(email, "")) || ((TextUtils.equals(password, ""))))) {
                     progress.dismiss()
 

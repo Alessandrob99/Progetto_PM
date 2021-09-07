@@ -24,6 +24,9 @@ import com.google.firebase.ktx.Firebase
             LOGGED_IN = true
         }
 
+        /**
+         * Salva le credenziali dell'utente e anche il checkbox
+         */
         fun setLOGGED_IN(context: Context, ricordami: Boolean, email: String, password: String,myCallBack : MyCallBackResult) {
             LOGGED_IN = true
             if (ricordami) {
@@ -37,6 +40,7 @@ import com.google.firebase.ktx.Firebase
                     editor.apply()
                 }
             }
+
             DB_Handler_Users.SearchUsersByEmail(email,object : DB_Handler_Users.MyCallbackFoundUser{
                 override fun onCallback(returnUser: User) {
                     CURRENT_USER = User(
@@ -51,6 +55,9 @@ import com.google.firebase.ktx.Firebase
             })
         }
 
+        /**
+         * Rimuove le credenziali dell'utente e anche il checkbox
+         */
         fun setLOGGET_OUT(context: Context) {
             LOGGED_IN = false
             CURRENT_USER = null
@@ -68,6 +75,9 @@ import com.google.firebase.ktx.Firebase
         val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
 
 
+        /**
+         * Registrazione con invio conferma da parte di Firebase
+         */
         fun FireBaseRegistration(
             email: String,
             password: String,
@@ -97,6 +107,9 @@ import com.google.firebase.ktx.Firebase
             }
         }
 
+        /**
+         * Login con controlli dell'email e password
+         */
         fun FireBaseLogin(
             ricordami: Boolean,
             context: Context,

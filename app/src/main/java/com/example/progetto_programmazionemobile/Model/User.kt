@@ -10,6 +10,10 @@ import androidx.core.content.ContextCompat.getSystemService
 import java.io.Serializable
 import java.util.*
 
+/**
+ *
+ * Classe Utente con i relativi attributi
+ */
 
 class User(
     name: String,

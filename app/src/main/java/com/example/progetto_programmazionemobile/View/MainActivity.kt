@@ -28,6 +28,9 @@ import com.google.android.material.tabs.TabLayout
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+         /**
+          * Permesso per l'utilizzo del GPS
+          */
          if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
              //PERMESSO GARANTITO
 
@@ -36,11 +39,18 @@ import com.google.android.material.tabs.TabLayout
          }
 
 
+         /**
+          * Settaggio della barra sopra al cellulare (aspetto puramente estetico)
+          */
          val window: Window = this.getWindow()
          window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
          window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
          window.setStatusBarColor(ContextCompat.getColor(this, R.color.purple_700))
 
+
+         /**
+          * Settaggio del viewPager per switchare il login o registrati
+          */
          adapter = PickerAdapter(supportFragmentManager)
          viewPager = findViewById<ViewPager>(R.id.pagerHome)
          viewPager?.setAdapter(adapter)
@@ -54,6 +64,11 @@ import com.google.android.material.tabs.TabLayout
 
      }
 
+     /**
+      * RICHIESTA PERMESSO DI ACCESO ALLA POSIZIONE
+        Informiamo l'utente che l'app ha bisogno della posizione
+        POPUP Registrazione completata + redirect alla mainactivity
+      */
      override fun onRequestPermissionsResult(
          requestCode: Int,
          permissions: Array<out String>,
@@ -61,9 +76,6 @@ import com.google.android.material.tabs.TabLayout
      ) {
          super.onRequestPermissionsResult(requestCode, permissions, grantResults)
          if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED){
-             //RICHIESTA PERMESSO DI ACCESO ALLA POSIZIONE
-             //Informiamo l'utente che l'app ha bisogno della posizione
-             //POPUP Registrazione compleatta + redirect alla mainactivity
              val builder : AlertDialog.Builder = AlertDialog.Builder(this)
              builder.setTitle("NOTA BENE")
              builder.setMessage("L'utilizzo dell'app necessita dell'autorizzazione da parte dell'utente per accedere alla geolocalizzazione." +
@@ -118,6 +130,9 @@ import com.google.android.material.tabs.TabLayout
      }
 
 
+     /**
+      * BackPressed: Chiude l'applicazione
+      */
      override fun onBackPressed() {
          val builder: AlertDialog.Builder =
              AlertDialog.Builder(this)
