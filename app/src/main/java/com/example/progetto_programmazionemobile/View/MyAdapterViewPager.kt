@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.RelativeLayout
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.progetto_programmazionemobile.Model.Club
 import com.example.progetto_programmazionemobile.R
 import com.google.firebase.storage.FirebaseStorage
@@ -15,8 +16,8 @@ class MyAdapterViewPager(var context: FragmentActivity?, var circolo : Club) : R
 {
 
     var color_icon = arrayOf<IntArray>(
-        intArrayOf(android.R.color.white, R.drawable.domatore),
-        intArrayOf(android.R.color.white, R.drawable.caparezza))
+        intArrayOf(android.R.color.white, R.drawable.circolo1),
+        intArrayOf(android.R.color.white, R.drawable.circolo2 ))
 
     class MyViewHolder(itemView:View) :RecyclerView.ViewHolder(itemView){
         lateinit var img_view:ImageView
@@ -29,13 +30,13 @@ class MyAdapterViewPager(var context: FragmentActivity?, var circolo : Club) : R
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val storage = FirebaseStorage.getInstance()
+        /*val storage = FirebaseStorage.getInstance()
         val storageRef = storage.reference
         val picRef = storageRef.child("clubsPics/"+circolo.id)
 
         picRef.downloadUrl.addOnSuccessListener{
-            //--------------------
-        }
+            Glide.with(context).load(it).asBitmap()
+        }*/
 
 
         return MyViewHolder(LayoutInflater.from(context).inflate(R.layout.image_club, parent, false))

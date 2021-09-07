@@ -210,12 +210,18 @@ class Selezione_1 : AppCompatActivity() {
         val sportText: EditText = findViewById(R.id.sport)
         val arraySport = arrayOf(
             "",
-            "Calcetto",
-            "Pallavolo",
-            "Calcio",
-            "Tennis",
+            "Atletica",
+            "Badminton",
             "Basket",
-            "Paddle"
+            "Bocce",
+            "Calcetto",
+            "Golf",
+            "Nuoto",
+            "Padel",
+            "Paintball",
+            "Squash",
+            "Tennis",
+            "Touchtennis"
         )
 
         autocompleteSport = findViewById(R.id.sport) as AutoCompleteTextView

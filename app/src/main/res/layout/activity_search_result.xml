@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/open_sans_condensed_bold"
         android:gravity="center"
-        android:text="PARTECIPANTI"
+        android:text="GIOCATORI"
         android:textColor="@color/white"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textSize="30sp"/>
