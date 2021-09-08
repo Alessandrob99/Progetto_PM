@@ -281,7 +281,7 @@ class MyAdapterReservations(val prenotazioni: ArrayList<Reservation>?, val conte
                         progress.show()
 
                         DB_Handler_Reservation.deleteReservation(Auth_Handler.CURRENT_USER!!.email,
-                            holder.cod_prem.text.toString(),
+                            prenotazioni.get(position).id,
                             object : DB_Handler_Reservation.MyCallBackNewRes {
                                 override fun onCallback(result: Boolean) {
 
