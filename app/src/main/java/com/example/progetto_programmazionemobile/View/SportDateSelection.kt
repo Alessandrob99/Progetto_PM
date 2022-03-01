@@ -140,9 +140,6 @@ class Selezione_1 : AppCompatActivity() {
                 month2 = "12"
             }
 
-            val all = "$day2-$month2-$year"
-
-
             if (month == "gen" || month == "Gen") {
                 if (day.toInt() < 10) {
                     data.setText("0" + day + "-01" + "-" + year)

@@ -43,7 +43,7 @@ class TimeSelection : AppCompatActivity(), View.OnClickListener {
 
         val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm", Locale.ITALY)
         val LocalDateTimeGiorno = LocalDateTime.parse(giorno + " 00:00", formatter)
-        TimestampGiorno = LocalDateTimeGiorno.atOffset(ZoneOffset.ofHours(2)).toInstant().toEpochMilli()
+        TimestampGiorno = System.currentTimeMillis()
 
         val broadcastReceiver1: BroadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(arg0: Context?, intent: Intent) {
@@ -210,15 +210,18 @@ class TimeSelection : AppCompatActivity(), View.OnClickListener {
                                                                         sendBroadcast(
                                                                             broadcastIntent
                                                                         )
-                                                                        /*val intent = Intent(
-                                                                            this@SelezioneOra,
-                                                                            HomePage_Activity::class.java
-                                                                        )*/
                                                                         startActivity(intent)
                                                                         finish()
                                                                     }
                                                                 })
                                                             builder.setOnDismissListener {
+                                                                val broadcastIntent =
+                                                                    Intent()
+                                                                broadcastIntent.action =
+                                                                    "finish_activity"
+                                                                sendBroadcast(
+                                                                    broadcastIntent
+                                                                )
                                                                 val intent = Intent(
                                                                     this@TimeSelection,
                                                                     HomePage_Activity::class.java
@@ -387,7 +390,8 @@ class TimeSelection : AppCompatActivity(), View.OnClickListener {
         btnOrari.get("23:00")!!.setBackgroundColor(Color.GRAY)
         btnOrari.get("23:30")!!.setBackgroundColor(Color.GRAY)
         btnOrari.get("00:00")!!.setBackgroundColor(Color.GRAY)
-        val prenotazioni = DB_Handler_Reservation.getListOfReservations(
+
+        DB_Handler_Reservation.getListOfReservations(
             giorno,
             campo,
             circolo,

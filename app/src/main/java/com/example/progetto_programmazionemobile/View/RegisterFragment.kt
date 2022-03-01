@@ -48,7 +48,6 @@ class RegisterFragment : Fragment(){
     ): View? {
         val v : View =  inflater.inflate(R.layout.fragment_register, container, false)
 
-        val goToHomePage = Intent(v.context,HomePage_Activity::class.java)
         val nomeText = v.findViewById<EditText>(R.id.nomeInputReg)
         val cognomeText = v.findViewById<EditText>(R.id.cognomeInputReg)
         val passwordText = v.findViewById<EditText>(R.id.passwordInputReg)

@@ -101,9 +101,6 @@ class LeMiePrenotazioni : Fragment() {
             val alertDialog = builder.create()
             alertDialog.show()
         }
-
-
-
         return v
     }
 

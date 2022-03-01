@@ -43,7 +43,7 @@ class LoaderLocation : AppCompatActivity()
             if (LocationManagerCompat.isLocationEnabled(locMan))
             {
                 /** Se la geocalizzazione è attiva, prende la longitudine e latitudine del client  **/
-                getLocation(object : LoaderLocation.MyCallbackPosition {
+                getLocation(object : MyCallbackPosition {
                     /** Trovo prima la posizione (attraverso la callBack) e poi passo all'intent successivo  **/
                     override fun onCallback(latitude: Double, longitude: Double) {
                         /** Facciamo partire la funzione per la ricerca di campi per SPORT ( se lo sport è != null ) **/
@@ -71,7 +71,7 @@ class LoaderLocation : AppCompatActivity()
     }
 
     @SuppressLint("MissingPermission")
-    private fun getLocation(MyCallback: LoaderLocation.MyCallbackPosition) {
+    private fun getLocation(MyCallback: MyCallbackPosition) {
         locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
         hasGps = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
         hasNetwork = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)

@@ -20,9 +20,6 @@ import com.google.firebase.ktx.Firebase
         var LOGGED_IN = false
         var CURRENT_USER : User? = null
 
-        fun setLOGGED_IN() {
-            LOGGED_IN = true
-        }
 
         /**
          * Salva le credenziali dell'utente e anche il checkbox
@@ -40,7 +37,6 @@ import com.google.firebase.ktx.Firebase
                     editor.apply()
                 }
             }
-
             DB_Handler_Users.SearchUsersByEmail(email,object : DB_Handler_Users.MyCallbackFoundUser{
                 override fun onCallback(returnUser: User) {
                     CURRENT_USER = User(

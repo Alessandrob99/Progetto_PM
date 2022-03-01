@@ -27,9 +27,6 @@ class DetailsClubs:AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val club = intent.getSerializableExtra("club") as Club
-        val courts = intent.getSerializableExtra("courts") as ArrayList<Court>
-        val nomeClub= intent.getStringExtra("titleClub")
-        val giorno = intent.getStringExtra("giorno")
 
 
         val broadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {

@@ -118,11 +118,10 @@ class EditProfileFragment: Fragment()
     }
 
     private fun choosePicture() {
-        val int : Intent = Intent(Intent.ACTION_GET_CONTENT)
+        val int = Intent(Intent.ACTION_GET_CONTENT)
         int.type="image/*"
         startActivityForResult(int,1)
     }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode==1 && resultCode==Activity.RESULT_OK && data!=null){
