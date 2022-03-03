@@ -164,7 +164,7 @@ class   DB_Handler_Reservation {
         ) {
             //Controllo se oraFine == Mezzanotte
             val cal = Calendar.getInstance()
-            cal.time = Date(oraFine)
+            cal.time = Date(oraFine-(TimeZone.getDefault().rawOffset))
             var oraFineChecked : Long
             if(cal.get(Calendar.HOUR_OF_DAY)==0){
                 oraFineChecked = oraFine+86399000

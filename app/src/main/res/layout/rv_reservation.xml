@@ -217,10 +217,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
-                android:textSize="10dp"
                 android:background="@drawable/btn_elimina"
-                android:text="Cancella"
+                android:text="Disdici"
                 android:textColor="@color/black"
+                android:textSize="10dp"
                 app:backgroundTint="@null" />
 
 

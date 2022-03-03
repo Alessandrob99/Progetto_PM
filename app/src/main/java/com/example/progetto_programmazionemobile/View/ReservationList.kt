@@ -252,6 +252,10 @@ class MyAdapterReservations(val prenotazioni: ArrayList<Reservation>?, val conte
 
                         holder.copyCode.isVisible = false
 
+                        holder.btnElimina.isEnabled = false
+
+                        holder.btnElimina.isVisible = false
+
                         holder.cod_prem.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
                     }
                     if(prenotazioni.get(position).prenotatore!= Auth_Handler.CURRENT_USER!!.email){
