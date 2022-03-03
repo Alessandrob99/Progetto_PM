@@ -182,9 +182,9 @@ class TimeSelection : AppCompatActivity(), View.OnClickListener {
                                                 circolo.toString(),
                                                 campo.toString(),
                                                 giorno,
-                                                oraInizioTime.atOffset(ZoneOffset.ofHours(2))
+                                                oraInizioTime.atOffset(ZoneOffset.UTC)
                                                     .toInstant().toEpochMilli(),
-                                                oraFineTime.atOffset(ZoneOffset.ofHours(2))
+                                                oraFineTime.atOffset(ZoneOffset.UTC)
                                                     .toInstant().toEpochMilli(),
                                                 cod_pren,
                                                 object : DB_Handler_Reservation.MyCallBackNewRes {

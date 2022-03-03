@@ -128,12 +128,12 @@ class   DB_Handler_Reservation {
                                         reservation?.get("oraInizio") as com.google.firebase.Timestamp
                                     var milliseconds =
                                         timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000
-                                    val dtInizio = Date(milliseconds)
+                                    val dtInizio = Date(milliseconds-(TimeZone.getDefault().rawOffset))
                                     timestamp =
                                         reservation?.get("oraFine") as com.google.firebase.Timestamp
                                     milliseconds =
                                         timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000
-                                    val dtFine = Date(milliseconds)
+                                    val dtFine = Date(milliseconds-(TimeZone.getDefault().rawOffset))
                                     reservations.add(
                                         Reservation(
                                             reservation.id,
@@ -173,8 +173,8 @@ class   DB_Handler_Reservation {
                 oraFineChecked = oraFine
             }
             val docData = hashMapOf(
-                "oraInizio" to Timestamp(oraInizio),
-                "oraFine" to Timestamp(oraFineChecked),
+                "oraInizio" to com.google.firebase.Timestamp((oraInizio/1000),0),
+                "oraFine" to com.google.firebase.Timestamp((oraFineChecked/1000),0),
                 "prenotatore" to myRef.document("/users/"+user)
             )
 

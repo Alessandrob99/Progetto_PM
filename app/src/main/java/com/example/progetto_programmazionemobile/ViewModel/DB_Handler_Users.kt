@@ -212,12 +212,12 @@ class DB_Handler_Users {
                                 reservation?.get("oraInizio") as com.google.firebase.Timestamp
                             var milliseconds =
                                 timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000
-                            val dtInizio = Date(milliseconds)
+                            val dtInizio = Date(milliseconds-(TimeZone.getDefault().rawOffset))
                             timestamp =
                                 reservation?.get("oraFine") as com.google.firebase.Timestamp
                             milliseconds =
                                 timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000
-                            val dtFine = Date(milliseconds)
+                            val dtFine = Date(milliseconds-(TimeZone.getDefault().rawOffset))
                             reservations.add(
                                 Reservation(
                                     reservation.id,
