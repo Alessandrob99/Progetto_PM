@@ -153,7 +153,6 @@ class DB_Handler_Users {
                 "cognome", cognomeSafe.toLowerCase(),
                 "email", email,
                 "telefono", number,
-                "password", password
             ).addOnSuccessListener {
                 //Aggiorno i campi nell'Auth Handler
                 Auth_Handler.CURRENT_USER = User(
@@ -182,7 +181,6 @@ class DB_Handler_Users {
             val nomeSafe = name.replace(" ".toRegex(),"")
             val cognomeSafe = surname.replace(" ".toRegex(),"")
             val docData = hashMapOf(
-                "password" to password,
                 "nome" to nomeSafe.toLowerCase(),
                 "cognome" to cognomeSafe.toLowerCase(),
                 "email" to email,

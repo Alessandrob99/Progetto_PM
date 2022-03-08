@@ -26,6 +26,7 @@ import com.google.firebase.ktx.Firebase
          */
         fun setLOGGED_IN(context: Context, ricordami: Boolean, email: String, password: String,myCallBack : MyCallBackResult) {
             LOGGED_IN = true
+
             if (ricordami) {
                 var sharedPreferences: SharedPreferences? =
                     context?.getSharedPreferences("remember", Context.MODE_PRIVATE)
@@ -44,7 +45,7 @@ import com.google.firebase.ktx.Firebase
                         returnUser.cognome,
                         returnUser.email,
                         returnUser.telefono,
-                        returnUser.password
+                        password
                     )
                     myCallBack.onCallBack(true,"")
                 }

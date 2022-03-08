@@ -16,11 +16,20 @@ import com.example.progetto_programmazionemobile.Model.Reservation
 import com.example.progetto_programmazionemobile.R
 import com.example.progetto_programmazionemobile.ViewModel.Auth_Handler
 import com.example.progetto_programmazionemobile.ViewModel.DB_Handler_Reservation
+import com.google.firebase.FirebaseException
+import com.google.firebase.FirebaseTooManyRequestsException
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.PhoneAuthCredential
+import com.google.firebase.auth.PhoneAuthOptions
+import com.google.firebase.auth.PhoneAuthProvider
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_selezione_ora.*
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.util.*
+import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
 
 
@@ -123,6 +132,54 @@ class TimeSelection : AppCompatActivity(), View.OnClickListener {
                                     object : DialogInterface.OnClickListener {
                                         override fun onClick(dialog: DialogInterface?, which: Int) {
 
+                                            //-------invio sms di verifica
+
+                                            /*
+                                            val callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+
+                                                override fun onVerificationCompleted(credential: PhoneAuthCredential) {
+
+                                                    //
+
+                                                }
+
+                                                override fun onVerificationFailed(e: FirebaseException) {
+                                                    // This callback is invoked in an invalid request for verification is made,
+                                                    // for instance if the the phone number format is not valid.
+                                                    if (e is FirebaseAuthInvalidCredentialsException) {
+                                                        // Invalid request
+                                                    } else if (e is FirebaseTooManyRequestsException) {
+                                                        // The SMS quota for the project has been exceeded
+                                                    }
+
+                                                    // Show a message and update the UI
+                                                }
+
+                                                override fun onCodeSent(
+                                                    verificationId: String,
+                                                    token: PhoneAuthProvider.ForceResendingToken
+                                                ) {
+                                                    // The SMS verification code has been sent to the provided phone number, we
+                                                    // now need to ask the user to enter the code and then construct a credential
+                                                    // by combining the code with a verification ID.
+                                                    // Save verification ID and resending token so we can use them later
+                                                    val storedVerificationId = verificationId
+                                                    val resendToken = token
+                                                }
+                                            }
+
+                                            val auth = Firebase.auth
+                                            val options = PhoneAuthOptions.newBuilder(auth)
+                                                .setPhoneNumber(Auth_Handler.CURRENT_USER!!.telefono!!)       // Phone number to verify
+                                                .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
+                                                .setActivity(this@TimeSelection)                 // Activity (for callback binding)
+                                                .setCallbacks(callbacks)          // OnVerificationStateChangedCallbacks
+                                                .build()
+                                            PhoneAuthProvider.verifyPhoneNumber(options)
+
+
+                                            */
+                                            //--------------------------
                                             val prog: ProgressDialog = ProgressDialog.show(
                                                 this@TimeSelection,
                                                 "",
