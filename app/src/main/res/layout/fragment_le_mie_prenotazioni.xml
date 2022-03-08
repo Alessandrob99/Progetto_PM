@@ -1,34 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+
+
+<RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/linearLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".View.LeMiePrenotazioni">
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-
-    <TextView
-        android:id="@+id/topText"
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="LE TUE PRENOTAZIONI"
-        android:layout_marginTop="20dp"
-        android:textAlignment="center"
-        android:textColor="#000000"
-        android:fontFamily="@font/open_sans_condensed_bold"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:textSize="25sp" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_marginTop="15dp"
-        android:id="@+id/recyclerViewPrenotazioni"
+        android:layout_height="match_parent"
+        android:src="@drawable/tenniscourt"
+        android:scaleType="centerCrop"
+        />
+    <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".View.LeMiePrenotazioni">
+
+
+        <TextView
+            android:id="@+id/topText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="#FFFFFF"
+            android:fontFamily="@font/open_sans_condensed_bold"
+            android:text="LE TUE PRENOTAZIONI"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textColor="#000000"
+            android:textSize="25sp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_marginTop="15dp"
+            android:id="@+id/recyclerViewPrenotazioni"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
 
 
 
-</LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

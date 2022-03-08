@@ -74,6 +74,7 @@ class LeMiePrenotazioni : Fragment() {
                         if (reservations.isNullOrEmpty()) {
                             topText.text = "Nessuna prenotazione registrata"
                         } else {
+                            reservations.reverse()
                             val recyclerView =
                                 v.findViewById<View>(R.id.recyclerViewPrenotazioni) as RecyclerView
                             val viewAdapter = MyAdapterReservations(reservations, context!!)

@@ -2,7 +2,6 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:id="@+id/rv_campi"
     android:layout_height="wrap_content"
@@ -20,21 +19,22 @@
 
         <TextView
             android:id="@+id/numeroCampotxt"
-            android:textSize="20sp"
-            android:textStyle="bold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_weight="1"
-            android:text="Numero campo:" />
+            android:text="Campo numero :"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
         <TextView
             android:id="@+id/numeroCampo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text=""
-            android:textStyle="bold"
-            android:textSize="20sp" />
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 
@@ -128,12 +128,12 @@
             android:id="@+id/btnVisualizzaPrenotazioni"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:layout_gravity="center"
             android:layout_marginBottom="10dp"
             android:background="@drawable/btn_custom"
             android:fontFamily="sans-serif-medium"
-            android:text="Visualizza orari"
+            android:gravity="center"
+            android:text="Prenota"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="#000"
             app:backgroundTint="@null" />

@@ -16,17 +16,17 @@
         android:gravity="center">
 
         <TextView
-            android:layout_marginTop="15dp"
             android:id="@+id/selezSport"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="15dp"
             android:layout_marginEnd="16dp"
-            android:gravity="center"
             android:fontFamily="@font/open_sans_condensed_bold"
-            android:text="Seleziona uno Sport"
+            android:gravity="center"
+            android:text="SPORT"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-            android:textSize="30sp"/>
+            android:textSize="30sp" />
     </LinearLayout>
 
 
@@ -68,16 +68,16 @@
 
         <TextView
             android:id="@+id/selezData"
-            android:layout_weight="0.2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
+            android:layout_weight="0.2"
             android:fontFamily="@font/open_sans_condensed_bold"
-            android:text="Inserisci una data"
+            android:gravity="center"
+            android:text="GIORNO"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-            android:textSize="30sp"
-            android:gravity="center"/>
+            android:textSize="30sp" />
     </LinearLayout>
 
 
@@ -127,13 +127,13 @@
             android:id="@+id/confermabtn"
             android:layout_width="144dp"
             android:layout_height="45dp"
-            android:layout_marginStart="16dp"
             android:layout_gravity="center"
+            android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:background="@drawable/btn_custom"
-            android:text="Conferma"
+            android:text="Avanti"
             android:textColor="#000"
-            app:backgroundTint="@null"/>
+            app:backgroundTint="@null" />
 
     </LinearLayout>
 

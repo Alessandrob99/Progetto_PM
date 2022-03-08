@@ -124,7 +124,7 @@
             android:layout_height="64dp"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="Conferma"
+            android:text="Accedi"
             app:backgroundTint="@null"
             android:background="@drawable/btn_custom"
             android:textColor="@color/black" />

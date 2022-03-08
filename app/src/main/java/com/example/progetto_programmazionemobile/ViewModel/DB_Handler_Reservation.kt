@@ -82,9 +82,9 @@ class   DB_Handler_Reservation {
             val dtFine = LocalDateTime.parse(giorno + " " + oraFine, formatter)
 
             //Impostiamo un offset per calcolare il timestamp di 2 ore rispetto Londra
-            val timestampInizio =
-                dtInizio.atOffset(ZoneOffset.ofHours(2)).toInstant().toEpochMilli()
-            val timestampFine = dtFine.atOffset(ZoneOffset.ofHours(2)).toInstant().toEpochMilli()
+            val timestampInizio = dtInizio.atOffset(ZoneOffset.UTC).toInstant().toEpochMilli()
+
+            val timestampFine = dtFine.atOffset(ZoneOffset.UTC).toInstant().toEpochMilli()
             myRef.collection("prenotazione")
                 .document(circolo.toString() + "-" + campo.toString() + "-" + giorno)
                 .collection("prenotazioni").get().addOnSuccessListener { document ->
