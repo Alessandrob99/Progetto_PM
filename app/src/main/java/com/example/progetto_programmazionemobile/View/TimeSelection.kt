@@ -52,7 +52,7 @@ class TimeSelection : AppCompatActivity(), View.OnClickListener {
 
         val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm", Locale.ITALY)
         val LocalDateTimeGiorno = LocalDateTime.parse(giorno + " 00:00", formatter)
-        TimestampGiorno = System.currentTimeMillis()
+        TimestampGiorno = LocalDateTimeGiorno.atOffset(ZoneOffset.UTC).toInstant().toEpochMilli()
 
         val broadcastReceiver1: BroadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(arg0: Context?, intent: Intent) {
