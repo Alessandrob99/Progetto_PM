@@ -102,6 +102,7 @@ class LoginFragment : Fragment() {
                     override fun onClick(v: View?) {
                         val builder1: AlertDialog.Builder = AlertDialog.Builder(context!!)
                         emailAddress = emailText.text.toString()
+                        emailAddress = emailAddress.replace(" ","")
                         if (!android.util.Patterns.EMAIL_ADDRESS.matcher(emailAddress).matches()) {
                             Toast.makeText(context, "Inserire una mail valida", Toast.LENGTH_SHORT)
                                 .show()
@@ -109,7 +110,7 @@ class LoginFragment : Fragment() {
                             Firebase.auth.sendPasswordResetEmail(emailAddress)
                                 .addOnCompleteListener { task ->
                                     if (task.isSuccessful) {
-                                        builder1.setTitle("ATTENZIONE!")
+                                        builder1.setTitle("E-mail inviata")
                                         builder1.setMessage(
                                             "Abbiamo inviato una mail all'indirizzo :" + System.getProperty(
                                                 "line.separator"

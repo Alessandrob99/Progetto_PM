@@ -134,12 +134,12 @@ class TimeSelection : AppCompatActivity(), View.OnClickListener {
 
                                             //-------invio sms di verifica
 
-                                            /*
+
                                             val callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
 
                                                 override fun onVerificationCompleted(credential: PhoneAuthCredential) {
 
-                                                    //
+
 
                                                 }
 
@@ -178,7 +178,7 @@ class TimeSelection : AppCompatActivity(), View.OnClickListener {
                                             PhoneAuthProvider.verifyPhoneNumber(options)
 
 
-                                            */
+
                                             //--------------------------
                                             val prog: ProgressDialog = ProgressDialog.show(
                                                 this@TimeSelection,
