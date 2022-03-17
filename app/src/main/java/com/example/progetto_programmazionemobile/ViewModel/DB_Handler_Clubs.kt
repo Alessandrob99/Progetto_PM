@@ -1,8 +1,11 @@
 package com.example.progetto_programmazionemobile.ViewModel
 
+import android.content.ContentValues
 import android.location.Location
+import android.util.Log
 import com.example.progetto_programmazionemobile.Model.Club
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.GeoPoint
 
 class DB_Handler_Clubs {
 
@@ -12,6 +15,9 @@ class DB_Handler_Clubs {
         fun onCallback(returnedClubs: ArrayList<Club>?)
     }
 
+    interface MyCallbackRequest{
+        fun onCallback(esito : Boolean)
+    }
     interface MyCallbackClub{
         fun onCallback(returnedClub : Club)
     }
@@ -104,6 +110,23 @@ class DB_Handler_Clubs {
                     }
                 }
             }
+        }
+
+        fun newRequest(nome : String,email : String,telefono : String,lat : Double,lng : Double,docce: Boolean,callback : MyCallbackRequest){
+
+            var location = GeoPoint(lat,lng)
+            val docData = hashMapOf(
+                "nome" to nome.toLowerCase(),
+                "email" to email,
+                "telefono" to telefono,
+                "posizione" to location,
+                "docce" to docce
+            )
+
+            Auth_Handler.myRef.collection("richieste_circoli").document(email)
+                .set(docData)
+                .addOnSuccessListener { callback.onCallback(true)}
+                .addOnFailureListener { callback.onCallback(false) }
         }
 
 

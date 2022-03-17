@@ -2,7 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.progetto_programmazionemobile">
 
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
@@ -11,6 +13,9 @@
         android:label="QuickPlay"
         android:roundIcon="@mipmap/app_icon"
         android:supportsRtl="true">
+        <activity android:name=".View.FormCircoli"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"/>
         <activity
             android:name=".View.TimeSelection"
             android:screenOrientation="portrait"
@@ -34,11 +39,12 @@
         <activity
             android:name=".View.SearchResult"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
+
         <activity
             android:name=".View.HomePage_Activity"
+            android:label=""
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
-            android:label=""/>
+            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar" />
         <activity
             android:name=".View.MainActivity"
             android:screenOrientation="portrait"
@@ -49,17 +55,17 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".View.ActivityWelcome"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.MaterialComponents.Light.NoActionBar">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
 
         <meta-data
             android:name="com.google.android.gms.version"

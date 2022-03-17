@@ -52,13 +52,13 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val v : View = inflater.inflate(R.layout.fragment_login, container, false)
-        val goToHomePage = Intent(v.context, HomePage_Activity::class.java)
 
         val confermabtn : Button = v.findViewById(R.id.confermaLog)
         val flagRicordami = v.findViewById<CheckBox>(R.id.ricordami)
         val emailEditText = v.findViewById<EditText>(R.id.txtEmail)
         val passWordEditText = v.findViewById<EditText>(R.id.txtPassword)
         val link = v.findViewById<TextView>(R.id.link)
+        val linkCircoli = v.findViewById<TextView>(R.id.linkCircoli)
 
         /**
          * Controllo se ci sono valori user e pass salvati nelle shared pref'
@@ -81,6 +81,24 @@ class LoginFragment : Fragment() {
             }
 
         }
+
+        /**
+         * Link accesso form di registrazione
+         * per i circoli
+         */
+
+        val PLACE_PICKER_REQUEST : Int = 1
+        linkCircoli.setOnClickListener(object : View.OnClickListener{
+            override fun onClick(v: View?){
+                val intent = Intent(context, FormCircoli::class.java)
+                startActivity(intent)
+            }
+        })
+
+
+
+
+
 
         /**
          * Link recupero password gestito da Firebase
