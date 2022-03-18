@@ -1,6 +1,7 @@
 package com.example.progetto_programmazionemobile.View
 
 import android.Manifest
+import android.app.ProgressDialog
 import android.content.DialogInterface
 import android.content.pm.PackageManager
 import android.location.Location
@@ -29,6 +30,8 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.chip.Chip
 import com.google.android.material.textfield.TextInputEditText
+import kotlinx.android.synthetic.main.activity_form_circoli.*
+import org.w3c.dom.Text
 import java.io.IOException
 
 
@@ -40,6 +43,7 @@ class FormCircoli : AppCompatActivity() , OnMapReadyCallback {
 
 
 
+        val progress : ProgressDialog = ProgressDialog(this)
 
         val docce : CheckBox = findViewById(R.id.docceCheck)
         val nome : TextInputEditText = findViewById(R.id.nomeCircolo)
@@ -49,37 +53,93 @@ class FormCircoli : AppCompatActivity() , OnMapReadyCallback {
         btn.setOnClickListener(object : View.OnClickListener{
             override fun onClick(v: View?) {
 
-                if((TextUtils.equals(nome.text.toString(),""))||(TextUtils.equals(email.text.toString(),""))||(TextUtils.equals(telfono.text.toString(),""))){
-                    val builder: AlertDialog.Builder = AlertDialog.Builder(this@FormCircoli)
-                    builder.setTitle("Errore")
-                    builder.setMessage("Fornire dei parametri validi")
-                    builder.setPositiveButton("OK", object : DialogInterface.OnClickListener {
-                        override fun onClick(dialog: DialogInterface?, which: Int) {
 
-                        }
-                    })
-                    val alertDialog = builder.create()
-                    alertDialog.show()
-                }else{
-                    //Invia la richiesta al DB
-                    DB_Handler_Clubs.newRequest(
-                        nome.text.toString(),
-                        email.text.toString(),
-                        telfono.text.toString(),
-                        latLng!!.latitude,
-                        latLng!!.longitude,
-                        docce.isChecked,
-                        object : DB_Handler_Clubs.MyCallbackRequest{
+                //----------------------------
 
-                            override fun onCallback(esito: Boolean) {
-                                if(esito){
-                                    Toast.makeText(this@FormCircoli,"Richiesta inviata",Toast.LENGTH_SHORT).show()
-                                }else{
-                                    Toast.makeText(this@FormCircoli,"Errore nell'invio della richiesta",Toast.LENGTH_SHORT).show()
+                if ((TextUtils.equals(nome.text.toString(),"")) || (TextUtils.equals(telfono.text.toString(),"")) || (TextUtils.equals(email.text.toString(),""))) {
+                            Toast.makeText(this@FormCircoli, "Inserire tutti i campi", Toast.LENGTH_SHORT).show()
+                } else {
+                    val emailSafe = email.text!!.replace("\\s".toRegex(), "")
+
+                    if (telfono.text!!.length != 10) {
+                                Toast.makeText(
+                                    this@FormCircoli,
+                                    "Numero di telefono non valido",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            } else {
+
+                                if (!android.util.Patterns.EMAIL_ADDRESS.matcher(emailSafe.toString()).matches())
+                                {
+                                    Toast.makeText(
+                                        this@FormCircoli,
+                                        "Inserire una mail valida",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+
+
+                                } else {
+                                    //Disabilito il pulsante di richiesta registrazione
+                                    progress.setTitle("Invio della richiesta...")
+                                    progress.show()
+                                    confermaInfo.isEnabled = false
+
+                                    /**
+                                     * Controllo se le credenziali già esistono
+                                     */
+
+
+                                    DB_Handler_Clubs.newRequest(
+                                        nome.text.toString(),
+                                        email.text.toString(),
+                                        telfono.text.toString(),
+                                        latLng!!.latitude,
+                                        latLng!!.longitude,
+                                        docce.isChecked,
+                                        object : DB_Handler_Clubs.MyCallbackRequest{
+
+                                            override fun onCallback(esito: Boolean) {
+                                                if(esito){
+                                                    progress.dismiss()
+                                                    confermaInfo.isEnabled = true
+                                                    val builder: AlertDialog.Builder = AlertDialog.Builder(this@FormCircoli!!)
+                                                    builder.setMessage("Richiesta inviata con successo.")
+                                                    builder.setPositiveButton("OK",
+                                                        object : DialogInterface.OnClickListener {
+                                                            override fun onClick(
+                                                                dialog: DialogInterface?,
+                                                                which: Int
+                                                            ) {
+
+                                                            }
+                                                        })
+
+                                                    val alertDialog = builder.create()
+                                                    alertDialog.show()
+                                                }else{
+                                                    progress.dismiss()
+                                                    confermaInfo.isEnabled = true
+                                                    val builder: AlertDialog.Builder = AlertDialog.Builder(this@FormCircoli!!)
+                                                    builder.setMessage("Errore nell'invio della richiesta.")
+                                                    builder.setPositiveButton("OK",
+                                                        object : DialogInterface.OnClickListener {
+                                                            override fun onClick(
+                                                                dialog: DialogInterface?,
+                                                                which: Int
+                                                            ) {
+
+                                                            }
+                                                        })
+
+                                                    val alertDialog = builder.create()
+                                                    alertDialog.show()                                                }
+                                            }
+                                        })
+
+
                                 }
                             }
-                        })
-                }
+                        }
             }
         })
 
